@@ -360,9 +360,34 @@ model Chamber {
   updatedAt       DateTime @updatedAt
   deletedAt       DateTime?
 
+  schedules Schedule[]
+
   @@index([doctorId])
   @@index([facilityId])
   @@index([areaId])
+  @@index([deletedAt])
+}
+
+// ========================= Schedule =========================
+
+model Schedule {
+  id                  String   @id @default(cuid())
+  chamberId           String
+  chamber             Chamber  @relation(fields: [chamberId], references: [id], onDelete: Cascade)
+
+  dayOfWeek           Int      // 0 = Sunday ... 6 = Saturday
+  startTime           String   // HH:mm
+  endTime             String   // HH:mm
+  slotDurationMinutes Int      @default(15)
+  maxPatients         Int      @default(20)
+
+  isActive            Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  deletedAt           DateTime?
+
+  @@index([chamberId])
+  @@index([dayOfWeek])
   @@index([deletedAt])
 }
 

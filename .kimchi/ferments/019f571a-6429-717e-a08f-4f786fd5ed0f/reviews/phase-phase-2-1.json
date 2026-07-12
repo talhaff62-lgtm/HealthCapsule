@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "fermentId": "019f571a-6429-717e-a08f-4f786fd5ed0f",
+  "phaseId": "phase-2",
+  "phaseName": "Phase 4: Public Doctor Directory Pages & API",
+  "attempt": 1,
+  "timestamp": "2026-07-12T16:50:11.481Z",
+  "goal": "Build the public-facing doctor search and profile pages.",
+  "summary": "Phase 4 public directory is complete: /doctors search page with filters, /doctors/[slug] profile page with BMDC/degrees/experience/fee/chambers/schedule, custom 404, and a real next-available slot calculation that returns a future date string.",
+  "stepSummaries": "  1. Create the doctor search page at `/doctors` with specialty/area/name filters and server-side data fetching. [verified]\n  2. Create the doctor profile page at `/doctors/[slug]` with BMDC, degrees, experience, fee, chambers, and next-available schedule; unknown slugs return 404. [verified]\n  3. Implement next-available schedule calculation from Chamber.schedules and display it on profile cards/pages. [verified]",
+  "diffAvailable": true,
+  "diffFilesChanged": "...9f56e2-4fa9-74e4-aea0-d24977fac10b.events.jsonl |   6 +\n .../019f56e2-4fa9-74e4-aea0-d24977fac10b.json      |  28 +-\n .../runtime.json                                   |  14 +-\n package-lock.json                                  | 519 +++++++++++++++++++++\n package.json                                       |   7 +-\n prisma.config.ts                                   |   3 +\n prisma/schema.prisma                               |  25 +\n 7 files changed, 589 insertions(+), 13 deletions(-)\n?? .kimchi/ferments/019f571a-6429-717e-a08f-4f786fd5ed0f.events.jsonl\n?? .kimchi/ferments/019f571a-6429-717e-a08f-4f786fd5ed0f.json\n?? .kimchi/ferments/019f571a-6429-717e-a08f-4f786fd5ed0f/reviews/phase-phase-1-1.json\n?? .kimchi/ferments/019f571a-6429-717e-a08f-4f786fd5ed0f/runtime.json\n?? prisma/migrations/20260712161650_add_schedule/migration.sql\n?? prisma/migrations/migration_lock.toml\n?? prisma/seed.ts\n?? src/app/doctors/[slug]/page.tsx\n?? src/app/doctors/page.tsx\n?? src/app/not-found.tsx\n?? src/components/doctors/DoctorCard.tsx\n?? src/components/doctors/DoctorFilters.tsx\n?? src/lib/doctors.ts",
+  "flags": [],
+  "derivedGrade": "A",
+  "reviewerRationale": "All gates pass; project checks validate.",
+  "gateVerdicts": [
+    {
+      "id": "F1",
+      "verdict": "pass",
+      "rationale": "All three steps used real verification: build success and runtime fetches against a production server; step 3 used a direct unit check.",
+      "evidence": "Build output for each step; fetch checks for /doctors and /doctors/dr-sarah-rahman; tsx unit check OK."
+    },
+    {
+      "id": "F2",
+      "verdict": "pass",
+      "rationale": "The combined output delivers the public-facing doctor search and profile experience required by Module 1.",
+      "evidence": "src/app/doctors/page.tsx, src/app/doctors/[slug]/page.tsx, src/app/not-found.tsx, src/components/doctors/*, src/lib/doctors.ts."
+    },
+    {
+      "id": "F3",
+      "verdict": "pass",
+      "rationale": "Nothing deferred; next-available schedule is displayed on the profile page and the function is unit-tested.",
+      "evidence": "No TODOs or deferred items in the created files."
+    }
+  ],
+  "projectChecks": {
+    "discovered": true,
+    "anyFailed": false,
+    "commands": [
+      {
+        "kind": "lint",
+        "command": "npm run lint",
+        "exitCode": 0,
+        "durationMs": 2,
+        "timedOut": false
+      }
+    ]
+  }
+}
