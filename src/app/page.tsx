@@ -1,107 +1,116 @@
 import Link from "next/link";
+import { ShieldCheck, Clock, MapPin, ArrowRight } from "lucide-react";
+
+const features = [
+  {
+    icon: ShieldCheck,
+    title: "Verified Profiles",
+    description: "Every listed doctor is reviewed and verified before going live.",
+  },
+  {
+    icon: Clock,
+    title: "Live Schedules",
+    description: "See chamber timings and the next available slot at a glance.",
+  },
+  {
+    icon: MapPin,
+    title: "Nearby Chambers",
+    description: "Find trusted doctors by area across Chattogram city.",
+  },
+];
 
 export default function Home() {
   return (
-    <section className="relative overflow-hidden bg-brand-white py-16 sm:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <h1
-            className="text-4xl font-semibold tracking-tight text-brand-navy sm:text-5xl lg:text-6xl"
-            style={{ fontFamily: "var(--font-serif)" }}
-          >
-            Find verified doctors in Chattogram
-          </h1>
-          <p className="mt-6 text-lg text-brand-muted">
-            Search trusted doctors by specialty, area, or name. View verified
-            profiles, chambers, and next available schedules — all in one place.
-          </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link
-              href="/doctors"
-              className="rounded-full bg-brand-teal px-8 py-3 text-base font-medium text-white shadow hover:bg-brand-navy"
-            >
-              Find a Doctor
-            </Link>
-            <Link
-              href="/portal/doctor"
-              className="rounded-full border border-brand-teal px-8 py-3 text-base font-medium text-brand-teal hover:bg-brand-gray"
-            >
-              For Doctors
-            </Link>
+    <>
+      {/* Hero */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-brand-white via-brand-white to-brand-gray py-20 sm:py-28">
+        <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-brand-teal/5 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 -left-32 h-96 w-96 rounded-full bg-brand-navy/5 blur-3xl" />
+
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full bg-brand-teal/10 px-4 py-1.5 text-sm font-medium text-brand-teal">
+              <ShieldCheck className="h-4 w-4" />
+              Verified doctor directory for Chattogram
+            </span>
+
+            <h1 className="mt-6 font-serif text-4xl font-semibold tracking-tight text-brand-navy sm:text-5xl lg:text-6xl">
+              Find verified doctors in Chattogram
+            </h1>
+
+            <p className="mt-6 text-lg leading-relaxed text-brand-muted">
+              Search trusted doctors by specialty, area, or name. View verified
+              profiles, chambers, and next available schedules — all in one place.
+            </p>
+
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Link
+                href="/doctors"
+                className="group inline-flex items-center gap-2 rounded-full bg-brand-teal px-8 py-3.5 text-base font-medium text-white shadow-md transition hover:bg-brand-navy hover:shadow-lg"
+              >
+                Find a Doctor
+                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+              </Link>
+              <Link
+                href="/portal/doctor"
+                className="inline-flex items-center gap-2 rounded-full border border-brand-teal bg-white px-8 py-3.5 text-base font-medium text-brand-teal transition hover:bg-brand-gray"
+              >
+                For Doctors
+              </Link>
+            </div>
+          </div>
+
+          {/* Feature cards */}
+          <div className="mt-20 grid gap-6 sm:grid-cols-3">
+            {features.map((feature) => (
+              <div
+                key={feature.title}
+                className="group rounded-2xl border border-brand-gray bg-white p-6 text-center shadow-sm transition hover:-translate-y-1 hover:border-brand-teal/20 hover:shadow-md"
+              >
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-teal/10 text-brand-teal transition group-hover:bg-brand-teal group-hover:text-white">
+                  <feature.icon className="h-6 w-6" />
+                </div>
+                <h3 className="text-lg font-semibold text-brand-navy">
+                  {feature.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-brand-muted">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
+      </section>
 
-        <div className="mt-16 grid gap-6 sm:grid-cols-3">
-          <div className="rounded-2xl border border-brand-gray bg-white p-6 text-center shadow-sm">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brand-teal/10 text-brand-teal">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                <path d="m9 12 2 2 4-4" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-semibold text-brand-navy">Verified Profiles</h3>
-            <p className="mt-2 text-sm text-brand-muted">
-              Every listed doctor is reviewed and verified.
+      {/* How it works / trust bar */}
+      <section className="border-t border-brand-gray bg-brand-white py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="font-serif text-2xl font-semibold text-brand-navy sm:text-3xl">
+              Book with confidence
+            </h2>
+            <p className="mt-3 text-brand-muted">
+              HealthCapsule lists only verified practitioners so patients can
+              choose the right care without second guessing.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-brand-gray bg-white p-6 text-center shadow-sm">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brand-teal/10 text-brand-teal">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-semibold text-brand-navy">Live Schedules</h3>
-            <p className="mt-2 text-sm text-brand-muted">
-              See chamber timings and next available slots.
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-brand-gray bg-white p-6 text-center shadow-sm">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brand-teal/10 text-brand-teal">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-semibold text-brand-navy">Nearby Chambers</h3>
-            <p className="mt-2 text-sm text-brand-muted">
-              Find doctors by area across Chattogram city.
-            </p>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm font-medium text-brand-muted">
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand-gray bg-brand-gray/50 px-4 py-2">
+              <ShieldCheck className="h-4 w-4 text-brand-teal" />
+              BMDC verified
+            </span>
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand-gray bg-brand-gray/50 px-4 py-2">
+              <Clock className="h-4 w-4 text-brand-teal" />
+              Live schedules
+            </span>
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand-gray bg-brand-gray/50 px-4 py-2">
+              <MapPin className="h-4 w-4 text-brand-teal" />
+              Chattogram focused
+            </span>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

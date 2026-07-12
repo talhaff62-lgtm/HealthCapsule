@@ -1,40 +1,9 @@
 {
   "schemaVersion": 1,
-  "stepStartCounts": {
-    "phase-5:step-2": 1
-  },
+  "stepStartCounts": {},
   "blockRetries": {},
   "lastBlockHashes": {},
-  "stepCompleteAttempts": {
-    "phase-1:step-1": 1,
-    "phase-1:step-2": 1,
-    "phase-2:step-1": 1,
-    "phase-2:step-2": 1,
-    "phase-2:step-3": 1,
-    "phase-3:step-1": 1,
-    "phase-3:step-2": 1,
-    "phase-4:step-1": 1,
-    "phase-4:step-2": 1,
-    "phase-5:step-1": 1
-  },
-  "phaseStartRefs": {
-    "phase-1": "3b6216d2c6061c7062ef55157a0d6d0a7c16bef0",
-    "phase-2": "3b6216d2c6061c7062ef55157a0d6d0a7c16bef0",
-    "phase-3": "f26b95f3cf09df1b641253d5b0f164799bc7f1f4",
-    "phase-4": "f26b95f3cf09df1b641253d5b0f164799bc7f1f4",
-    "phase-5": "ae9111207eea6d322cc31f4440d120a919fb8ce9"
-  },
-  "stepStartRefs": {
-    "phase-1:step-1": "3b6216d2c6061c7062ef55157a0d6d0a7c16bef0",
-    "phase-1:step-2": "3b6216d2c6061c7062ef55157a0d6d0a7c16bef0",
-    "phase-2:step-1": "3b6216d2c6061c7062ef55157a0d6d0a7c16bef0",
-    "phase-2:step-2": "3b6216d2c6061c7062ef55157a0d6d0a7c16bef0",
-    "phase-2:step-3": "3b6216d2c6061c7062ef55157a0d6d0a7c16bef0",
-    "phase-3:step-1": "f26b95f3cf09df1b641253d5b0f164799bc7f1f4",
-    "phase-3:step-2": "f26b95f3cf09df1b641253d5b0f164799bc7f1f4",
-    "phase-4:step-1": "f26b95f3cf09df1b641253d5b0f164799bc7f1f4",
-    "phase-4:step-2": "f26b95f3cf09df1b641253d5b0f164799bc7f1f4",
-    "phase-5:step-1": "ae9111207eea6d322cc31f4440d120a919fb8ce9",
-    "phase-5:step-2": "ae9111207eea6d322cc31f4440d120a919fb8ce9"
-  }
+  "stepCompleteAttempts": {},
+  "phaseStartRefs": {},
+  "stepStartRefs": {}
 }

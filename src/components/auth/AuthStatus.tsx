@@ -20,7 +20,7 @@ export function AuthStatus() {
         </span>
         <button
           onClick={() => signOut({ callbackUrl: "/" })}
-          className="rounded-lg border border-status-error px-3 py-1.5 text-sm font-medium text-status-error hover:bg-status-error/5"
+          className="rounded-lg border border-status-emergency px-3 py-1.5 text-sm font-medium text-status-emergency hover:bg-status-emergency/5"
         >
           Sign out
         </button>
