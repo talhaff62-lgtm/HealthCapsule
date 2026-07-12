@@ -85,13 +85,13 @@ export default function ChamberForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border border-brand-gray bg-brand-gray/30 p-4">
+    <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border border-brand-gray bg-brand-cream/40 p-4">
       {status && (
         <div
           className={`rounded-lg px-4 py-2 text-sm font-medium ${
             status.type === "success"
-              ? "bg-status-verified/10 text-status-verified"
-              : "bg-status-emergency/10 text-status-emergency"
+              ? "bg-status-verified-light/40 text-status-verified"
+              : "bg-status-emergency-light/40 text-status-emergency"
           }`}
         >
           {status.message}
@@ -99,24 +99,24 @@ export default function ChamberForm({
       )}
 
       <div>
-        <label className="mb-1 block text-sm font-medium text-brand-slate">Address</label>
+        <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">Address</label>
         <input
           type="text"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           required
           placeholder="Chamber address"
-          className="w-full rounded-xl border border-brand-gray bg-brand-white px-4 py-2 text-sm text-brand-slate focus:border-brand-teal focus:outline-none"
+          className="w-full rounded-lg border border-brand-gray bg-white px-4 py-2 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
         />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-1 block text-sm font-medium text-brand-slate">Area</label>
+          <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">Area</label>
           <select
             value={areaId}
             onChange={(e) => setAreaId(e.target.value)}
-            className="w-full rounded-xl border border-brand-gray bg-brand-white px-4 py-2 text-sm text-brand-slate focus:border-brand-teal focus:outline-none"
+            className="w-full rounded-lg border border-brand-gray bg-white px-4 py-2 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
           >
             <option value="">Select area</option>
             {areas.map((area) => (
@@ -128,7 +128,7 @@ export default function ChamberForm({
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-brand-slate">Consultation fee (৳)</label>
+          <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">Consultation fee (৳)</label>
           <input
             type="number"
             step="0.01"
@@ -136,13 +136,13 @@ export default function ChamberForm({
             value={fee}
             onChange={(e) => setFee(e.target.value)}
             placeholder="500"
-            className="w-full rounded-xl border border-brand-gray bg-brand-white px-4 py-2 text-sm text-brand-slate focus:border-brand-teal focus:outline-none"
+            className="w-full rounded-lg border border-brand-gray bg-white px-4 py-2 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
           />
         </div>
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-medium text-brand-slate">Weekly schedule</label>
+        <label className="mb-2 block text-xs font-medium uppercase tracking-wider text-brand-muted">Weekly schedule</label>
         <div className="space-y-2">
           {schedules.map((schedule, index) => (
             <div key={index} className="flex flex-wrap items-center gap-2">
@@ -151,7 +151,7 @@ export default function ChamberForm({
                 onChange={(e) =>
                   updateSchedule(index, { dayOfWeek: parseInt(e.target.value, 10) })
                 }
-                className="rounded-xl border border-brand-gray bg-brand-white px-3 py-2 text-sm text-brand-slate focus:border-brand-teal focus:outline-none"
+                className="rounded-lg border border-brand-gray bg-white px-3 py-2 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
               >
                 {days.map((day, i) => (
                   <option key={day} value={i}>
@@ -163,19 +163,19 @@ export default function ChamberForm({
                 type="time"
                 value={schedule.startTime}
                 onChange={(e) => updateSchedule(index, { startTime: e.target.value })}
-                className="rounded-xl border border-brand-gray bg-brand-white px-3 py-2 text-sm text-brand-slate focus:border-brand-teal focus:outline-none"
+                className="rounded-lg border border-brand-gray bg-white px-3 py-2 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
               />
               <span className="text-brand-muted">to</span>
               <input
                 type="time"
                 value={schedule.endTime}
                 onChange={(e) => updateSchedule(index, { endTime: e.target.value })}
-                className="rounded-xl border border-brand-gray bg-brand-white px-3 py-2 text-sm text-brand-slate focus:border-brand-teal focus:outline-none"
+                className="rounded-lg border border-brand-gray bg-white px-3 py-2 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
               />
               <button
                 type="button"
                 onClick={() => setSchedules((prev) => prev.filter((_, i) => i !== index))}
-                className="text-sm text-status-emergency hover:underline"
+                className="text-sm font-medium text-status-emergency hover:underline"
               >
                 Remove
               </button>
@@ -185,7 +185,7 @@ export default function ChamberForm({
         <button
           type="button"
           onClick={() => setSchedules((prev) => [...prev, emptySchedule()])}
-          className="mt-2 text-sm font-medium text-brand-teal hover:underline"
+          className="mt-2 text-sm font-semibold text-brand-navy hover:text-brand-gold"
         >
           + Add schedule slot
         </button>
@@ -195,7 +195,7 @@ export default function ChamberForm({
         <button
           type="submit"
           disabled={pending}
-          className="rounded-full bg-brand-teal px-5 py-2 text-sm font-medium text-white hover:bg-brand-navy disabled:opacity-60"
+          className="rounded-lg bg-brand-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-brand-navy-light disabled:opacity-60"
         >
           {pending ? "Saving..." : initial ? "Update chamber" : "Add chamber"}
         </button>
@@ -203,7 +203,7 @@ export default function ChamberForm({
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-full border border-brand-gray px-5 py-2 text-sm font-medium text-brand-slate hover:bg-brand-gray"
+            className="rounded-lg border border-brand-gray px-5 py-2 text-sm font-medium text-brand-slate transition hover:bg-brand-cream"
           >
             Cancel
           </button>

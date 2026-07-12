@@ -45,8 +45,8 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
         <div
           className={`rounded-lg px-4 py-3 text-sm font-medium ${
             status.type === "success"
-              ? "bg-status-verified/10 text-status-verified"
-              : "bg-status-emergency/10 text-status-emergency"
+              ? "bg-status-verified-light/40 text-status-verified"
+              : "bg-status-emergency-light/40 text-status-emergency"
           }`}
         >
           {status.message}
@@ -55,7 +55,7 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
 
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
-          <label htmlFor="name" className="mb-1 block text-sm font-medium text-brand-slate">
+          <label htmlFor="name" className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">
             Full name
           </label>
           <input
@@ -64,13 +64,13 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
             type="text"
             defaultValue={doctor.name}
             disabled
-            className="w-full rounded-xl border border-brand-gray bg-brand-gray/30 px-4 py-2.5 text-sm text-brand-slate focus:border-brand-teal focus:outline-none disabled:cursor-not-allowed disabled:opacity-70"
+            className="w-full rounded-lg border border-brand-gray bg-brand-cream/50 px-4 py-2.5 text-sm text-brand-slate outline-none transition focus:border-brand-gold disabled:cursor-not-allowed disabled:opacity-70"
           />
           <p className="mt-1 text-xs text-brand-muted">Name can only be changed by an admin.</p>
         </div>
 
         <div>
-          <label htmlFor="bmdcRegNo" className="mb-1 block text-sm font-medium text-brand-slate">
+          <label htmlFor="bmdcRegNo" className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">
             BMDC registration number
           </label>
           <input
@@ -79,14 +79,14 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
             type="text"
             defaultValue={doctor.bmdcRegNo ?? ""}
             disabled
-            className="w-full rounded-xl border border-brand-gray bg-brand-gray/30 px-4 py-2.5 text-sm text-brand-slate focus:border-brand-teal focus:outline-none disabled:cursor-not-allowed disabled:opacity-70"
+            className="w-full rounded-lg border border-brand-gray bg-brand-cream/50 px-4 py-2.5 text-sm text-brand-slate outline-none transition focus:border-brand-gold disabled:cursor-not-allowed disabled:opacity-70"
           />
           <p className="mt-1 text-xs text-brand-muted">BMDC number can only be changed by an admin.</p>
         </div>
       </div>
 
       <div>
-        <label htmlFor="photoUrl" className="mb-1 block text-sm font-medium text-brand-slate">
+        <label htmlFor="photoUrl" className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">
           Photo URL
         </label>
         <input
@@ -95,12 +95,12 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
           type="url"
           defaultValue={doctor.photoUrl ?? ""}
           placeholder="https://example.com/photo.jpg"
-          className="w-full rounded-xl border border-brand-gray bg-brand-white px-4 py-2.5 text-sm text-brand-slate focus:border-brand-teal focus:outline-none"
+          className="w-full rounded-lg border border-brand-gray bg-white px-4 py-2.5 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
         />
       </div>
 
       <div>
-        <label htmlFor="bio" className="mb-1 block text-sm font-medium text-brand-slate">
+        <label htmlFor="bio" className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">
           Bio
         </label>
         <textarea
@@ -109,12 +109,12 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
           rows={4}
           defaultValue={doctor.bio ?? ""}
           placeholder="Tell patients about your practice, expertise, and approach."
-          className="w-full rounded-xl border border-brand-gray bg-brand-white px-4 py-2.5 text-sm text-brand-slate focus:border-brand-teal focus:outline-none"
+          className="w-full rounded-lg border border-brand-gray bg-white px-4 py-2.5 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
         />
       </div>
 
       <div>
-        <label htmlFor="consultationFee" className="mb-1 block text-sm font-medium text-brand-slate">
+        <label htmlFor="consultationFee" className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">
           Consultation fee (৳)
         </label>
         <input
@@ -125,12 +125,12 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
           min="0"
           defaultValue={doctor.consultationFee ?? ""}
           placeholder="500"
-          className="w-full rounded-xl border border-brand-gray bg-brand-white px-4 py-2.5 text-sm text-brand-slate focus:border-brand-teal focus:outline-none"
+          className="w-full rounded-lg border border-brand-gray bg-white px-4 py-2.5 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
         />
       </div>
 
       <div>
-        <label htmlFor="degrees" className="mb-1 block text-sm font-medium text-brand-slate">
+        <label htmlFor="degrees" className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">
           Degrees
         </label>
         <textarea
@@ -139,12 +139,12 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
           rows={3}
           defaultValue={doctor.degrees.join(", ")}
           placeholder="MBBS, FCPS, MD (separate with commas)"
-          className="w-full rounded-xl border border-brand-gray bg-brand-white px-4 py-2.5 text-sm text-brand-slate focus:border-brand-teal focus:outline-none"
+          className="w-full rounded-lg border border-brand-gray bg-white px-4 py-2.5 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
         />
       </div>
 
       <div>
-        <label htmlFor="languages" className="mb-1 block text-sm font-medium text-brand-slate">
+        <label htmlFor="languages" className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">
           Languages
         </label>
         <input
@@ -153,21 +153,21 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
           type="text"
           defaultValue={doctor.languages.join(", ")}
           placeholder="English, Bangla, Hindi"
-          className="w-full rounded-xl border border-brand-gray bg-brand-white px-4 py-2.5 text-sm text-brand-slate focus:border-brand-teal focus:outline-none"
+          className="w-full rounded-lg border border-brand-gray bg-white px-4 py-2.5 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
         />
       </div>
 
-      <div className="flex items-center gap-4 pt-2">
+      <div className="flex flex-wrap items-center gap-4 pt-2">
         <button
           type="submit"
           disabled={pending}
-          className="rounded-full bg-brand-teal px-6 py-2.5 text-sm font-medium text-white hover:bg-brand-navy disabled:opacity-60"
+          className="rounded-lg bg-brand-navy px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-navy-light disabled:opacity-60"
         >
           {pending ? "Saving..." : "Save profile"}
         </button>
         <a
           href="/portal/doctor/chambers"
-          className="rounded-full border border-brand-teal px-6 py-2.5 text-sm font-medium text-brand-teal hover:bg-brand-gray"
+          className="rounded-lg border border-brand-navy px-6 py-2.5 text-sm font-medium text-brand-navy transition hover:bg-brand-navy hover:text-white"
         >
           Manage chambers
         </a>

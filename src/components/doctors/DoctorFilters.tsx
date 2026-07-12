@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent } from "react";
+import { Search, X } from "lucide-react";
 
 export type FilterOption = {
   value: string;
@@ -40,11 +41,11 @@ export default function DoctorFilters({ specialties, areas }: DoctorFiltersProps
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-xl border border-brand-gray bg-brand-white p-4 shadow-sm"
+      className="rounded-2xl border border-brand-gray bg-white p-5 shadow-sm"
     >
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="flex flex-col gap-1">
-          <label htmlFor="q" className="text-sm font-medium text-brand-slate">
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="q" className="text-xs font-medium uppercase tracking-wider text-brand-muted">
             Doctor name
           </label>
           <input
@@ -53,19 +54,19 @@ export default function DoctorFilters({ specialties, areas }: DoctorFiltersProps
             type="search"
             placeholder="Search doctors, degrees..."
             defaultValue={searchParams.get("q") ?? ""}
-            className="rounded-lg border border-brand-gray bg-brand-white px-3 py-2 text-sm text-brand-slate placeholder:text-brand-muted focus:border-brand-teal focus:outline-none"
+            className="rounded-lg border border-brand-gray bg-white px-3 py-2.5 text-sm text-brand-slate placeholder:text-brand-muted focus:border-brand-gold focus:outline-none focus:ring-2 focus:ring-brand-gold/20"
           />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="specialty" className="text-sm font-medium text-brand-slate">
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="specialty" className="text-xs font-medium uppercase tracking-wider text-brand-muted">
             Specialty
           </label>
           <select
             id="specialty"
             name="specialty"
             defaultValue={searchParams.get("specialty") ?? ""}
-            className="rounded-lg border border-brand-gray bg-brand-white px-3 py-2 text-sm text-brand-slate focus:border-brand-teal focus:outline-none"
+            className="rounded-lg border border-brand-gray bg-white px-3 py-2.5 text-sm text-brand-slate focus:border-brand-gold focus:outline-none focus:ring-2 focus:ring-brand-gold/20"
           >
             <option value="">All specialties</option>
             {specialties.map((s) => (
@@ -76,15 +77,15 @@ export default function DoctorFilters({ specialties, areas }: DoctorFiltersProps
           </select>
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="area" className="text-sm font-medium text-brand-slate">
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="area" className="text-xs font-medium uppercase tracking-wider text-brand-muted">
             Area
           </label>
           <select
             id="area"
             name="area"
             defaultValue={searchParams.get("area") ?? ""}
-            className="rounded-lg border border-brand-gray bg-brand-white px-3 py-2 text-sm text-brand-slate focus:border-brand-teal focus:outline-none"
+            className="rounded-lg border border-brand-gray bg-white px-3 py-2.5 text-sm text-brand-slate focus:border-brand-gold focus:outline-none focus:ring-2 focus:ring-brand-gold/20"
           >
             <option value="">All areas</option>
             {areas.map((a) => (
@@ -98,16 +99,17 @@ export default function DoctorFilters({ specialties, areas }: DoctorFiltersProps
         <div className="flex items-end gap-2">
           <button
             type="submit"
-            className="flex-1 rounded-lg bg-brand-teal px-4 py-2 text-sm font-medium text-white hover:bg-brand-teal/90"
+            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-brand-navy px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-navy-light"
           >
+            <Search className="h-4 w-4" />
             Search
           </button>
           <button
             type="button"
             onClick={handleClear}
-            className="rounded-lg border border-brand-gray px-4 py-2 text-sm font-medium text-brand-slate hover:bg-brand-gray"
+            className="rounded-lg border border-brand-gray px-4 py-2.5 text-sm font-medium text-brand-muted transition hover:bg-brand-cream hover:text-brand-slate"
           >
-            Clear
+            <X className="h-4 w-4" />
           </button>
         </div>
       </div>

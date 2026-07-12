@@ -43,10 +43,10 @@ export default async function DoctorsPage({
   const areas = areaOptions.map((a) => ({ value: a.slug, label: a.name }));
 
   return (
-    <section className="min-h-screen bg-brand-gray py-10">
+    <section className="min-h-screen bg-brand-cream py-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-brand-slate" style={{ fontFamily: "var(--font-serif)" }}>
+          <h1 className="font-serif text-3xl font-semibold text-brand-navy sm:text-4xl">
             Find Verified Doctors
           </h1>
           <p className="mt-2 text-brand-muted">
@@ -60,7 +60,7 @@ export default async function DoctorsPage({
 
         <div className="mt-8">
           {doctors.length === 0 ? (
-            <div className="rounded-xl border border-brand-gray bg-brand-white p-8 text-center text-brand-muted">
+            <div className="rounded-2xl border border-brand-gray bg-white p-10 text-center text-brand-muted">
               No verified doctors found. Try adjusting your filters.
             </div>
           ) : (

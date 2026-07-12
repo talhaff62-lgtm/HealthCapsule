@@ -1,58 +1,48 @@
 @import "tailwindcss";
 
 @theme {
-  /* Main UI - Health & Trust */
-  --color-brand-teal: #0d7377;
-  --color-brand-navy: #0f2b3c;
-  --color-brand-white: #fafbfc;
-  --color-brand-slate: #1e293b;
-  --color-brand-muted: #64748b;
-  --color-brand-gray: #f1f5f9;
-
-  /* Premium accents - Highlight paid tiers only */
+  /* Primary brand palette from the reference design */
+  --color-brand-navy: #0b1f3a;
+  --color-brand-navy-light: #1e3a66;
+  --color-brand-navy-muted: #7e8faa;
+  --color-brand-cream: #f7f4ec;
+  --color-brand-cream-dark: #efe8d6;
   --color-brand-gold: #c9a24b;
   --color-brand-gold-light: #f3e6c2;
+  --color-brand-gold-dark: #b08b3a;
+
+  /* Legacy names mapped to the reference palette so existing components pick up the new look */
+  --color-brand-teal: #c9a24b;
+  --color-brand-white: #ffffff;
+  --color-brand-slate: #13161d;
+  --color-brand-muted: #4b5260;
+  --color-brand-gray: #efe8d6;
 
   /* Semantic Status */
-  --color-status-verified: #059669;
+  --color-status-verified: #2a7a4b;
+  --color-status-verified-light: #d1ead9;
   --color-status-warning: #d97706;
-  --color-status-emergency: #dc2626;
+  --color-status-emergency: #bd4430;
+  --color-status-emergency-light: #f4dcd4;
 
   --font-serif: "Fraunces", serif;
   --font-sans: "Inter", sans-serif;
   --font-mono: "IBM Plex Mono", monospace;
 }
 
-:root {
-  --background: var(--color-brand-white);
-  --foreground: var(--color-brand-slate);
-}
-
 html {
   height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
 }
 
 body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
+  color: var(--color-brand-slate);
+  background: var(--color-brand-cream);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
 a {

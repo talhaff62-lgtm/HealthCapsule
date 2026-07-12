@@ -55,13 +55,10 @@ export default async function AdminPortalPage({
   ];
 
   return (
-    <section className="min-h-screen bg-brand-gray py-10">
+    <section className="min-h-screen bg-brand-cream py-10">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1
-            className="text-2xl font-bold text-brand-slate sm:text-3xl"
-            style={{ fontFamily: "var(--font-serif)" }}
-          >
+          <h1 className="font-serif text-2xl font-semibold text-brand-navy sm:text-3xl">
             Admin Portal
           </h1>
           <p className="mt-1 text-brand-muted">
@@ -80,8 +77,8 @@ export default async function AdminPortalPage({
                 href={href}
                 className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                   active
-                    ? "bg-brand-teal text-white"
-                    : "border border-brand-gray bg-brand-white text-brand-slate hover:bg-brand-gray"
+                    ? "bg-brand-navy text-white"
+                    : "border border-brand-gray bg-white text-brand-slate hover:bg-brand-cream"
                 }`}
               >
                 {tab.label}
@@ -96,7 +93,7 @@ export default async function AdminPortalPage({
 
         <div className="space-y-4">
           {doctors.length === 0 ? (
-            <div className="rounded-2xl border border-brand-gray bg-brand-white p-8 text-center text-brand-muted">
+            <div className="rounded-2xl border border-brand-gray bg-white p-8 text-center text-brand-muted">
               No doctors found for this filter.
             </div>
           ) : (
@@ -118,8 +115,8 @@ export default async function AdminPortalPage({
                   href={href}
                   className={`rounded-full px-3 py-1.5 text-sm font-medium ${
                     p === page
-                      ? "bg-brand-teal text-white"
-                      : "border border-brand-gray bg-brand-white text-brand-slate hover:bg-brand-gray"
+                      ? "bg-brand-navy text-white"
+                      : "border border-brand-gray bg-white text-brand-slate hover:bg-brand-cream"
                   }`}
                 >
                   {p}

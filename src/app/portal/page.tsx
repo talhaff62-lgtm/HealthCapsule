@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { Loader2 } from "lucide-react";
 
 export default function PortalRedirectPage() {
   const { data: session, status } = useSession();
@@ -24,8 +25,11 @@ export default function PortalRedirectPage() {
   }, [session, status, router]);
 
   return (
-    <main className="flex min-h-[50vh] items-center justify-center">
-      <p className="text-brand-muted">Redirecting to your portal...</p>
+    <main className="flex min-h-[50vh] items-center justify-center bg-brand-cream px-4">
+      <div className="flex items-center gap-3 rounded-2xl border border-brand-gray bg-white px-8 py-6 shadow-sm">
+        <Loader2 className="h-5 w-5 animate-spin text-brand-gold" />
+        <p className="text-brand-slate">Redirecting to your portal...</p>
+      </div>
     </main>
   );
 }

@@ -55,14 +55,11 @@ export default async function DoctorChambersPage() {
   ];
 
   return (
-    <section className="min-h-screen bg-brand-gray py-10">
+    <section className="min-h-screen bg-brand-cream py-10">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1
-              className="text-2xl font-bold text-brand-slate sm:text-3xl"
-              style={{ fontFamily: "var(--font-serif)" }}
-            >
+            <h1 className="font-serif text-2xl font-semibold text-brand-navy sm:text-3xl">
               Manage Chambers
             </h1>
             <p className="mt-1 text-brand-muted">
@@ -71,26 +68,26 @@ export default async function DoctorChambersPage() {
           </div>
           <a
             href="/portal/doctor"
-            className="rounded-full border border-brand-teal px-4 py-2 text-sm font-medium text-brand-teal hover:bg-brand-gray"
+            className="rounded-full border border-brand-navy px-4 py-2 text-sm font-medium text-brand-navy transition hover:bg-brand-navy hover:text-white"
           >
             Back to profile
           </a>
         </div>
 
-        <div className="rounded-2xl border border-brand-gray bg-brand-white p-6 shadow-sm sm:p-8">
-          <h2 className="mb-4 text-lg font-semibold text-brand-slate">Add a new chamber</h2>
+        <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
+          <h2 className="mb-4 font-serif text-lg font-semibold text-brand-navy">Add a new chamber</h2>
           <ChamberForm doctorId={doctor.id} areas={areas} />
         </div>
 
         <div className="mt-8 space-y-6">
-          <h2 className="text-lg font-semibold text-brand-slate">Your chambers</h2>
+          <h2 className="font-serif text-lg font-semibold text-brand-navy">Your chambers</h2>
           {doctor.chambers.length === 0 ? (
             <p className="text-brand-muted">No chambers yet. Use the form above to add one.</p>
           ) : (
             doctor.chambers.map((chamber) => (
               <div
                 key={chamber.id}
-                className="rounded-2xl border border-brand-gray bg-brand-white p-6 shadow-sm"
+                className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm"
               >
                 <ChamberForm
                   doctorId={doctor.id}
@@ -125,7 +122,7 @@ export default async function DoctorChambersPage() {
                   {chamber.schedules.map((s) => (
                     <span
                       key={s.id}
-                      className="rounded-full bg-brand-gray px-3 py-1 text-xs text-brand-slate"
+                      className="rounded-full bg-brand-cream px-3 py-1 text-xs font-medium text-brand-navy"
                     >
                       {days[s.dayOfWeek]} · {s.startTime}–{s.endTime}
                     </span>

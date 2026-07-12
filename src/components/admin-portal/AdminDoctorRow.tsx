@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ListingTier, VerificationStatus } from "@prisma/client";
+import { ExternalLink } from "lucide-react";
 import { setListingTier, setVerificationStatus } from "@/app/portal/admin/actions";
 
 type DoctorRow = {
@@ -56,10 +57,10 @@ export default function AdminDoctorRow({ doctor }: { doctor: DoctorRow }) {
   }
 
   return (
-    <div className="rounded-2xl border border-brand-gray bg-brand-white p-5 shadow-sm">
+    <div className="rounded-2xl border border-brand-gray bg-white p-5 shadow-sm transition hover:border-brand-gold/30">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-brand-slate">{doctor.name}</h3>
+          <h3 className="text-lg font-semibold text-brand-navy">{doctor.name}</h3>
           <p className="text-sm text-brand-muted">
             {doctor.degrees.join(", ") || "No degrees listed"}
           </p>
@@ -73,9 +74,10 @@ export default function AdminDoctorRow({ doctor }: { doctor: DoctorRow }) {
             href={`/doctors/${doctor.slug}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-2 inline-block text-sm font-medium text-brand-teal hover:underline"
+            className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-brand-gold hover:underline"
           >
-            View public profile →
+            View public profile
+            <ExternalLink className="h-3.5 w-3.5" />
           </a>
         </div>
 
@@ -84,8 +86,8 @@ export default function AdminDoctorRow({ doctor }: { doctor: DoctorRow }) {
             <div
               className={`rounded-lg px-3 py-2 text-xs font-medium ${
                 message.type === "success"
-                  ? "bg-status-verified/10 text-status-verified"
-                  : "bg-status-emergency/10 text-status-emergency"
+                  ? "bg-status-verified-light/40 text-status-verified"
+                  : "bg-status-emergency-light/40 text-status-emergency"
               }`}
             >
               {message.text}
@@ -93,7 +95,7 @@ export default function AdminDoctorRow({ doctor }: { doctor: DoctorRow }) {
           )}
 
           <div>
-            <label className="mb-1 block text-xs font-medium text-brand-muted">
+            <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">
               Verification status
             </label>
             <div className="flex flex-wrap gap-2">
@@ -105,8 +107,8 @@ export default function AdminDoctorRow({ doctor }: { doctor: DoctorRow }) {
                   onClick={() => handleStatusChange(s)}
                   className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
                     status === s
-                      ? "bg-brand-teal text-white"
-                      : "border border-brand-gray bg-brand-white text-brand-slate hover:bg-brand-gray"
+                      ? "bg-brand-navy text-white"
+                      : "border border-brand-gray bg-white text-brand-slate hover:bg-brand-cream"
                   } disabled:cursor-not-allowed`}
                 >
                   {s.charAt(0) + s.slice(1).toLowerCase()}
@@ -116,12 +118,14 @@ export default function AdminDoctorRow({ doctor }: { doctor: DoctorRow }) {
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-medium text-brand-muted">Listing tier</label>
+            <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">
+              Listing tier
+            </label>
             <select
               value={tier}
               onChange={(e) => handleTierChange(e.target.value as ListingTier)}
               disabled={pending}
-              className="w-full rounded-xl border border-brand-gray bg-brand-white px-3 py-2 text-sm text-brand-slate focus:border-brand-teal focus:outline-none"
+              className="w-full rounded-lg border border-brand-gray bg-white px-3 py-2 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
             >
               {tiers.map((t) => (
                 <option key={t} value={t}>

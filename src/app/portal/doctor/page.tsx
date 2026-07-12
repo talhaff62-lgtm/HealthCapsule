@@ -32,13 +32,10 @@ export default async function DoctorPortalPage() {
   }
 
   return (
-    <section className="min-h-screen bg-brand-gray py-10">
+    <section className="min-h-screen bg-brand-cream py-10">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1
-            className="text-2xl font-bold text-brand-slate sm:text-3xl"
-            style={{ fontFamily: "var(--font-serif)" }}
-          >
+          <h1 className="font-serif text-2xl font-semibold text-brand-navy sm:text-3xl">
             Doctor Portal
           </h1>
           <p className="mt-1 text-brand-muted">
@@ -46,7 +43,7 @@ export default async function DoctorPortalPage() {
           </p>
         </div>
 
-        <div className="rounded-2xl border border-brand-gray bg-brand-white p-6 shadow-sm sm:p-8">
+        <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
           <DoctorProfileForm
             doctor={{
               id: doctor.id,
@@ -63,8 +60,8 @@ export default async function DoctorPortalPage() {
         </div>
 
         {doctor.specialties.length > 0 && (
-          <div className="mt-6 rounded-2xl border border-brand-gray bg-brand-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-brand-slate">Specialties</h2>
+          <div className="mt-6 rounded-2xl border border-brand-gray bg-white p-6 shadow-sm">
+            <h2 className="font-serif text-lg font-semibold text-brand-navy">Specialties</h2>
             <p className="mt-2 text-brand-muted">
               {doctor.specialties.map((s) => s.specialty.name).join(", ")}
             </p>
