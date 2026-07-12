@@ -1,0 +1,137 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ListingTier, VerificationStatus } from "@prisma/client";
+import { setListingTier, setVerificationStatus } from "@/app/portal/admin/actions";
+
+type DoctorRow = {
+  id: string;
+  name: string;
+  slug: string;
+  bmdcRegNo: string | null;
+  degrees: string[];
+  verificationStatus: VerificationStatus;
+  listingTier: ListingTier;
+  createdAt: Date;
+  user: { phone: string } | null;
+};
+
+const statuses: VerificationStatus[] = ["PENDING", "VERIFIED", "REJECTED"];
+const tiers: ListingTier[] = ["FREE", "VERIFIED", "FEATURED", "PREMIUM"];
+
+export default function AdminDoctorRow({ doctor }: { doctor: DoctorRow }) {
+  const router = useRouter();
+  const [status, setStatus] = useState(doctor.verificationStatus);
+  const [tier, setTier] = useState(doctor.listingTier);
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [pending, setPending] = useState(false);
+
+  async function handleStatusChange(next: VerificationStatus) {
+    setPending(true);
+    setMessage(null);
+    const result = await setVerificationStatus(doctor.id, next);
+    setPending(false);
+    if (result.ok) {
+      setStatus(next);
+      setMessage({ type: "success", text: `Status set to ${next.toLowerCase()}` });
+      router.refresh();
+    } else {
+      setMessage({ type: "error", text: result.error });
+    }
+  }
+
+  async function handleTierChange(next: ListingTier) {
+    setPending(true);
+    setMessage(null);
+    const result = await setListingTier(doctor.id, next);
+    setPending(false);
+    if (result.ok) {
+      setTier(next);
+      setMessage({ type: "success", text: `Tier set to ${next.toLowerCase()}` });
+      router.refresh();
+    } else {
+      setMessage({ type: "error", text: result.error });
+    }
+  }
+
+  return (
+    <div className="rounded-2xl border border-brand-gray bg-brand-white p-5 shadow-sm">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h3 className="text-lg font-semibold text-brand-slate">{doctor.name}</h3>
+          <p className="text-sm text-brand-muted">
+            {doctor.degrees.join(", ") || "No degrees listed"}
+          </p>
+          <p className="mt-1 text-sm text-brand-slate">
+            BMDC: {doctor.bmdcRegNo || "—"} · Phone: {doctor.user?.phone || "—"}
+          </p>
+          <p className="text-xs text-brand-muted">
+            Submitted {doctor.createdAt.toLocaleDateString()}
+          </p>
+          <a
+            href={`/doctors/${doctor.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 inline-block text-sm font-medium text-brand-teal hover:underline"
+          >
+            View public profile →
+          </a>
+        </div>
+
+        <div className="min-w-[16rem] space-y-3">
+          {message && (
+            <div
+              className={`rounded-lg px-3 py-2 text-xs font-medium ${
+                message.type === "success"
+                  ? "bg-status-verified/10 text-status-verified"
+                  : "bg-status-emergency/10 text-status-emergency"
+              }`}
+            >
+              {message.text}
+            </div>
+          )}
+
+          <div>
+            <label className="mb-1 block text-xs font-medium text-brand-muted">
+              Verification status
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {statuses.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  disabled={pending || status === s}
+                  onClick={() => handleStatusChange(s)}
+                  className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
+                    status === s
+                      ? "bg-brand-teal text-white"
+                      : "border border-brand-gray bg-brand-white text-brand-slate hover:bg-brand-gray"
+                  } disabled:cursor-not-allowed`}
+                >
+                  {s.charAt(0) + s.slice(1).toLowerCase()}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="mb-1 block text-xs font-medium text-brand-muted">Listing tier</label>
+            <select
+              value={tier}
+              onChange={(e) => handleTierChange(e.target.value as ListingTier)}
+              disabled={pending}
+              className="w-full rounded-xl border border-brand-gray bg-brand-white px-3 py-2 text-sm text-brand-slate focus:border-brand-teal focus:outline-none"
+            >
+              {tiers.map((t) => (
+                <option key={t} value={t}>
+                  {t.charAt(0) + t.slice(1).toLowerCase()}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

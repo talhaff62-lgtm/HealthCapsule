@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "fermentId": "019f571a-6429-717e-a08f-4f786fd5ed0f",
+  "phaseId": "phase-3",
+  "phaseName": "Phase 5: Doctor Self-Edit Portal",
+  "attempt": 1,
+  "timestamp": "2026-07-12T17:02:04.623Z",
+  "goal": "Allow an authenticated DOCTOR to edit their own public profile and chambers.",
+  "summary": "Doctor self-edit portal complete: /portal/doctor profile edit form and /portal/doctor/chambers chamber/schedule management. Changes revalidate public pages and reflect immediately.",
+  "stepSummaries": "  1. Create the doctor portal dashboard layout and profile edit form with server actions. [verified]\n  2. Implement chamber and schedule management (add/edit/remove chambers and weekly schedules). [verified]",
+  "diffAvailable": true,
+  "diffFilesChanged": "...9f571a-6429-717e-a08f-4f786fd5ed0f.events.jsonl |  6 ++++\n .../019f571a-6429-717e-a08f-4f786fd5ed0f.json      | 39 +++++++++++++++++-----\n .../runtime.json                                   | 11 ++++--\n 3 files changed, 44 insertions(+), 12 deletions(-)\n?? src/app/portal/doctor/actions.ts\n?? src/app/portal/doctor/chambers/actions.ts\n?? src/app/portal/doctor/chambers/page.tsx\n?? src/app/portal/doctor/page.tsx\n?? src/components/doctor-portal/ChamberForm.tsx\n?? src/components/doctor-portal/DoctorProfileForm.tsx",
+  "flags": [],
+  "derivedGrade": "A",
+  "reviewerRationale": "All gates pass; project checks validate.",
+  "gateVerdicts": [
+    {
+      "id": "F1",
+      "verdict": "pass",
+      "rationale": "Both steps used real verification: build success, middleware redirect test for profile page, and a smoke test confirming updated chamber/schedule on public profile.",
+      "evidence": "Build output; fetch redirect to /login; test-chamber-update output true/true."
+    },
+    {
+      "id": "F2",
+      "verdict": "pass",
+      "rationale": "The combined output delivers the Phase 5 goal of authenticated DOCTOR editing their own public profile and chambers.",
+      "evidence": "src/app/portal/doctor/page.tsx, src/app/portal/doctor/chambers/page.tsx, actions.ts, forms."
+    },
+    {
+      "id": "F3",
+      "verdict": "pass",
+      "rationale": "Nothing deferred; full chamber and schedule management implemented.",
+      "evidence": "No remaining TODOs for this phase."
+    }
+  ],
+  "projectChecks": {
+    "discovered": true,
+    "anyFailed": false,
+    "commands": [
+      {
+        "kind": "lint",
+        "command": "npm run lint",
+        "exitCode": 0,
+        "durationMs": 1,
+        "timedOut": false
+      }
+    ]
+  }
+}

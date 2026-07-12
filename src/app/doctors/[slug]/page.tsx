@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { VerificationStatus } from "@prisma/client";
 import { getNextAvailableSlot } from "@/lib/doctors";
 
+export const dynamic = "force-dynamic";
+
 type DoctorProfilePageProps = {
   params: Promise<{ slug: string }>;
 };
