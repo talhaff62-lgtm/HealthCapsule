@@ -242,7 +242,7 @@
       "goal": "Allow authenticated ADMIN to review and manage doctor verification status and listing tier.",
       "description": "Build `/portal/admin` with a doctor queue table, verification status toggles, and tier selection.",
       "parallel": false,
-      "status": "active",
+      "status": "completed",
       "steps": [
         {
           "id": "step-1",
@@ -269,17 +269,32 @@
           "id": "step-2",
           "index": 2,
           "description": "Implement server actions to update verification status and listing tier.",
-          "status": "running",
+          "status": "verified",
           "verification": {
             "command": "After admin action, public doctor listing and profile reflect the new status/tier.",
             "retries": 2,
             "retryDelayMs": 1000
           },
           "parallel": false,
-          "startedAt": "2026-07-12T17:08:47.091Z"
+          "startedAt": "2026-07-12T17:08:47.091Z",
+          "completedAt": "2026-07-12T17:21:53.140Z",
+          "result": {
+            "success": true,
+            "exitCode": 0,
+            "stdout": "",
+            "stderr": "",
+            "completedAt": "2026-07-12T17:21:53.140Z"
+          }
         }
       ],
-      "startedAt": "2026-07-12T17:05:53.936Z"
+      "startedAt": "2026-07-12T17:05:53.936Z",
+      "completedAt": "2026-07-12T17:22:00.158Z",
+      "summary": "Admin portal complete: /portal/admin lists doctors with verification filters and pagination, and authenticated admins can toggle verification status and listing tier. Changes revalidate public pages.",
+      "grade": {
+        "grade": "A",
+        "rationale": "All gates pass; project checks validate.",
+        "gradedAt": "2026-07-12T17:22:00.128Z"
+      }
     },
     {
       "id": "phase-5",
@@ -288,39 +303,50 @@
       "goal": "Run all project-level quality gates and commit the final state.",
       "description": "Execute the validation commands required by the success criteria and create a final commit.",
       "parallel": false,
-      "status": "planned",
+      "status": "active",
       "steps": [
         {
           "id": "step-1",
           "index": 1,
           "description": "Run Prisma validate, TypeScript check, lint, build, and seed.",
-          "status": "pending",
+          "status": "verified",
           "verification": {
             "command": "node.exe ./node_modules/prisma/build/index.js validate && node.exe ./node_modules/typescript/bin/tsc --noEmit && npm run lint && npm run build && node.exe ./node_modules/prisma/build/index.js db seed",
             "retries": 2,
             "retryDelayMs": 1000
           },
-          "parallel": false
+          "parallel": false,
+          "startedAt": "2026-07-12T17:24:31.674Z",
+          "completedAt": "2026-07-12T17:25:59.395Z",
+          "result": {
+            "success": true,
+            "exitCode": 0,
+            "stdout": "",
+            "stderr": "",
+            "completedAt": "2026-07-12T17:25:59.395Z"
+          }
         },
         {
           "id": "step-2",
           "index": 2,
           "description": "Commit all remaining changes with the existing WSL git identity.",
-          "status": "pending",
+          "status": "running",
           "verification": {
             "command": "git log --oneline -1 shows the final commit on master.",
             "retries": 2,
             "retryDelayMs": 1000
           },
-          "parallel": false
+          "parallel": false,
+          "startedAt": "2026-07-12T17:26:55.214Z"
         }
-      ]
+      ],
+      "startedAt": "2026-07-12T17:24:26.543Z"
     }
   ],
   "decisions": [],
   "memories": [],
   "createdAt": "2026-07-12T16:12:55.209Z",
-  "updatedAt": "2026-07-12T17:08:47.091Z",
+  "updatedAt": "2026-07-12T17:26:55.214Z",
   "goal": "Complete HealthCapsule Module 1 (Doctor Directory) from the current project state: apply the Schedule schema migration, verify the seed script, build the public doctor search/profile pages, implement the doctor self-edit portal, and implement the admin verification/tier-management portal.",
   "successCriteria": [
     "Phase 3 complete: Prisma migration for the Schedule model is applied to the Neon database, `npx prisma db seed` runs without errors, and verified/pending sample doctors with chambers and schedules exist.",
@@ -338,6 +364,6 @@
     "No new runtime dependencies unless absolutely required for Prisma 7/NextAuth compatibility.",
     "Re-use the existing auth system (phone/password credentials, JWT session, middleware role guards)."
   ],
-  "lastActiveAt": "2026-07-12T17:05:53.936Z",
-  "activePhaseId": "phase-4"
+  "lastActiveAt": "2026-07-12T17:24:26.543Z",
+  "activePhaseId": "phase-5"
 }
