@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "fermentId": "019f56e2-4fa9-74e4-aea0-d24977fac10b",
+  "phaseId": "phase-2",
+  "phaseName": "Auth & Roles",
+  "attempt": 1,
+  "timestamp": "2026-07-12T15:54:14.631Z",
+  "goal": "Implement phone + password authentication and role-based route protection.",
+  "summary": "Phase 2 complete: NextAuth v4 configured with phone/password credentials and bcryptjs; JWT/session enriched with id and role; server/client session helpers added; /login page and /portal role redirect created; Navbar shows dynamic AuthStatus; SessionProvider wraps the app; middleware protects /portal/* routes by role. All builds pass.",
+  "stepSummaries": "  1. Configure NextAuth v4 Credentials provider with phone/password lookup and bcryptjs verification. [verified]\n  2. Enrich session/JWT with user id and role (DOCTOR, ADMIN, etc.). [verified]\n  3. Create /login page and a reusable sign-out button in the Navbar. [verified]\n  4. Add middleware protecting /portal/* routes by role. [verified]",
+  "diffAvailable": true,
+  "diffFilesChanged": "package-lock.json                | 192 ++++++++++++++++++++++++++++++++++++++-\n package.json                     |   3 +\n src/app/layout.tsx               |   9 +-\n src/components/layout/Navbar.tsx |  13 ++-\n src/lib/prisma.ts                |   7 +-\n 5 files changed, 211 insertions(+), 13 deletions(-)\n?? .kimchi/ferments/019f56e2-4fa9-74e4-aea0-d24977fac10b.events.jsonl\n?? .kimchi/ferments/019f56e2-4fa9-74e4-aea0-d24977fac10b.json\n?? .kimchi/ferments/019f56e2-4fa9-74e4-aea0-d24977fac10b/reviews/phase-phase-1-1.json\n?? .kimchi/ferments/019f56e2-4fa9-74e4-aea0-d24977fac10b/runtime.json\n?? src/app/api/auth/[...nextauth]/route.ts\n?? src/app/login/page.tsx\n?? src/app/portal/page.tsx\n?? src/components/auth/AuthStatus.tsx\n?? src/components/providers/SessionProvider.tsx\n?? src/lib/auth.ts\n?? src/lib/hooks/use-current-user.ts\n?? src/lib/session.ts\n?? src/middleware.ts\n?? src/types/next-auth.d.ts",
+  "flags": [],
+  "derivedGrade": "A",
+  "reviewerRationale": "All gates pass; project checks validate.",
+  "gateVerdicts": [
+    {
+      "id": "F1",
+      "verdict": "pass",
+      "rationale": "Every step used real verification: Steps 1 and 2 ran tsc --noEmit, Steps 3 and 4 ran npm run build. No proxy-only steps.",
+      "evidence": "tsc --noEmit and npm run build outputs passed for all four steps."
+    },
+    {
+      "id": "F2",
+      "verdict": "pass",
+      "rationale": "The phase goal was phone + password authentication and role-based route protection. Deliverables: auth config, session helpers, login UI, and middleware.",
+      "evidence": "src/lib/auth.ts, src/app/api/auth/[...nextauth]/route.ts, src/lib/session.ts, src/lib/hooks/use-current-user.ts, src/app/login/page.tsx, src/app/portal/page.tsx, src/components/auth/AuthStatus.tsx, src/components/providers/SessionProvider.tsx, src/middleware.ts all exist and build."
+    },
+    {
+      "id": "F3",
+      "verdict": "pass",
+      "rationale": "Nothing deferred in this phase. Note: Prisma 7 required adding @prisma/adapter-pg and pg dependency in Step 3 to satisfy runtime PrismaClient construction requirements; this was included as necessary foundation work.",
+      "evidence": "package.json includes pg and @prisma/adapter-pg; src/lib/prisma.ts uses PrismaPg adapter."
+    }
+  ],
+  "projectChecks": {
+    "discovered": true,
+    "anyFailed": false,
+    "commands": [
+      {
+        "kind": "lint",
+        "command": "npm run lint",
+        "exitCode": 0,
+        "durationMs": 2,
+        "timedOut": false
+      }
+    ]
+  }
+}
