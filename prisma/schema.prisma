@@ -1,0 +1,402 @@
+// prisma/schema.prisma
+// HealthCapsule — Database Schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ========================= Enums =========================
+
+enum FacilityType {
+  HOSPITAL
+  DIAGNOSTIC_CENTER
+  CLINIC
+}
+
+enum ThanaType {
+  UPAZILA
+  METROPOLITAN_THANA
+}
+
+enum AreaType {
+  NEIGHBOURHOOD
+  LANDMARK
+  ROAD
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum ListingTier {
+  FREE
+  VERIFIED
+  FEATURED
+  PREMIUM
+}
+
+enum UserRole {
+  PATIENT
+  DOCTOR
+  FACILITY_ADMIN
+  ADMIN
+}
+
+// ========================= Geography =========================
+
+model Division {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  bnName    String?
+  pcode     String?    @unique
+  latitude  Float?
+  longitude Float?
+
+  districts District[]
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([name])
+}
+
+model District {
+  id         String     @id @default(cuid())
+  divisionId String
+  division   Division   @relation(fields: [divisionId], references: [id])
+
+  name       String
+  bnName     String?
+  pcode      String?    @unique
+  areaSqkm   Float?
+  latitude   Float?
+  longitude  Float?
+
+  thanas     Thana[]
+
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  @@unique([divisionId, name])
+  @@index([divisionId])
+}
+
+model Thana {
+  id         String    @id @default(cuid())
+  districtId String
+  district   District  @relation(fields: [districtId], references: [id])
+
+  name       String
+  bnName     String?
+  pcode      String?   @unique
+  type       ThanaType @default(UPAZILA)
+  areaSqkm   Float?
+  latitude   Float?
+  longitude  Float?
+
+  areas      Area[]
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+
+  @@unique([districtId, name])
+  @@index([districtId])
+  @@index([deletedAt])
+}
+
+model Area {
+  id        String      @id @default(cuid())
+  thanaId   String
+  thana     Thana       @relation(fields: [thanaId], references: [id])
+
+  name      String
+  bnName    String?
+  slug      String      @unique
+  type      AreaType    @default(NEIGHBOURHOOD)
+  latitude  Float?
+  longitude Float?
+
+  aliases    AreaAlias[]
+  facilities Facility[]
+  chambers   Chamber[]
+
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  deletedAt DateTime?
+
+  @@unique([thanaId, name])
+  @@index([thanaId])
+  @@index([deletedAt])
+}
+
+model AreaAlias {
+  id     String @id @default(cuid())
+  areaId String
+  area   Area   @relation(fields: [areaId], references: [id], onDelete: Cascade)
+
+  alias  String
+  lang   String @default("en")
+
+  @@unique([areaId, alias])
+  @@index([alias])
+}
+
+// ========================= Identity =========================
+
+model User {
+  id           String     @id @default(cuid())
+  phone        String     @unique
+  passwordHash String?
+  role         UserRole
+
+  doctorAccount          Doctor?    @relation("DoctorAccount")
+  doctorsVerified        Doctor[]   @relation("DoctorVerifier")
+  facilitiesAdministered Facility[] @relation("FacilityAdmin")
+
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deletedAt    DateTime?
+
+  @@index([role])
+  @@index([deletedAt])
+}
+
+// ========================= Specialties =========================
+
+model Specialty {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  bnName    String?
+  slug      String   @unique
+  icon      String?
+  isPopular Boolean  @default(false)
+
+  doctors   DoctorSpecialty[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  @@index([deletedAt])
+}
+
+// ========================= Facilities =========================
+
+model Facility {
+  id                 String               @id @default(cuid())
+  name               String
+  slug               String               @unique
+  type               FacilityType
+  
+  adminId            String?
+  admin              User?                @relation("FacilityAdmin", fields: [adminId], references: [id])
+
+  // Optional details for paid/premium listings
+  description        String?
+  longDescription    String?
+  logoUrl            String?
+  coverImageUrl      String?
+
+  areaId             String
+  area               Area                 @relation(fields: [areaId], references: [id])
+  address            String?
+  latitude           Float?
+  longitude          Float?
+
+  phone              String?
+  email              String?
+  website            String?
+
+  beds               Int?
+  hasIcu             Boolean              @default(false)
+  hasNicu            Boolean              @default(false)
+  hasEmergency       Boolean              @default(false)
+  hasAmbulance       Boolean              @default(false)
+  establishedYear    Int?
+
+  verificationStatus VerificationStatus   @default(PENDING)
+  listingTier        ListingTier          @default(FREE)
+  featuredUntil      DateTime?
+
+  isActive           Boolean              @default(true)
+
+  chambers           Chamber[]
+  services           FacilityService[]
+  departments        FacilityDepartment[]
+  gallery            FacilityImage[]
+  appointments       Appointment[]
+
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  deletedAt          DateTime?
+
+  @@index([type])
+  @@index([areaId])
+  @@index([deletedAt])
+  @@index([isActive])
+  @@index([listingTier])
+}
+
+model FacilityService {
+  id          String   @id @default(cuid())
+  facilityId  String
+  facility    Facility @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  name        String
+  price       Decimal? @db.Decimal(10, 2)
+  isFeatured  Boolean  @default(false)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+
+  @@index([facilityId])
+  @@index([deletedAt])
+}
+
+model FacilityDepartment {
+  id          String   @id @default(cuid())
+  facilityId  String
+  facility    Facility @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([facilityId])
+}
+
+model FacilityImage {
+  id          String   @id @default(cuid())
+  facilityId  String
+  facility    Facility @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  url         String
+  alt         String?
+  sortOrder   Int      @default(0)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([facilityId])
+}
+
+// ========================= Doctors =========================
+
+model Doctor {
+  id               String   @id @default(cuid())
+  name             String
+  bnName           String?
+  slug             String   @unique
+  bio              String?
+  photoUrl         String?
+  degrees          String[]
+  bmdcRegNo        String?  @unique
+  registrationYear Int?
+  yearsExperience  Int?
+  languages        String[]
+  gender           String?
+  consultationFee  Decimal? @db.Decimal(10, 2)
+
+  verificationStatus VerificationStatus @default(PENDING)
+  verifiedById       String?
+  verifiedBy         User?              @relation("DoctorVerifier", fields: [verifiedById], references: [id])
+  verifiedAt         DateTime?
+
+  listingTier        ListingTier        @default(FREE)
+  featuredUntil      DateTime?
+
+  userId             String?            @unique
+  user               User?              @relation("DoctorAccount", fields: [userId], references: [id])
+
+  specialties        DoctorSpecialty[]
+  chambers           Chamber[]
+  appointments       Appointment[]
+
+  isActive           Boolean            @default(true)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  deletedAt          DateTime?
+
+  @@index([verificationStatus])
+  @@index([deletedAt])
+  @@index([isActive])
+}
+
+model DoctorSpecialty {
+  doctorId    String
+  doctor      Doctor    @relation(fields: [doctorId], references: [id])
+  specialtyId String
+  specialty   Specialty @relation(fields: [specialtyId], references: [id])
+
+  @@id([doctorId, specialtyId])
+  @@index([specialtyId])
+}
+
+// ========================= Chamber =========================
+
+model Chamber {
+  id              String   @id @default(cuid())
+  doctorId        String
+  doctor          Doctor   @relation(fields: [doctorId], references: [id])
+
+  facilityId      String?
+  facility        Facility? @relation(fields: [facilityId], references: [id])
+
+  areaId          String?
+  area            Area?    @relation(fields: [areaId], references: [id])
+
+  address         String?
+  consultationFee Decimal? @db.Decimal(10, 2)
+
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  deletedAt       DateTime?
+
+  @@index([doctorId])
+  @@index([facilityId])
+  @@index([areaId])
+  @@index([deletedAt])
+}
+
+// ========================= Appointment =========================
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
+model Appointment {
+  id           String            @id @default(cuid())
+  doctorId     String
+  doctor       Doctor            @relation(fields: [doctorId], references: [id])
+  facilityId   String
+  facility     Facility          @relation(fields: [facilityId], references: [id])
+
+  patientName  String
+  patientPhone String
+  patientEmail String?
+
+  scheduledAt  DateTime
+  status       AppointmentStatus @default(PENDING)
+  notes        String?
+
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  deletedAt    DateTime?
+
+  @@index([doctorId, scheduledAt])
+  @@index([facilityId, scheduledAt])
+  @@index([status])
+  @@index([deletedAt])
+}
