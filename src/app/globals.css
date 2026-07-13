@@ -1,37 +1,94 @@
 @import "tailwindcss";
 
 @theme {
-  /* Primary brand palette from the reference design */
-  --color-brand-navy: #0b1f3a;
-  --color-brand-navy-light: #1e3a66;
-  --color-brand-navy-muted: #7e8faa;
-  --color-brand-cream: #f7f4ec;
-  --color-brand-cream-dark: #efe8d6;
-  --color-brand-gold: #c9a24b;
-  --color-brand-gold-light: #f3e6c2;
-  --color-brand-gold-dark: #b08b3a;
+  /* ───────────────────────────────────────────────────────────
+     HealthCapsule — Trust Navy + Sky palette
+     Healthcare reads calm, clinical, and trustworthy.
+     Navy stays the brand anchor; Sky is the medical accent.
+     Gold/cream tokens are aliased below for backwards safety so
+     untouched portal files shift to the new palette automatically.
+     ─────────────────────────────────────────────────────────── */
 
-  /* Legacy names mapped to the reference palette so existing components pick up the new look */
-  --color-brand-teal: #c9a24b;
+  /* ─── Primary brand — Navy (headers, footer, deep surfaces) ─── */
+  --color-brand-navy: #0b1f3a;
+  --color-brand-navy-dark: #071528;
+  --color-brand-navy-light: #1e3a66;
+  --color-brand-navy-deep: #071528;
+  --color-brand-navy-muted: #7e8faa;
+
+  /* ─── Sky — the medical accent (CTAs, links, highlights) ─── */
+  --color-brand-sky: #0ea5e9;
+  --color-brand-sky-dark: #0284c7;
+  --color-brand-sky-deep: #0369a1;
+  --color-brand-sky-light: #7dd3fc;
+  --color-brand-sky-bright: #38bdf8;
+  --color-brand-sky-bg: #e0f2fe;
+  --color-brand-sky-bg-soft: #f0f9ff;
+
+  /* ─── Cool neutral surfaces (page canvas + dividers) ─── */
+  --color-brand-cloud: #f1f5f9; /* page background — cool off-white */
+  --color-brand-cloud-dark: #e2e8f0;
+  --color-brand-mist: #f8fafc; /* card-tinted neutral */
+
+  /* ─── Brand neutrals ─── */
   --color-brand-white: #ffffff;
   --color-brand-slate: #13161d;
   --color-brand-muted: #4b5260;
-  --color-brand-gray: #efe8d6;
+  --color-brand-gray: #e2e8f0;
 
-  /* Semantic Status */
-  --color-status-verified: #2a7a4b;
-  --color-status-verified-light: #d1ead9;
+  /* ───────────────────────────────────────────────────────────
+     Legacy token aliases — map old names to new palette so that
+     components not yet rewritten migrate automatically.
+     Gold → Sky, Cream → Cloud.
+     ─────────────────────────────────────────────────────────── */
+  --color-brand-gold: var(--color-brand-sky);
+  --color-brand-gold-dark: var(--color-brand-sky-dark);
+  --color-brand-gold-light: var(--color-brand-sky-bg);
+  --color-brand-gold-bright: var(--color-brand-sky-bright);
+  --color-brand-teal: var(--color-brand-sky);
+  --color-brand-cream: var(--color-brand-cloud);
+  --color-brand-cream-dark: var(--color-brand-cloud-dark);
+
+  /* ─── Semantic Status (accessible, healthcare-appropriate) ─── */
+  --color-status-verified: #059669;
+  --color-status-verified-light: #d1fae5;
   --color-status-warning: #d97706;
-  --color-status-emergency: #bd4430;
-  --color-status-emergency-light: #f4dcd4;
+  --color-status-warning-light: #fef3c7;
+  --color-status-emergency: #dc2626;
+  --color-status-emergency-light: #fee2e2;
 
+  /* ─── Facility type colors ─── */
+  --color-facility-private: #0ea5e9;
+  --color-facility-private-bg: #e0f2fe;
+  --color-facility-public: #1e3a66;
+  --color-facility-public-bg: #dbeafe;
+  --color-facility-specialized: #0284c7;
+  --color-facility-specialized-bg: #e0f2fe;
+  --color-facility-clinic: #059669;
+  --color-facility-clinic-bg: #d1fae5;
+  --color-facility-diagnostic: #0891b2;
+  --color-facility-diagnostic-bg: #cffafe;
+
+  /* ─── Tier colors ─── */
+  --color-tier-free: #64748b;
+  --color-tier-free-bg: #f1f5f9;
+  --color-tier-verified: #059669;
+  --color-tier-verified-bg: #d1fae5;
+  --color-tier-featured: #0284c7;
+  --color-tier-featured-bg: #dbeafe;
+  --color-tier-premium: #0b1f3a;
+  --color-tier-premium-bg: #dbeafe;
+
+  /* ─── Fonts ─── */
   --font-serif: "Fraunces", serif;
   --font-sans: "Inter", sans-serif;
   --font-mono: "IBM Plex Mono", monospace;
 }
 
+/* ─── Base ─── */
 html {
   height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -39,32 +96,155 @@ body {
   display: flex;
   flex-direction: column;
   color: var(--color-brand-slate);
-  background: var(--color-brand-cream);
+  background: var(--color-brand-cloud);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 a {
-  color: inherit;
   text-decoration: none;
 }
 
-/* Premium paid-listing card treatment */
+/* ─── Premium card treatment ─── */
 .premium-card {
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease,
+    border-color 0.25s ease;
   border: 1px solid var(--color-brand-gray);
 }
 
 .premium-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--color-brand-gold);
-  box-shadow:
-    0 10px 25px -5px rgba(201, 162, 75, 0.25),
-    0 8px 10px -6px rgba(201, 162, 75, 0.15);
+  transform: translateY(-3px);
+  border-color: var(--color-brand-sky-light);
+  box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.18),
+    0 8px 10px -6px rgba(14, 165, 233, 0.1);
 }
 
-/* Skeleton pulse base */
+/* ─── Glass card ─── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--color-brand-gray);
+  transition: transform 0.25s ease, box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-brand-sky-light);
+  box-shadow: 0 12px 28px -8px rgba(14, 165, 233, 0.15);
+}
+
+/* ─── Gradient accents ─── */
+.gradient-sky-line {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-brand-sky-light),
+    transparent
+  );
+}
+
+/* Legacy alias used by Footer gradient top border */
+.gradient-gold-line {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-brand-sky-bright),
+    transparent
+  );
+}
+
+.gradient-gold-border-top {
+  border-top: 1px solid transparent;
+  background-image: linear-gradient(var(--color-brand-navy), var(--color-brand-navy)),
+    linear-gradient(
+      to right,
+      transparent,
+      var(--color-brand-sky-bright),
+      transparent
+    );
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+/* ─── Reveal animation ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 {
+  transition-delay: 0.12s;
+}
+.reveal-delay-2 {
+  transition-delay: 0.24s;
+}
+.reveal-delay-3 {
+  transition-delay: 0.36s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ─── Shimmer for premium elements ─── */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 60%
+  );
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ─── Fade-in keyframe ─── */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Skeleton pulse base ─── */
 .skeleton {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   background-color: var(--color-brand-gray);
@@ -78,4 +258,44 @@ a {
   50% {
     opacity: 0.5;
   }
+}
+
+/* ─── Calm sky pulse glow (for trust seal etc.) ───
+   Subtler than the previous gold version — calmer, more clinical. */
+@keyframes goldPulse {
+  0%,
+  100% {
+    box-shadow: 0 24px 50px -18px rgba(14, 165, 233, 0.4);
+  }
+  50% {
+    box-shadow: 0 24px 50px -10px rgba(14, 165, 233, 0.6),
+      0 0 0 10px rgba(14, 165, 233, 0.06);
+  }
+}
+
+@keyframes skyPulse {
+  0%,
+  100% {
+    box-shadow: 0 24px 50px -18px rgba(14, 165, 233, 0.4);
+  }
+  50% {
+    box-shadow: 0 24px 50px -10px rgba(14, 165, 233, 0.6),
+      0 0 0 10px rgba(14, 165, 233, 0.06);
+  }
+}
+
+/* ─── Step connector line ─── */
+.step-connector {
+  position: absolute;
+  top: 36px;
+  left: 12.5%;
+  right: 12.5%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    var(--color-brand-sky-bg),
+    var(--color-brand-sky-light),
+    var(--color-brand-sky-bg)
+  );
+  z-index: 0;
 }

@@ -41,11 +41,11 @@ export default function DoctorFilters({ specialties, areas }: DoctorFiltersProps
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-2xl border border-brand-gray bg-white p-5 shadow-sm"
+      className="glass-card rounded-2xl p-6 shadow-sm mb-6"
     >
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="q" className="text-xs font-medium uppercase tracking-wider text-brand-muted">
+          <label htmlFor="q" className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
             Doctor name
           </label>
           <input
@@ -54,19 +54,19 @@ export default function DoctorFilters({ specialties, areas }: DoctorFiltersProps
             type="search"
             placeholder="Search doctors, degrees..."
             defaultValue={searchParams.get("q") ?? ""}
-            className="rounded-lg border border-brand-gray bg-white px-3 py-2.5 text-sm text-brand-slate placeholder:text-brand-muted focus:border-brand-gold focus:outline-none focus:ring-2 focus:ring-brand-gold/20"
+            className="rounded-lg border border-brand-gray bg-white px-3 py-2.5 text-sm text-brand-slate placeholder:text-brand-muted focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/20"
           />
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="specialty" className="text-xs font-medium uppercase tracking-wider text-brand-muted">
+          <label htmlFor="specialty" className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
             Specialty
           </label>
           <select
             id="specialty"
             name="specialty"
             defaultValue={searchParams.get("specialty") ?? ""}
-            className="rounded-lg border border-brand-gray bg-white px-3 py-2.5 text-sm text-brand-slate focus:border-brand-gold focus:outline-none focus:ring-2 focus:ring-brand-gold/20"
+            className="rounded-lg border border-brand-gray bg-white px-3 py-2.5 text-sm text-brand-slate focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/20"
           >
             <option value="">All specialties</option>
             {specialties.map((s) => (
@@ -78,14 +78,14 @@ export default function DoctorFilters({ specialties, areas }: DoctorFiltersProps
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="area" className="text-xs font-medium uppercase tracking-wider text-brand-muted">
+          <label htmlFor="area" className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
             Area
           </label>
           <select
             id="area"
             name="area"
             defaultValue={searchParams.get("area") ?? ""}
-            className="rounded-lg border border-brand-gray bg-white px-3 py-2.5 text-sm text-brand-slate focus:border-brand-gold focus:outline-none focus:ring-2 focus:ring-brand-gold/20"
+            className="rounded-lg border border-brand-gray bg-white px-3 py-2.5 text-sm text-brand-slate focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/20"
           >
             <option value="">All areas</option>
             {areas.map((a) => (
@@ -107,7 +107,7 @@ export default function DoctorFilters({ specialties, areas }: DoctorFiltersProps
           <button
             type="button"
             onClick={handleClear}
-            className="rounded-lg border border-brand-gray px-4 py-2.5 text-sm font-medium text-brand-muted transition hover:bg-brand-cream hover:text-brand-slate"
+            className="rounded-lg border border-brand-gray bg-white px-4 py-2.5 text-sm font-medium text-brand-slate transition hover:bg-brand-cream"
           >
             <X className="h-4 w-4" />
           </button>

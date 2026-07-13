@@ -45,8 +45,8 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
         <div
           className={`rounded-lg px-4 py-3 text-sm font-medium ${
             status.type === "success"
-              ? "bg-status-verified-light/40 text-status-verified"
-              : "bg-status-emergency-light/40 text-status-emergency"
+              ? "bg-status-verified-light text-status-verified"
+              : "bg-status-emergency-light text-status-emergency"
           }`}
         >
           {status.message}
@@ -167,7 +167,7 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
         </button>
         <a
           href="/portal/doctor/chambers"
-          className="rounded-lg border border-brand-navy px-6 py-2.5 text-sm font-medium text-brand-navy transition hover:bg-brand-navy hover:text-white"
+          className="rounded-lg border border-brand-gray bg-white px-6 py-2.5 text-sm font-medium text-brand-slate transition hover:bg-brand-cream"
         >
           Manage chambers
         </a>

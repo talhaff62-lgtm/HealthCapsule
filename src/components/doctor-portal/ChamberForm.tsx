@@ -90,8 +90,8 @@ export default function ChamberForm({
         <div
           className={`rounded-lg px-4 py-2 text-sm font-medium ${
             status.type === "success"
-              ? "bg-status-verified-light/40 text-status-verified"
-              : "bg-status-emergency-light/40 text-status-emergency"
+              ? "bg-status-verified-light text-status-verified"
+              : "bg-status-emergency-light text-status-emergency"
           }`}
         >
           {status.message}
@@ -203,7 +203,7 @@ export default function ChamberForm({
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-lg border border-brand-gray px-5 py-2 text-sm font-medium text-brand-slate transition hover:bg-brand-cream"
+            className="rounded-lg border border-brand-gray bg-white px-5 py-2 text-sm font-medium text-brand-slate transition hover:bg-brand-cream"
           >
             Cancel
           </button>

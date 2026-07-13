@@ -41,7 +41,7 @@ export default function LoginPage() {
           <h1 className="font-serif text-2xl font-semibold text-white">
             Sign in to HealthCapsule
           </h1>
-          <p className="mt-2 text-sm text-brand-navy-muted">
+          <p className="mt-2 text-sm text-white/70">
             Enter your phone number and password.
           </p>
         </div>
@@ -63,7 +63,7 @@ export default function LoginPage() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="01XXXXXXXXX"
-                className="block w-full rounded-lg border border-brand-gray bg-white py-2.5 pl-10 pr-4 text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
+                className="block w-full rounded-lg border border-brand-gray bg-white py-2.5 pl-10 pr-4 text-brand-slate outline-none transition focus:border-brand-sky focus:ring-2 focus:ring-brand-sky/20"
               />
             </div>
           </div>
@@ -84,13 +84,13 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="block w-full rounded-lg border border-brand-gray bg-white py-2.5 pl-10 pr-4 text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
+                className="block w-full rounded-lg border border-brand-gray bg-white py-2.5 pl-10 pr-4 text-brand-slate outline-none transition focus:border-brand-sky focus:ring-2 focus:ring-brand-sky/20"
               />
             </div>
           </div>
 
           {error && (
-            <p className="rounded-lg bg-status-emergency-light/40 px-4 py-2 text-sm text-status-emergency">
+            <p className="rounded-lg bg-status-emergency-light px-4 py-2 text-sm text-status-emergency">
               {error}
             </p>
           )}

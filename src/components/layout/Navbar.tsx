@@ -2,46 +2,87 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { AuthStatus } from "@/components/auth/AuthStatus";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+type NavLink = { href: string; label: string };
+
+const publicLinks: NavLink[] = [
+  { href: "/", label: "Home" },
+  { href: "/healthcares", label: "Healthcares" },
+  { href: "/doctors", label: "Doctors" },
+];
+
+const portalLinksByRole: Record<string, NavLink> = {
+  ADMIN: { href: "/portal/admin", label: "Admin Panel" },
+  DOCTOR: { href: "/portal/doctor", label: "Doctor Panel" },
+  FACILITY_ADMIN: { href: "/portal/facility", label: "Hospital Panel" },
+};
+
+function isActive(href: string, pathname: string): boolean {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(href + "/");
+}
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { data: session } = useSession();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const links = [
-    { href: "/doctors", label: "Find Doctors" },
-    { href: "/portal/doctor", label: "Doctor Portal" },
-    { href: "/portal/admin", label: "Admin Portal" },
-  ];
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 8);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const role = session?.user?.role;
+  const portalLink = role ? portalLinksByRole[role] : undefined;
+  const navLinks: NavLink[] = portalLink
+    ? [...publicLinks, portalLink]
+    : publicLinks;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-brand-navy/95 backdrop-blur">
+    <header
+      className={`sticky top-0 z-50 border-b bg-brand-navy/95 backdrop-blur-md text-white transition-shadow duration-300 ${
+        scrolled
+          ? "border-brand-sky/20 shadow-[0_4px_32px_rgba(0,0,0,0.35)]"
+          : "border-white/10"
+      }`}
+    >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2.5">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-gold text-brand-navy">
-            <span className="flex h-3.5 w-3.5 rounded-full bg-brand-navy" />
+          {/* Two-tone capsule logo mark */}
+          <span className="flex h-8 w-8 overflow-hidden rounded-lg shadow-[inset_0_0_0_1px_rgba(255,255,255,0.15)]">
+            <span className="h-full flex-1 bg-brand-navy-light" />
+            <span className="h-full flex-1 bg-brand-sky" />
           </span>
           <span className="font-serif text-xl font-semibold text-white sm:text-2xl">
-            HealthCapsule
+            Health<span className="text-brand-sky-bright">Capsule</span>
           </span>
         </Link>
 
         <div className="hidden items-center gap-7 text-sm font-medium md:flex">
-          {links.map((link) => {
-            const active = pathname === link.href;
+          {navLinks.map((link) => {
+            const active = isActive(link.href, pathname);
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`transition ${
+                className={`relative py-1 transition ${
                   active
-                    ? "text-brand-gold"
-                    : "text-brand-navy-muted hover:text-white"
+                    ? "text-brand-sky-bright"
+                    : "text-white/70 hover:text-white"
                 }`}
               >
                 {link.label}
+                {active && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-brand-sky-bright" />
+                )}
               </Link>
             );
           })}
@@ -57,23 +98,32 @@ export default function Navbar() {
         </button>
       </nav>
 
+      {/* Mobile menu overlay */}
       {open && (
-        <div className="border-t border-white/10 bg-brand-navy px-4 py-4 md:hidden">
-          <div className="flex flex-col gap-3 text-base font-medium">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className={`py-2 ${
-                  pathname === link.href ? "text-brand-gold" : "text-brand-navy-muted"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="pt-2">
-              <AuthStatus />
+        <div className="fixed inset-x-0 top-[57px] bottom-0 z-50 bg-brand-navy/98 backdrop-blur-md md:hidden">
+          <div className="flex flex-col gap-1 px-6 py-6 text-base font-medium">
+            {navLinks.map((link, i) => {
+              const active = isActive(link.href, pathname);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className={`border-b border-white/10 py-4 transition ${
+                    active
+                      ? "text-brand-sky-bright"
+                      : "text-white/70 hover:text-white"
+                  }`}
+                  style={{ animationDelay: `${i * 60}ms` }}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+            <div className="mt-6 flex flex-col gap-3">
+              <div className="pt-2">
+                <AuthStatus />
+              </div>
             </div>
           </div>
         </div>

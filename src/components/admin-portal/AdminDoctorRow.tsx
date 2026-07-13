@@ -21,6 +21,12 @@ type DoctorRow = {
 const statuses: VerificationStatus[] = ["PENDING", "VERIFIED", "REJECTED"];
 const tiers: ListingTier[] = ["FREE", "VERIFIED", "FEATURED", "PREMIUM"];
 
+const statusBadgeClass: Record<VerificationStatus, string> = {
+  PENDING: "bg-status-warning-light text-status-warning",
+  VERIFIED: "bg-status-verified-light text-status-verified",
+  REJECTED: "bg-status-emergency-light text-status-emergency",
+};
+
 export default function AdminDoctorRow({ doctor }: { doctor: DoctorRow }) {
   const router = useRouter();
   const [status, setStatus] = useState(doctor.verificationStatus);
@@ -60,7 +66,14 @@ export default function AdminDoctorRow({ doctor }: { doctor: DoctorRow }) {
     <div className="rounded-2xl border border-brand-gray bg-white p-5 shadow-sm transition hover:border-brand-gold/30">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-brand-navy">{doctor.name}</h3>
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="text-lg font-semibold text-brand-navy">{doctor.name}</h3>
+            <span
+              className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[0.6rem] font-bold uppercase tracking-wider ${statusBadgeClass[status]}`}
+            >
+              {status.charAt(0) + status.slice(1).toLowerCase()}
+            </span>
+          </div>
           <p className="text-sm text-brand-muted">
             {doctor.degrees.join(", ") || "No degrees listed"}
           </p>
@@ -86,8 +99,8 @@ export default function AdminDoctorRow({ doctor }: { doctor: DoctorRow }) {
             <div
               className={`rounded-lg px-3 py-2 text-xs font-medium ${
                 message.type === "success"
-                  ? "bg-status-verified-light/40 text-status-verified"
-                  : "bg-status-emergency-light/40 text-status-emergency"
+                  ? "bg-status-verified-light text-status-verified"
+                  : "bg-status-emergency-light text-status-emergency"
               }`}
             >
               {message.text}
