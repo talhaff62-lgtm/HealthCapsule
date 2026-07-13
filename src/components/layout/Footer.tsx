@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FooterPortals from "./FooterPortals";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -73,37 +74,7 @@ export default function Footer() {
           </div>
 
           {/* Portals column */}
-          <div>
-            <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-white/70">
-              Portals
-            </h4>
-            <ul className="mt-4 space-y-2.5 text-sm text-white/70">
-              <li>
-                <Link
-                  href="/portal/doctor"
-                  className="transition hover:text-brand-sky-bright"
-                >
-                  Doctor Portal
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/portal/admin"
-                  className="transition hover:text-brand-sky-bright"
-                >
-                  Admin Portal
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/login"
-                  className="transition hover:text-brand-sky-bright"
-                >
-                  Sign In
-                </Link>
-              </li>
-            </ul>
-          </div>
+          <FooterPortals />
 
           {/* Legal column */}
           <div>
