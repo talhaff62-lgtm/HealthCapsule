@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { Building2, MapPin, Phone } from "lucide-react";
-import { FacilityType, VerificationStatus } from "@prisma/client";
-import { prisma } from "@/lib/prisma";
+import { FacilityType } from "@prisma/client";
+import { searchFacilities } from "@/lib/facilities";
+import { parseFacilityType, getFacilityTypeLabel } from "@/lib/facility-helpers";
+import TierBadge from "@/components/ui/TierBadge";
 
 export const metadata = {
   title: "Healthcare Providers — HealthCapsule",
@@ -9,22 +11,10 @@ export const metadata = {
     "Browse verified hospitals, diagnostic centers, and clinics in Chattogram.",
 };
 
-const FACILITY_TYPES: FacilityType[] = [
-  "HOSPITAL",
-  "DIAGNOSTIC_CENTER",
-  "CLINIC",
-];
-
 const TYPE_BADGE_CLASS: Record<FacilityType, string> = {
   HOSPITAL: "bg-brand-navy-light text-white",
   DIAGNOSTIC_CENTER: "bg-brand-sky text-white",
   CLINIC: "bg-brand-cloud text-brand-navy border border-brand-gray",
-};
-
-const TYPE_LABEL: Record<FacilityType, string> = {
-  HOSPITAL: "Hospital",
-  DIAGNOSTIC_CENTER: "Diagnostic Center",
-  CLINIC: "Clinic",
 };
 
 const TABS: { value: FacilityType | "ALL"; label: string }[] = [
@@ -36,40 +26,15 @@ const TABS: { value: FacilityType | "ALL"; label: string }[] = [
 
 type SearchParams = Promise<{ type?: string }>;
 
-function parseType(raw: string | undefined): FacilityType | undefined {
-  if (!raw) return undefined;
-  const upper = raw.toUpperCase();
-  return FACILITY_TYPES.includes(upper as FacilityType)
-    ? (upper as FacilityType)
-    : undefined;
-}
-
 export default async function HealthcaresPage({
   searchParams,
 }: {
   searchParams: SearchParams;
 }) {
   const params = await searchParams;
-  const selectedType = parseType(params.type);
+  const selectedType = parseFacilityType(params.type);
 
-  const facilities = await prisma.facility.findMany({
-    where: {
-      deletedAt: null,
-      isActive: true,
-      verificationStatus: VerificationStatus.VERIFIED,
-      ...(selectedType ? { type: selectedType } : {}),
-    },
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      type: true,
-      phone: true,
-      address: true,
-      area: { select: { name: true } },
-    },
-    orderBy: { name: "asc" },
-  });
+  const facilities = await searchFacilities({ type: params.type });
 
   const activeType = selectedType ?? "ALL";
 
@@ -127,7 +92,7 @@ export default async function HealthcaresPage({
                   <span
                     className={`inline-flex shrink-0 items-center rounded-full px-2.5 py-1 font-mono text-[0.6rem] font-semibold uppercase tracking-wider ${TYPE_BADGE_CLASS[facility.type]}`}
                   >
-                    {TYPE_LABEL[facility.type]}
+                    {getFacilityTypeLabel(facility.type)}
                   </span>
                 </div>
 
@@ -143,6 +108,10 @@ export default async function HealthcaresPage({
                   ) : null}
                 </div>
 
+                <div className="flex flex-wrap items-center gap-2">
+                  <TierBadge tier={facility.listingTier} />
+                </div>
+
                 {facility.phone ? (
                   <div className="mt-auto flex items-center gap-1 border-t border-brand-gray pt-3 text-xs text-brand-navy font-semibold">
                     <Phone className="h-3.5 w-3.5 text-brand-sky" />
@@ -152,7 +121,7 @@ export default async function HealthcaresPage({
 
                 <div className="mt-auto border-t border-brand-gray pt-3">
                   <Link
-                    href="#"
+                    href={`/healthcares/${facility.slug}`}
                     className="inline-flex items-center text-xs font-semibold text-brand-navy hover:text-brand-sky"
                   >
                     View details

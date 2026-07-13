@@ -52,3 +52,45 @@ export async function setListingTier(
     return { ok: false, error: message };
   }
 }
+
+export async function setFacilityVerificationStatus(
+  facilityId: string,
+  status: VerificationStatus
+): Promise<AdminActionResult> {
+  try {
+    await requireRole(UserRole.ADMIN);
+
+    await prisma.facility.update({
+      where: { id: facilityId },
+      data: { verificationStatus: status },
+    });
+
+    revalidatePath("/healthcares");
+    revalidatePath("/portal/admin");
+    return { ok: true };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Update failed";
+    return { ok: false, error: message };
+  }
+}
+
+export async function setFacilityListingTier(
+  facilityId: string,
+  tier: ListingTier
+): Promise<AdminActionResult> {
+  try {
+    await requireRole(UserRole.ADMIN);
+
+    await prisma.facility.update({
+      where: { id: facilityId },
+      data: { listingTier: tier },
+    });
+
+    revalidatePath("/healthcares");
+    revalidatePath("/portal/admin");
+    return { ok: true };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Update failed";
+    return { ok: false, error: message };
+  }
+}

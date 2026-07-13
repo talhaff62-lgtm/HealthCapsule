@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ListingTier, VerificationStatus } from "@prisma/client";
 import { ExternalLink } from "lucide-react";
 import { setListingTier, setVerificationStatus } from "@/app/portal/admin/actions";
+import TierBadge from "@/components/ui/TierBadge";
 
 type DoctorRow = {
   id: string;
@@ -73,6 +74,7 @@ export default function AdminDoctorRow({ doctor }: { doctor: DoctorRow }) {
             >
               {status.charAt(0) + status.slice(1).toLowerCase()}
             </span>
+            <TierBadge tier={tier} />
           </div>
           <p className="text-sm text-brand-muted">
             {doctor.degrees.join(", ") || "No degrees listed"}

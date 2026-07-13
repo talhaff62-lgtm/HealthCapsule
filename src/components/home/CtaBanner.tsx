@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, UserPlus, FileText } from "lucide-react";
+import { ArrowRight, UserPlus, Building2 } from "lucide-react";
 
 export default function CtaBanner() {
   return (
@@ -45,11 +45,18 @@ export default function CtaBanner() {
           </div>
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
-              href="/portal/doctor"
+              href="/register?type=doctor"
               className="inline-flex items-center gap-2 rounded-lg border border-white/30 bg-white px-6 py-3 text-sm font-semibold text-brand-navy transition hover:bg-brand-sky-bg-soft"
             >
               <UserPlus className="h-4 w-4 text-brand-sky" />
               Doctor Registration
+            </Link>
+            <Link
+              href="/register?type=facility"
+              className="inline-flex items-center gap-2 rounded-lg border border-white/30 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+            >
+              <Building2 className="h-4 w-4 text-brand-sky-bright" />
+              Healthcare Registration
             </Link>
           </div>
         </div>
