@@ -1,6 +1,5 @@
 import React from "react";
-import Link from "next/link";
-import { MapPin, Phone, Globe, ShieldCheck } from "lucide-react";
+import { MapPin, Phone, Globe } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import FacilityTypeBadge from "@/components/ui/FacilityTypeBadge";
 import { VerificationStatus } from "@prisma/client";

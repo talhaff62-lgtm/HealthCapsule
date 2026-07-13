@@ -1,14 +1,6 @@
 import { Prisma, VerificationStatus, ListingTier, UserRole } from "@prisma/client";
 import { hashSync } from "bcryptjs";
-import { readFileSync } from "fs";
-import { resolve } from "path";
 import { prisma } from "@/lib/prisma";
-
-const LOCATION_DIR = process.env.LOCATION_SEED_DIR || "/mnt/d/Work/location";
-
-function loadJson<T>(name: string): T {
-  return JSON.parse(readFileSync(resolve(LOCATION_DIR, name), "utf-8")) as T;
-}
 
 async function seedGeography() {
   // Minimal curated geography for the sample chambers used in this Module 1 seed.

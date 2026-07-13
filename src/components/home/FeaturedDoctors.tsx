@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import DoctorCard from "@/components/doctors/DoctorCard";
-import { VerificationStatus, ListingTier } from "@prisma/client";
+import { VerificationStatus } from "@prisma/client";
 
 async function getFeaturedDoctors() {
   try {

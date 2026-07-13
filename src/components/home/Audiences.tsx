@@ -1,5 +1,5 @@
 import React from "react";
-import { User, ShieldAlert, Building2, Check } from "lucide-react";
+import { User, ShieldAlert, Building2 } from "lucide-react";
 
 export default function Audiences() {
   const audiences = [

@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { Clock, MapPin, Briefcase, Star } from "lucide-react";
 import { DoctorListItem, isFeaturedDoctor, isNewDoctor } from "@/lib/doctors";
-import VerifiedBadge from "@/components/ui/VerifiedBadge";
-import TierBadge from "@/components/ui/TierBadge";
 
 type DoctorCardProps = {
   doctor: DoctorListItem;
