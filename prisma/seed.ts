@@ -1,86 +1,151 @@
-import { Prisma, VerificationStatus, ListingTier, UserRole } from "@prisma/client";
+import {
+  Prisma,
+  VerificationStatus,
+  ListingTier,
+  UserRole,
+  ThanaType,
+  AreaType,
+} from "@prisma/client";
 import { hashSync } from "bcryptjs";
+import { readFileSync } from "fs";
+import { resolve } from "path";
 import { prisma } from "@/lib/prisma";
 
+const LOCATION_DIR = process.env.LOCATION_SEED_DIR || "D:/Work/location";
+
+function loadJson<T>(name: string): T {
+  return JSON.parse(readFileSync(resolve(LOCATION_DIR, name), "utf-8")) as T;
+}
+
 async function seedGeography() {
-  // Minimal curated geography for the sample chambers used in this Module 1 seed.
-  // Full JSON-based geography seeding is intentionally deferred; the public filters
-  // are built against the schema, and these records are sufficient for QA.
-  const division = await prisma.division.upsert({
-    where: { id: "seed-division-1" },
-    update: {},
-    create: {
-      id: "seed-division-1",
-      name: "Chattogram",
-      bnName: "চট্টগ্রাম",
-    },
+  const divisions = loadJson<
+    Array<{
+      id: string | number;
+      name: string;
+      bn_name: string;
+      pcode: string;
+      latitude: number;
+      longitude: number;
+    }>
+  >("divisions.json");
+
+  const districts = loadJson<
+    Array<{
+      id: string | number;
+      division_id: string | number;
+      name: string;
+      bn_name: string;
+      pcode: string;
+      area_sqkm: number;
+      latitude: number;
+      longitude: number;
+    }>
+  >("districts.json");
+
+  const thanas = loadJson<
+    Array<{
+      id: string | number;
+      district_id: string | number;
+      name: string;
+      bn_name: string;
+      pcode: string;
+      type: string;
+      area_sqkm: number;
+      latitude: number;
+      longitude: number;
+    }>
+  >("thanas.json");
+
+  const areas = loadJson<
+    Array<{
+      id: string | number;
+      thana_id: string | number;
+      name: string;
+      bn_name: string;
+      type: string;
+      latitude: number;
+      longitude: number;
+      slug: string;
+    }>
+  >("areas.json");
+
+  const aliases = loadJson<
+    Array<{
+      id: string | number;
+      area_id: string | number;
+      alias: string;
+      lang: string;
+    }>
+  >("area_aliases.json");
+
+  await prisma.division.createMany({
+    data: divisions.map((d) => ({
+      id: String(d.id),
+      name: d.name,
+      bnName: d.bn_name,
+      pcode: d.pcode,
+      latitude: d.latitude,
+      longitude: d.longitude,
+    })),
+    skipDuplicates: true,
   });
 
-  const district = await prisma.district.upsert({
-    where: { id: "seed-district-1" },
-    update: {},
-    create: {
-      id: "seed-district-1",
-      divisionId: division.id,
-      name: "Chattogram",
-      bnName: "চট্টগ্রাম",
-    },
+  await prisma.district.createMany({
+    data: districts.map((d) => ({
+      id: String(d.id),
+      divisionId: String(d.division_id),
+      name: d.name,
+      bnName: d.bn_name,
+      pcode: d.pcode,
+      areaSqkm: d.area_sqkm,
+      latitude: d.latitude,
+      longitude: d.longitude,
+    })),
+    skipDuplicates: true,
   });
 
-  const thana = await prisma.thana.upsert({
-    where: { id: "seed-thana-1" },
-    update: {},
-    create: {
-      id: "seed-thana-1",
-      districtId: district.id,
-      name: "Panchlaish",
-      bnName: "পাঁচলাইশ",
-      type: "METROPOLITAN_THANA",
-    },
+  await prisma.thana.createMany({
+    data: thanas.map((t) => ({
+      id: String(t.id),
+      districtId: String(t.district_id),
+      name: t.name,
+      bnName: t.bn_name,
+      pcode: t.pcode,
+      type: t.type as ThanaType,
+      areaSqkm: t.area_sqkm,
+      latitude: t.latitude,
+      longitude: t.longitude,
+    })),
+    skipDuplicates: true,
   });
 
-  const area1 = await prisma.area.upsert({
-    where: { id: "seed-area-1" },
-    update: {},
-    create: {
-      id: "seed-area-1",
-      thanaId: thana.id,
-      name: "O.R. Nizam Road",
-      bnName: "ও.আর. নিজাম রোড",
-      slug: "or-nizam-road",
-    },
+  await prisma.area.createMany({
+    data: areas.map((a) => ({
+      id: String(a.id),
+      thanaId: String(a.thana_id),
+      name: a.name,
+      bnName: a.bn_name,
+      slug: a.slug,
+      type: a.type as AreaType,
+      latitude: a.latitude,
+      longitude: a.longitude,
+    })),
+    skipDuplicates: true,
   });
 
-  const area2 = await prisma.area.upsert({
-    where: { id: "seed-area-2" },
-    update: {},
-    create: {
-      id: "seed-area-2",
-      thanaId: thana.id,
-      name: "K.B. Fazlul Kader Road",
-      bnName: "কে.বি. ফজলুল কাদের রোড",
-      slug: "kb-fazlul-kader-road",
-    },
+  await prisma.areaAlias.createMany({
+    data: aliases.map((a) => ({
+      id: String(a.id),
+      areaId: String(a.area_id),
+      alias: a.alias,
+      lang: a.lang,
+    })),
+    skipDuplicates: true,
   });
 
-  const area3 = await prisma.area.upsert({
-    where: { id: "seed-area-3" },
-    update: {},
-    create: {
-      id: "seed-area-3",
-      thanaId: thana.id,
-      name: "Probortok More",
-      bnName: "প্রবর্তক মোড়",
-      slug: "probortok-more",
-    },
-  });
-
-  return {
-    division,
-    district,
-    thana,
-    areas: [area1, area2, area3],
-  };
+  console.log(
+    `Seeded ${divisions.length} divisions, ${districts.length} districts, ${thanas.length} thanas, ${areas.length} areas, ${aliases.length} aliases.`
+  );
 }
 
 const specialties = [
