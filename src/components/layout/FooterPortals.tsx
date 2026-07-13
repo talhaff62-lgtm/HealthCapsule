@@ -20,10 +20,12 @@ export default function FooterPortals() {
   const isAuthenticated = status === "authenticated" && session?.user;
   const role = session?.user?.role;
 
+  const heading = isAuthenticated ? "Portals" : "Join";
+
   return (
     <div>
       <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-white/70">
-        Portals
+        {heading}
       </h4>
       <ul className="mt-4 space-y-2.5 text-sm text-white/70">
         {!isAuthenticated ? (
@@ -41,7 +43,7 @@ export default function FooterPortals() {
                 href="/register?type=doctor"
                 className="transition hover:text-brand-sky-bright"
               >
-                Doctor Registration
+                Register as Doctor
               </Link>
             </li>
             <li>
@@ -49,7 +51,7 @@ export default function FooterPortals() {
                 href="/register?type=facility"
                 className="transition hover:text-brand-sky-bright"
               >
-                Healthcare Registration
+                Register Hospital / Diagnostic
               </Link>
             </li>
           </>

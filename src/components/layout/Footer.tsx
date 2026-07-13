@@ -48,7 +48,15 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/doctors?specialty=cardiologist"
+                  href="/healthcares"
+                  className="transition hover:text-brand-sky-bright"
+                >
+                  Healthcare Providers
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/doctors?specialty=cardiology"
                   className="transition hover:text-brand-sky-bright"
                 >
                   Cardiologists
@@ -56,7 +64,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/doctors?specialty=neurologist"
+                  href="/doctors?specialty=neurology"
                   className="transition hover:text-brand-sky-bright"
                 >
                   Neurologists
@@ -64,10 +72,10 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/doctors?specialty=gynaecologist"
+                  href="/doctors?specialty=gynecology"
                   className="transition hover:text-brand-sky-bright"
                 >
-                  Gynaecologists
+                  Gynecologists
                 </Link>
               </li>
             </ul>
@@ -90,7 +98,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-white/6 pt-6">
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6">
           <p className="text-xs text-white/50">
             © {currentYear} HealthCapsule. All rights reserved.
           </p>
