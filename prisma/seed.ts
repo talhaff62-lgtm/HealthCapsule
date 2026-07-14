@@ -19,6 +19,26 @@ function loadJson<T>(name: string): T {
   return JSON.parse(readFileSync(resolve(LOCATION_DIR, name), "utf-8")) as T;
 }
 
+function normalizeThanaType(raw: string): ThanaType {
+  const map: Record<string, ThanaType> = {
+    UPAZILA: "UPAZILA",
+    METROPOLITAN: "METROPOLITAN_THANA",
+    METROPOLITAN_THANA: "METROPOLITAN_THANA",
+    ZONE: "UPAZILA",
+  };
+  return map[raw] ?? "UPAZILA";
+}
+
+function normalizeAreaType(raw: string): AreaType {
+  const map: Record<string, AreaType> = {
+    NEIGHBOURHOOD: "NEIGHBOURHOOD",
+    LANDMARK: "LANDMARK",
+    ROAD: "ROAD",
+    ZONE: "NEIGHBOURHOOD",
+  };
+  return map[raw] ?? "NEIGHBOURHOOD";
+}
+
 async function seedGeography() {
   const divisions = loadJson<
     Array<{
@@ -113,7 +133,7 @@ async function seedGeography() {
       name: t.name,
       bnName: t.bn_name,
       pcode: t.pcode,
-      type: t.type as ThanaType,
+      type: normalizeThanaType(t.type),
       areaSqkm: t.area_sqkm,
       latitude: t.latitude,
       longitude: t.longitude,
@@ -128,7 +148,7 @@ async function seedGeography() {
       name: a.name,
       bnName: a.bn_name,
       slug: a.slug,
-      type: a.type as AreaType,
+      type: normalizeAreaType(a.type),
       latitude: a.latitude,
       longitude: a.longitude,
     })),
