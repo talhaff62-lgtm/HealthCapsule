@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Search, Shield, Heart, AlertTriangle, MessageSquare, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Select from "@/components/ui/Select";
 
 type Option = {
   slug: string;
@@ -137,41 +138,21 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label htmlFor="specialty" className="text-xs font-medium uppercase tracking-wider text-brand-muted">
-                  Specialty
-                </label>
-                <select
-                  id="specialty"
-                  name="specialty"
-                  className="mt-1 block w-full rounded-lg border border-brand-gray bg-white px-4 py-3 text-sm text-brand-slate focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/20"
-                >
-                  <option value="">All specialties</option>
-                  {specialties.map((s) => (
-                    <option key={s.slug} value={s.slug}>
-                      {s.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <Select
+                id="specialty"
+                name="specialty"
+                label="Specialty"
+                options={specialties.map((s) => ({ value: s.slug, label: s.name }))}
+                placeholder="All specialties"
+              />
 
-              <div>
-                <label htmlFor="area" className="text-xs font-medium uppercase tracking-wider text-brand-muted">
-                  Area
-                </label>
-                <select
-                  id="area"
-                  name="area"
-                  className="mt-1 block w-full rounded-lg border border-brand-gray bg-white px-4 py-3 text-sm text-brand-slate focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/20"
-                >
-                  <option value="">All areas</option>
-                  {areas.map((a) => (
-                    <option key={a.slug} value={a.slug}>
-                      {a.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <Select
+                id="area"
+                name="area"
+                label="Area"
+                options={areas.map((a) => ({ value: a.slug, label: a.name }))}
+                placeholder="All areas"
+              />
             </div>
 
             <button

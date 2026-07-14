@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent } from "react";
 import { Search, X } from "lucide-react";
+import Select from "@/components/ui/Select";
 
 export type FilterOption = {
   value: string;
@@ -58,43 +59,23 @@ export default function DoctorFilters({ specialties, areas }: DoctorFiltersProps
           />
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="specialty" className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
-            Specialty
-          </label>
-          <select
-            id="specialty"
-            name="specialty"
-            defaultValue={searchParams.get("specialty") ?? ""}
-            className="rounded-lg border border-brand-gray bg-white px-3 py-2.5 text-sm text-brand-slate focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/20"
-          >
-            <option value="">All specialties</option>
-            {specialties.map((s) => (
-              <option key={s.value} value={s.value}>
-                {s.label}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Select
+          id="specialty"
+          name="specialty"
+          label="Specialty"
+          defaultValue={searchParams.get("specialty") ?? ""}
+          options={specialties}
+          placeholder="All specialties"
+        />
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="area" className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
-            Area
-          </label>
-          <select
-            id="area"
-            name="area"
-            defaultValue={searchParams.get("area") ?? ""}
-            className="rounded-lg border border-brand-gray bg-white px-3 py-2.5 text-sm text-brand-slate focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/20"
-          >
-            <option value="">All areas</option>
-            {areas.map((a) => (
-              <option key={a.value} value={a.value}>
-                {a.label}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Select
+          id="area"
+          name="area"
+          label="Area"
+          defaultValue={searchParams.get("area") ?? ""}
+          options={areas}
+          placeholder="All areas"
+        />
 
         <div className="flex items-end gap-2">
           <button
