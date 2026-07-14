@@ -39,6 +39,87 @@ function normalizeAreaType(raw: string): AreaType {
   return map[raw] ?? "NEIGHBOURHOOD";
 }
 
+type RawThana = {
+  id: string | number;
+  district_id: string | number;
+  name: string;
+  bn_name: string;
+  pcode: string;
+  type: string;
+  area_sqkm: number | null;
+  latitude: number | null;
+  longitude: number | null;
+};
+
+type RawArea = {
+  id: string | number;
+  thana_id: string | number;
+  name: string;
+  bn_name: string;
+  type: string;
+  latitude: number | null;
+  longitude: number | null;
+  slug: string;
+};
+
+/**
+ * Thana JSON contains duplicate names within the same district and duplicate pcodes.
+ * We keep the record that is referenced by areas, and remap area references from
+ * dropped duplicates to the kept record so foreign keys stay valid.
+ */
+function deduplicateThanas(thanas: RawThana[], areas: RawArea[]) {
+  const referencedThanaIds = new Set(areas.map((a) => String(a.thana_id)));
+
+  // Prefer keeping thanas that are referenced by areas.
+  const sorted = [...thanas].sort(
+    (a, b) => Number(referencedThanaIds.has(String(b.id))) - Number(referencedThanaIds.has(String(a.id)))
+  );
+
+  const keptThanas: RawThana[] = [];
+  const idRemap = new Map<string, string>();
+  const seenName = new Map<string, string>(); // districtId|name -> keptId
+  const seenPcode = new Map<string, string>(); // pcode -> keptId
+
+  for (const t of sorted) {
+    const id = String(t.id);
+    const districtId = String(t.district_id);
+    const nameKey = `${districtId}|${t.name}`;
+
+    const nameKept = seenName.get(nameKey);
+    const pcodeKept = t.pcode ? seenPcode.get(t.pcode) : undefined;
+
+    if (nameKept) {
+      idRemap.set(id, nameKept);
+      continue;
+    }
+    if (pcodeKept) {
+      idRemap.set(id, pcodeKept);
+      continue;
+    }
+
+    seenName.set(nameKey, id);
+    if (t.pcode) seenPcode.set(t.pcode, id);
+    keptThanas.push(t);
+  }
+
+  // Remap area references and drop areas whose thana no longer exists.
+  const keptThanaIds = new Set(keptThanas.map((t) => String(t.id)));
+  const remappedAreas = areas
+    .map((a) => {
+      const original = String(a.thana_id);
+      const remapped = idRemap.get(original) ?? original;
+      return { ...a, thana_id: remapped };
+    })
+    .filter((a) => keptThanaIds.has(String(a.thana_id)));
+
+  const skipped = thanas.length - keptThanas.length;
+  if (skipped > 0) {
+    console.log(`Deduplicated ${skipped} thana(s); remapped ${areas.length - remappedAreas.length} orphan area(s).`);
+  }
+
+  return { thanas: keptThanas, areas: remappedAreas };
+}
+
 async function seedGeography() {
   const divisions = loadJson<
     Array<{
@@ -100,6 +181,8 @@ async function seedGeography() {
     }>
   >("area_aliases.json");
 
+  const { thanas: cleanThanas, areas: cleanAreas } = deduplicateThanas(thanas, areas);
+
   await prisma.division.createMany({
     data: divisions.map((d) => ({
       id: String(d.id),
@@ -127,7 +210,7 @@ async function seedGeography() {
   });
 
   await prisma.thana.createMany({
-    data: thanas.map((t) => ({
+    data: cleanThanas.map((t) => ({
       id: String(t.id),
       districtId: String(t.district_id),
       name: t.name,
@@ -142,7 +225,7 @@ async function seedGeography() {
   });
 
   await prisma.area.createMany({
-    data: areas.map((a) => ({
+    data: cleanAreas.map((a) => ({
       id: String(a.id),
       thanaId: String(a.thana_id),
       name: a.name,
@@ -166,7 +249,7 @@ async function seedGeography() {
   });
 
   console.log(
-    `Seeded ${divisions.length} divisions, ${districts.length} districts, ${thanas.length} thanas, ${areas.length} areas, ${aliases.length} aliases.`
+    `Seeded ${divisions.length} divisions, ${districts.length} districts, ${cleanThanas.length} thanas, ${cleanAreas.length} areas, ${aliases.length} aliases.`
   );
 }
 
