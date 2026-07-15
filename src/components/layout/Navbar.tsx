@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -57,13 +58,14 @@ export default function Navbar() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2.5">
           {/* Two-tone capsule logo mark */}
-          <span className="flex h-8 w-8 overflow-hidden rounded-lg shadow-[inset_0_0_0_1px_rgba(255,255,255,0.15)]">
-            <span className="h-full flex-1 bg-brand-navy-light" />
-            <span className="h-full flex-1 bg-brand-sky" />
-          </span>
-          <span className="font-serif text-xl font-semibold text-white sm:text-2xl">
-            Health<span className="text-brand-sky-bright">Capsule</span>
-          </span>
+          <Image
+            src="/images/no_bgLogo.png"
+            alt="HealthCapsule"
+            width={160}
+            height={40}
+            className="h-8 w-auto sm:h-10"
+            priority
+          />
         </Link>
 
         <div className="hidden items-center gap-7 text-sm font-medium md:flex">

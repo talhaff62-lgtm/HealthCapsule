@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import FooterPortals from "./FooterPortals";
 
@@ -14,14 +15,13 @@ export default function Footer() {
           {/* Brand column */}
           <div>
             <Link href="/" className="flex items-center gap-2">
-              <span className="flex h-7 w-7 overflow-hidden rounded-md shadow-[inset_0_0_0_1px_rgba(255,255,255,0.15)]">
-                <span className="h-full flex-1 bg-brand-navy-light" />
-                <span className="h-full flex-1 bg-brand-sky" />
-              </span>
-              <span className="font-serif text-lg font-semibold text-white">
-                Health
-                <span className="text-brand-sky-bright">Capsule</span>
-              </span>
+              <Image
+                src="/images/no_bgLogo.png"
+                alt="HealthCapsule"
+                width={180}
+                height={48}
+                className="h-10 w-auto"
+              />
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-white/70">
               Verified doctors, live schedules, and trusted care across
