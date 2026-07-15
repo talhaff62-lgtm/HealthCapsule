@@ -1,4 +1,4 @@
-import { FacilityType, ListingTier } from "@prisma/client";
+import type { FacilityType, ListingTier } from "@prisma/client";
 
 export function parseFacilityType(raw: string | undefined): FacilityType | undefined {
   if (!raw) return undefined;
@@ -19,5 +19,5 @@ export function getFacilityTypeLabel(type: FacilityType): string {
 }
 
 export function isFeaturedFacility(listingTier: ListingTier): boolean {
-  return listingTier === ListingTier.FEATURED;
+  return listingTier === "FEATURED";
 }

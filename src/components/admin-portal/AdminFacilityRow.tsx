@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ListingTier, VerificationStatus, FacilityType } from "@prisma/client";
+import type { ListingTier, VerificationStatus, FacilityType } from "@prisma/client";
 import { ExternalLink } from "lucide-react";
 import {
   setFacilityListingTier,
