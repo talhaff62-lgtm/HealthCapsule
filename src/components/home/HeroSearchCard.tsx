@@ -144,6 +144,7 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
                 label="Specialty"
                 options={specialties.map((s) => ({ value: s.slug, label: s.name }))}
                 placeholder="All specialties"
+                portal
               />
 
               <Select
@@ -152,6 +153,7 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
                 label="Area"
                 options={areas.map((a) => ({ value: a.slug, label: a.name }))}
                 placeholder="All areas"
+                portal
               />
             </div>
 

@@ -4,10 +4,12 @@ import React, {
   useCallback,
   useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
+import { createPortal } from "react-dom";
 import { Check, ChevronDown, Search, X } from "lucide-react";
 
 export type SelectOption = {
@@ -28,6 +30,7 @@ export type SelectProps = {
   clearable?: boolean;
   disabled?: boolean;
   className?: string;
+  portal?: boolean;
 };
 
 export default function Select({
@@ -43,6 +46,7 @@ export default function Select({
   clearable = true,
   disabled = false,
   className = "",
+  portal = false,
 }: SelectProps) {
   const isControlled = valueProp !== undefined;
   const [internalValue, setInternalValue] = useState(defaultValue);
@@ -53,9 +57,12 @@ export default function Select({
   const [highlightedValue, setHighlightedValue] = useState<string | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const listboxRef = useRef<HTMLUListElement>(null);
   const optionRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
 
   const baseId = useId();
   const triggerId = idProp ?? `${baseId}-trigger`;
@@ -152,10 +159,10 @@ export default function Select({
   // Close on click outside.
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
+      const target = event.target as Node;
+      const insideContainer = containerRef.current?.contains(target) ?? false;
+      const insideDropdown = dropdownRef.current?.contains(target) ?? false;
+      if (!insideContainer && !insideDropdown) {
         closeDropdown();
       }
     }
@@ -165,6 +172,44 @@ export default function Select({
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }
   }, [isOpen, closeDropdown]);
+
+  // Reposition dropdown when using portal rendering.
+  const updateDropdownPosition = useCallback(() => {
+    const trigger = triggerRef.current;
+    const dropdown = dropdownRef.current;
+    if (!trigger || !dropdown) return;
+
+    const rect = trigger.getBoundingClientRect();
+    const dropdownHeight = dropdown.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    const margin = 6;
+    const spaceBelow = viewportHeight - rect.bottom;
+    const openUpward = spaceBelow < dropdownHeight && rect.top > dropdownHeight;
+
+    setDropdownStyle({
+      position: "fixed",
+      left: rect.left,
+      top: openUpward ? rect.top - dropdownHeight - margin : rect.bottom + margin,
+      width: rect.width,
+      zIndex: 9999,
+    });
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!portal || !isOpen) return;
+
+    updateDropdownPosition();
+    const handleResize = () => updateDropdownPosition();
+    const handleScroll = () => updateDropdownPosition();
+
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleScroll, true);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll, true);
+    };
+  }, [portal, isOpen, updateDropdownPosition]);
 
   // Close on Escape.
   useEffect(() => {
@@ -298,6 +343,7 @@ export default function Select({
       )}
 
       <button
+        ref={triggerRef}
         id={triggerId}
         type="button"
         role="combobox"
@@ -354,88 +400,170 @@ export default function Select({
       </button>
 
       {isOpen && (
-        <div
-          className={`
-            absolute z-50 mt-1.5 flex max-h-72 w-full flex-col overflow-hidden
-            rounded-xl border border-brand-gray bg-white shadow-lg
-            animate-[fadeIn_120ms_ease-out]
-          `}
-        >
-          {isSearchable && (
-            <div className="border-b border-brand-gray px-3 py-2">
-              <div className="relative">
-                <Search
-                  className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-brand-muted"
-                  aria-hidden="true"
-                />
-                <input
-                  ref={searchInputRef}
-                  id={searchId}
-                  type="text"
-                  value={query}
-                  onChange={handleSearchChange}
-                  onKeyDown={handleSearchKeyDown}
-                  placeholder="Search…"
-                  aria-controls={listboxId}
-                  aria-autocomplete="list"
-                  className="w-full rounded-lg border border-brand-gray bg-white py-2 pl-8 pr-3 text-sm text-brand-slate placeholder:text-brand-muted focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/20"
-                />
-              </div>
-            </div>
-          )}
-
-          <ul
-            ref={listboxRef}
-            id={listboxId}
-            role="listbox"
-            aria-label={label ?? placeholder}
-            className="min-h-0 flex-1 overflow-y-auto py-1"
-          >
-            {filteredOptions.length === 0 ? (
-              <li
-                role="option"
-                aria-selected="false"
-                className="px-3 py-2.5 text-sm text-brand-muted"
-              >
-                No matches found
-              </li>
-            ) : (
-              filteredOptions.map((option, index) => {
-                const isSelected = option.value === value;
-                const isHighlighted = index === highlightedIndex;
-
-                return (
-                  <li
-                    key={option.value}
-                    ref={(element) => {
-                      optionRefs.current[index] = element;
-                    }}
-                    role="option"
-                    aria-selected={isSelected}
-                    id={`${baseId}-option-${index}`}
-                    onMouseEnter={() => handleOptionMouseEnter(option.value)}
-                    onClick={() => handleOptionClick(option.value)}
-                    className={`
-                      flex cursor-pointer items-center justify-between gap-2 px-3 py-2 text-sm transition
-                      ${
-                        isHighlighted
-                          ? "bg-brand-sky-bg text-brand-navy"
-                          : "text-brand-slate"
-                      }
-                      ${isSelected ? "font-medium" : ""}
-                    `}
-                  >
-                    <span className="truncate">{option.label}</span>
-                    {isSelected && (
-                      <Check className="h-4 w-4 shrink-0 text-brand-sky" />
-                    )}
-                  </li>
-                );
-              })
-            )}
-          </ul>
-        </div>
+        <DropdownPanel
+          ref={dropdownRef}
+          portal={portal}
+          dropdownStyle={dropdownStyle}
+          listboxId={listboxId}
+          searchId={searchId}
+          isSearchable={isSearchable}
+          query={query}
+          onQueryChange={handleSearchChange}
+          onSearchKeyDown={handleSearchKeyDown}
+          searchInputRef={searchInputRef}
+          listboxRef={listboxRef}
+          filteredOptions={filteredOptions}
+          highlightedIndex={highlightedIndex}
+          selectedValue={value}
+          onOptionHover={handleOptionMouseEnter}
+          onOptionClick={handleOptionClick}
+          optionRefs={optionRefs}
+          baseId={baseId}
+          label={label}
+          placeholder={placeholder}
+        />
       )}
     </div>
   );
 }
+
+type DropdownPanelProps = {
+  portal: boolean;
+  dropdownStyle: React.CSSProperties;
+  listboxId: string;
+  searchId: string;
+  isSearchable: boolean;
+  query: string;
+  onQueryChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearchKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  searchInputRef: React.RefObject<HTMLInputElement | null>;
+  listboxRef: React.RefObject<HTMLUListElement | null>;
+  filteredOptions: SelectOption[];
+  highlightedIndex: number;
+  selectedValue: string;
+  onOptionHover: (value: string) => void;
+  onOptionClick: (value: string) => void;
+  optionRefs: React.MutableRefObject<(HTMLLIElement | null)[]>;
+  baseId: string;
+  label?: string;
+  placeholder?: string;
+};
+
+const DropdownPanel = React.forwardRef<HTMLDivElement, DropdownPanelProps>(
+  function DropdownPanel(
+    {
+      portal,
+      dropdownStyle,
+      listboxId,
+      searchId,
+      isSearchable,
+      query,
+      onQueryChange,
+      onSearchKeyDown,
+      searchInputRef,
+      listboxRef,
+      filteredOptions,
+      highlightedIndex,
+      selectedValue,
+      onOptionHover,
+      onOptionClick,
+      optionRefs,
+      baseId,
+      label,
+      placeholder,
+    },
+    ref
+  ) {
+    const content = (
+      <div
+        ref={ref}
+        style={portal ? dropdownStyle : undefined}
+        className={`
+          flex max-h-72 flex-col overflow-hidden rounded-xl border border-brand-gray
+          bg-white shadow-lg animate-[fadeIn_120ms_ease-out]
+          ${portal ? "" : "absolute z-50 mt-1.5 w-full"}
+        `}
+      >
+        {isSearchable && (
+          <div className="border-b border-brand-gray px-3 py-2">
+            <div className="relative">
+              <Search
+                className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-brand-muted"
+                aria-hidden="true"
+              />
+              <input
+                ref={searchInputRef}
+                id={searchId}
+                type="text"
+                value={query}
+                onChange={onQueryChange}
+                onKeyDown={onSearchKeyDown}
+                placeholder="Search…"
+                aria-controls={listboxId}
+                aria-autocomplete="list"
+                className="w-full rounded-lg border border-brand-gray bg-white py-2 pl-8 pr-3 text-sm text-brand-slate placeholder:text-brand-muted focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/20"
+              />
+            </div>
+          </div>
+        )}
+
+        <ul
+          ref={listboxRef}
+          id={listboxId}
+          role="listbox"
+          aria-label={label ?? placeholder}
+          className="min-h-0 flex-1 overflow-y-auto py-1"
+        >
+          {filteredOptions.length === 0 ? (
+            <li
+              role="option"
+              aria-selected="false"
+              className="px-3 py-2.5 text-sm text-brand-muted"
+            >
+              No matches found
+            </li>
+          ) : (
+            filteredOptions.map((option, index) => {
+              const isSelected = option.value === selectedValue;
+              const isHighlighted = index === highlightedIndex;
+
+              return (
+                <li
+                  key={option.value}
+                  ref={(element) => {
+                    optionRefs.current[index] = element;
+                  }}
+                  role="option"
+                  aria-selected={isSelected}
+                  id={`${baseId}-option-${index}`}
+                  onMouseEnter={() => onOptionHover(option.value)}
+                  onClick={() => onOptionClick(option.value)}
+                  className={`
+                    flex cursor-pointer items-center justify-between gap-2 px-3 py-2 text-sm transition
+                    ${
+                      isHighlighted
+                        ? "bg-brand-sky-bg text-brand-navy"
+                        : "text-brand-slate"
+                    }
+                    ${isSelected ? "font-medium" : ""}
+                  `}
+                >
+                  <span className="truncate">{option.label}</span>
+                  {isSelected && (
+                    <Check className="h-4 w-4 shrink-0 text-brand-sky" />
+                  )}
+                </li>
+              );
+            })
+          )}
+        </ul>
+      </div>
+    );
+
+    if (portal && typeof document !== "undefined") {
+      return createPortal(content, document.body);
+    }
+
+    return content;
+  }
+);
