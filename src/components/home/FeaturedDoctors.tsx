@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import DoctorCard from "@/components/doctors/DoctorCard";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion";
 import { VerificationStatus } from "@prisma/client";
 
 async function getFeaturedDoctors() {
@@ -57,7 +58,7 @@ export default async function FeaturedDoctors() {
     <section id="featured-doctors" className="bg-brand-cream py-20 border-t border-brand-gray">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
-          <div className="max-w-2xl">
+          <ScrollReveal className="max-w-2xl">
             <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky flex items-center gap-1.5">
               <Star className="h-3.5 w-3.5 fill-current" />
               Top Rated Providers
@@ -68,7 +69,7 @@ export default async function FeaturedDoctors() {
             <p className="mt-3 text-brand-muted">
               Book consultations with BMDC verified, highly experienced doctors across popular specialties in Chattogram.
             </p>
-          </div>
+          </ScrollReveal>
           <Link
             href="/doctors"
             className="group mt-6 md:mt-0 inline-flex items-center gap-2 font-semibold text-brand-navy hover:text-brand-sky transition-colors"
@@ -78,11 +79,13 @@ export default async function FeaturedDoctors() {
           </Link>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {doctors.map((doctor) => (
-            <DoctorCard key={doctor.id} doctor={doctor} />
+            <StaggerItem key={doctor.id}>
+              <DoctorCard doctor={doctor} />
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

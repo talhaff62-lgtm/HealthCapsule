@@ -1,4 +1,9 @@
 import { prisma } from "@/lib/prisma";
+import {
+  AnimatedCounter,
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/ui/motion";
 
 async function getCounts() {
   const [doctors, facilities, specialties, areas] = await Promise.all([
@@ -42,22 +47,22 @@ export default async function StatsBar() {
 
   return (
     <section className="bg-brand-navy" aria-label="Statistics">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 border-l border-white/10 px-0 lg:grid-cols-4">
+      <StaggerContainer className="mx-auto grid max-w-7xl grid-cols-2 border-l border-white/10 px-0 lg:grid-cols-4">
         {stats.map((stat) => (
-          <div
+          <StaggerItem
             key={stat.label}
             className="border-b border-r border-t border-white/10 px-6 py-8 sm:px-8 sm:py-10"
           >
             <p className="font-serif text-3xl font-semibold tabular-nums text-white sm:text-4xl">
-              {stat.value}
+              <AnimatedCounter value={stat.value} />
             </p>
             <p className="mt-2 font-mono text-[0.68rem] uppercase tracking-widest text-brand-sky-bright">
               {stat.label}
             </p>
             <p className="mt-1 text-sm text-white/70">{stat.sub}</p>
-          </div>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerContainer>
     </section>
   );
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { MessageSquare, Cpu, FileSpreadsheet, AreaChart, HeartHandshake, ShieldAlert } from "lucide-react";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion";
 
 export default function HealthCapsuleAI() {
   const capabilities = [
@@ -50,7 +51,7 @@ export default function HealthCapsuleAI() {
   return (
     <section id="ai-info" className="bg-brand-cloud py-20 border-t border-brand-gray">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl mb-16">
+        <ScrollReveal className="max-w-2xl mb-16">
           <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-navy">
             HealthCapsule AI
           </span>
@@ -60,11 +61,11 @@ export default function HealthCapsuleAI() {
           <p className="mt-4 text-brand-muted">
             A static list of names is useful. A system that routes symptoms to actual directories, detects dengue alerts, and digitizes files is a complete system.
           </p>
-        </div>
+        </ScrollReveal>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {capabilities.map((c) => (
-            <div
+            <StaggerItem
               key={c.title}
               className="premium-card relative flex flex-col rounded-2xl bg-white p-6 shadow-sm border border-brand-gray"
             >
@@ -86,9 +87,9 @@ export default function HealthCapsuleAI() {
               <p className="mt-2 text-xs leading-relaxed text-brand-muted flex-1">
                 {c.desc}
               </p>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

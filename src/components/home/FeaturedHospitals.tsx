@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MapPin, Phone, Globe } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import FacilityTypeBadge from "@/components/ui/FacilityTypeBadge";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion";
 import { VerificationStatus } from "@prisma/client";
 
 async function getFeaturedFacilities() {
@@ -143,7 +144,7 @@ export default async function FeaturedHospitals() {
   return (
     <section id="hospitals" className="bg-brand-cloud py-20 border-t border-brand-gray">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center mb-16">
+        <ScrollReveal className="mx-auto max-w-2xl text-center mb-16">
           <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-navy">
             Verified Network
           </span>
@@ -153,11 +154,11 @@ export default async function FeaturedHospitals() {
           <p className="mt-4 text-brand-muted">
             Explore trusted medical facilities in Chattogram mapped by departments, ICU capacity, and direct emergency contacts.
           </p>
-        </div>
+        </ScrollReveal>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {displayFacilities.map((facility) => (
-            <div
+            <StaggerItem
               key={facility.id}
               className="premium-card relative flex flex-col rounded-2xl bg-white border border-brand-gray p-6 shadow-sm"
             >
@@ -253,9 +254,9 @@ export default async function FeaturedHospitals() {
                   ) : null}
                 </div>
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

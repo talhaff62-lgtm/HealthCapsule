@@ -1,4 +1,5 @@
 import React from "react";
+import { ScrollReveal } from "@/components/ui/motion"
 import Link from "next/link";
 import { ArrowRight, UserPlus, Building2 } from "lucide-react";
 
@@ -7,7 +8,7 @@ export default function CtaBanner() {
     <section className="bg-brand-navy border-t border-white/10" aria-label="Call to Action">
       <div className="mx-auto max-w-7xl grid md:grid-cols-2">
         {/* Patient CTA */}
-        <div className="p-10 sm:p-14 md:border-r border-white/10 flex flex-col justify-between">
+        <ScrollReveal className="p-10 sm:p-14 md:border-r border-white/10 flex flex-col justify-between">
           <div>
             <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-bright">
               For Patients
@@ -28,10 +29,10 @@ export default function CtaBanner() {
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Doctor CTA */}
-        <div className="p-10 sm:p-14 border-t md:border-t-0 border-white/10 flex flex-col justify-between">
+        <ScrollReveal delay={0.1} className="p-10 sm:p-14 border-t md:border-t-0 border-white/10 flex flex-col justify-between">
           <div>
             <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-bright">
               For Doctors & Clinics
@@ -59,7 +60,7 @@ export default function CtaBanner() {
               Healthcare Registration
             </Link>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

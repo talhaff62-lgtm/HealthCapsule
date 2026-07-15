@@ -1,4 +1,5 @@
 import React from "react";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion"
 import { ShieldCheck, Heart, Lock, Award } from "lucide-react";
 
 export default function TrustSection() {
@@ -26,19 +27,21 @@ export default function TrustSection() {
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           {/* Left Column: Text & List */}
           <div>
-            <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-navy">
-              Trust & Verification
-            </span>
-            <h2 className="mt-2 font-serif text-3xl font-semibold text-brand-navy sm:text-4xl">
-              Patient safety starts with data integrity.
-            </h2>
-            <p className="mt-4 text-brand-muted leading-relaxed">
-              In a landscape filled with outdated medical phone numbers, broken links, and unverified social media profiles, HealthCapsule serves as Chattogram&apos;s single source of truth for doctor coordinates.
-            </p>
+            <ScrollReveal>
+              <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-navy">
+                Trust & Verification
+              </span>
+              <h2 className="mt-2 font-serif text-3xl font-semibold text-brand-navy sm:text-4xl">
+                Patient safety starts with data integrity.
+              </h2>
+              <p className="mt-4 text-brand-muted leading-relaxed">
+                In a landscape filled with outdated medical phone numbers, broken links, and unverified social media profiles, HealthCapsule serves as Chattogram&apos;s single source of truth for doctor coordinates.
+              </p>
+            </ScrollReveal>
 
-            <div className="mt-8 space-y-6">
+            <StaggerContainer className="mt-8 space-y-6">
               {points.map((pt) => (
-                <div key={pt.title} className="flex gap-4 items-start p-4 rounded-xl hover:bg-brand-cream/60 transition duration-300">
+                <StaggerItem key={pt.title} className="flex gap-4 items-start p-4 rounded-xl hover:bg-brand-cream/60 transition duration-300">
                   <div className="w-10 h-10 rounded-lg bg-brand-sky-bg flex items-center justify-center text-brand-sky shrink-0">
                     <pt.icon className="h-5 w-5" />
                   </div>
@@ -46,9 +49,9 @@ export default function TrustSection() {
                     <h3 className="text-base font-semibold text-brand-navy">{pt.title}</h3>
                     <p className="mt-1 text-sm leading-relaxed text-brand-muted">{pt.desc}</p>
                   </div>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
 
           {/* Right Column: Verification seal */}

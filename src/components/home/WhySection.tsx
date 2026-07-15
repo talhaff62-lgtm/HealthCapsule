@@ -1,4 +1,5 @@
 import React from "react";
+import { ScrollReveal } from "@/components/ui/motion"
 import { Check, X } from "lucide-react";
 
 export default function WhySection() {
@@ -20,7 +21,7 @@ export default function WhySection() {
   return (
     <section id="why" className="border-t border-brand-gray py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-16 max-w-2xl">
+        <ScrollReveal className="mb-16 max-w-2xl">
           <span className="inline-flex items-center gap-2.5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-brand-sky-dark">
             <span className="h-px w-4 bg-brand-sky/50" aria-hidden="true" />
             The problem, today
@@ -33,7 +34,7 @@ export default function WhySection() {
             scattered across phone calls, Facebook pages, and paper folders. HealthCapsule
             doesn&apos;t invent healthcare; it organizes it.
           </p>
-        </div>
+        </ScrollReveal>
 
         <div className="grid gap-12 lg:grid-cols-2">
           {/* ── Before: scattered scraps ── */}
