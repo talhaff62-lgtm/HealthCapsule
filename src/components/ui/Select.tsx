@@ -319,7 +319,7 @@ export default function Select({
       {name && (
         <select
           name={name}
-          value={value}
+          defaultValue={value}
           className="sr-only"
           aria-hidden="true"
           tabIndex={-1}

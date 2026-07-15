@@ -48,7 +48,7 @@ export default function HealthCapsuleAI() {
   ];
 
   return (
-    <section id="ai-info" className="bg-brand-cream py-20 border-t border-brand-gray">
+    <section id="ai-info" className="bg-brand-cloud py-20 border-t border-brand-gray">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mb-16">
           <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-navy">
@@ -70,7 +70,7 @@ export default function HealthCapsuleAI() {
             >
               <div className="flex items-center justify-between mb-4">
                 <span
-                  className={`inline-block font-mono text-[0.6rem] font-bold tracking-widest px-2 py-0.5 rounded ${
+                  className={`inline-block font-mono text-[0.65rem] font-bold tracking-widest px-2 py-0.5 rounded ${
                     c.isLive
                       ? "bg-status-verified-light text-status-verified"
                       : "bg-brand-cream text-brand-slate border border-brand-gray"

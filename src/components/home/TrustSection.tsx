@@ -51,28 +51,21 @@ export default function TrustSection() {
             </div>
           </div>
 
-          {/* Right Column: Visual Seal */}
+          {/* Right Column: Verification seal */}
           <div className="flex justify-center lg:justify-end">
-            <div className="relative w-64 h-64 sm:w-72 sm:h-72 rounded-full bg-white p-1.5 shadow-2xl animate-[skyPulse_3s_ease-in-out_infinite] flex items-center justify-center ring-1 ring-brand-gray">
-              {/* Outer accent ring */}
-              <div className="absolute inset-0 rounded-full ring-1 ring-brand-sky/30" />
-              {/* Inner dashed ring */}
-              <div className="absolute inset-5 border-2 border-dashed border-brand-sky/30 rounded-full" />
-
-              <div className="text-center z-10 px-6">
-                <div className="w-14 h-14 mx-auto rounded-full bg-brand-sky-bg flex items-center justify-center mb-3">
-                  <Heart className="h-7 w-7 text-brand-sky stroke-[1.5]" />
-                </div>
-                <span className="font-serif text-3xl sm:text-4xl font-semibold block tracking-tight text-brand-navy">
-                  100%
-                </span>
-                <span className="font-mono text-[0.65rem] font-bold uppercase tracking-widest block mt-1 text-brand-sky">
-                  Verified Only
-                </span>
-                <span className="text-[0.55rem] text-brand-muted block mt-2 max-w-[160px] mx-auto leading-normal">
-                  Bangladesh Medical &amp; Dental Council Checked
-                </span>
+            <div className="relative w-64 h-64 sm:w-72 sm:h-72 rounded-3xl bg-white p-8 shadow-xl ring-1 ring-brand-gray flex flex-col items-center justify-center text-center motion-safe:animate-[skyPulse_3s_ease-in-out_infinite]">
+              <div className="w-14 h-14 rounded-2xl bg-brand-sky-bg flex items-center justify-center mb-4">
+                <Heart className="h-7 w-7 text-brand-sky stroke-[1.5]" />
               </div>
+              <span className="font-serif text-3xl sm:text-4xl font-semibold block tracking-tight text-brand-navy">
+                100%
+              </span>
+              <span className="font-mono text-[0.7rem] font-bold uppercase tracking-widest block mt-1 text-brand-sky">
+                Verified Only
+              </span>
+              <span className="text-[0.7rem] text-brand-muted block mt-3 max-w-[180px] mx-auto leading-relaxed">
+                Bangladesh Medical &amp; Dental Council Checked
+              </span>
             </div>
           </div>
         </div>

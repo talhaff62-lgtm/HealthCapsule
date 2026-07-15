@@ -35,7 +35,10 @@ export default async function DoctorPortalPage() {
     <section className="min-h-screen bg-brand-cream py-10">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="font-serif text-2xl font-semibold text-brand-navy sm:text-3xl">
+          <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-dark">
+            Doctor Portal
+          </span>
+          <h1 className="mt-2 font-serif text-2xl font-semibold text-brand-navy sm:text-3xl">
             Doctor Portal
           </h1>
           <p className="mt-1 text-brand-muted">

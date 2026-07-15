@@ -1,10 +1,12 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
+import DOMPurify from "isomorphic-dompurify";
+import { marked } from "marked";
 import {
-  ArrowLeft,
   Award,
   Briefcase,
+  Building2,
   Clock,
   Languages,
   MapPin,
@@ -15,6 +17,7 @@ import { prisma } from "@/lib/prisma";
 import { VerificationStatus } from "@prisma/client";
 import { getNextAvailableSlot } from "@/lib/doctors";
 import VerifiedBadge from "@/components/ui/VerifiedBadge";
+import BackButton from "@/components/ui/BackButton";
 
 export const dynamic = "force-dynamic";
 
@@ -45,6 +48,9 @@ async function getVerifiedDoctorBySlug(slug: string) {
         },
         include: {
           area: {
+            select: { name: true, slug: true },
+          },
+          facility: {
             select: { name: true, slug: true },
           },
           schedules: {
@@ -115,25 +121,19 @@ export default async function DoctorProfilePage({
   return (
     <section className="min-h-screen bg-brand-cream py-10">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <Link
-          href="/doctors"
-          className="mb-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-sky hover:text-brand-sky-dark transition"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to doctors
-        </Link>
+        <BackButton />
 
         {/* Header card */}
         <div className="overflow-hidden rounded-2xl bg-brand-navy shadow-xl border border-brand-sky/15">
           <div className="p-6 sm:p-8">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
               {/* Profile Avatar */}
-              <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-sky-light to-brand-sky text-2xl font-bold text-white sm:h-32 sm:w-32 sm:text-3xl border-4 border-brand-navy-light shadow-md">
+              <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-sky-light to-brand-sky text-2xl font-bold text-white sm:h-32 sm:w-32 sm:text-3xl ring-1 ring-white/15 shadow-md">
                 {doctor.photoUrl ? (
                   <img
                     src={doctor.photoUrl}
                     alt={doctor.name}
-                    className="h-full w-full rounded-full object-cover"
+                    className="h-full w-full rounded-2xl object-cover"
                   />
                 ) : (
                   initials
@@ -220,7 +220,12 @@ export default async function DoctorProfilePage({
         {doctor.bio && (
           <div className="mt-6 rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
             <h2 className="font-serif text-lg font-semibold text-brand-navy border-b border-brand-gray pb-3">About Dr. {doctor.name.split(" ").slice(-1)[0]}</h2>
-            <p className="mt-3 text-sm leading-relaxed text-brand-muted">{doctor.bio}</p>
+            <div
+              className="bio-content mt-3 text-sm leading-relaxed text-brand-muted"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(marked.parse(doctor.bio) as string),
+              }}
+            />
           </div>
         )}
 
@@ -244,16 +249,27 @@ export default async function DoctorProfilePage({
                 return (
                   <div
                     key={chamber.id}
-                    className="rounded-2xl border border-brand-gray bg-white p-5 shadow-sm transition hover:border-brand-sky/40 border-l-4 border-l-brand-sky"
+                    className="rounded-2xl border-y border-r border-brand-gray border-l-4 border-l-brand-sky bg-white p-5 shadow-sm transition hover:border-brand-sky/40"
                   >
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                       <div className="min-w-0 flex-1">
-                        {chamber.area && (
-                          <p className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-sky uppercase tracking-wider font-mono">
-                            <MapPin className="h-4 w-4" />
-                            {chamber.area.name}
-                          </p>
-                        )}
+                        <div className="flex flex-col gap-1">
+                          {chamber.facility && (
+                            <Link
+                              href={`/healthcares/${chamber.facility.slug}`}
+                              className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-navy hover:text-brand-sky uppercase tracking-wider font-mono"
+                            >
+                              <Building2 className="h-4 w-4" />
+                              {chamber.facility.name}
+                            </Link>
+                          )}
+                          {chamber.area && (
+                            <p className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-sky uppercase tracking-wider font-mono">
+                              <MapPin className="h-4 w-4" />
+                              {chamber.area.name}
+                            </p>
+                          )}
+                        </div>
                         <p className="mt-1.5 text-sm font-medium text-brand-slate">
                           {chamber.address ?? "Address not available"}
                         </p>

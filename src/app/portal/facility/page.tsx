@@ -15,6 +15,12 @@ const typeLabels: Record<string, string> = {
   CLINIC: "Clinic",
 };
 
+const statusLabels: Record<VerificationStatus, string> = {
+  VERIFIED: "Verified",
+  PENDING: "Pending review",
+  REJECTED: "Rejected",
+};
+
 const statusStyles: Record<VerificationStatus, string> = {
   VERIFIED: "bg-status-verified-light text-status-verified",
   PENDING: "bg-status-warning-light text-status-warning",
@@ -29,15 +35,36 @@ export default async function FacilityPortalPage() {
 
   const facilities = await prisma.facility.findMany({
     where: { adminId: user.id, deletedAt: null },
-    include: { area: true },
+    include: {
+      area: true,
+      _count: {
+        select: {
+          chambers: { where: { deletedAt: null } },
+        },
+      },
+    },
     orderBy: { createdAt: "desc" },
   });
+
+  // Count distinct verified doctors across this admin's facilities.
+  const doctorCounts = await Promise.all(
+    facilities.map((facility) =>
+      prisma.chamber.findMany({
+        where: { facilityId: facility.id, deletedAt: null, doctor: { deletedAt: null } },
+        select: { doctorId: true },
+        distinct: ["doctorId"],
+      }).then((rows) => rows.length)
+    )
+  );
 
   return (
     <section className="min-h-screen bg-brand-cream py-10">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="font-serif text-2xl font-semibold text-brand-navy sm:text-3xl">
+          <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-dark">
+            Facility Panel
+          </span>
+          <h1 className="mt-2 font-serif text-2xl font-semibold text-brand-navy sm:text-3xl">
             Facility Panel
           </h1>
           <p className="mt-1 text-brand-muted">
@@ -51,7 +78,7 @@ export default async function FacilityPortalPage() {
           </div>
         ) : (
           <div className="space-y-4">
-            {facilities.map((facility) => (
+            {facilities.map((facility, index) => (
               <div
                 key={facility.id}
                 className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm"
@@ -75,23 +102,29 @@ export default async function FacilityPortalPage() {
                         statusStyles[facility.verificationStatus]
                       }`}
                     >
-                      {facility.verificationStatus}
+                      {statusLabels[facility.verificationStatus]}
                     </span>
                   </div>
                 </div>
 
-                <div className="mt-4 grid grid-cols-3 gap-2 border-t border-brand-gray pt-4">
+                <div className="mt-4 grid grid-cols-3 gap-2 border-t border-brand-gray pt-4 tabular-nums">
                   <div className="text-center">
                     <p className="text-xs text-brand-muted">Doctors</p>
-                    <p className="font-mono text-sm font-semibold text-brand-navy">—</p>
+                    <p className="font-mono text-sm font-semibold text-brand-navy">
+                      {doctorCounts[index]}
+                    </p>
                   </div>
                   <div className="text-center">
                     <p className="text-xs text-brand-muted">Chambers</p>
-                    <p className="font-mono text-sm font-semibold text-brand-navy">—</p>
+                    <p className="font-mono text-sm font-semibold text-brand-navy">
+                      {facility._count.chambers}
+                    </p>
                   </div>
                   <div className="text-center">
                     <p className="text-xs text-brand-muted">Appointments</p>
-                    <p className="font-mono text-sm font-semibold text-brand-navy">—</p>
+                    <p className="font-mono text-xs font-medium text-brand-muted">
+                      Coming soon
+                    </p>
                   </div>
                 </div>
               </div>

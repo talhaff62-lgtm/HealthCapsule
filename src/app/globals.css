@@ -284,6 +284,55 @@ a {
   }
 }
 
+/* ─── Rendered bio markdown ─── */
+.bio-content p {
+  margin-bottom: 0.75rem;
+}
+
+.bio-content p:last-child {
+  margin-bottom: 0;
+}
+
+.bio-content strong {
+  font-weight: 600;
+  color: var(--color-brand-slate);
+}
+
+.bio-content h1,
+.bio-content h2,
+.bio-content h3,
+.bio-content h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--color-brand-navy);
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.bio-content ul,
+.bio-content ol {
+  margin-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.bio-content li {
+  margin-bottom: 0.25rem;
+}
+
+.bio-content a {
+  color: var(--color-brand-sky);
+  text-decoration: underline;
+}
+
+.bio-content a:hover {
+  color: var(--color-brand-sky-dark);
+}
+
+.bio-content img {
+  display: none;
+}
+
 /* ─── Step connector line ─── */
 .step-connector {
   position: absolute;

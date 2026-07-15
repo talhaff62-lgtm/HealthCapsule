@@ -8,10 +8,7 @@ export default function NotFound() {
   return (
     <section className="flex min-h-[70vh] flex-col items-center justify-center bg-brand-cream px-4 py-16 text-center">
       <div className="mx-auto max-w-md">
-        <h1
-          className="text-7xl font-bold text-brand-sky"
-          style={{ fontFamily: "var(--font-serif)" }}
-        >
+        <h1 className="font-serif text-7xl font-bold text-brand-sky">
           404
         </h1>
         <h2 className="mt-6 font-serif text-2xl font-semibold text-brand-navy">

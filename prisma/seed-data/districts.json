@@ -1,0 +1,112 @@
+[
+  {
+    "id": "7",
+    "division_id": "2",
+    "name": "Bandarban",
+    "bn_name": "বান্দরবান",
+    "pcode": "BD2003",
+    "area_sqkm": 4591.01309293,
+    "latitude": 21.80450621,
+    "longitude": 92.36513578
+  },
+  {
+    "id": "8",
+    "division_id": "2",
+    "name": "Brahmanbaria",
+    "bn_name": "ব্রাহ্মণবাড়িয়া",
+    "pcode": "BD2012",
+    "area_sqkm": 1928.26864757,
+    "latitude": 23.95334265,
+    "longitude": 91.08317152
+  },
+  {
+    "id": "9",
+    "division_id": "2",
+    "name": "Chandpur",
+    "bn_name": "চাঁদপুর",
+    "pcode": "BD2013",
+    "area_sqkm": 1719.82858231,
+    "latitude": 23.2611099,
+    "longitude": 90.74888906
+  },
+  {
+    "id": "10",
+    "division_id": "2",
+    "name": "Chattogram",
+    "bn_name": "চট্টগ্রাম",
+    "pcode": "BD2015",
+    "area_sqkm": 4879.23669021,
+    "latitude": 22.44673258,
+    "longitude": 91.8192279
+  },
+  {
+    "id": "11",
+    "division_id": "2",
+    "name": "Cumilla",
+    "bn_name": "কুমিল্লা",
+    "pcode": "BD2019",
+    "area_sqkm": 3097.33937792,
+    "latitude": 23.43704815,
+    "longitude": 91.03297863
+  },
+  {
+    "id": "12",
+    "division_id": "2",
+    "name": "Cox's Bazar",
+    "bn_name": "কক্সবাজার",
+    "pcode": "BD2022",
+    "area_sqkm": 2326.7008648,
+    "latitude": 21.47601131,
+    "longitude": 92.06251685
+  },
+  {
+    "id": "13",
+    "division_id": "2",
+    "name": "Feni",
+    "bn_name": "ফেনী",
+    "pcode": "BD2030",
+    "area_sqkm": 929.47783669,
+    "latitude": 22.99495456,
+    "longitude": 91.41199797
+  },
+  {
+    "id": "14",
+    "division_id": "2",
+    "name": "Khagrachhari",
+    "bn_name": "খাগড়াছড়ি",
+    "pcode": "BD2046",
+    "area_sqkm": 2977.80470582,
+    "latitude": 23.17194143,
+    "longitude": 91.95645652
+  },
+  {
+    "id": "15",
+    "division_id": "2",
+    "name": "Lakshmipur",
+    "bn_name": "লক্ষ্মীপুর",
+    "pcode": "BD2051",
+    "area_sqkm": 1503.10893536,
+    "latitude": 22.85093416,
+    "longitude": 90.85368875
+  },
+  {
+    "id": "16",
+    "division_id": "2",
+    "name": "Noakhali",
+    "bn_name": "নোয়াখালী",
+    "pcode": "BD2075",
+    "area_sqkm": 3236.99995684,
+    "latitude": 22.65806244,
+    "longitude": 91.12949863
+  },
+  {
+    "id": "17",
+    "division_id": "2",
+    "name": "Rangamati",
+    "bn_name": "রাঙ্গামাটি",
+    "pcode": "BD2084",
+    "area_sqkm": 5643.29864602,
+    "latitude": 22.82507051,
+    "longitude": 92.28109045
+  }
+]

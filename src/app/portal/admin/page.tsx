@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { UserRole, VerificationStatus } from "@prisma/client";
 import { requireRole } from "@/lib/session";
@@ -135,7 +136,10 @@ export default async function AdminPortalPage({
     <section className="min-h-screen bg-brand-cream py-10">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="font-serif text-2xl font-semibold text-brand-navy sm:text-3xl">
+          <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-dark">
+            Admin Dashboard
+          </span>
+          <h1 className="mt-2 font-serif text-2xl font-semibold text-brand-navy sm:text-3xl">
             Admin Portal
           </h1>
           <p className="mt-1 text-brand-muted">
@@ -148,9 +152,10 @@ export default async function AdminPortalPage({
           {typeTabs.map((tab) => {
             const active = type === tab.value;
             return (
-              <a
+              <Link
                 key={tab.value}
                 href={buildHref({ type: tab.value, status: statusFilter })}
+                aria-current={active ? "page" : undefined}
                 className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                   active
                     ? "bg-brand-navy text-white"
@@ -158,7 +163,7 @@ export default async function AdminPortalPage({
                 }`}
               >
                 {tab.label}
-              </a>
+              </Link>
             );
           })}
         </div>
@@ -168,9 +173,10 @@ export default async function AdminPortalPage({
             const active =
               (!statusFilter && !tab.value) || statusFilter === tab.value;
             return (
-              <a
+              <Link
                 key={tab.label}
                 href={buildHref({ type, status: tab.value })}
+                aria-current={active ? "page" : undefined}
                 className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                   active
                     ? "bg-brand-sky text-white"
@@ -178,7 +184,7 @@ export default async function AdminPortalPage({
                 }`}
               >
                 {tab.label}
-              </a>
+              </Link>
             );
           })}
         </div>
@@ -192,9 +198,10 @@ export default async function AdminPortalPage({
             {Array.from({ length: pageCount }, (_, i) => i + 1).map((p) => {
               const active = p === page;
               return (
-                <a
+                <Link
                   key={p}
                   href={buildHref({ type, status: statusFilter, page: p })}
+                  aria-current={active ? "page" : undefined}
                   className={`rounded-full px-3 py-1.5 text-sm font-medium ${
                     active
                       ? "bg-brand-navy text-white"
@@ -202,7 +209,7 @@ export default async function AdminPortalPage({
                   }`}
                 >
                   {p}
-                </a>
+                </Link>
               );
             })}
           </div>

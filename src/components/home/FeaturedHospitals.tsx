@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { MapPin, Phone, Globe } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import FacilityTypeBadge from "@/components/ui/FacilityTypeBadge";
@@ -140,7 +141,7 @@ export default async function FeaturedHospitals() {
   const displayFacilities = dbFacilities.length > 0 ? dbFacilities : fallbackFacilities;
 
   return (
-    <section id="hospitals" className="bg-brand-cream-dark/30 py-20 border-t border-brand-gray">
+    <section id="hospitals" className="bg-brand-cloud py-20 border-t border-brand-gray">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center mb-16">
           <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-navy">
@@ -158,11 +159,13 @@ export default async function FeaturedHospitals() {
           {displayFacilities.map((facility) => (
             <div
               key={facility.id}
-              className="premium-card relative flex flex-col rounded-2xl bg-white p-6 shadow-sm"
+              className="premium-card relative flex flex-col rounded-2xl bg-white border border-brand-gray p-6 shadow-sm"
             >
-              {/* Featured Badge Glow Accent */}
+              {/* Featured Tier Label */}
               {facility.listingTier === "FEATURED" && (
-                <div className="absolute right-0 top-0 h-16 w-16 bg-gradient-to-bl from-brand-sky/30 to-transparent rounded-tr-2xl pointer-events-none" />
+                <span className="absolute right-4 top-4 font-mono text-[0.65rem] font-bold uppercase tracking-wider text-brand-sky bg-brand-sky-bg rounded px-2 py-0.5">
+                  Featured
+                </span>
               )}
 
               <div className="flex items-start justify-between gap-4">
@@ -186,29 +189,29 @@ export default async function FeaturedHospitals() {
               <div className="mt-6 flex flex-wrap gap-y-2 gap-x-4 border-t border-brand-gray pt-4 text-xs font-mono text-brand-muted">
                 {facility.beds && (
                   <div>
-                    <span className="uppercase text-[0.6rem] block tracking-wider text-brand-muted">Beds</span>
+                    <span className="uppercase text-[0.65rem] block tracking-wider text-brand-muted">Beds</span>
                     <span className="text-brand-navy font-semibold">{facility.beds}</span>
                   </div>
                 )}
                 {facility.establishedYear && (
                   <div>
-                    <span className="uppercase text-[0.6rem] block tracking-wider text-brand-muted">Est.</span>
+                    <span className="uppercase text-[0.65rem] block tracking-wider text-brand-muted">Est.</span>
                     <span className="text-brand-navy font-semibold">{facility.establishedYear}</span>
                   </div>
                 )}
                 <div className="flex-1 flex justify-end gap-1.5 self-end">
                   {facility.hasIcu && (
-                    <span className="px-1.5 py-0.5 rounded bg-brand-navy-light text-white font-bold text-[0.55rem]">
+                    <span className="px-2 py-0.5 rounded bg-brand-navy-light text-white font-semibold text-[0.65rem]">
                       ICU
                     </span>
                   )}
                   {facility.hasEmergency && (
-                    <span className="px-1.5 py-0.5 rounded bg-status-emergency-light text-status-emergency font-bold text-[0.55rem]">
+                    <span className="px-2 py-0.5 rounded bg-status-emergency-light text-status-emergency font-semibold text-[0.65rem]">
                       EMERGENCY
                     </span>
                   )}
                   {facility.hasAmbulance && (
-                    <span className="px-1.5 py-0.5 rounded bg-brand-sky-bg text-brand-sky-deep font-bold text-[0.55rem]">
+                    <span className="px-2 py-0.5 rounded bg-brand-sky-bg text-brand-sky-deep font-semibold text-[0.65rem]">
                       AMBULANCE
                     </span>
                   )}
@@ -229,21 +232,26 @@ export default async function FeaturedHospitals() {
                   <span className="text-brand-muted italic">Call info unavailable</span>
                 )}
 
-                {facility.website ? (
-                  <a
-                    href={facility.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-brand-sky hover:text-brand-sky-dark font-semibold hover:underline"
+                <div className="flex items-center gap-3">
+                  <Link
+                    href={`/healthcares/${facility.slug}`}
+                    className="inline-flex items-center font-semibold text-brand-navy hover:text-brand-sky transition"
                   >
-                    <Globe className="h-3.5 w-3.5" />
-                    Website ↗
-                  </a>
-                ) : (
-                  <span className="text-brand-muted text-[0.65rem] tracking-wider uppercase font-semibold">
-                    No website
-                  </span>
-                )}
+                    View details
+                  </Link>
+
+                  {facility.website ? (
+                    <a
+                      href={facility.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-brand-sky hover:text-brand-sky-dark font-semibold hover:underline"
+                    >
+                      <Globe className="h-3.5 w-3.5" />
+                      Website ↗
+                    </a>
+                  ) : null}
+                </div>
               </div>
             </div>
           ))}

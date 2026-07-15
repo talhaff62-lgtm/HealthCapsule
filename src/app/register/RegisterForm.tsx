@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { Building2, Lock, MapPin, Phone, Stethoscope, User } from "lucide-react";
+import { Award, Building2, Lock, MapPin, Phone, Stethoscope, User } from "lucide-react";
 import { FacilityType } from "@prisma/client";
 import { registerDoctor, registerFacility, RegisterResult } from "./actions";
 
@@ -193,7 +193,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                   BMDC registration number
                 </label>
                 <div className="relative mt-1">
-                  <Stethoscope className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
+                  <Award className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
                   <input
                     id="bmdcRegNo"
                     type="text"
@@ -326,7 +326,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                 id="phone"
                 type="tel"
                 required
-                pattern="[0-9]{10,}"
+                pattern="[0-9]{11}"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="01XXXXXXXXX"

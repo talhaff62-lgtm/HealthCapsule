@@ -22,7 +22,7 @@ export default function CtaBanner() {
           <div className="mt-8">
             <Link
               href="/doctors"
-              className="inline-flex items-center gap-2 rounded-lg bg-brand-sky px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-sky/25 transition hover:bg-brand-sky-dark"
+              className="inline-flex items-center gap-2 rounded-lg bg-brand-sky px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-sky/25 transition hover:bg-brand-sky-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-sky-bright focus-visible:ring-offset-2 focus-visible:ring-offset-brand-navy"
             >
               Search Verified Doctors
               <ArrowRight className="h-4 w-4" />
@@ -46,14 +46,14 @@ export default function CtaBanner() {
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
               href="/register?type=doctor"
-              className="inline-flex items-center gap-2 rounded-lg border border-white/30 bg-white px-6 py-3 text-sm font-semibold text-brand-navy transition hover:bg-brand-sky-bg-soft"
+              className="inline-flex items-center gap-2 rounded-lg border border-white/30 bg-white px-6 py-3 text-sm font-semibold text-brand-navy transition hover:bg-brand-sky-bg-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-navy"
             >
               <UserPlus className="h-4 w-4 text-brand-sky" />
               Doctor Registration
             </Link>
             <Link
               href="/register?type=facility"
-              className="inline-flex items-center gap-2 rounded-lg border border-white/30 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+              className="inline-flex items-center gap-2 rounded-lg border border-white/30 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-navy"
             >
               <Building2 className="h-4 w-4 text-brand-sky-bright" />
               Healthcare Registration

@@ -29,7 +29,7 @@ export default function PortalRedirectPage() {
   return (
     <main className="flex min-h-[50vh] items-center justify-center bg-brand-cream px-4">
       <div className="flex items-center gap-3 rounded-2xl border border-brand-gray bg-white px-8 py-6 shadow-sm">
-        <Loader2 className="h-5 w-5 animate-spin text-brand-gold" />
+        <Loader2 className="h-5 w-5 animate-spin text-brand-sky" />
         <p className="text-brand-slate">Redirecting to your portal...</p>
       </div>
     </main>

@@ -48,7 +48,7 @@ export default async function StatsBar() {
             key={stat.label}
             className="border-b border-r border-t border-white/10 px-6 py-8 sm:px-8 sm:py-10"
           >
-            <p className="font-serif text-3xl font-semibold text-white sm:text-4xl">
+            <p className="font-serif text-3xl font-semibold tabular-nums text-white sm:text-4xl">
               {stat.value}
             </p>
             <p className="mt-2 font-mono text-[0.68rem] uppercase tracking-widest text-brand-sky-bright">

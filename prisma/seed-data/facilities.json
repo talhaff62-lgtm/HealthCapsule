@@ -1,0 +1,1415 @@
+[
+  {
+    "name": "Apollo Imperial Hospitals",
+    "slug": "apollo-imperial-hospitals",
+    "type": "HOSPITAL",
+    "description": "Multi-specialty hospital in Khulshi, Chattogram founded by CEITC trust.",
+    "longDescription": "Apollo Imperial Hospitals (AIH) is a state-of-art multi-specialty hospital in Chattogram initiated by Chittagong Eye Infirmary and Training Complex (CEITC). It provides cardiac, orthopedic, neurosurgery, pediatric surgery and other tertiary services.",
+    "logoUrl": "/images/facilities/apollo-imperial-hospitals-logo.png",
+    "coverImageUrl": null,
+    "areaSlug": "zakir-hossain-road",
+    "address": "2158/A, Zakir Hossain Road, Khulshi, Chattogram, Bangladesh",
+    "latitude": 22.3756,
+    "longitude": 91.8262,
+    "phone": "+88 09610 847 847",
+    "email": null,
+    "website": "https://aihlbd.org",
+    "beds": null,
+    "hasIcu": true,
+    "hasNicu": true,
+    "hasEmergency": true,
+    "hasAmbulance": true,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [
+      {
+        "name": "Anesthesiology",
+        "description": null
+      },
+      {
+        "name": "Clinical and Interventional Cardiology",
+        "description": null
+      },
+      {
+        "name": "Cardiovascular and Thoracic Surgery",
+        "description": null
+      },
+      {
+        "name": "Child Development Center",
+        "description": null
+      },
+      {
+        "name": "Critical Care & Emergency",
+        "description": null
+      },
+      {
+        "name": "Dental Surgery",
+        "description": null
+      },
+      {
+        "name": "Dermatology & Cosmetology",
+        "description": null
+      },
+      {
+        "name": "Diabetology and Endocrinology",
+        "description": null
+      },
+      {
+        "name": "ENT",
+        "description": null
+      },
+      {
+        "name": "Gastroenterology & Hepatobiliary",
+        "description": null
+      },
+      {
+        "name": "General, Laparoscopic and Colorectal Surgery",
+        "description": null
+      },
+      {
+        "name": "Gynecology, Obstetrics & Infertility",
+        "description": null
+      },
+      {
+        "name": "Hematology & BMT",
+        "description": null
+      },
+      {
+        "name": "Internal Medicine",
+        "description": null
+      },
+      {
+        "name": "Internal Medicine & Nephrology",
+        "description": null
+      },
+      {
+        "name": "Mental Health",
+        "description": null
+      },
+      {
+        "name": "Microbiology",
+        "description": null
+      },
+      {
+        "name": "Nephrology",
+        "description": null
+      },
+      {
+        "name": "Neuro Medicine",
+        "description": null
+      },
+      {
+        "name": "Neurosurgery",
+        "description": null
+      },
+      {
+        "name": "Oncology",
+        "description": null
+      },
+      {
+        "name": "Oral & Maxillofacial Surgery",
+        "description": null
+      },
+      {
+        "name": "Orthopedics & Trauma",
+        "description": null
+      },
+      {
+        "name": "Pathology",
+        "description": null
+      },
+      {
+        "name": "Pediatric Medicine & Neonatology",
+        "description": null
+      },
+      {
+        "name": "Pediatric Cardiology",
+        "description": null
+      },
+      {
+        "name": "Pediatric Neurology",
+        "description": null
+      },
+      {
+        "name": "Pediatric Pulmonology",
+        "description": null
+      },
+      {
+        "name": "Pediatric Surgery",
+        "description": null
+      },
+      {
+        "name": "Physical Medicine & Rehabilitation",
+        "description": null
+      },
+      {
+        "name": "Radiology",
+        "description": null
+      },
+      {
+        "name": "Respiratory & Pulmonology Medicine",
+        "description": null
+      },
+      {
+        "name": "Thoracic Surgery",
+        "description": null
+      },
+      {
+        "name": "Transfusion Medicine & Blood Bank",
+        "description": null
+      },
+      {
+        "name": "Urology & Andrology",
+        "description": null
+      },
+      {
+        "name": "Vascular & Endovascular Surgery",
+        "description": null
+      }
+    ],
+    "services": [],
+    "gallery": [],
+    "sourceType": "official_website",
+    "sourceUrls": [
+      "https://aihlbd.org/",
+      "https://aihlbd.org/our-doctors/",
+      "https://aihlbd.org/contact-us/"
+    ],
+    "areaId": "11",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Chattagram Metropolitan Hospital Ltd",
+    "slug": "chattagram-metropolitan-hospital-ltd",
+    "type": "HOSPITAL",
+    "description": "Chattagram Metropolitan Hashpatal Limited, a leading cardiac and multi-specialty hospital in Chattogram.",
+    "longDescription": "Chattagram Metropolitan Hashpatal Limited (CMHL) is known as one of the best cardiac hospitals in Chittagong. It started the Metropolitan Heart Center in 2010 and has performed 20,000+ angiograms/angioplasties and 3,000+ bypass/cardiac surgeries. It offers 24-hour emergency, ICU, CCU, CICU, HDU, NICU, cath lab, 3 Tesla MRI, 128 Slice CT and a wide range of departments.",
+    "logoUrl": "/images/facilities/chattagram-metropolitan-hospital-ltd-logo.png",
+    "coverImageUrl": null,
+    "areaSlug": "or-nizam-road",
+    "address": "698/752, O.R. Nizam Road, Chattogram, Bangladesh",
+    "latitude": 22.3667,
+    "longitude": 91.825,
+    "phone": "+880 1814-651077",
+    "email": "info@ctgmhpl.com",
+    "website": "https://ctgmhpl.com",
+    "beds": null,
+    "hasIcu": true,
+    "hasNicu": true,
+    "hasEmergency": true,
+    "hasAmbulance": true,
+    "establishedYear": 2010,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [
+      {
+        "name": "Cardiology (Cardiac Surgery)",
+        "description": null
+      },
+      {
+        "name": "Cardiology",
+        "description": null
+      },
+      {
+        "name": "Cardiology (Pediatric Cardiology)",
+        "description": null
+      },
+      {
+        "name": "Psychiatrist",
+        "description": null
+      },
+      {
+        "name": "Medicine",
+        "description": null
+      },
+      {
+        "name": "Kidney Diseases",
+        "description": null
+      },
+      {
+        "name": "ENT",
+        "description": null
+      },
+      {
+        "name": "Eye",
+        "description": null
+      },
+      {
+        "name": "Neuromedicine",
+        "description": null
+      },
+      {
+        "name": "Urology",
+        "description": null
+      },
+      {
+        "name": "Oncology",
+        "description": null
+      },
+      {
+        "name": "Laparoscopic & Colorectal Surgery",
+        "description": null
+      },
+      {
+        "name": "Vascular Surgery",
+        "description": null
+      },
+      {
+        "name": "Diabetes, Thyroids & Hormone Diseases",
+        "description": null
+      },
+      {
+        "name": "Orthopedic Surgery",
+        "description": null
+      },
+      {
+        "name": "Gynae & Obs",
+        "description": null
+      },
+      {
+        "name": "Gynae, Obs & Infertility",
+        "description": null
+      },
+      {
+        "name": "Physical Medicine",
+        "description": null
+      },
+      {
+        "name": "Skin & VD",
+        "description": null
+      },
+      {
+        "name": "Gastroenterology & Hepatology",
+        "description": null
+      },
+      {
+        "name": "Child & Women Surgery",
+        "description": null
+      },
+      {
+        "name": "Neonatal & Child Surgery",
+        "description": null
+      },
+      {
+        "name": "Child & Neonatal Diseases",
+        "description": null
+      },
+      {
+        "name": "Diet Management",
+        "description": null
+      },
+      {
+        "name": "Anesthesiology",
+        "description": null
+      },
+      {
+        "name": "Respiratory Medicine",
+        "description": null
+      },
+      {
+        "name": "Thoracic Surgery",
+        "description": null
+      },
+      {
+        "name": "Pediatrics",
+        "description": null
+      },
+      {
+        "name": "Neonatology",
+        "description": null
+      },
+      {
+        "name": "Interventional Pain Medicine",
+        "description": null
+      },
+      {
+        "name": "Neurosurgery",
+        "description": null
+      }
+    ],
+    "services": [],
+    "gallery": [],
+    "sourceType": "official_website",
+    "sourceUrls": [
+      "https://ctgmhpl.com/",
+      "https://ctgmhpl.com/doctors"
+    ],
+    "areaId": "1",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Evercare Hospital Chattogram",
+    "slug": "evercare-hospital-chattogram",
+    "type": "HOSPITAL",
+    "description": "470-bed multi-disciplinary super-specialty tertiary care hospital in Chattogram.",
+    "longDescription": "Evercare Hospital Chattogram is the first-ever 470-bed multi-disciplinary super-specialty tertiary care hospital in Chattogram, spanning 492,000 sq ft. It houses a 24/7 Emergency Department, ICUs, 29+ specialized clinical services and is staffed by 500+ healthcare professionals.",
+    "logoUrl": "/images/facilities/evercare-hospital-chattogram-logo.jpg",
+    "coverImageUrl": null,
+    "areaSlug": "oxygen-kuwaish-road",
+    "address": "Plot No. H1, Anannya CDA Residential Area, Oxygen - Kuwaish Rd, Chattogram 4337, Bangladesh",
+    "latitude": 22.3594,
+    "longitude": 91.8226,
+    "phone": "10663",
+    "email": "infoctg@evercarebd.com",
+    "website": "https://www.evercarebd.com/en/chattogram",
+    "beds": 470,
+    "hasIcu": true,
+    "hasNicu": true,
+    "hasEmergency": true,
+    "hasAmbulance": true,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [
+      {
+        "name": "Accident & Emergency",
+        "description": "24/7 emergency care"
+      },
+      {
+        "name": "Anaesthesia",
+        "description": null
+      },
+      {
+        "name": "Blood Bank",
+        "description": null
+      },
+      {
+        "name": "Cancer Care Center",
+        "description": null
+      },
+      {
+        "name": "Cardiology",
+        "description": null
+      },
+      {
+        "name": "Cardiothoracic & Vascular Surgery",
+        "description": null
+      },
+      {
+        "name": "Cardiothoracic Anaesthesia",
+        "description": null
+      },
+      {
+        "name": "Counselling Center",
+        "description": null
+      },
+      {
+        "name": "Critical Care Unit",
+        "description": null
+      },
+      {
+        "name": "Dental & Maxillofacial Surgery",
+        "description": null
+      },
+      {
+        "name": "Dermatology & Venereology",
+        "description": null
+      },
+      {
+        "name": "Dietetics & Nutrition",
+        "description": null
+      },
+      {
+        "name": "Endocrinology & Diabetology",
+        "description": null
+      },
+      {
+        "name": "ENT & Head Neck Surgery",
+        "description": null
+      },
+      {
+        "name": "Gastroenterology & Hepatology",
+        "description": null
+      },
+      {
+        "name": "General & Laparoscopic Surgery",
+        "description": null
+      },
+      {
+        "name": "Hematology and BMT Centre",
+        "description": null
+      },
+      {
+        "name": "Internal Medicine",
+        "description": null
+      },
+      {
+        "name": "Lab Medicine",
+        "description": null
+      },
+      {
+        "name": "Neonatology",
+        "description": null
+      },
+      {
+        "name": "Nephrology",
+        "description": null
+      },
+      {
+        "name": "Neurology",
+        "description": null
+      },
+      {
+        "name": "Neurosurgery",
+        "description": null
+      },
+      {
+        "name": "Obstetrics and Gynaecology",
+        "description": null
+      },
+      {
+        "name": "Ophthalmology",
+        "description": null
+      },
+      {
+        "name": "Orthopaedics & Joint Replacement Surgery",
+        "description": null
+      },
+      {
+        "name": "Paediatric Cardiology",
+        "description": null
+      },
+      {
+        "name": "Paediatric Neurology",
+        "description": null
+      },
+      {
+        "name": "Paediatric Surgery",
+        "description": null
+      },
+      {
+        "name": "Paediatrics",
+        "description": null
+      },
+      {
+        "name": "Physical Medicine & Rehabilitation",
+        "description": null
+      },
+      {
+        "name": "Plastic, Reconstructive & Cosmetic Surgery",
+        "description": null
+      },
+      {
+        "name": "Psychiatry & Mental Health",
+        "description": null
+      },
+      {
+        "name": "Radiology & Imaging",
+        "description": null
+      },
+      {
+        "name": "Respiratory Medicine",
+        "description": null
+      },
+      {
+        "name": "Rheumatology",
+        "description": null
+      },
+      {
+        "name": "Urology",
+        "description": null
+      }
+    ],
+    "services": [],
+    "gallery": [],
+    "sourceType": "official_website",
+    "sourceUrls": [
+      "https://www.evercarebd.com/en/chattogram/about-us",
+      "https://www.evercarebd.com/en/chattogram/specialities"
+    ],
+    "areaId": "9",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Max Hospital & Diagnostic Ltd",
+    "slug": "max-hospital-diagnostic-ltd",
+    "type": "HOSPITAL",
+    "description": "Leading diagnostic and hospital provider in Mehedibag, Chittagong, started 1 July 2014.",
+    "longDescription": "Max Hospital & Diagnostics Ltd in Chittagong, Bangladesh is a leading provider of diagnostic information services, started on 1 July 2014. It offers diagnostic testing through laboratories and patient service centers and interpretive consultation.",
+    "logoUrl": "/images/facilities/max-hospital-diagnostic-ltd-logo.jpg",
+    "coverImageUrl": null,
+    "areaSlug": "mehedibag",
+    "address": "35/36 Mehedibag, Chittagong, Bangladesh",
+    "latitude": 22.356,
+    "longitude": 91.833,
+    "phone": "01713-998166",
+    "email": "info@maxhospitalbd.com",
+    "website": "https://www.maxhospitalbd.com",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": 2014,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "official_website",
+    "sourceUrls": [
+      "https://www.maxhospitalbd.com/"
+    ],
+    "areaId": "15",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "National Hospital Chattogram",
+    "slug": "national-hospital-chattogram",
+    "type": "HOSPITAL",
+    "description": "150-bed private hospital in Mehedibug, Chittagong founded by doctors.",
+    "longDescription": "National Hospital & Diagnostic Ltd is a 150-bed private hospital in Chittagong founded by doctors. It provides 24-hour emergency and ambulance services, ICU, CCU, NICU, dialysis, pharmacy, diagnostics and a wide range of departments.",
+    "logoUrl": "/images/facilities/national-hospital-chattogram-logo.jpg",
+    "coverImageUrl": null,
+    "areaSlug": "mehedibag",
+    "address": "14/15 Mehedibug, Chattogram, Bangladesh",
+    "latitude": 22.3561,
+    "longitude": 91.8328,
+    "phone": "09648 250 250",
+    "email": null,
+    "website": "https://nationalhospital.com.bd",
+    "beds": 150,
+    "hasIcu": true,
+    "hasNicu": true,
+    "hasEmergency": true,
+    "hasAmbulance": true,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [
+      {
+        "name": "Gastroenterology",
+        "description": null
+      },
+      {
+        "name": "Hepatology",
+        "description": null
+      },
+      {
+        "name": "Kidney Specialist",
+        "description": null
+      },
+      {
+        "name": "Medicine",
+        "description": null
+      },
+      {
+        "name": "Public Health",
+        "description": null
+      },
+      {
+        "name": "Physical Medicine",
+        "description": null
+      },
+      {
+        "name": "Psychiatric Specialist",
+        "description": null
+      },
+      {
+        "name": "Hematology",
+        "description": null
+      },
+      {
+        "name": "Brain & Spinal",
+        "description": null
+      },
+      {
+        "name": "Neuro Medicine",
+        "description": null
+      },
+      {
+        "name": "Pediatric Specialist",
+        "description": null
+      },
+      {
+        "name": "Cardiology",
+        "description": null
+      },
+      {
+        "name": "Cardio Vascular",
+        "description": null
+      },
+      {
+        "name": "Urology",
+        "description": null
+      },
+      {
+        "name": "General Surgery",
+        "description": null
+      },
+      {
+        "name": "Orthopedics",
+        "description": null
+      },
+      {
+        "name": "Gyne & Obs",
+        "description": null
+      },
+      {
+        "name": "ENT",
+        "description": null
+      },
+      {
+        "name": "Cancer Specialist",
+        "description": null
+      },
+      {
+        "name": "Dermatology",
+        "description": null
+      },
+      {
+        "name": "Diabetes & Thyroid",
+        "description": null
+      },
+      {
+        "name": "Eye",
+        "description": null
+      },
+      {
+        "name": "Chest & Esophageal",
+        "description": null
+      },
+      {
+        "name": "Pediatric & Surgery",
+        "description": null
+      },
+      {
+        "name": "Food and Nutrition",
+        "description": null
+      },
+      {
+        "name": "Chest and Respiratory Medicine",
+        "description": null
+      },
+      {
+        "name": "Rheumatology",
+        "description": null
+      },
+      {
+        "name": "Plastic Surgeons & Burn",
+        "description": null
+      }
+    ],
+    "services": [],
+    "gallery": [],
+    "sourceType": "official_website",
+    "sourceUrls": [
+      "https://nationalhospital.com.bd/",
+      "https://nationalhospital.com.bd/national-hospital-doctors-list"
+    ],
+    "areaId": "15",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Asperia Health Care Ltd, Chittagong",
+    "slug": "asperia-health-care-ltd-chittagong",
+    "type": "HOSPITAL",
+    "description": "Asperia Health Care Ltd, Chittagong in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/asperia-health-care-ltd-chittagong-logo.jpg",
+    "coverImageUrl": null,
+    "areaSlug": "zakir-hossain-road",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "031-619400",
+    "email": null,
+    "website": "https://drctg.com/hospitals/asperia-ctg/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/asperia-ctg/"
+    ],
+    "areaId": "11",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Asperia Treatment Health Care, Chittagong",
+    "slug": "asperia-treatment-health-care-chittagong",
+    "type": "HOSPITAL",
+    "description": "Asperia Treatment Health Care, Chittagong in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/asperia-treatment-health-care-chittagong-logo.jpg",
+    "coverImageUrl": null,
+    "areaSlug": "zakir-hossain-road",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "031-652533",
+    "email": null,
+    "website": "https://drctg.com/hospitals/asperia-treatment-doctor-list/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/asperia-treatment-doctor-list/"
+    ],
+    "areaId": "11",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Bangabandhu Memorial Hospital, USTC, Chittagong",
+    "slug": "bangabandhu-memorial-hospital-ustc-chittagong",
+    "type": "HOSPITAL",
+    "description": "Bangabandhu Memorial Hospital, USTC, Chittagong in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/bangabandhu-memorial-hospital-ustc-chittagong-logo.png",
+    "coverImageUrl": null,
+    "areaSlug": "foys-lake",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "031-652860",
+    "email": null,
+    "website": "https://drctg.com/hospitals/bangabandhu-memorial-hospital-ustc-chittagong/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/bangabandhu-memorial-hospital-ustc-chittagong/"
+    ],
+    "areaId": "8",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Belle Vue Hospital, Chittagong",
+    "slug": "belle-vue-hospital-chittagong",
+    "type": "HOSPITAL",
+    "description": "Belle Vue Hospital, Chittagong in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/belle-vue-hospital-chittagong-logo.png",
+    "coverImageUrl": null,
+    "areaSlug": "panchlaish-residential-area",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "01782-666066",
+    "email": null,
+    "website": "https://drctg.com/hospitals/belle-vue-hospital-ctg-doctor-list/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/belle-vue-hospital-ctg-doctor-list/"
+    ],
+    "areaId": "6",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "BGC Trust Medical College, Chittagong",
+    "slug": "bgc-trust-medical-college-chittagong",
+    "type": "HOSPITAL",
+    "description": "BGC Trust Medical College, Chittagong in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/bgc-trust-medical-college-chittagong-logo.jpg",
+    "coverImageUrl": null,
+    "areaSlug": "chattogram-sadar",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "031-2550124",
+    "email": null,
+    "website": "https://drctg.com/hospitals/bgc-trust-medical-college-chittagong/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/bgc-trust-medical-college-chittagong/"
+    ],
+    "areaId": "23",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Chevron Clinical Laboratory",
+    "slug": "chevron-clinical-laboratory-chittagong",
+    "type": "DIAGNOSTIC_CENTER",
+    "description": "Chevron Clinical Laboratory, Chittagong in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/chevron-clinical-laboratory-chittagong-logo.jpg",
+    "coverImageUrl": null,
+    "areaSlug": "or-nizam-road",
+    "address": "12/12 O R Nizam Road, Panchlaish, Chittagong - 4203, Bangladesh",
+    "latitude": 22.362,
+    "longitude": 91.825,
+    "phone": "(+88) 031-652860",
+    "email": null,
+    "website": "https://chevronlab.com",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "official_website",
+    "sourceUrls": [
+      "https://chevronlab.com/"
+    ],
+    "areaId": "1",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Chevron Clinical Laboratory, Halishahar",
+    "slug": "chevron-clinical-laboratory-halishahar",
+    "type": "DIAGNOSTIC_CENTER",
+    "description": "Chevron Clinical Laboratory, Halishahar in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/chevron-clinical-laboratory-halishahar-logo.jpg",
+    "coverImageUrl": null,
+    "areaSlug": "chattogram-sadar",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "031-2550155",
+    "email": null,
+    "website": "https://drctg.com/hospitals/chevron-halishahar/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/chevron-halishahar/"
+    ],
+    "areaId": "23",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Chevron Eye Hospital, Chittagong",
+    "slug": "chevron-eye-hospital-chittagong",
+    "type": "HOSPITAL",
+    "description": "Chevron Eye Hospital, Chittagong in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/chevron-eye-hospital-chittagong-logo.jpg",
+    "coverImageUrl": null,
+    "areaSlug": "agrabad-cda",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "031-681111",
+    "email": null,
+    "website": "https://drctg.com/hospitals/chevron-eye-hospital-chittagong/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/chevron-eye-hospital-chittagong/"
+    ],
+    "areaId": "18",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Chittagong Diabetic General Hospital",
+    "slug": "chittagong-diabetic-general-hospital",
+    "type": "HOSPITAL",
+    "description": "Chittagong Diabetic General Hospital in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/chittagong-diabetic-general-hospital-logo.png",
+    "coverImageUrl": null,
+    "areaSlug": "panchlaish-residential-area",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "031-616666",
+    "email": null,
+    "website": "https://drctg.com/hospitals/chittagong-diabetic-general-hospital/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/chittagong-diabetic-general-hospital/"
+    ],
+    "areaId": "6",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Chittagong International Medical College & Hospital",
+    "slug": "chittagong-international-medical-college-hospital",
+    "type": "HOSPITAL",
+    "description": "Chittagong International Medical College & Hospital in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/chittagong-international-medical-college-hospital-logo.png",
+    "coverImageUrl": null,
+    "areaSlug": "panchlaish-residential-area",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "031-711111",
+    "email": null,
+    "website": "https://drctg.com/hospitals/chittagong-international-medical-college-hospital/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/chittagong-international-medical-college-hospital/"
+    ],
+    "areaId": "6",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Chittagong Medical College & Hospital",
+    "slug": "chittagong-medical-college-hospital",
+    "type": "HOSPITAL",
+    "description": "Chittagong Medical College & Hospital in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/chittagong-medical-college-hospital-logo.png",
+    "coverImageUrl": null,
+    "areaSlug": "chattogram-sadar",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "01844-080000",
+    "email": null,
+    "website": "https://drctg.com/hospitals/chittagong-medical-college-hospital/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/chittagong-medical-college-hospital/"
+    ],
+    "areaId": "23",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Chittagong Square Clinical Laboratory",
+    "slug": "chittagong-square-clinical-laboratory",
+    "type": "DIAGNOSTIC_CENTER",
+    "description": "Chittagong Square Clinical Laboratory in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/chittagong-square-clinical-laboratory-logo.png",
+    "coverImageUrl": null,
+    "areaSlug": "gec-circle",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "01855-677500",
+    "email": null,
+    "website": "https://drctg.com/hospitals/chittagong-square/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/chittagong-square/"
+    ],
+    "areaId": "10",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "CSCR Hospital, Chittagong",
+    "slug": "cscr-hospital-chittagong",
+    "type": "HOSPITAL",
+    "description": "CSCR Hospital, Chittagong in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/cscr-hospital-chittagong-logo.jpg",
+    "coverImageUrl": null,
+    "areaSlug": "or-nizam-road",
+    "address": "CSCR Bhaban, 1675/A, O.R. Nizam Road, Chattogram",
+    "latitude": 22.362,
+    "longitude": 91.825,
+    "phone": "+8801887656565",
+    "email": null,
+    "website": "https://drctg.com/hospitals/cscr-hospital-chittagong/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/cscr-hospital-chittagong/"
+    ],
+    "areaId": "1",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Delta Health Care, Chittagong",
+    "slug": "delta-health-care-chittagong",
+    "type": "HOSPITAL",
+    "description": "Delta Health Care, Chittagong in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/delta-health-care-chittagong-logo.png",
+    "coverImageUrl": null,
+    "areaSlug": "nasirabad",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "01713-998166",
+    "email": null,
+    "website": "https://drctg.com/hospitals/delta-hospital-ctg/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/delta-hospital-ctg/"
+    ],
+    "areaId": "4",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Doctors Lab, Chittagong",
+    "slug": "doctors-lab-chittagong",
+    "type": "DIAGNOSTIC_CENTER",
+    "description": "Doctors Lab, Chittagong in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/doctors-lab-chittagong-logo.jpg",
+    "coverImageUrl": null,
+    "areaSlug": "mehedibag",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "01979-123456",
+    "email": null,
+    "website": "https://drctg.com/hospitals/doctors-lab-ctg/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/doctors-lab-ctg/"
+    ],
+    "areaId": "15",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Eastern Medical College & Hospital",
+    "slug": "eastern-medical-college-hospital",
+    "type": "HOSPITAL",
+    "description": "Eastern Medical College & Hospital in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/eastern-medical-college-hospital-logo.jpg",
+    "coverImageUrl": null,
+    "areaSlug": "chattogram-sadar",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "01678-901234",
+    "email": null,
+    "website": "https://drctg.com/hospitals/eastern-medical-college-hospital/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/eastern-medical-college-hospital/"
+    ],
+    "areaId": "23",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Epic Healthcare Ltd",
+    "slug": "epic-healthcare-ltd",
+    "type": "HOSPITAL",
+    "description": "Epic Healthcare Ltd in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/epic-healthcare-ltd-logo.jpg",
+    "coverImageUrl": null,
+    "areaSlug": "panchlaish-residential-area",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "09610 800111",
+    "email": null,
+    "website": "https://drctg.com/hospitals/epic-healthcare-chittagong/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://www.epichcl.com/all-doctors",
+      "https://drctg.com/hospitals/epic-healthcare-chittagong/"
+    ],
+    "areaId": "6",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Holy Health Hospital, Chittagong",
+    "slug": "holy-health-hospital-chittagong",
+    "type": "HOSPITAL",
+    "description": "Holy Health Hospital, Chittagong in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/holy-health-hospital-chittagong-logo.jpg",
+    "coverImageUrl": null,
+    "areaSlug": "panchlaish-residential-area",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "01521-345678",
+    "email": null,
+    "website": "https://drctg.com/hospitals/holly-health-hospital-ctg/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/holly-health-hospital-ctg/"
+    ],
+    "areaId": "6",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Ibn Sina Diagnostic Center, Chittagong",
+    "slug": "ibn-sina-diagnostic-center-chittagong",
+    "type": "DIAGNOSTIC_CENTER",
+    "description": "Ibn Sina Diagnostic Center, Chittagong in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/ibn-sina-diagnostic-center-chittagong-logo.jpg",
+    "coverImageUrl": null,
+    "areaSlug": "chattogram-sadar",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "01303-456789",
+    "email": null,
+    "website": "https://drctg.com/hospitals/ibn-sina-chittagong/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/ibn-sina-chittagong/"
+    ],
+    "areaId": "23",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Islami Bank Hospital, Chittagong",
+    "slug": "islami-bank-hospital-chittagong",
+    "type": "HOSPITAL",
+    "description": "Islami Bank Hospital, Chittagong in Chattogram.",
+    "longDescription": null,
+    "logoUrl": "/images/facilities/islami-bank-hospital-chittagong-logo.jpg",
+    "coverImageUrl": null,
+    "areaSlug": "agrabad-cda",
+    "address": null,
+    "latitude": 0,
+    "longitude": 0,
+    "phone": "01878-567890",
+    "email": null,
+    "website": "https://drctg.com/hospitals/islami-bank-hospital-chittagong/",
+    "beds": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "establishedYear": null,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "departments": [],
+    "services": [],
+    "gallery": [],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://drctg.com/hospitals/islami-bank-hospital-chittagong/"
+    ],
+    "areaId": "18",
+    "_extra": {},
+    "isActive": true,
+    "deletedAt": null
+  }
+]

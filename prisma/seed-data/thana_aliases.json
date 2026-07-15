@@ -1,0 +1,98 @@
+[
+  {
+    "id": "1",
+    "thana_id": "100511",
+    "alias": "Panchlish",
+    "lang": "en"
+  },
+  {
+    "id": "2",
+    "thana_id": "100511",
+    "alias": "পাঁচলাইশ",
+    "lang": "bn"
+  },
+  {
+    "id": "3",
+    "thana_id": "100508",
+    "alias": "খুলশী",
+    "lang": "bn"
+  },
+  {
+    "id": "4",
+    "thana_id": "100510",
+    "alias": "পাহাড়তলী",
+    "lang": "bn"
+  },
+  {
+    "id": "5",
+    "thana_id": "100515",
+    "alias": "আগ্রাবাদ",
+    "lang": "bn"
+  },
+  {
+    "id": "6",
+    "thana_id": "100509",
+    "alias": "কোতোয়ালী",
+    "lang": "bn"
+  },
+  {
+    "id": "7",
+    "thana_id": "100503",
+    "alias": "চকবাজার",
+    "lang": "bn"
+  },
+  {
+    "id": "8",
+    "thana_id": "100503",
+    "alias": "Chawk Bazar",
+    "lang": "en"
+  },
+  {
+    "id": "9",
+    "thana_id": "100506",
+    "alias": "Halishahr",
+    "lang": "en"
+  },
+  {
+    "id": "10",
+    "thana_id": "100506",
+    "alias": "হালিশহর",
+    "lang": "bn"
+  },
+  {
+    "id": "11",
+    "thana_id": "100501",
+    "alias": "Bayezid",
+    "lang": "en"
+  },
+  {
+    "id": "12",
+    "thana_id": "100501",
+    "alias": "Bayezid Bostami",
+    "lang": "en"
+  },
+  {
+    "id": "13",
+    "thana_id": "100501",
+    "alias": "বায়েজিদ",
+    "lang": "bn"
+  },
+  {
+    "id": "14",
+    "thana_id": "100504",
+    "alias": "DBL Mooring",
+    "lang": "en"
+  },
+  {
+    "id": "15",
+    "thana_id": "100513",
+    "alias": "Sadar Ghat",
+    "lang": "en"
+  },
+  {
+    "id": "16",
+    "thana_id": "100513",
+    "alias": "সদরঘাট",
+    "lang": "bn"
+  }
+]

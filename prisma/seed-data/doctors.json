@@ -1,0 +1,2013 @@
+[
+  {
+    "name": "Dr. Jannatun Nisa",
+    "bnName": null,
+    "slug": "dr-jannatun-nisa",
+    "bio": "Oncologist Resident Surgeon, Radiotherapy Dept.",
+    "photoUrl": "/images/doctors/dr-jannatun-nisa.png",
+    "degrees": [
+      "MBBS",
+      "FCPS"
+    ],
+    "bmdcRegNo": "46831",
+    "registrationYear": 2014,
+    "yearsExperience": 11,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Female",
+    "consultationFee": 641,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "oncology"
+    ],
+    "chambers": [
+      {
+        "address": "19 K.B. Fazlul Kader Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "epic-healthcare-ltd",
+        "branch": "Main Gate Branch",
+        "schedules": [
+          {
+            "dayOfWeek": 0,
+            "startTime": "17:00",
+            "endTime": "18:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 0,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "17:00",
+            "endTime": "18:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "17:00",
+            "endTime": "18:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "17:00",
+            "endTime": "18:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 4,
+            "startTime": "17:00",
+            "endTime": "18:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 4,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "17:00",
+            "endTime": "18:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "official_website",
+    "sourceUrls": [
+      "https://www.epichcl.com/doctor-details/12"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Dr. M. Saleh Uddin Siddique (Ujjal)",
+    "bnName": null,
+    "slug": "dr-m-saleh-uddin-siddique-ujjal",
+    "bio": "is a cardiology specialist practicing in Chattogram with qualifications in MBBS, MD, D-CARD.",
+    "photoUrl": "/images/doctors/dr-m-saleh-uddin-siddique-ujjal.png",
+    "degrees": [
+      "MBBS",
+      "MD",
+      "D-CARD"
+    ],
+    "bmdcRegNo": "24320",
+    "registrationYear": 2017,
+    "yearsExperience": 8,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 673,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "cardiology"
+    ],
+    "chambers": [
+      {
+        "address": "19 K.B. Fazlul Kader Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "epic-healthcare-ltd",
+        "branch": "Main Gate Branch",
+        "schedules": [
+          {
+            "dayOfWeek": 0,
+            "startTime": "17:00",
+            "endTime": "18:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 0,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "17:00",
+            "endTime": "18:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "17:00",
+            "endTime": "18:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "17:00",
+            "endTime": "18:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "17:00",
+            "endTime": "18:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "official_website",
+    "sourceUrls": [
+      "https://www.epichcl.com/doctor-details/27"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Dr. Md. Abdullah Al Anis",
+    "bnName": null,
+    "slug": "dr-md-abdullah-al-anis",
+    "bio": null,
+    "photoUrl": "/images/doctors/dr-md-abdullah-al-anis.png",
+    "degrees": [
+      "MD",
+      "MBBS",
+      "FCPS"
+    ],
+    "bmdcRegNo": "53369",
+    "registrationYear": 2014,
+    "yearsExperience": 11,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 743,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "hematology"
+    ],
+    "chambers": [
+      {
+        "address": "19 K.B. Fazlul Kader Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "epic-healthcare-ltd",
+        "branch": "Main Gate Branch",
+        "schedules": [
+          {
+            "dayOfWeek": 0,
+            "startTime": "11:00",
+            "endTime": "12:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 0,
+            "startTime": "13:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "11:00",
+            "endTime": "12:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "13:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "11:00",
+            "endTime": "12:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "13:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "11:00",
+            "endTime": "12:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "13:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "11:00",
+            "endTime": "12:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "13:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "official_website",
+    "sourceUrls": [
+      "https://www.epichcl.com/doctor-details/3"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Dr. Md. Didarul Alam",
+    "bnName": null,
+    "slug": "dr-md-didarul-alam",
+    "bio": "MBBS, BCS (Health), FCPS (Medicine), MD (Chest Diseases) Chest Diseases & Medicine Specialist Assistant Professor (Respiratory Medicine) Chest Diseases Clinic, Chattogram Chamber 01 & Appointment Address: 1st Floor, 100, Panchlaish, (opposite to Probortok School), Chittagong Visiting Hour: 8pm to 10pm (Closed: Thu & Friday) Appointment: +8801783413666 Chamber 02 & Appointment [Epic Healthcar",
+    "photoUrl": "/images/doctors/dr-md-didarul-alam.jpg",
+    "degrees": [
+      "MD",
+      "MBBS",
+      "FCPS"
+    ],
+    "bmdcRegNo": null,
+    "registrationYear": 2014,
+    "yearsExperience": 11,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 786,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "respiratory-medicine"
+    ],
+    "chambers": [
+      {
+        "address": "1st Floor, 100, Panchlaish, (opposite to Probortok School), Chittagong",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "asperia-treatment-health-care-chittagong",
+        "branch": null,
+        "schedules": [
+          {
+            "dayOfWeek": 0,
+            "startTime": "20:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "20:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "20:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "20:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "20:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "6"
+      },
+      {
+        "address": "Room – 510, 19, K.B. Fazlul Kader Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "epic-healthcare-ltd",
+        "branch": "Main Gate Branch",
+        "schedules": [
+          {
+            "dayOfWeek": 0,
+            "startTime": "18:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "18:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "18:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "18:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "18:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://www.doctorbangladesh.com/dr-md-didarul-alam-chest/"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Dr. Md. Emran Hossain",
+    "bnName": null,
+    "slug": "dr-md-emran-hossain",
+    "bio": "Assistant Professor, Cardiac Department, Chattogram Medical Collage Hospital Department : Cardiology Branch : Main Gate Branch MBBS, BCS (Health), MD (Cardiology) BSMMU",
+    "photoUrl": "/images/doctors/dr-md-emran-hossain.jpg",
+    "degrees": [
+      "MD",
+      "MBBS"
+    ],
+    "bmdcRegNo": "31207",
+    "registrationYear": 2015,
+    "yearsExperience": 10,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 589,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "cardiology"
+    ],
+    "chambers": [
+      {
+        "address": "19 K.B. Fazlul Kader Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "epic-healthcare-ltd",
+        "branch": "Main Gate Branch",
+        "schedules": [
+          {
+            "dayOfWeek": 1,
+            "startTime": "16:30",
+            "endTime": "17:30",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "22:00",
+            "endTime": "23:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "16:30",
+            "endTime": "17:30",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "22:00",
+            "endTime": "23:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "16:30",
+            "endTime": "17:30",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "22:00",
+            "endTime": "23:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "official_website",
+    "sourceUrls": [
+      "https://www.epichcl.com/doctor-details/29"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Dr. Md. Ferdous",
+    "bnName": null,
+    "slug": "dr-md-ferdous",
+    "bio": "MBBS, BCS (Health), MD (Internal Medicine) Medicine Specialist Consultant, Medicine National Hospital, Chittagong",
+    "photoUrl": "/images/doctors/dr-md-ferdous.jpg",
+    "degrees": [
+      "MD",
+      "MBBS"
+    ],
+    "bmdcRegNo": null,
+    "registrationYear": 2016,
+    "yearsExperience": 9,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 785,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "general-medicine"
+    ],
+    "chambers": [
+      {
+        "address": "19, K.B. Fazlul Kader Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "epic-healthcare-ltd",
+        "branch": "Main Gate Branch",
+        "schedules": [
+          {
+            "dayOfWeek": 0,
+            "startTime": "20:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "20:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "20:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "6"
+      },
+      {
+        "address": "14/15, Dampara Lane, Mehedibag, Chattogram",
+        "fee": null,
+        "areaName": "Dampara",
+        "facilitySlug": "national-hospital-chattogram",
+        "branch": null,
+        "schedules": [
+          {
+            "dayOfWeek": 0,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 4,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "13",
+        "areaSlug": "dampara-lane"
+      }
+    ],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://www.doctorbangladesh.com/dr-md-ferdous/"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Dr. Md. Salauddin",
+    "bnName": null,
+    "slug": "dr-md-salauddin",
+    "bio": "Ex- Assistant Professor, Cardiac and Diabetes Specialist, Clinical and International Cardiologist.",
+    "photoUrl": "/images/doctors/dr-md-salauddin.png",
+    "degrees": [
+      "MD",
+      "MBBS",
+      "D-CARD"
+    ],
+    "bmdcRegNo": null,
+    "registrationYear": 2019,
+    "yearsExperience": 6,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 530,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "cardiology"
+    ],
+    "chambers": [
+      {
+        "address": "19 K.B. Fazlul Kader Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "epic-healthcare-ltd",
+        "branch": "Main Gate Branch",
+        "schedules": [
+          {
+            "dayOfWeek": 0,
+            "startTime": "10:00",
+            "endTime": "11:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 0,
+            "startTime": "13:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "10:00",
+            "endTime": "11:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "13:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "10:00",
+            "endTime": "11:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "13:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "10:00",
+            "endTime": "11:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "13:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 4,
+            "startTime": "10:00",
+            "endTime": "11:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 4,
+            "startTime": "13:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 5,
+            "startTime": "10:00",
+            "endTime": "11:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 5,
+            "startTime": "13:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "10:00",
+            "endTime": "11:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "13:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "official_website",
+    "sourceUrls": [
+      "https://www.epichcl.com/doctor-details/5"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Dr. Mehfuza Razzak",
+    "bnName": null,
+    "slug": "dr-mehfuza-razzak",
+    "bio": "is a internal-medicine specialist practicing in Chattogram with qualifications in MBBS, MRCP.",
+    "photoUrl": "/images/doctors/dr-mehfuza-razzak.jpg",
+    "degrees": [
+      "MBBS",
+      "MRCP"
+    ],
+    "bmdcRegNo": null,
+    "registrationYear": 2016,
+    "yearsExperience": 9,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Female",
+    "consultationFee": 612,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "internal-medicine"
+    ],
+    "chambers": [
+      {
+        "address": "12/12 O.R. Nizam Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "chevron-clinical-laboratory-chittagong",
+        "branch": null,
+        "schedules": [],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://chevronlab.com/doctor/dr-mehfuza-razzak/"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Dr. Mohammad Jashim Uddin",
+    "bnName": null,
+    "slug": "dr-mohammad-jashim-uddin",
+    "bio": "MBBS, FCPS (Medicine), MD (Gastroenterology) Gastroenterology & Medicine Specialist Consultant, Gastroenterology Parkview Hospital, Chittagong",
+    "photoUrl": "/images/doctors/dr-mohammad-jashim-uddin.jpg",
+    "degrees": [
+      "MBBS",
+      "FCPS",
+      "MD"
+    ],
+    "bmdcRegNo": null,
+    "registrationYear": 2019,
+    "yearsExperience": 6,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 760,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "gastroenterology"
+    ],
+    "chambers": [
+      {
+        "address": "14/15, Dampara Lane, Mehedibag, Chattogram",
+        "fee": null,
+        "areaName": "Dampara",
+        "facilitySlug": "national-hospital-chattogram",
+        "branch": null,
+        "schedules": [
+          {
+            "dayOfWeek": 4,
+            "startTime": "12:00",
+            "endTime": "17:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "13",
+        "areaSlug": "dampara-lane"
+      }
+    ],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://www.doctorbangladesh.com/dr-mohammad-jashim-uddin/"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Dr. Saiful Islam Badal,",
+    "bnName": null,
+    "slug": "dr-saiful-islam-badal",
+    "bio": "Residential Physician, Chattogram Medical College Hospital.",
+    "photoUrl": "/images/doctors/dr-saiful-islam-badal.jpeg",
+    "degrees": [
+      "MBBS",
+      "MD"
+    ],
+    "bmdcRegNo": null,
+    "registrationYear": 2013,
+    "yearsExperience": 12,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 732,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "pediatrics"
+    ],
+    "chambers": [
+      {
+        "address": "19 K.B. Fazlul Kader Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "epic-healthcare-ltd",
+        "branch": "Main Gate Branch",
+        "schedules": [
+          {
+            "dayOfWeek": 0,
+            "startTime": "15:00",
+            "endTime": "16:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 0,
+            "startTime": "19:00",
+            "endTime": "20:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "15:00",
+            "endTime": "16:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "19:00",
+            "endTime": "20:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "15:00",
+            "endTime": "16:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "19:00",
+            "endTime": "20:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "15:00",
+            "endTime": "16:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "19:00",
+            "endTime": "20:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 4,
+            "startTime": "15:00",
+            "endTime": "16:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 4,
+            "startTime": "19:00",
+            "endTime": "20:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 5,
+            "startTime": "15:00",
+            "endTime": "16:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 5,
+            "startTime": "19:00",
+            "endTime": "20:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "15:00",
+            "endTime": "16:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "19:00",
+            "endTime": "20:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "official_website",
+    "sourceUrls": [
+      "https://www.epichcl.com/doctor-details/10"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Dr. Saiful Islam Tipu Chowdhury",
+    "bnName": null,
+    "slug": "dr-saiful-islam-tipu-chowdhury",
+    "bio": null,
+    "photoUrl": "/images/doctors/dr-saiful-islam-tipu-chowdhury.jpg",
+    "degrees": [
+      "MBBS",
+      "MD"
+    ],
+    "bmdcRegNo": null,
+    "registrationYear": 2019,
+    "yearsExperience": 6,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 539,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "cardiology"
+    ],
+    "chambers": [
+      {
+        "address": "19 K.B. Fazlul Kader Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "epic-healthcare-ltd",
+        "branch": "Andorkilla Branch",
+        "schedules": [
+          {
+            "dayOfWeek": 0,
+            "startTime": "18:30",
+            "endTime": "19:30",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 0,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "18:30",
+            "endTime": "19:30",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "18:30",
+            "endTime": "19:30",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "18:30",
+            "endTime": "19:30",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 4,
+            "startTime": "18:30",
+            "endTime": "19:30",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 4,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "18:30",
+            "endTime": "19:30",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "20:00",
+            "endTime": "21:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "official_website",
+    "sourceUrls": [
+      "https://www.epichcl.com/doctor-details/25"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Dr. Satyajit Dhar",
+    "bnName": null,
+    "slug": "dr-satyajit-dhar",
+    "bio": "MBBS, FCPS, MD, FIPM (India), Pain Management Training (Thailand) Pain Management & Anesthesia Specialist Associate Professor, Anesthesiology Chittagong Medical College & Hospital",
+    "photoUrl": "/images/doctors/dr-satyajit-dhar.jpg",
+    "degrees": [
+      "MBBS",
+      "FCPS",
+      "MD",
+      "FIPM"
+    ],
+    "bmdcRegNo": null,
+    "registrationYear": 2016,
+    "yearsExperience": 9,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 513,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "anesthesiology"
+    ],
+    "chambers": [
+      {
+        "address": "19, K.B. Fazlul Kader Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "epic-healthcare-ltd",
+        "branch": "Main Gate Branch",
+        "schedules": [
+          {
+            "dayOfWeek": 0,
+            "startTime": "19:30",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "19:30",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "19:30",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "19:30",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 4,
+            "startTime": "19:30",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "19:30",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://www.doctorbangladesh.com/dr-satyajit-dhar/"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Dr. S.M. Sadique Hossain",
+    "bnName": null,
+    "slug": "dr-sm-sadique-hossain",
+    "bio": "S.M. Sadique Hossain obtained his medical degree from Chittagong Medical College. He completed his internship and residency at SChittagong Medical College Hospital. He completed his postgraduate degree from Royal College of Physician, UK. Dr. S.M.",
+    "photoUrl": "/images/doctors/dr-sm-sadique-hossain.jpg",
+    "degrees": [
+      "MBBS",
+      "MRCP"
+    ],
+    "bmdcRegNo": null,
+    "registrationYear": 2016,
+    "yearsExperience": 9,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 619,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "internal-medicine"
+    ],
+    "chambers": [
+      {
+        "address": "12/12 O.R. Nizam Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "chevron-clinical-laboratory-chittagong",
+        "branch": null,
+        "schedules": [],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://chevronlab.com/doctor/dr-s-m-sadique-hossain/"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "DR. TANIA TAJREEN",
+    "bnName": null,
+    "slug": "dr-tania-tajreen",
+    "bio": "Assistant Professor, Medicine Department Department : Medicine Branch : Main Gate Branch MBBS, BCS (Health) FCPS (Medicine) Gold Medalist",
+    "photoUrl": "/images/doctors/dr-tania-tajreen.png",
+    "degrees": [
+      "MBBS",
+      "FCPS"
+    ],
+    "bmdcRegNo": "42860",
+    "registrationYear": 2018,
+    "yearsExperience": 7,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Female",
+    "consultationFee": 710,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "general-medicine"
+    ],
+    "chambers": [
+      {
+        "address": "19 K.B. Fazlul Kader Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "epic-healthcare-ltd",
+        "branch": "Main Gate Branch",
+        "schedules": [
+          {
+            "dayOfWeek": 0,
+            "startTime": "18:00",
+            "endTime": "19:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 0,
+            "startTime": "21:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "18:00",
+            "endTime": "19:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "21:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "18:00",
+            "endTime": "19:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "21:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "18:00",
+            "endTime": "19:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "21:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "18:00",
+            "endTime": "19:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "21:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "official_website",
+    "sourceUrls": [
+      "https://www.epichcl.com/doctor-details/18"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Prof. Dr. Jashim Uddin",
+    "bnName": null,
+    "slug": "prof-dr-jashim-uddin",
+    "bio": "[](https://chevronlab.com/wp-content/uploads/2022/06/0907-Dr.-Jashim-copy.jpg \"Prof. Dr.",
+    "photoUrl": "/images/doctors/prof-dr-jashim-uddin.jpg",
+    "degrees": [
+      "FCPS"
+    ],
+    "bmdcRegNo": null,
+    "registrationYear": 2001,
+    "yearsExperience": 24,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 1382,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "internal-medicine"
+    ],
+    "chambers": [
+      {
+        "address": "12/12 O.R. Nizam Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "chevron-clinical-laboratory-chittagong",
+        "branch": null,
+        "schedules": [],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://chevronlab.com/doctor/prof-dr-jashim-uddin/"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Prof. Dr. M. A. Hassan Chowdhury",
+    "bnName": null,
+    "slug": "prof-dr-m-a-hassan-chowdhury",
+    "bio": "Hassan Chowdhury Speciality Internal Medicine Education FCPS (Medicine), MACP (USA), FACP (USA), FRCP Work Days Saturday - Wednesday Working Hours 6.00 PM - 9.00 PM Prof. Dr. M. A.",
+    "photoUrl": "/images/doctors/prof-dr-m-a-hassan-chowdhury.jpg",
+    "degrees": [
+      "FCPS"
+    ],
+    "bmdcRegNo": null,
+    "registrationYear": 1999,
+    "yearsExperience": 26,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 1369,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "internal-medicine"
+    ],
+    "chambers": [
+      {
+        "address": "12/12 O.R. Nizam Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "chevron-clinical-laboratory-chittagong",
+        "branch": null,
+        "schedules": [],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://chevronlab.com/doctor/prof-dr-m-a-hassan-chowdhury/"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Prof. Dr. Uzzal Kanti Das",
+    "bnName": null,
+    "slug": "prof-dr-uzzal-kanti-das",
+    "bio": "Prof. Dr. Uzzwal Kanti Das , Speciality Chest & Respiratory Medicine Education MBBS, DTCD, FCPS, FCCP Work Days Saturday - Wednesday Working Hours 12 PM - 2 PM & 5 PM - 10 PM Prof. Dr. Uzzwal Kanti Das Dr. Uzzwal Kanti Das received medical degree from Chittagong Medical College in 1980. His internship was at Chittagong Medical College & Hospital in 1981. He completed his fellowship at BCPS Dhaka. Dr.",
+    "photoUrl": "/images/doctors/prof-dr-uzzal-kanti-das.jpg",
+    "degrees": [
+      "MBBS",
+      "DTCD",
+      "FCPS",
+      "FCCP"
+    ],
+    "bmdcRegNo": null,
+    "registrationYear": 1995,
+    "yearsExperience": 30,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 1209,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "respiratory-medicine"
+    ],
+    "chambers": [
+      {
+        "address": "12/12 O.R. Nizam Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "chevron-clinical-laboratory-chittagong",
+        "branch": null,
+        "schedules": [
+          {
+            "dayOfWeek": 0,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 0,
+            "startTime": "17:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "17:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "17:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "17:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "17:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://chevronlab.com/doctor/prof-dr-uzzal-kanti-das/"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Professor (Dr.) Khurshid Alam Sarwar",
+    "bnName": null,
+    "slug": "professor-dr-khurshid-alam-sarwar",
+    "bio": "is a pediatric-surgery specialist practicing in Chattogram with qualifications in MBBS, MS.",
+    "photoUrl": "/images/doctors/professor-dr-khurshid-alam-sarwar.png",
+    "degrees": [
+      "MBBS",
+      "MS"
+    ],
+    "bmdcRegNo": "23083",
+    "registrationYear": 1996,
+    "yearsExperience": 29,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 1419,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "pediatric-surgery"
+    ],
+    "chambers": [
+      {
+        "address": "19 K.B. Fazlul Kader Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "epic-healthcare-ltd",
+        "branch": "Main Gate Branch",
+        "schedules": [
+          {
+            "dayOfWeek": 0,
+            "startTime": "15:00",
+            "endTime": "16:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 0,
+            "startTime": "17:00",
+            "endTime": "18:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "15:00",
+            "endTime": "16:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "17:00",
+            "endTime": "18:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "15:00",
+            "endTime": "16:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "17:00",
+            "endTime": "18:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "15:00",
+            "endTime": "16:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "17:00",
+            "endTime": "18:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "15:00",
+            "endTime": "16:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "17:00",
+            "endTime": "18:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "official_website",
+    "sourceUrls": [
+      "https://www.epichcl.com/doctor-details/22"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Professor (Dr.) Prabir Kumar Das",
+    "bnName": null,
+    "slug": "professor-dr-prabir-kumar-das",
+    "bio": null,
+    "photoUrl": "/images/doctors/professor-dr-prabir-kumar-das.png",
+    "degrees": [
+      "FCPS",
+      "MD",
+      "FACC",
+      "MBBS",
+      "FCSI"
+    ],
+    "bmdcRegNo": null,
+    "registrationYear": 1995,
+    "yearsExperience": 30,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 1225,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "cardiology"
+    ],
+    "chambers": [
+      {
+        "address": "19 K.B. Fazlul Kader Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "epic-healthcare-ltd",
+        "branch": "Main Gate Branch",
+        "schedules": [
+          {
+            "dayOfWeek": 0,
+            "startTime": "18:00",
+            "endTime": "19:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 0,
+            "startTime": "22:00",
+            "endTime": "23:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "18:00",
+            "endTime": "19:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "22:00",
+            "endTime": "23:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "18:00",
+            "endTime": "19:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "22:00",
+            "endTime": "23:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "18:00",
+            "endTime": "19:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "22:00",
+            "endTime": "23:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 4,
+            "startTime": "18:00",
+            "endTime": "19:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 4,
+            "startTime": "22:00",
+            "endTime": "23:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "18:00",
+            "endTime": "19:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "22:00",
+            "endTime": "23:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "official_website",
+    "sourceUrls": [
+      "https://www.epichcl.com/doctor-details/26",
+      "https://www.doctorbangladesh.com/dr-prabir-kumar-das/"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  },
+  {
+    "name": "Prof. Dr. Uzzwal Kanti Das",
+    "bnName": null,
+    "slug": "prof-dr-uzzwal-kanti-das",
+    "bio": "Dr. Uzzwal Kanti Das received medical degree from Chittagong Medical College in 1980. His internship was at Chittagong Medical College & Hospital in 1981. He completed his fellowship at BCPS Dhaka. Dr.",
+    "photoUrl": "/images/doctors/prof-dr-uzzal-kanti-das.jpg",
+    "degrees": [
+      "MBBS",
+      "DTCD",
+      "FCPS",
+      "FCCP"
+    ],
+    "bmdcRegNo": null,
+    "registrationYear": 1995,
+    "yearsExperience": 30,
+    "languages": [
+      "Bengali",
+      "English"
+    ],
+    "gender": "Male",
+    "consultationFee": 1250,
+    "verificationStatus": "VERIFIED",
+    "listingTier": "FREE",
+    "specialtySlugs": [
+      "respiratory-medicine"
+    ],
+    "chambers": [
+      {
+        "address": "12/12 O.R. Nizam Road, Panchlaish, Chattogram",
+        "fee": null,
+        "areaName": "Panchlaish",
+        "facilitySlug": "chevron-clinical-laboratory-chittagong",
+        "branch": null,
+        "schedules": [
+          {
+            "dayOfWeek": 0,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 4,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 5,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "12:00",
+            "endTime": "14:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 0,
+            "startTime": "17:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 1,
+            "startTime": "17:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 2,
+            "startTime": "17:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 3,
+            "startTime": "17:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 4,
+            "startTime": "17:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 5,
+            "startTime": "17:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          },
+          {
+            "dayOfWeek": 6,
+            "startTime": "17:00",
+            "endTime": "22:00",
+            "slotDurationMinutes": 15,
+            "maxPatients": 20
+          }
+        ],
+        "areaId": "6"
+      }
+    ],
+    "sourceType": "directory",
+    "sourceUrls": [
+      "https://chevronlab.com/doctor/prof-dr-uzzal-kanti-das/"
+    ],
+    "isActive": true,
+    "deletedAt": null
+  }
+]

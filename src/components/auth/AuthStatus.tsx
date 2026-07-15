@@ -22,12 +22,12 @@ export function AuthStatus() {
 
     return (
       <div className="flex items-center gap-3">
-        <span className="hidden text-sm text-brand-gold-light/90 font-medium sm:inline">
+        <span className="hidden text-sm font-medium text-brand-sky-bright/90 sm:inline">
           {roleLabel[session.user.role] ?? session.user.role}
         </span>
         <button
           onClick={() => signOut({ callbackUrl: "/" })}
-          className="rounded-lg bg-status-emergency px-3 py-1.5 text-xs font-semibold text-white hover:bg-status-emergency/90 transition-colors"
+          className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-white/20"
         >
           Sign out
         </button>
@@ -38,7 +38,7 @@ export function AuthStatus() {
   return (
     <Link
       href="/login"
-      className="rounded-full bg-brand-gold px-5 py-2 text-sm font-semibold text-brand-navy shadow-sm transition hover:bg-brand-gold-light hover:scale-105"
+      className="rounded-full bg-brand-sky px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-sky-dark"
     >
       Sign in
     </Link>

@@ -1,0 +1,322 @@
+[
+  {
+    "id": "1",
+    "thana_id": "100511",
+    "name": "O.R. Nizam Road",
+    "bn_name": "ও.আর. নিজাম রোড",
+    "type": "LANDMARK",
+    "latitude": 22.362,
+    "longitude": 91.825,
+    "slug": "or-nizam-road"
+  },
+  {
+    "id": "2",
+    "thana_id": "100511",
+    "name": "K.B. Fazlul Kader Road",
+    "bn_name": "কে.বি. ফজলুল কাদের রোড",
+    "type": "LANDMARK",
+    "latitude": 22.358,
+    "longitude": 91.832,
+    "slug": "kb-fazlul-kader-road"
+  },
+  {
+    "id": "3",
+    "thana_id": "100511",
+    "name": "Probortok More",
+    "bn_name": "প্রবর্তক মোড়",
+    "type": "LANDMARK",
+    "latitude": 22.363,
+    "longitude": 91.828,
+    "slug": "probortok-more"
+  },
+  {
+    "id": "4",
+    "thana_id": "100511",
+    "name": "Nasirabad",
+    "bn_name": "নাসিরাবাদ",
+    "type": "NEIGHBOURHOOD",
+    "latitude": 22.362,
+    "longitude": 91.822,
+    "slug": "nasirabad"
+  },
+  {
+    "id": "5",
+    "thana_id": "100511",
+    "name": "Katalganj",
+    "bn_name": "কাটালগঞ্জ",
+    "type": "NEIGHBOURHOOD",
+    "latitude": 22.358,
+    "longitude": 91.826,
+    "slug": "katalganj"
+  },
+  {
+    "id": "6",
+    "thana_id": "100511",
+    "name": "Panchlaish Residential Area",
+    "bn_name": "পাঁচলাইশ আবাসিক এলাকা",
+    "type": "NEIGHBOURHOOD",
+    "latitude": 22.36,
+    "longitude": 91.824,
+    "slug": "panchlaish-residential-area"
+  },
+  {
+    "id": "7",
+    "thana_id": "100511",
+    "name": "Muradpur",
+    "bn_name": "মুরাদপুর",
+    "type": "NEIGHBOURHOOD",
+    "latitude": 22.355,
+    "longitude": 91.83,
+    "slug": "muradpur"
+  },
+  {
+    "id": "8",
+    "thana_id": "100508",
+    "name": "Foy's Lake",
+    "bn_name": "ফয়েজ লেক",
+    "type": "LANDMARK",
+    "latitude": 22.37,
+    "longitude": 91.82,
+    "slug": "foys-lake"
+  },
+  {
+    "id": "9",
+    "thana_id": "100508",
+    "name": "Oxygen–Kuwaish Road",
+    "bn_name": "অক্সিজেন–কুয়াইশ রোড",
+    "type": "LANDMARK",
+    "latitude": 22.375,
+    "longitude": 91.825,
+    "slug": "oxygen-kuwaish-road"
+  },
+  {
+    "id": "10",
+    "thana_id": "100508",
+    "name": "GEC Circle",
+    "bn_name": "জিইসি সার্কেল",
+    "type": "LANDMARK",
+    "latitude": 22.3605,
+    "longitude": 91.8205,
+    "slug": "gec-circle"
+  },
+  {
+    "id": "11",
+    "thana_id": "100510",
+    "name": "Zakir Hossain Road",
+    "bn_name": "জাকির হোসেন রোড",
+    "type": "LANDMARK",
+    "latitude": 22.355,
+    "longitude": 91.81,
+    "slug": "zakir-hossain-road"
+  },
+  {
+    "id": "12",
+    "thana_id": "100510",
+    "name": "O.R. Nizam Road (Pahartali)",
+    "bn_name": "ও.আর. নিজাম রোড (পাহাড়তলী)",
+    "type": "LANDMARK",
+    "latitude": 22.352,
+    "longitude": 91.812,
+    "slug": "or-nizam-road-(pahartali)"
+  },
+  {
+    "id": "13",
+    "thana_id": "100509",
+    "name": "Dampara Lane",
+    "bn_name": "দামপাড়া লেন",
+    "type": "LANDMARK",
+    "latitude": 22.34,
+    "longitude": 91.835,
+    "slug": "dampara-lane"
+  },
+  {
+    "id": "14",
+    "thana_id": "100509",
+    "name": "Mehedibag Road",
+    "bn_name": "মেহেদীবাগ রোড",
+    "type": "LANDMARK",
+    "latitude": 22.342,
+    "longitude": 91.838,
+    "slug": "mehedibag-road"
+  },
+  {
+    "id": "15",
+    "thana_id": "100509",
+    "name": "Mehedibag",
+    "bn_name": "মেহেদীবাগ",
+    "type": "NEIGHBOURHOOD",
+    "latitude": 22.342,
+    "longitude": 91.838,
+    "slug": "mehedibag"
+  },
+  {
+    "id": "16",
+    "thana_id": "100515",
+    "name": "Sheikh Mujib Road",
+    "bn_name": "শেখ মুজিব রোড",
+    "type": "LANDMARK",
+    "latitude": 22.325,
+    "longitude": 91.815,
+    "slug": "sheikh-mujib-road"
+  },
+  {
+    "id": "17",
+    "thana_id": "100515",
+    "name": "Badamtoli",
+    "bn_name": "বাদামতলী",
+    "type": "NEIGHBOURHOOD",
+    "latitude": 22.322,
+    "longitude": 91.812,
+    "slug": "badamtoli"
+  },
+  {
+    "id": "18",
+    "thana_id": "100515",
+    "name": "Agrabad CDA",
+    "bn_name": "আগ্রাবাদ সিডিএ",
+    "type": "NEIGHBOURHOOD",
+    "latitude": 22.328,
+    "longitude": 91.818,
+    "slug": "agrabad-cda"
+  },
+  {
+    "id": "19",
+    "thana_id": "100509",
+    "name": "Andarkillah",
+    "bn_name": "আন্দরকিল্লা",
+    "type": "NEIGHBOURHOOD",
+    "latitude": 22.335,
+    "longitude": 91.835,
+    "slug": "andarkillah"
+  },
+  {
+    "id": "20",
+    "thana_id": "100509",
+    "name": "Batali Road",
+    "bn_name": "বাটালি রোড",
+    "type": "LANDMARK",
+    "latitude": 22.34,
+    "longitude": 91.84,
+    "slug": "batali-road"
+  },
+  {
+    "id": "21",
+    "thana_id": "100503",
+    "name": "Momin Road",
+    "bn_name": "মোমিন রোড",
+    "type": "LANDMARK",
+    "latitude": 22.338,
+    "longitude": 91.838,
+    "slug": "momin-road"
+  },
+  {
+    "id": "22",
+    "thana_id": "100503",
+    "name": "Chatteswary Road",
+    "bn_name": "চট্টেশ্বরী রোড",
+    "type": "LANDMARK",
+    "latitude": 22.336,
+    "longitude": 91.839,
+    "slug": "chatteswary-road"
+  },
+  {
+    "id": "23",
+    "thana_id": "100509",
+    "name": "Chattogram Sadar",
+    "bn_name": "চট্টগ্রাম সদর",
+    "type": "NEIGHBOURHOOD",
+    "latitude": 22.335,
+    "longitude": 91.835,
+    "slug": "chattogram-sadar"
+  },
+  {
+    "id": "24",
+    "thana_id": "100503",
+    "name": "Jubilee Road",
+    "bn_name": "জুবিলী রোড",
+    "type": "LANDMARK",
+    "latitude": 22.333,
+    "longitude": 91.84,
+    "slug": "jubilee-road"
+  },
+  {
+    "id": "25",
+    "thana_id": "100506",
+    "name": "Halishahar Housing Estate",
+    "bn_name": "হালিশহর আবাসিক এলাকা",
+    "type": "NEIGHBOURHOOD",
+    "latitude": 22.305,
+    "longitude": 91.79,
+    "slug": "halishahar-housing-estate"
+  },
+  {
+    "id": "26",
+    "thana_id": "100506",
+    "name": "Boropool Mor",
+    "bn_name": "বড়পুল মোড়",
+    "type": "LANDMARK",
+    "latitude": 22.308,
+    "longitude": 91.795,
+    "slug": "boropool-mor"
+  },
+  {
+    "id": "27",
+    "thana_id": "100501",
+    "name": "Bayezid Bostami Road",
+    "bn_name": "বায়েজিদ বোস্তামী রোড",
+    "type": "LANDMARK",
+    "latitude": 22.36,
+    "longitude": 91.815,
+    "slug": "bayezid-bostami-road"
+  },
+  {
+    "id": "28",
+    "thana_id": "100512",
+    "name": "Airport Road",
+    "bn_name": "এয়ারপোর্ট রোড",
+    "type": "LANDMARK",
+    "latitude": 22.25,
+    "longitude": 91.815,
+    "slug": "airport-road"
+  },
+  {
+    "id": "29",
+    "thana_id": "100505",
+    "name": "CEPZ Circle",
+    "bn_name": "সিইপিজেড সার্কেল",
+    "type": "LANDMARK",
+    "latitude": 22.31,
+    "longitude": 91.8,
+    "slug": "cepz-circle"
+  },
+  {
+    "id": "30",
+    "thana_id": "100507",
+    "name": "Char Lokkha",
+    "bn_name": "চর লক্ষ্যা",
+    "type": "NEIGHBOURHOOD",
+    "latitude": 22.315,
+    "longitude": 91.805,
+    "slug": "char-lokkha"
+  },
+  {
+    "id": "31",
+    "thana_id": "100501",
+    "name": "Cantonment",
+    "bn_name": "ক্যান্টনমেন্ট",
+    "type": "ZONE",
+    "latitude": 22.365,
+    "longitude": 91.805,
+    "slug": "cantonment"
+  },
+  {
+    "id": "32",
+    "thana_id": "100499",
+    "name": "Bibir Hat",
+    "bn_name": "বিবিরহাট",
+    "type": "NEIGHBOURHOOD",
+    "latitude": 22.345,
+    "longitude": 91.855,
+    "slug": "bibir-hat"
+  }
+]

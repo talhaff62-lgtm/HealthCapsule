@@ -1,196 +1,183 @@
 import "dotenv/config";
 
-import {
-  Prisma,
-  VerificationStatus,
-  ListingTier,
-  UserRole,
-  ThanaType,
-  AreaType,
-} from "@prisma/client";
+import { Prisma, UserRole, VerificationStatus, ListingTier, FacilityType } from "@prisma/client";
 import { hashSync } from "bcryptjs";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 import { prisma } from "@/lib/prisma";
 
-const LOCATION_DIR = process.env.LOCATION_SEED_DIR || "D:/Work/location";
+const SEED_DATA_DIR = resolve(__dirname, "seed-data");
 
 function loadJson<T>(name: string): T {
-  return JSON.parse(readFileSync(resolve(LOCATION_DIR, name), "utf-8")) as T;
+  return JSON.parse(readFileSync(resolve(SEED_DATA_DIR, `${name}.json`), "utf-8")) as T;
 }
 
-function normalizeThanaType(raw: string): ThanaType {
-  const map: Record<string, ThanaType> = {
-    UPAZILA: "UPAZILA",
-    METROPOLITAN: "METROPOLITAN_THANA",
-    METROPOLITAN_THANA: "METROPOLITAN_THANA",
-    ZONE: "UPAZILA",
-  };
-  return map[raw] ?? "UPAZILA";
-}
+// ========================= Types from JSON =========================
 
-function normalizeAreaType(raw: string): AreaType {
-  const map: Record<string, AreaType> = {
-    NEIGHBOURHOOD: "NEIGHBOURHOOD",
-    LANDMARK: "LANDMARK",
-    ROAD: "ROAD",
-    ZONE: "NEIGHBOURHOOD",
-  };
-  return map[raw] ?? "NEIGHBOURHOOD";
-}
+type RawGeographyId = string | number;
+
+type RawDivision = {
+  id: RawGeographyId;
+  name: string;
+  bn_name?: string;
+  pcode: string;
+  latitude?: number;
+  longitude?: number;
+};
+
+type RawDistrict = {
+  id: RawGeographyId;
+  division_id: RawGeographyId;
+  name: string;
+  bn_name?: string;
+  pcode?: string;
+  area_sqkm?: number | null;
+  latitude?: number | null;
+  longitude?: number | null;
+};
 
 type RawThana = {
-  id: string | number;
-  district_id: string | number;
+  id: RawGeographyId;
+  district_id: RawGeographyId;
   name: string;
-  bn_name: string;
-  pcode: string;
+  bn_name?: string;
+  pcode?: string;
   type: string;
-  area_sqkm: number | null;
-  latitude: number | null;
-  longitude: number | null;
+  area_sqkm?: number | null;
+  latitude?: number | null;
+  longitude?: number | null;
 };
 
 type RawArea = {
-  id: string | number;
-  thana_id: string | number;
+  id: RawGeographyId;
+  thana_id: RawGeographyId;
   name: string;
-  bn_name: string;
-  type: string;
-  latitude: number | null;
-  longitude: number | null;
+  bn_name?: string;
   slug: string;
+  type: string;
+  latitude?: number | null;
+  longitude?: number | null;
 };
 
-/**
- * Thana JSON contains duplicate names within the same district and duplicate pcodes.
- * We keep the record that is referenced by areas, and remap area references from
- * dropped duplicates to the kept record so foreign keys stay valid.
- */
-function deduplicateThanas(thanas: RawThana[], areas: RawArea[]) {
-  const referencedThanaIds = new Set(areas.map((a) => String(a.thana_id)));
+type RawAreaAlias = {
+  id: RawGeographyId;
+  area_id: RawGeographyId;
+  alias: string;
+  lang?: string;
+};
 
-  // Prefer keeping thanas that are referenced by areas.
-  const sorted = [...thanas].sort(
-    (a, b) => Number(referencedThanaIds.has(String(b.id))) - Number(referencedThanaIds.has(String(a.id)))
-  );
+type RawSchedule = {
+  dayOfWeek: number;
+  startTime: string;
+  endTime: string;
+  slotDurationMinutes?: number;
+  maxPatients?: number;
+};
 
-  const keptThanas: RawThana[] = [];
-  const idRemap = new Map<string, string>();
-  const seenName = new Map<string, string>(); // districtId|name -> keptId
-  const seenPcode = new Map<string, string>(); // pcode -> keptId
+type RawChamber = {
+  address?: string | null;
+  fee?: number | null;
+  areaId?: string | null;
+  areaName?: string | null;
+  areaSlug?: string | null;
+  facilitySlug?: string | null;
+  schedules: RawSchedule[];
+};
 
-  for (const t of sorted) {
-    const id = String(t.id);
-    const districtId = String(t.district_id);
-    const nameKey = `${districtId}|${t.name}`;
+type RawDoctor = {
+  name: string;
+  bnName?: string | null;
+  slug: string;
+  bio?: string | null;
+  photoUrl?: string | null;
+  degrees: string[];
+  bmdcRegNo?: string | null;
+  registrationYear?: number | null;
+  yearsExperience?: number | null;
+  languages?: string[];
+  gender?: string | null;
+  consultationFee?: number | null;
+  verificationStatus: VerificationStatus;
+  listingTier?: ListingTier;
+  specialtySlugs: string[];
+  chambers: RawChamber[];
+  isActive?: boolean;
+  deletedAt?: string | null;
+};
 
-    const nameKept = seenName.get(nameKey);
-    const pcodeKept = t.pcode ? seenPcode.get(t.pcode) : undefined;
+type RawFacilityService = {
+  name: string;
+  price?: number | string | null;
+  isFeatured?: boolean;
+};
 
-    if (nameKept) {
-      idRemap.set(id, nameKept);
-      continue;
-    }
-    if (pcodeKept) {
-      idRemap.set(id, pcodeKept);
-      continue;
-    }
+type RawFacilityDepartment = {
+  name: string;
+  description?: string | null;
+};
 
-    seenName.set(nameKey, id);
-    if (t.pcode) seenPcode.set(t.pcode, id);
-    keptThanas.push(t);
-  }
+type RawFacilityImage = {
+  url: string;
+  alt?: string | null;
+  sortOrder?: number;
+};
 
-  // Remap area references and drop areas whose thana no longer exists.
-  const keptThanaIds = new Set(keptThanas.map((t) => String(t.id)));
-  const remappedAreas = areas
-    .map((a) => {
-      const original = String(a.thana_id);
-      const remapped = idRemap.get(original) ?? original;
-      return { ...a, thana_id: remapped };
-    })
-    .filter((a) => keptThanaIds.has(String(a.thana_id)));
+type RawFacility = {
+  name: string;
+  slug: string;
+  type: FacilityType;
+  description?: string | null;
+  longDescription?: string | null;
+  logoUrl?: string | null;
+  coverImageUrl?: string | null;
+  areaId: string;
+  areaSlug?: string | null;
+  address?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+  phone?: string | null;
+  email?: string | null;
+  website?: string | null;
+  beds?: number | null;
+  hasIcu?: boolean;
+  hasNicu?: boolean;
+  hasEmergency?: boolean;
+  hasAmbulance?: boolean;
+  establishedYear?: number | null;
+  verificationStatus: VerificationStatus;
+  listingTier?: ListingTier;
+  departments?: RawFacilityDepartment[];
+  services?: RawFacilityService[];
+  gallery?: RawFacilityImage[];
+  isActive?: boolean;
+  deletedAt?: string | null;
+};
 
-  const skipped = thanas.length - keptThanas.length;
-  if (skipped > 0) {
-    console.log(`Deduplicated ${skipped} thana(s); remapped ${areas.length - remappedAreas.length} orphan area(s).`);
-  }
+// ========================= Geography =========================
 
-  return { thanas: keptThanas, areas: remappedAreas };
+function normalizeThanaType(raw: string): "UPAZILA" | "METROPOLITAN_THANA" {
+  return raw === "METROPOLITAN" ? "METROPOLITAN_THANA" : "UPAZILA";
+}
+
+function normalizeAreaType(raw: string): "NEIGHBOURHOOD" | "LANDMARK" | "ROAD" {
+  return raw === "ZONE" ? "NEIGHBOURHOOD" : (raw as "NEIGHBOURHOOD" | "LANDMARK" | "ROAD");
 }
 
 async function seedGeography() {
-  const divisions = loadJson<
-    Array<{
-      id: string | number;
-      name: string;
-      bn_name: string;
-      pcode: string;
-      latitude: number;
-      longitude: number;
-    }>
-  >("divisions.json");
-
-  const districts = loadJson<
-    Array<{
-      id: string | number;
-      division_id: string | number;
-      name: string;
-      bn_name: string;
-      pcode: string;
-      area_sqkm: number;
-      latitude: number;
-      longitude: number;
-    }>
-  >("districts.json");
-
-  const thanas = loadJson<
-    Array<{
-      id: string | number;
-      district_id: string | number;
-      name: string;
-      bn_name: string;
-      pcode: string;
-      type: string;
-      area_sqkm: number;
-      latitude: number;
-      longitude: number;
-    }>
-  >("thanas.json");
-
-  const areas = loadJson<
-    Array<{
-      id: string | number;
-      thana_id: string | number;
-      name: string;
-      bn_name: string;
-      type: string;
-      latitude: number;
-      longitude: number;
-      slug: string;
-    }>
-  >("areas.json");
-
-  const aliases = loadJson<
-    Array<{
-      id: string | number;
-      area_id: string | number;
-      alias: string;
-      lang: string;
-    }>
-  >("area_aliases.json");
-
-  const { thanas: cleanThanas, areas: cleanAreas } = deduplicateThanas(thanas, areas);
+  const divisions = loadJson<RawDivision[]>("divisions");
+  const districts = loadJson<RawDistrict[]>("districts");
+  const thanas = loadJson<RawThana[]>("thanas");
+  const areas = loadJson<RawArea[]>("areas");
+  const aliases = loadJson<RawAreaAlias[]>("area_aliases");
 
   await prisma.division.createMany({
     data: divisions.map((d) => ({
       id: String(d.id),
       name: d.name,
-      bnName: d.bn_name,
-      pcode: d.pcode,
-      latitude: d.latitude,
-      longitude: d.longitude,
+      bnName: d.bn_name ?? null,
+      pcode: d.pcode ?? null,
+      latitude: d.latitude ?? null,
+      longitude: d.longitude ?? null,
     })),
     skipDuplicates: true,
   });
@@ -200,40 +187,40 @@ async function seedGeography() {
       id: String(d.id),
       divisionId: String(d.division_id),
       name: d.name,
-      bnName: d.bn_name,
-      pcode: d.pcode,
-      areaSqkm: d.area_sqkm,
-      latitude: d.latitude,
-      longitude: d.longitude,
+      bnName: d.bn_name ?? null,
+      pcode: d.pcode ?? null,
+      areaSqkm: d.area_sqkm ?? null,
+      latitude: d.latitude ?? null,
+      longitude: d.longitude ?? null,
     })),
     skipDuplicates: true,
   });
 
   await prisma.thana.createMany({
-    data: cleanThanas.map((t) => ({
+    data: thanas.map((t) => ({
       id: String(t.id),
       districtId: String(t.district_id),
       name: t.name,
-      bnName: t.bn_name,
-      pcode: t.pcode,
+      bnName: t.bn_name ?? null,
+      pcode: t.pcode ?? null,
       type: normalizeThanaType(t.type),
-      areaSqkm: t.area_sqkm,
-      latitude: t.latitude,
-      longitude: t.longitude,
+      areaSqkm: t.area_sqkm ?? null,
+      latitude: t.latitude ?? null,
+      longitude: t.longitude ?? null,
     })),
     skipDuplicates: true,
   });
 
   await prisma.area.createMany({
-    data: cleanAreas.map((a) => ({
+    data: areas.map((a) => ({
       id: String(a.id),
       thanaId: String(a.thana_id),
       name: a.name,
-      bnName: a.bn_name,
+      bnName: a.bn_name ?? null,
       slug: a.slug,
       type: normalizeAreaType(a.type),
-      latitude: a.latitude,
-      longitude: a.longitude,
+      latitude: a.latitude ?? null,
+      longitude: a.longitude ?? null,
     })),
     skipDuplicates: true,
   });
@@ -243,40 +230,20 @@ async function seedGeography() {
       id: String(a.id),
       areaId: String(a.area_id),
       alias: a.alias,
-      lang: a.lang,
+      lang: a.lang ?? "en",
     })),
     skipDuplicates: true,
   });
 
   console.log(
-    `Seeded ${divisions.length} divisions, ${districts.length} districts, ${cleanThanas.length} thanas, ${cleanAreas.length} areas, ${aliases.length} aliases.`
+    `Seeded ${divisions.length} divisions, ${districts.length} districts, ${thanas.length} thanas, ${areas.length} areas, ${aliases.length} aliases.`
   );
 }
 
-const specialties = [
-  { name: "Cardiology", bnName: "কার্ডিওলজি", slug: "cardiology", icon: "heart-pulse" },
-  { name: "General Physician", bnName: "সাধারণ চিকিৎসক", slug: "general-physician", icon: "stethoscope" },
-  { name: "Pediatrics", bnName: "শিশু রোগ বিশেষজ্ঞ", slug: "pediatrics", icon: "baby" },
-  { name: "Dermatology", bnName: "চর্মরোগ বিশেষজ্ঞ", slug: "dermatology", icon: "scan-face" },
-  { name: "Orthopedics", bnName: "অর্থোপেডিক্স", slug: "orthopedics", icon: "bone" },
-  { name: "Gynecology", bnName: "গাইনোকলোজি", slug: "gynecology", icon: "user-round" },
-  { name: "Neurology", bnName: "নিউরোলজি", slug: "neurology", icon: "brain" },
-  { name: "Psychiatry", bnName: "মনোরোগ বিশেষজ্ঞ", slug: "psychiatry", icon: "smile" },
-];
+// ========================= Users =========================
 
-async function seedSpecialties() {
-  await prisma.specialty.createMany({
-    data: specialties.map((s, index) => ({
-      ...s,
-      isPopular: index < 4,
-    })),
-    skipDuplicates: true,
-  });
-}
-
-async function seedUsers() {
+async function ensureAdminUser() {
   const passwordHash = hashSync("password123", 10);
-
   const admin = await prisma.user.upsert({
     where: { phone: "01800000000" },
     update: {},
@@ -286,129 +253,146 @@ async function seedUsers() {
       role: UserRole.ADMIN,
     },
   });
-
-  const doctorUsers = await Promise.all(
-    [
-      { phone: "01711111111", name: "Dr. Sarah Rahman" },
-      { phone: "01722222222", name: "Dr. Kamal Hossain" },
-      { phone: "01733333333", name: "Dr. Farhana Akter" },
-    ].map((u) =>
-      prisma.user.upsert({
-        where: { phone: u.phone },
-        update: {},
-        create: {
-          phone: u.phone,
-          passwordHash,
-          role: UserRole.DOCTOR,
-        },
-      })
-    )
-  );
-
-  return { admin, doctorUsers };
+  return admin;
 }
 
-const sampleDoctors = [
-  {
-    userIndex: 0,
-    name: "Dr. Sarah Rahman",
-    slug: "dr-sarah-rahman",
-    bio: "Consultant cardiologist with over 10 years of experience in interventional cardiology and heart failure management.",
-    degrees: ["MBBS", "MD (Cardiology)", "FACC"],
-    bmdcRegNo: "BMDC-C-12345",
-    registrationYear: 2014,
-    yearsExperience: 10,
-    languages: ["English", "Bengali"],
-    gender: "Female",
-    consultationFee: 800,
-    verificationStatus: VerificationStatus.VERIFIED,
-    listingTier: ListingTier.FEATURED,
-    specialtySlugs: ["cardiology"],
-    chambers: [
-      {
-        address: "Room 304, HealthPoint Hospital, O.R. Nizam Road",
-        fee: 800,
-        areaName: "O.R. Nizam Road",
-        schedules: [
-          { dayOfWeek: 6, startTime: "09:00", endTime: "13:00", slotDurationMinutes: 15, maxPatients: 16 },
-          { dayOfWeek: 3, startTime: "15:00", endTime: "18:00", slotDurationMinutes: 15, maxPatients: 12 },
-        ],
-      },
-    ],
-  },
-  {
-    userIndex: 1,
-    name: "Dr. Kamal Hossain",
-    slug: "dr-kamal-hossain",
-    bio: "Experienced general physician providing comprehensive primary care and chronic disease management.",
-    degrees: ["MBBS", "BCS (Health)", "FCPS (Medicine)"],
-    bmdcRegNo: "BMDC-G-23456",
-    registrationYear: 2012,
-    yearsExperience: 12,
-    languages: ["Bengali", "English"],
-    gender: "Male",
-    consultationFee: 500,
-    verificationStatus: VerificationStatus.VERIFIED,
-    listingTier: ListingTier.VERIFIED,
-    specialtySlugs: ["general-physician"],
-    chambers: [
-      {
-        address: "Chamber 12, K.B. Fazlul Kader Road",
-        fee: 500,
-        areaName: "K.B. Fazlul Kader Road",
-        schedules: [
-          { dayOfWeek: 1, startTime: "10:00", endTime: "14:00", slotDurationMinutes: 10, maxPatients: 24 },
-          { dayOfWeek: 4, startTime: "10:00", endTime: "14:00", slotDurationMinutes: 10, maxPatients: 24 },
-        ],
-      },
-    ],
-  },
-  {
-    userIndex: 2,
-    name: "Dr. Farhana Akter",
-    slug: "dr-farhana-akter",
-    bio: "Pediatrician focused on newborn care, vaccinations, and childhood illnesses.",
-    degrees: ["MBBS", "MD (Pediatrics)"],
-    bmdcRegNo: "BMDC-P-34567",
-    registrationYear: 2023,
-    yearsExperience: 2,
-    languages: ["Bengali", "English"],
-    gender: "Female",
-    consultationFee: 600,
-    verificationStatus: VerificationStatus.PENDING,
-    listingTier: ListingTier.FREE,
-    specialtySlugs: ["pediatrics"],
-    chambers: [
-      {
-        address: "Probortok More, Chattogram",
-        fee: 600,
-        areaName: "Probortok More",
-        schedules: [
-          { dayOfWeek: 2, startTime: "16:00", endTime: "20:00", slotDurationMinutes: 20, maxPatients: 12 },
-        ],
-      },
-    ],
-  },
-];
+// ========================= Specialties =========================
 
-async function seedDoctors(adminId: string, userIds: string[]) {
-  const areaMap = new Map(
-    await prisma.area.findMany({ select: { id: true, name: true } }).then((areas) =>
-      areas.map((a) => [a.name, a.id] as const)
-    )
+async function seedSpecialties(doctors: RawDoctor[], facilities: RawFacility[]) {
+  const specialtySlugs = new Set<string>();
+
+  doctors.forEach((d) => d.specialtySlugs.forEach((s) => specialtySlugs.add(s)));
+  facilities.forEach((f) =>
+    (f.departments ?? []).forEach((dept) => {
+      // Derive a clean slug from department names when useful
+      const slug = dept.name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "")
+        .replace(/--+/g, "-");
+      if (slug && slug.length < 40) specialtySlugs.add(slug);
+    })
   );
 
-  const specialtyMap = new Map(
-    await prisma.specialty.findMany({ select: { id: true, slug: true } }).then((specs) =>
-      specs.map((s) => [s.slug, s.id] as const)
-    )
-  );
+  const specialties = [...specialtySlugs].map((slug) => ({
+    name: slug
+      .split("-")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" "),
+    bnName: null as string | null,
+    slug,
+    icon: null as string | null,
+    isPopular: false,
+  }));
 
-  for (const data of sampleDoctors) {
-    const userId = userIds[data.userIndex];
+  await prisma.specialty.createMany({
+    data: specialties,
+    skipDuplicates: true,
+  });
 
+  console.log(`Seeded ${specialties.length} specialties.`);
+  return new Map(specialties.map((s) => [s.slug, s]));
+}
+
+// ========================= Facilities =========================
+
+async function seedFacilities(
+  facilities: RawFacility[],
+  areaMap: Map<string, string>,
+  passwordHash: string
+) {
+  const facilityIdMap = new Map<string, string>();
+
+  for (const data of facilities) {
+    const existing = await prisma.facility.findUnique({
+      where: { slug: data.slug },
+      select: { id: true },
+    });
+
+    if (existing) {
+      facilityIdMap.set(data.slug, existing.id);
+      continue;
+    }
+
+    // Create a facility admin user for each facility
+    const adminUser = await prisma.user.create({
+      data: {
+        phone: `018${String(Math.floor(10000000 + Math.random() * 89999999))}`,
+        passwordHash,
+        role: UserRole.FACILITY_ADMIN,
+      },
+    });
+
+    const facility = await prisma.facility.create({
+      data: {
+        name: data.name,
+        slug: data.slug,
+        type: data.type,
+        adminId: adminUser.id,
+        description: data.description ?? null,
+        longDescription: data.longDescription ?? null,
+        logoUrl: data.logoUrl ?? null,
+        coverImageUrl: data.coverImageUrl ?? null,
+        areaId: areaMap.get(String(data.areaId)) ?? String(data.areaId),
+        address: data.address ?? null,
+        latitude: data.latitude ?? null,
+        longitude: data.longitude ?? null,
+        phone: data.phone ?? null,
+        email: data.email ?? null,
+        website: data.website ?? null,
+        beds: data.beds ?? null,
+        hasIcu: data.hasIcu ?? false,
+        hasNicu: data.hasNicu ?? false,
+        hasEmergency: data.hasEmergency ?? false,
+        hasAmbulance: data.hasAmbulance ?? false,
+        establishedYear: data.establishedYear ?? null,
+        verificationStatus: data.verificationStatus,
+        listingTier: data.listingTier ?? ListingTier.FREE,
+        isActive: data.isActive ?? true,
+        deletedAt: data.deletedAt ? new Date(data.deletedAt) : null,
+        departments: {
+          create: (data.departments ?? []).map((d) => ({
+            name: d.name,
+            description: d.description ?? null,
+          })),
+        },
+        services: {
+          create: (data.services ?? []).map((s) => ({
+            name: s.name,
+            price: s.price != null ? new Prisma.Decimal(String(s.price)) : null,
+            isFeatured: s.isFeatured ?? false,
+          })),
+        },
+        gallery: {
+          create: (data.gallery ?? []).map((img, index) => ({
+            url: img.url,
+            alt: img.alt ?? null,
+            sortOrder: img.sortOrder ?? index,
+          })),
+        },
+      },
+    });
+
+    facilityIdMap.set(data.slug, facility.id);
+  }
+
+  console.log(`Seeded ${facilities.length} facilities.`);
+  return facilityIdMap;
+}
+
+// ========================= Doctors =========================
+
+async function seedDoctors(
+  doctors: RawDoctor[],
+  areaMap: Map<string, string>,
+  facilityIdMap: Map<string, string>,
+  specialtyMap: Map<string, { name: string; slug: string }>,
+  passwordHash: string
+) {
+  for (const data of doctors) {
     const existing = await prisma.doctor.findUnique({
       where: { slug: data.slug },
+      select: { id: true },
     });
 
     if (existing) {
@@ -416,60 +400,114 @@ async function seedDoctors(adminId: string, userIds: string[]) {
       continue;
     }
 
-    const specialtyIds = data.specialtySlugs
-      .map((slug) => specialtyMap.get(slug))
-      .filter((id): id is string => Boolean(id));
+    // Create a doctor user for each doctor
+    const doctorUser = await prisma.user.create({
+      data: {
+        phone: `017${String(Math.floor(10000000 + Math.random() * 89999999))}`,
+        passwordHash,
+        role: UserRole.DOCTOR,
+      },
+    });
 
-    await prisma.doctor.create({
+    const specialtyIds = data.specialtySlugs
+      .map((slug) => specialtyMap.get(slug)?.slug)
+      .filter((slug): slug is string => Boolean(slug));
+
+    const specialtyRecords = await prisma.specialty.findMany({
+      where: { slug: { in: specialtyIds } },
+      select: { id: true, slug: true },
+    });
+
+    const doctor = await prisma.doctor.create({
       data: {
         name: data.name,
+        bnName: data.bnName ?? null,
         slug: data.slug,
-        bio: data.bio,
+        bio: data.bio ?? null,
+        photoUrl: data.photoUrl ?? null,
         degrees: data.degrees,
-        bmdcRegNo: data.bmdcRegNo,
-        registrationYear: data.registrationYear,
-        yearsExperience: data.yearsExperience,
-        languages: data.languages,
-        gender: data.gender,
-        consultationFee: new Prisma.Decimal(data.consultationFee),
+        bmdcRegNo: data.bmdcRegNo ?? null,
+        registrationYear: data.registrationYear ?? null,
+        yearsExperience: data.yearsExperience ?? null,
+        languages: data.languages ?? ["Bengali", "English"],
+        gender: data.gender ?? null,
+        consultationFee:
+          data.consultationFee != null
+            ? new Prisma.Decimal(String(data.consultationFee))
+            : null,
         verificationStatus: data.verificationStatus,
-        verifiedById: data.verificationStatus === VerificationStatus.VERIFIED ? adminId : null,
-        verifiedAt: data.verificationStatus === VerificationStatus.VERIFIED ? new Date() : null,
-        listingTier: data.listingTier,
-        userId,
+        listingTier: data.listingTier ?? ListingTier.FREE,
+        userId: doctorUser.id,
+        isActive: data.isActive ?? true,
+        deletedAt: data.deletedAt ? new Date(data.deletedAt) : null,
         specialties: {
-          create: specialtyIds.map((specialtyId) => ({ specialtyId })),
+          create: specialtyRecords.map((s) => ({ specialtyId: s.id })),
         },
         chambers: {
           create: data.chambers.map((chamber) => ({
-            address: chamber.address,
-            consultationFee: new Prisma.Decimal(chamber.fee),
-            areaId: areaMap.get(chamber.areaName) ?? null,
+            address: chamber.address ?? null,
+            consultationFee:
+              chamber.fee != null
+                ? new Prisma.Decimal(String(chamber.fee))
+                : data.consultationFee != null
+                  ? new Prisma.Decimal(String(data.consultationFee))
+                  : null,
+            areaId: chamber.areaId ? areaMap.get(String(chamber.areaId)) ?? String(chamber.areaId) : null,
+            facilityId: chamber.facilitySlug
+              ? facilityIdMap.get(chamber.facilitySlug) ?? null
+              : null,
             schedules: {
-              create: chamber.schedules.map((schedule) => ({
+              create: (chamber.schedules ?? []).map((schedule) => ({
                 dayOfWeek: schedule.dayOfWeek,
                 startTime: schedule.startTime,
                 endTime: schedule.endTime,
-                slotDurationMinutes: schedule.slotDurationMinutes,
-                maxPatients: schedule.maxPatients,
+                slotDurationMinutes: schedule.slotDurationMinutes ?? 15,
+                maxPatients: schedule.maxPatients ?? 20,
               })),
             },
           })),
         },
       },
     });
+
+    console.log(`Seeded doctor: ${doctor.name}`);
   }
+
+  console.log(`Seeded ${doctors.length} doctors.`);
 }
 
+// ========================= Main =========================
+
 async function main() {
+  const doctors = loadJson<RawDoctor[]>("doctors");
+  const facilities = loadJson<RawFacility[]>("facilities");
+
   console.log("Seeding geography...");
   await seedGeography();
+
+  console.log("Seeding admin user...");
+  await ensureAdminUser();
+
+  console.log("Building area map...");
+  const areas = await prisma.area.findMany({ select: { id: true, slug: true } });
+  const areaMap = new Map<string, string>();
+  areas.forEach((a) => {
+    areaMap.set(a.id, a.id);
+    areaMap.set(a.slug, a.id);
+    areaMap.set(String(a.id), a.id);
+  });
+
   console.log("Seeding specialties...");
-  await seedSpecialties();
-  console.log("Seeding users...");
-  const { admin, doctorUsers } = await seedUsers();
+  const specialtyMap = await seedSpecialties(doctors, facilities);
+
+  const passwordHash = hashSync("password123", 10);
+
+  console.log("Seeding facilities...");
+  const facilityIdMap = await seedFacilities(facilities, areaMap, passwordHash);
+
   console.log("Seeding doctors, chambers, and schedules...");
-  await seedDoctors(admin.id, doctorUsers.map((u) => u.id));
+  await seedDoctors(doctors, areaMap, facilityIdMap, specialtyMap, passwordHash);
+
   console.log("Seed complete.");
 }
 

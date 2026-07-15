@@ -1,0 +1,413 @@
+{
+  "communities": {
+    "0": [
+      "app_healthcares_page",
+      "app_healthcares_page_healthcarespage",
+      "app_healthcares_page_metadata",
+      "app_healthcares_page_searchparams",
+      "app_healthcares_page_tabs",
+      "app_healthcares_page_type_badge_class",
+      "app_healthcares_slug_page",
+      "app_healthcares_slug_page_facilityprofilepage",
+      "app_healthcares_slug_page_facilityprofilepageprops",
+      "app_healthcares_slug_page_generatemetadata",
+      "app_healthcares_slug_page_getverifiedfacilitybyslug",
+      "components_admin_portal_adminfacilityrow",
+      "components_admin_portal_adminfacilityrow_adminfacilityrow",
+      "components_admin_portal_adminfacilityrow_facilityrow",
+      "components_admin_portal_adminfacilityrow_statusbadgeclass",
+      "components_admin_portal_adminfacilityrow_statuses",
+      "components_admin_portal_adminfacilityrow_tiers",
+      "components_ui_tierbadge",
+      "components_ui_tierbadge_tierbadge",
+      "components_ui_tierbadge_tierbadgeprops",
+      "components_ui_tierbadge_tierconfig",
+      "lib_facilities",
+      "lib_facilities_facilitylistitem",
+      "lib_facilities_searchfacilities",
+      "lib_facilities_searchfacilitiesparams",
+      "lib_facility_helpers",
+      "lib_facility_helpers_getfacilitytypelabel",
+      "lib_facility_helpers_isfeaturedfacility",
+      "lib_facility_helpers_parsefacilitytype"
+    ],
+    "1": [
+      "app_portal_admin_actions",
+      "app_portal_admin_actions_adminactionresult",
+      "app_portal_admin_actions_setfacilitylistingtier",
+      "app_portal_admin_actions_setfacilityverificationstatus",
+      "app_portal_admin_actions_setlistingtier",
+      "app_portal_admin_actions_setverificationstatus",
+      "app_portal_admin_page",
+      "app_portal_admin_page_adminportalpage",
+      "app_portal_admin_page_admintype",
+      "app_portal_admin_page_metadata",
+      "app_portal_admin_page_validstatuses",
+      "app_portal_admin_page_validtypes",
+      "app_portal_facility_page",
+      "app_portal_facility_page_facilityportalpage",
+      "app_portal_facility_page_metadata",
+      "app_portal_facility_page_statusstyles",
+      "app_portal_facility_page_typelabels",
+      "components_admin_portal_admindoctorrow",
+      "components_admin_portal_admindoctorrow_admindoctorrow",
+      "components_admin_portal_admindoctorrow_doctorrow",
+      "components_admin_portal_admindoctorrow_statusbadgeclass",
+      "components_admin_portal_admindoctorrow_statuses",
+      "components_admin_portal_admindoctorrow_tiers",
+      "lib_session_requirerole"
+    ],
+    "2": [
+      "app_page",
+      "app_page_getfilteroptions",
+      "app_page_home",
+      "app_page_metadata",
+      "components_home_ctabanner",
+      "components_home_ctabanner_ctabanner",
+      "components_home_healthcapsuleai",
+      "components_home_healthcapsuleai_healthcapsuleai",
+      "components_home_herosearchcard",
+      "components_home_herosearchcard_herosearchcard",
+      "components_home_herosearchcard_herosearchcardprops",
+      "components_home_herosearchcard_option",
+      "components_home_howitworks",
+      "components_home_howitworks_howitworks",
+      "components_home_modules",
+      "components_home_modules_modules",
+      "components_home_statsbar",
+      "components_home_statsbar_getcounts",
+      "components_home_statsbar_statsbar",
+      "components_home_trustsection",
+      "components_home_trustsection_trustsection",
+      "components_home_whysection",
+      "components_home_whysection_whysection"
+    ],
+    "3": [
+      "app_doctors_page",
+      "app_doctors_page_doctorspage",
+      "app_doctors_page_metadata",
+      "app_doctors_page_searchparams",
+      "components_doctors_doctorcard",
+      "components_doctors_doctorcard_doctorcard",
+      "components_doctors_doctorcard_doctorcardprops",
+      "components_doctors_doctorfilters",
+      "components_doctors_doctorfilters_doctorfilters",
+      "components_doctors_doctorfilters_doctorfiltersprops",
+      "components_doctors_doctorfilters_filteroption",
+      "components_home_featureddoctors",
+      "components_home_featureddoctors_featureddoctors",
+      "components_home_featureddoctors_getfeatureddoctors",
+      "lib_doctors",
+      "lib_doctors_doctorlistitem",
+      "lib_doctors_isfeatureddoctor",
+      "lib_doctors_isnewdoctor",
+      "lib_doctors_searchdoctors",
+      "lib_doctors_searchdoctorsparams"
+    ],
+    "4": [
+      "app_layout",
+      "app_layout_fraunces",
+      "app_layout_ibmplexmono",
+      "app_layout_inter",
+      "app_layout_metadata",
+      "app_layout_rootlayout",
+      "components_auth_authstatus",
+      "components_auth_authstatus_authstatus",
+      "components_layout_footer",
+      "components_layout_footer_footer",
+      "components_layout_footerportals",
+      "components_layout_footerportals_footerportals",
+      "components_layout_navbar",
+      "components_layout_navbar_isactive",
+      "components_layout_navbar_navbar",
+      "components_layout_navbar_navlink",
+      "components_layout_navbar_portallinksbyrole",
+      "components_layout_navbar_publiclinks",
+      "components_providers_sessionprovider",
+      "components_providers_sessionprovider_sessionprovider"
+    ],
+    "5": [
+      "app_register_actions",
+      "app_register_actions_isuniqueconstrainterror",
+      "app_register_actions_registerdoctor",
+      "app_register_actions_registerdoctorinput",
+      "app_register_actions_registerfacility",
+      "app_register_actions_registerfacilityinput",
+      "app_register_actions_registerresult",
+      "app_register_actions_sanitizephone",
+      "app_register_actions_validatecommon",
+      "app_register_registerform",
+      "app_register_registerform_areaoption",
+      "app_register_registerform_facility_types",
+      "app_register_registerform_registerform",
+      "app_register_registerform_registerformprops",
+      "app_register_registerform_specialtyoption",
+      "lib_slug",
+      "lib_slug_generateuniqueslug",
+      "lib_slug_slugify"
+    ],
+    "6": [
+      "app_portal_doctor_chambers_actions",
+      "app_portal_doctor_chambers_actions_chamberresult",
+      "app_portal_doctor_chambers_actions_createchamber",
+      "app_portal_doctor_chambers_actions_deletechamber",
+      "app_portal_doctor_chambers_actions_isvalidschedule",
+      "app_portal_doctor_chambers_actions_parseschedules",
+      "app_portal_doctor_chambers_actions_scheduleinput",
+      "app_portal_doctor_chambers_actions_updatechamber",
+      "app_portal_doctor_chambers_actions_verifydoctorownschamber",
+      "app_portal_doctor_chambers_page",
+      "app_portal_doctor_chambers_page_doctorchamberspage",
+      "app_portal_doctor_chambers_page_metadata",
+      "components_doctor_portal_chamberform",
+      "components_doctor_portal_chamberform_chamberform",
+      "components_doctor_portal_chamberform_chamberformprops",
+      "components_doctor_portal_chamberform_days",
+      "components_doctor_portal_chamberform_emptyschedule"
+    ],
+    "7": [
+      "app_portal_doctor_actions",
+      "app_portal_doctor_actions_updatedoctorprofile",
+      "app_portal_doctor_actions_updateprofileresult",
+      "app_portal_doctor_page",
+      "app_portal_doctor_page_doctorportalpage",
+      "app_portal_doctor_page_metadata",
+      "components_doctor_portal_doctorprofileform",
+      "components_doctor_portal_doctorprofileform_doctorprofileform",
+      "components_doctor_portal_doctorprofileform_doctorprofileformprops",
+      "lib_prisma",
+      "lib_prisma_adapter",
+      "lib_prisma_globalforprisma",
+      "lib_prisma_pool"
+    ],
+    "8": [
+      "app_api_auth_nextauth_route",
+      "app_api_auth_nextauth_route_handler",
+      "app_register_page",
+      "app_register_page_metadata",
+      "app_register_page_registerpage",
+      "app_register_page_registerpageprops",
+      "app_register_page_valid_types",
+      "lib_auth",
+      "lib_auth_authoptions",
+      "lib_session",
+      "lib_session_getcurrentuser",
+      "lib_session_requireauth"
+    ],
+    "9": [
+      "app_doctors_slug_page",
+      "app_doctors_slug_page_doctorprofilepage",
+      "app_doctors_slug_page_doctorprofilepageprops",
+      "app_doctors_slug_page_formatfee",
+      "app_doctors_slug_page_generatemetadata",
+      "app_doctors_slug_page_getinitials",
+      "app_doctors_slug_page_getverifieddoctorbyslug",
+      "components_ui_verifiedbadge",
+      "components_ui_verifiedbadge_verifiedbadge",
+      "components_ui_verifiedbadge_verifiedbadgeprops",
+      "lib_doctors_getnextavailableslot"
+    ],
+    "10": [
+      "components_home_audiences",
+      "components_home_audiences_audiences",
+      "types_next_auth_d",
+      "types_next_auth_d_jwt",
+      "types_next_auth_d_next_auth",
+      "types_next_auth_d_next_auth_jwt",
+      "types_next_auth_d_session",
+      "types_next_auth_d_user"
+    ],
+    "11": [
+      "components_home_featuredhospitals",
+      "components_home_featuredhospitals_fallbackfacilities",
+      "components_home_featuredhospitals_featuredhospitals",
+      "components_home_featuredhospitals_getfeaturedfacilities",
+      "components_ui_facilitytypebadge",
+      "components_ui_facilitytypebadge_facilityconfig",
+      "components_ui_facilitytypebadge_facilitytypebadge",
+      "components_ui_facilitytypebadge_facilitytypebadgeprops"
+    ],
+    "12": [
+      "app_not_found",
+      "app_not_found_metadata",
+      "app_not_found_notfound"
+    ],
+    "13": [
+      "middleware",
+      "middleware_authorized",
+      "middleware_config"
+    ],
+    "14": [
+      "app_login_page",
+      "app_login_page_loginpage"
+    ],
+    "15": [
+      "app_portal_page",
+      "app_portal_page_portalredirectpage"
+    ],
+    "16": [
+      "lib_hooks_use_current_user",
+      "lib_hooks_use_current_user_usecurrentuser"
+    ]
+  },
+  "cohesion": {
+    "0": 0.11822660098522167,
+    "1": 0.11594202898550725,
+    "2": 0.11857707509881422,
+    "3": 0.1631578947368421,
+    "4": 0.12105263157894737,
+    "5": 0.20261437908496732,
+    "6": 0.20588235294117646,
+    "7": 0.19230769230769232,
+    "8": 0.24242424242424243,
+    "9": 0.2909090909090909,
+    "10": 0.25,
+    "11": 0.32142857142857145,
+    "12": 0.6666666666666666,
+    "13": 0.6666666666666666,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0
+  },
+  "gods": [
+    {
+      "id": "lib_session_requirerole",
+      "label": "requireRole()",
+      "degree": 19
+    },
+    {
+      "id": "lib_facility_helpers_getfacilitytypelabel",
+      "label": "getFacilityTypeLabel()",
+      "degree": 7
+    },
+    {
+      "id": "app_register_actions_registerdoctor",
+      "label": "registerDoctor()",
+      "degree": 6
+    },
+    {
+      "id": "app_register_actions_registerfacility",
+      "label": "registerFacility()",
+      "degree": 6
+    },
+    {
+      "id": "app_doctors_slug_page_doctorprofilepage",
+      "label": "DoctorProfilePage()",
+      "degree": 5
+    },
+    {
+      "id": "app_portal_doctor_chambers_actions_updatechamber",
+      "label": "updateChamber()",
+      "degree": 5
+    },
+    {
+      "id": "app_portal_doctor_chambers_actions_deletechamber",
+      "label": "deleteChamber()",
+      "degree": 5
+    },
+    {
+      "id": "components_doctors_doctorcard_doctorcard",
+      "label": "DoctorCard()",
+      "degree": 5
+    },
+    {
+      "id": "components_ui_tierbadge_tierbadge",
+      "label": "TierBadge()",
+      "degree": 5
+    },
+    {
+      "id": "lib_facility_helpers_parsefacilitytype",
+      "label": "parseFacilityType()",
+      "degree": 5
+    }
+  ],
+  "surprises": [
+    {
+      "source": "DoctorPortalPage()",
+      "target": "requireRole()",
+      "source_files": [
+        "app/portal/doctor/page.tsx",
+        "lib/session.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `DoctorPortalPage()` unexpectedly reaches hub `requireRole()`"
+    },
+    {
+      "source": "AdminPortalPage()",
+      "target": "requireRole()",
+      "source_files": [
+        "app/portal/admin/page.tsx",
+        "lib/session.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `AdminPortalPage()` unexpectedly reaches hub `requireRole()`"
+    },
+    {
+      "source": "createChamber()",
+      "target": "requireRole()",
+      "source_files": [
+        "app/portal/doctor/chambers/actions.ts",
+        "lib/session.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "updateChamber()",
+      "target": "requireRole()",
+      "source_files": [
+        "app/portal/doctor/chambers/actions.ts",
+        "lib/session.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "deleteChamber()",
+      "target": "requireRole()",
+      "source_files": [
+        "app/portal/doctor/chambers/actions.ts",
+        "lib/session.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `requireRole()` connect `requireRole` to `session.ts`, `actions.ts`, `prisma.ts`?",
+      "why": "High betweenness centrality (0.035) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `handler`, `DoctorProfilePageProps`, `metadata` to the rest of the system?",
+      "why": "71 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `AdminFacilityRow.tsx` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.11822660098522167 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `requireRole` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.11594202898550725 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `page.tsx` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.11857707509881422 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `layout.tsx` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.12105263157894737 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

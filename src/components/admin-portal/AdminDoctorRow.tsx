@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ListingTier, VerificationStatus } from "@prisma/client";
 import { ExternalLink } from "lucide-react";
@@ -64,7 +65,7 @@ export default function AdminDoctorRow({ doctor }: { doctor: DoctorRow }) {
   }
 
   return (
-    <div className="rounded-2xl border border-brand-gray bg-white p-5 shadow-sm transition hover:border-brand-gold/30">
+    <div className="rounded-2xl border border-brand-gray bg-white p-5 shadow-sm transition hover:border-brand-sky/30">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <div className="flex flex-wrap items-center gap-2">
@@ -85,15 +86,15 @@ export default function AdminDoctorRow({ doctor }: { doctor: DoctorRow }) {
           <p className="text-xs text-brand-muted">
             Submitted {doctor.createdAt.toLocaleDateString()}
           </p>
-          <a
+          <Link
             href={`/doctors/${doctor.slug}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-brand-gold hover:underline"
+            className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-brand-sky hover:underline"
           >
             View public profile
             <ExternalLink className="h-3.5 w-3.5" />
-          </a>
+          </Link>
         </div>
 
         <div className="min-w-[16rem] space-y-3">
@@ -140,7 +141,7 @@ export default function AdminDoctorRow({ doctor }: { doctor: DoctorRow }) {
               value={tier}
               onChange={(e) => handleTierChange(e.target.value as ListingTier)}
               disabled={pending}
-              className="w-full rounded-lg border border-brand-gray bg-white px-3 py-2 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
+              className="w-full rounded-lg border border-brand-gray bg-white px-3 py-2 text-sm text-brand-slate outline-none transition focus:border-brand-sky focus:ring-2 focus:ring-brand-sky/20"
             >
               {tiers.map((t) => (
                 <option key={t} value={t}>

@@ -1,9 +1,11 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { UserRole } from "@prisma/client";
 import { requireRole } from "@/lib/session";
 import { prisma } from "@/lib/prisma";
 import ChamberForm from "@/components/doctor-portal/ChamberForm";
+import DeleteChamberButton from "@/components/doctor-portal/DeleteChamberButton";
 import { deleteChamber } from "./actions";
 
 export const metadata: Metadata = {
@@ -59,19 +61,22 @@ export default async function DoctorChambersPage() {
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="font-serif text-2xl font-semibold text-brand-navy sm:text-3xl">
+            <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-dark">
+              Chambers
+            </span>
+            <h1 className="mt-2 font-serif text-2xl font-semibold text-brand-navy sm:text-3xl">
               Manage Chambers
             </h1>
             <p className="mt-1 text-brand-muted">
               Add, edit, or remove your practice locations and weekly schedules.
             </p>
           </div>
-          <a
+          <Link
             href="/portal/doctor"
             className="rounded-full border border-brand-navy px-4 py-2 text-sm font-medium text-brand-navy transition hover:bg-brand-navy hover:text-white"
           >
             Back to profile
-          </a>
+          </Link>
         </div>
 
         <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
@@ -82,7 +87,9 @@ export default async function DoctorChambersPage() {
         <div className="mt-8 space-y-6">
           <h2 className="font-serif text-lg font-semibold text-brand-navy">Your chambers</h2>
           {doctor.chambers.length === 0 ? (
-            <p className="text-brand-muted">No chambers yet. Use the form above to add one.</p>
+            <div className="rounded-2xl border border-brand-gray bg-white p-8 text-center text-brand-muted">
+              No chambers yet. Use the form above to add one.
+            </div>
           ) : (
             doctor.chambers.map((chamber) => (
               <div
@@ -104,20 +111,14 @@ export default async function DoctorChambersPage() {
                     })),
                   }}
                 />
-                <form
+                <DeleteChamberButton
+                  doctorId={doctor.id}
+                  chamberId={chamber.id}
                   action={async () => {
                     "use server";
                     await deleteChamber(doctor.id, chamber.id);
                   }}
-                  className="mt-4 flex justify-end border-t border-brand-gray pt-4"
-                >
-                  <button
-                    type="submit"
-                    className="text-sm font-medium text-status-emergency hover:underline"
-                  >
-                    Delete chamber
-                  </button>
-                </form>
+                />
                 <div className="mt-4 flex flex-wrap gap-2">
                   {chamber.schedules.map((s) => (
                     <span

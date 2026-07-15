@@ -54,20 +54,24 @@ export default async function Home() {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
-          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <div className="grid items-start gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
             {/* Left column */}
             <div className="max-w-2xl">
-              <span className="inline-flex items-center gap-2 rounded-full border border-brand-sky/30 bg-brand-sky/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-brand-sky-bright">
-                <ShieldCheck className="h-3.5 w-3.5" />
-                Verified Doctor &amp; Hospital Registry
+              <span className="inline-flex items-center gap-2.5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-brand-sky-bright">
+                <span className="h-px w-5 bg-brand-sky-bright/60" aria-hidden="true" />
+                Bangladesh · Verified doctors, hospitals &amp; records
               </span>
 
-              <h1 className="mt-6 font-serif text-4xl font-semibold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
-                Find a verified doctor.<br />Book today. <span className="italic text-brand-sky-bright">Keep records after.</span>
+              <h1 className="mt-5 font-serif text-4xl font-semibold leading-[1.07] tracking-tight text-white sm:text-5xl lg:text-[3.6rem]">
+                Find a verified doctor.<br />Book today. <span className="italic font-medium text-brand-sky-bright">Keep every record after.</span>
               </h1>
 
-              <p className="mt-6 max-w-lg text-base leading-relaxed text-white/80">
-                Search verified doctors, book in two taps, store every prescription, and reach an ambulance before panic sets in — one trusted platform for Chattogram.
+              <p className="mt-3 font-serif text-lg italic text-brand-sky-bright/90">
+                One trusted record for every step of care.
+              </p>
+
+              <p className="mt-5 max-w-lg text-base leading-relaxed text-white/75">
+                Search verified doctors, book in two taps, store every prescription, and reach an ambulance before panic sets in — one platform, instead of a dozen phone numbers and Facebook pages.
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -80,45 +84,62 @@ export default async function Home() {
                 </Link>
                 <Link
                   href="#how"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-sm font-medium text-white transition hover:border-brand-sky-bright hover:text-brand-sky-bright"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/25 px-7 py-3.5 text-sm font-medium text-white transition hover:border-brand-sky-bright hover:text-brand-sky-bright"
                 >
                   See How It Works
                 </Link>
               </div>
 
               {/* Trust Indicators */}
-              <div className="mt-10 flex flex-wrap gap-6 text-xs font-medium uppercase tracking-wider text-white/80">
+              <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-xs font-medium uppercase tracking-wider text-white/65">
                 <span className="inline-flex items-center gap-2">
                   <ShieldCheck className="h-4 w-4 text-brand-sky-bright" />
-                  BMDC verified
+                  Verified-only network
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <Clock className="h-4 w-4 text-brand-sky-bright" />
-                  Live schedules
+                  Real-time availability
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <MapPin className="h-4 w-4 text-brand-sky-bright" />
-                  Chattogram focused
+                  Free for patients
                 </span>
               </div>
 
+              {/* Record meta — structured credibility strip */}
+              <div className="mt-9 flex flex-wrap gap-x-9 gap-y-4 border-t border-white/10 pt-6">
+                {[
+                  { k: "Launch city", v: "Chattogram" },
+                  { k: "Network", v: "Verified-only" },
+                  { k: "Modules", v: "9 live" },
+                  { k: "Coverage", v: "5 divisions" },
+                ].map((m) => (
+                  <div key={m.k} className="flex flex-col gap-1">
+                    <span className="font-mono text-[0.65rem] uppercase tracking-[0.08em] text-white/45">
+                      {m.k}
+                    </span>
+                    <span className="font-mono text-sm text-brand-sky-bright">{m.v}</span>
+                  </div>
+                ))}
+              </div>
+
               {/* Recently Verified Doctor strip */}
-              <div className="mt-10 pt-8 border-t border-white/10">
-                <span className="block font-mono text-[0.65rem] uppercase tracking-widest text-white/70 mb-3">
-                  Recently Verified Providers
+              <div className="mt-8">
+                <span className="mb-3 block font-mono text-[0.65rem] uppercase tracking-[0.08em] text-white/55">
+                  Recently verified
                 </span>
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2.5">
                   {recentlyVerified.map((doc) => (
                     <div
                       key={doc.name}
-                      className="inline-flex items-center gap-2.5 rounded-full bg-white/5 border border-white/10 p-1.5 pr-4 text-xs hover:border-brand-sky/50 transition cursor-pointer"
+                      className="inline-flex cursor-pointer items-center gap-2.5 rounded-full border border-white/12 bg-white/[0.06] p-1.5 pr-4 text-xs transition hover:border-brand-sky-bright/60 hover:bg-white/[0.1]"
                     >
-                      <div className="w-7 h-7 rounded-full bg-brand-sky/20 text-[0.7rem] font-bold text-brand-sky-bright flex items-center justify-center">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-navy-light font-serif text-[0.72rem] font-semibold text-brand-sky-bright ring-1 ring-brand-sky-bright/30">
                         {doc.initials}
                       </div>
-                      <div>
-                        <strong className="text-white block font-medium">{doc.name}</strong>
-                        <span className="text-[0.65rem] text-white/70 font-mono uppercase">{doc.spec}</span>
+                      <div className="leading-tight">
+                        <strong className="block font-medium text-white">{doc.name}</strong>
+                        <span className="font-mono text-[0.62rem] uppercase tracking-wide text-white/55">{doc.spec}</span>
                       </div>
                     </div>
                   ))}
@@ -126,8 +147,8 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* Right column — search card */}
-            <div className="relative lg:mt-8">
+            {/* Right column — search card (top-aligned with the left text) */}
+            <div className="relative">
               <HeroSearchCard specialties={specialties} areas={areas} />
             </div>
           </div>

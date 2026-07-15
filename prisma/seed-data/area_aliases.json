@@ -1,0 +1,260 @@
+[
+  {
+    "id": "1",
+    "area_id": "1",
+    "alias": "OR Nizam Road",
+    "lang": "en"
+  },
+  {
+    "id": "2",
+    "area_id": "1",
+    "alias": "O.R Nizam Road",
+    "lang": "en"
+  },
+  {
+    "id": "3",
+    "area_id": "1",
+    "alias": "ও.আর. নিজাম রোড",
+    "lang": "bn"
+  },
+  {
+    "id": "4",
+    "area_id": "2",
+    "alias": "K.B Fazlul Kader Road",
+    "lang": "en"
+  },
+  {
+    "id": "5",
+    "area_id": "2",
+    "alias": "KB Fazlul Kader Road",
+    "lang": "en"
+  },
+  {
+    "id": "6",
+    "area_id": "2",
+    "alias": "K.B. Fazlul Kader Rd",
+    "lang": "en"
+  },
+  {
+    "id": "7",
+    "area_id": "3",
+    "alias": "প্রবর্তক মোড়",
+    "lang": "bn"
+  },
+  {
+    "id": "8",
+    "area_id": "3",
+    "alias": "Prabartak More",
+    "lang": "en"
+  },
+  {
+    "id": "9",
+    "area_id": "3",
+    "alias": "Probartok",
+    "lang": "en"
+  },
+  {
+    "id": "10",
+    "area_id": "4",
+    "alias": "West Nasirabad",
+    "lang": "en"
+  },
+  {
+    "id": "11",
+    "area_id": "4",
+    "alias": "East Nasirabad",
+    "lang": "en"
+  },
+  {
+    "id": "12",
+    "area_id": "4",
+    "alias": "Nasirabad Residential Area",
+    "lang": "en"
+  },
+  {
+    "id": "13",
+    "area_id": "5",
+    "alias": "Katalgonj",
+    "lang": "en"
+  },
+  {
+    "id": "14",
+    "area_id": "10",
+    "alias": "GEC More",
+    "lang": "en"
+  },
+  {
+    "id": "15",
+    "area_id": "10",
+    "alias": "GEC",
+    "lang": "en"
+  },
+  {
+    "id": "16",
+    "area_id": "10",
+    "alias": "জিইসি সার্কেল",
+    "lang": "bn"
+  },
+  {
+    "id": "17",
+    "area_id": "8",
+    "alias": "Foys Lake",
+    "lang": "en"
+  },
+  {
+    "id": "18",
+    "area_id": "8",
+    "alias": "Foyez Lake",
+    "lang": "en"
+  },
+  {
+    "id": "19",
+    "area_id": "8",
+    "alias": "ফয়েজ লেক",
+    "lang": "bn"
+  },
+  {
+    "id": "20",
+    "area_id": "9",
+    "alias": "অক্সিজেন রোড",
+    "lang": "bn"
+  },
+  {
+    "id": "21",
+    "area_id": "9",
+    "alias": "Kuwaish Road",
+    "lang": "en"
+  },
+  {
+    "id": "22",
+    "area_id": "9",
+    "alias": "Oxygen Road",
+    "lang": "en"
+  },
+  {
+    "id": "23",
+    "area_id": "9",
+    "alias": "Oxygen-Kuwaish",
+    "lang": "en"
+  },
+  {
+    "id": "24",
+    "area_id": "13",
+    "alias": "দামপাড়া লেন",
+    "lang": "bn"
+  },
+  {
+    "id": "25",
+    "area_id": "13",
+    "alias": "Dampara",
+    "lang": "en"
+  },
+  {
+    "id": "26",
+    "area_id": "16",
+    "alias": "S.M. Road",
+    "lang": "en"
+  },
+  {
+    "id": "27",
+    "area_id": "16",
+    "alias": "Sheikh Mujib Rd",
+    "lang": "en"
+  },
+  {
+    "id": "28",
+    "area_id": "16",
+    "alias": "শেখ মুজিব রোড",
+    "lang": "bn"
+  },
+  {
+    "id": "29",
+    "area_id": "17",
+    "alias": "Badam Toli",
+    "lang": "en"
+  },
+  {
+    "id": "30",
+    "area_id": "19",
+    "alias": "আন্দরকিল্লা",
+    "lang": "bn"
+  },
+  {
+    "id": "31",
+    "area_id": "19",
+    "alias": "Andar Killah",
+    "lang": "en"
+  },
+  {
+    "id": "32",
+    "area_id": "20",
+    "alias": "Batali",
+    "lang": "en"
+  },
+  {
+    "id": "33",
+    "area_id": "21",
+    "alias": "মোমিন রোড",
+    "lang": "bn"
+  },
+  {
+    "id": "34",
+    "area_id": "23",
+    "alias": "Chittagong Sadar",
+    "lang": "en"
+  },
+  {
+    "id": "35",
+    "area_id": "23",
+    "alias": "চট্টগ্রাম সদর",
+    "lang": "bn"
+  },
+  {
+    "id": "36",
+    "area_id": "11",
+    "alias": "Zakir Hossain Rd",
+    "lang": "en"
+  },
+  {
+    "id": "37",
+    "area_id": "25",
+    "alias": "Halishahar Estate",
+    "lang": "en"
+  },
+  {
+    "id": "38",
+    "area_id": "26",
+    "alias": "Boropool",
+    "lang": "en"
+  },
+  {
+    "id": "39",
+    "area_id": "26",
+    "alias": "বড়পুল মোড়",
+    "lang": "bn"
+  },
+  {
+    "id": "40",
+    "area_id": "27",
+    "alias": "Bayazid Road",
+    "lang": "en"
+  },
+  {
+    "id": "41",
+    "area_id": "27",
+    "alias": "বায়েজিদ বোস্তামী রোড",
+    "lang": "bn"
+  },
+  {
+    "id": "42",
+    "area_id": "24",
+    "alias": "জুবিলী রোড",
+    "lang": "bn"
+  },
+  {
+    "id": "43",
+    "area_id": "24",
+    "alias": "Jubilee",
+    "lang": "en"
+  }
+]
