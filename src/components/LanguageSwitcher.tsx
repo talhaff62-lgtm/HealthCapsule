@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function getLang(): string {
   const match = document.cookie.match(/googtrans=\/en\/(\w+)/);
@@ -8,11 +8,9 @@ function getLang(): string {
 }
 
 export default function LanguageSwitcher() {
-  const [lang, setLang] = useState<string>("en");
-
-  useEffect(() => {
-    setLang(getLang());
-  }, []);
+  const [lang, setLang] = useState<string>(() =>
+    typeof document === "undefined" ? "en" : getLang()
+  );
 
   const switchLang = (newLang: string) => {
     document.cookie = `googtrans=/en/${newLang}; path=/`;
