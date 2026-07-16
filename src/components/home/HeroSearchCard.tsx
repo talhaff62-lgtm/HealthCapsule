@@ -1,15 +1,13 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   Search,
   Stethoscope,
   Building2,
   Siren,
   Droplet,
-  MessageSquare,
   Phone,
-  ArrowRight,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Select from "@/components/ui/Select";
@@ -24,33 +22,17 @@ type HeroSearchCardProps = {
   areas: Option[];
 };
 
-type TabId = "doctor" | "hospital" | "ambulance" | "blood" | "ai";
-
-type ChatMessage = {
-  sender: "bot" | "user";
-  text: string;
-};
+type TabId = "doctor" | "hospital" | "ambulance" | "blood";
 
 export default function HeroSearchCard({ specialties, areas }: HeroSearchCardProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabId>("doctor");
-
-  // AI Chat state
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
-    {
-      sender: "bot",
-      text: "Hello! Describe what's going on — e.g. 'chest pain', 'baby has fever' — and I'll match you to the right specialist.",
-    },
-  ]);
-  const [chatInput, setChatInput] = useState("");
-  const chatThreadRef = useRef<HTMLDivElement>(null);
 
   const tabs: { id: TabId; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: "doctor", label: "Doctor", icon: Stethoscope },
     { id: "hospital", label: "Hospital", icon: Building2 },
     { id: "ambulance", label: "Ambulance", icon: Siren },
     { id: "blood", label: "Blood", icon: Droplet },
-    { id: "ai", label: "AI Check", icon: MessageSquare },
   ];
 
   const handleSearchDoctor = (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,53 +49,6 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
 
     router.push(`/doctors?${params.toString()}`);
   };
-
-  const handleChatSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!chatInput.trim()) return;
-
-    const userText = chatInput;
-    setChatMessages((prev) => [...prev, { sender: "user", text: userText }]);
-    setChatInput("");
-
-    setTimeout(() => {
-      let botResponse =
-        "That sounds like a General Physician matter. I'll route you to verified general physicians below.";
-      let redirectSpecialty = "general-physician";
-
-      const lower = userText.toLowerCase();
-      if (lower.includes("chest") || lower.includes("heart") || lower.includes("cardiac")) {
-        botResponse = "That could be cardiac — routing you to verified Cardiologists.";
-        redirectSpecialty = "cardiology";
-      } else if (lower.includes("child") || lower.includes("baby") || lower.includes("kid") || lower.includes("pediatric")) {
-        botResponse = "That relates to children's care — routing you to verified Pediatricians.";
-        redirectSpecialty = "pediatrics";
-      } else if (lower.includes("skin") || lower.includes("rash") || lower.includes("allergy") || lower.includes("dermat")) {
-        botResponse = "That's skin-related — routing you to verified Dermatologists.";
-        redirectSpecialty = "dermatology";
-      } else if (lower.includes("brain") || lower.includes("stroke") || lower.includes("headache") || lower.includes("migraine") || lower.includes("paraly")) {
-        botResponse = "That's nervous-system related — routing you to verified Neurologists.";
-        redirectSpecialty = "neurology";
-      }
-
-      setChatMessages((prev) => [
-        ...prev,
-        { sender: "bot", text: `${botResponse} (Redirecting…)` },
-      ]);
-
-      setTimeout(() => {
-        router.push(`/doctors?specialty=${redirectSpecialty}`);
-      }, 1400);
-    }, 700);
-  };
-
-  // Keep the latest chat message in view.
-  useEffect(() => {
-    chatThreadRef.current?.scrollTo({
-      top: chatThreadRef.current.scrollHeight,
-      behavior: "smooth",
-    });
-  }, [chatMessages]);
 
   const fieldLabel = "mb-1.5 block font-mono text-[0.68rem] uppercase tracking-[0.06em] text-brand-muted";
   const fieldInput =
@@ -321,65 +256,6 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
 
               <p className="text-center font-mono text-[0.66rem] leading-relaxed text-brand-muted">
                 Matched against verified donor networks across the city.
-              </p>
-            </div>
-          )}
-
-          {/* AI Check tab */}
-          {activeTab === "ai" && (
-            <div className="space-y-3">
-              <div
-                ref={chatThreadRef}
-                className="h-48 space-y-2.5 overflow-y-auto pr-1"
-              >
-                {chatMessages.map((msg, i) => (
-                  <div
-                    key={i}
-                    className={`flex items-start gap-2 ${
-                      msg.sender === "user" ? "flex-row-reverse" : ""
-                    }`}
-                  >
-                    <span
-                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[0.6rem] font-bold text-white ${
-                        msg.sender === "bot" ? "bg-brand-navy" : "bg-brand-sky"
-                      }`}
-                    >
-                      {msg.sender === "bot" ? "HC" : "You"}
-                    </span>
-                    <span
-                      className={`max-w-[80%] rounded-2xl px-3 py-2 text-xs leading-relaxed ${
-                        msg.sender === "user"
-                          ? "rounded-tr-sm bg-brand-sky text-white"
-                          : "rounded-tl-sm bg-brand-sky-bg text-brand-navy"
-                      }`}
-                    >
-                      {msg.text}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              <form onSubmit={handleChatSubmit} className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={chatInput}
-                  onChange={(e) => setChatInput(e.target.value)}
-                  placeholder="Type what's going on…"
-                  className="flex-1 rounded-full border border-brand-gray bg-white px-4 py-2.5 text-xs text-brand-slate placeholder:text-brand-muted transition focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/15"
-                />
-                <button
-                  type="submit"
-                  aria-label="Send"
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-navy text-white transition hover:bg-brand-navy-light"
-                >
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-              </form>
-
-              <p className="border-t border-dashed border-brand-gray pt-2 font-mono text-[0.65rem] leading-relaxed text-brand-muted">
-                HealthCapsule Assistant matches what you type to a specialty and routes you to a real,
-                verified provider — it never diagnoses or prescribes. In an emergency, call an ambulance
-                immediately.
               </p>
             </div>
           )}

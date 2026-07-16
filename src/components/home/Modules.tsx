@@ -8,7 +8,6 @@ import {
   Star,
   Bell,
   Heart,
-  Bot,
 } from "lucide-react";
 
 export default function Modules() {
@@ -61,12 +60,6 @@ export default function Modules() {
       desc: "Searchable by blood group, area, and real-time availability — no more group-chat forwarding.",
       icon: Heart,
     },
-    {
-      num: "Module 09",
-      title: "AI Health Assistant",
-      desc: "A live chat assistant that matches symptoms to a specialty and routes you to a verified provider.",
-      icon: Bot,
-    },
   ];
 
   return (
@@ -77,7 +70,7 @@ export default function Modules() {
             The product ecosystem
           </span>
           <h2 className="mt-2 font-serif text-3xl font-semibold text-white sm:text-4xl">
-            Nine modules, live today.
+            Eight modules, live today.
           </h2>
           <p className="mt-4 text-white/80">
             Each module solves one real point of friction in the care journey — together, they form a single record patients and providers can rely on.
