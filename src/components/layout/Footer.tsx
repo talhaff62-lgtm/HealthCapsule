@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import FooterPortals from "./FooterPortals";
+import { Logo } from "./Logo";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -14,15 +14,7 @@ export default function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand column */}
           <div>
-            <Link href="/" className="flex items-center gap-2">
-              <Image
-                src="/images/no_bgLogo.png"
-                alt="HealthCapsule"
-                width={180}
-                height={48}
-                className="h-10 w-auto"
-              />
-            </Link>
+            <Logo size="md" />
             <p className="mt-4 text-sm leading-relaxed text-white/70">
               Verified doctors, live schedules, and trusted care across
               Chattogram. One platform for every step of care.

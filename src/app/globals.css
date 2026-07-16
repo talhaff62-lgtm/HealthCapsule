@@ -348,3 +348,13 @@ a {
   );
   z-index: 0;
 }
+
+/* ─── Google Translate widget: suppress default UI ─── */
+.goog-te-banner-frame.skiptranslate,
+body > .skiptranslate {
+  display: none !important;
+}
+
+body {
+  top: 0px !important;
+}

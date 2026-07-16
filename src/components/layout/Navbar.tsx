@@ -1,10 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AuthStatus } from "@/components/auth/AuthStatus";
+import { Logo } from "@/components/layout/Logo";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -56,17 +57,7 @@ export default function Navbar() {
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2.5">
-          {/* Two-tone capsule logo mark */}
-          <Image
-            src="/images/no_bgLogo.png"
-            alt="HealthCapsule"
-            width={160}
-            height={40}
-            className="h-8 w-auto sm:h-10"
-            priority
-          />
-        </Link>
+        <Logo size="md" />
 
         <div className="hidden items-center gap-7 text-sm font-medium md:flex">
           {navLinks.map((link) => {
@@ -89,6 +80,7 @@ export default function Navbar() {
             );
           })}
           <AuthStatus />
+          <LanguageSwitcher />
         </div>
 
         <button
@@ -125,6 +117,9 @@ export default function Navbar() {
             <div className="mt-6 flex flex-col gap-3">
               <div className="pt-2">
                 <AuthStatus />
+              </div>
+              <div className="pt-2">
+                <LanguageSwitcher />
               </div>
             </div>
           </div>

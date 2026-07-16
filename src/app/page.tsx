@@ -6,8 +6,6 @@ import StatsBar from "@/components/home/StatsBar";
 import HowItWorks from "@/components/home/HowItWorks";
 import WhySection from "@/components/home/WhySection";
 import Audiences from "@/components/home/Audiences";
-import Modules from "@/components/home/Modules";
-import HealthCapsuleAI from "@/components/home/HealthCapsuleAI";
 import FeaturedHospitals from "@/components/home/FeaturedHospitals";
 import FeaturedDoctors from "@/components/home/FeaturedDoctors";
 import TrustSection from "@/components/home/TrustSection";
@@ -125,7 +123,6 @@ export default async function Home() {
                   {[
                     { k: "Launch city", v: "Chattogram" },
                     { k: "Network", v: "Verified-only" },
-                    { k: "Modules", v: "9 live" },
                     { k: "Coverage", v: "5 divisions" },
                   ].map((m) => (
                     <div key={m.k} className="flex flex-col gap-1">
@@ -189,12 +186,6 @@ export default async function Home() {
 
       {/* Audiences */}
       <Audiences />
-
-      {/* Modules Ecosystem */}
-      <Modules />
-
-      {/* HealthCapsule AI capabilities */}
-      <HealthCapsuleAI />
 
       {/* Trust Section */}
       <TrustSection />
