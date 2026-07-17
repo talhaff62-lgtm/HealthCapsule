@@ -49,7 +49,7 @@ export default function WhySection() {
               {scraps.map((s, i) => (
                 <div
                   key={s.title}
-                  className="group absolute w-[230px] cursor-default rounded-xl border border-brand-gray bg-white p-3.5 shadow-lg shadow-black/[0.06] transition-all duration-300 hover:z-20 hover:scale-[1.03] hover:shadow-xl"
+                  className="group absolute w-[230px] cursor-default rounded-xl border border-brand-gray bg-white p-3.5 shadow-lg shadow-black/[0.06] transition-all duration-300 hover:z-20! hover:scale-[1.03] hover:shadow-xl"
                   style={{
                     top: `${s.top}px`,
                     left: `${s.left}px`,

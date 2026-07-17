@@ -1,16 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function getLang(): string {
-  const match = document.cookie.match(/googtrans=\/en\/(\w+)/);
-  return match ? match[1] : "en";
+  const match = document.cookie.match(/(?:^|;\s*)googtrans=([^;]+)/);
+  if (!match) return "en";
+  const value = decodeURIComponent(match[1]);
+  const parts = value.split("/").filter(Boolean); // e.g. ["en", "bn"]
+  return parts[parts.length - 1] || "en";
 }
 
 export default function LanguageSwitcher() {
-  const [lang, setLang] = useState<string>(() =>
-    typeof document === "undefined" ? "en" : getLang()
-  );
+  const [lang, setLang] = useState<string>("en");
+
+  useEffect(() => {
+    setLang(getLang());
+  }, []);
 
   const switchLang = (newLang: string) => {
     document.cookie = `googtrans=/en/${newLang}; path=/`;
@@ -20,13 +25,13 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="ml-2 pl-3 border-l border-white/20 flex items-center gap-1">
+    <div className="ml-2 flex items-center gap-0.5 rounded-full border border-white/20 bg-white/5 p-0.5">
       <button
         type="button"
         onClick={() => switchLang("en")}
         aria-pressed={lang === "en"}
-        className={`text-sm font-medium px-2 py-1 rounded transition ${
-          lang === "en" ? "text-brand-sky-bright" : "text-white/70 hover:text-white"
+        className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
+          lang === "en" ? "bg-brand-sky-bright text-brand-navy shadow-sm" : "text-white/60 hover:text-white"
         }`}
       >
         English
@@ -35,8 +40,8 @@ export default function LanguageSwitcher() {
         type="button"
         onClick={() => switchLang("bn")}
         aria-pressed={lang === "bn"}
-        className={`text-sm font-medium px-2 py-1 rounded transition ${
-          lang === "bn" ? "text-brand-sky-bright" : "text-white/70 hover:text-white"
+        className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
+          lang === "bn" ? "bg-brand-sky-bright text-brand-navy shadow-sm" : "text-white/60 hover:text-white"
         }`}
       >
         বাংলা
