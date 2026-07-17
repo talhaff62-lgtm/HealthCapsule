@@ -103,6 +103,20 @@ export function isNewDoctor(registrationYear: number | null): boolean {
   return currentYear - registrationYear <= 1;
 }
 
+export const EXPERIENCED_YEARS_THRESHOLD = 10;
+
+export function isExperiencedDoctor(
+  yearsExperience: number | null
+): boolean {
+  return (
+    yearsExperience !== null && yearsExperience >= EXPERIENCED_YEARS_THRESHOLD
+  );
+}
+
+export function isEmergingDoctor(yearsExperience: number | null): boolean {
+  return !isExperiencedDoctor(yearsExperience);
+}
+
 export function getNextAvailableSlot(
   schedules: {
     dayOfWeek: number;

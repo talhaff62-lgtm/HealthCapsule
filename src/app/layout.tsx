@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import { ScrollProgressBar } from "@/components/ui/motion";
+import GoogleTranslate from "@/components/GoogleTranslate";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -41,6 +42,7 @@ export default function RootLayout({
       <body className="min-h-screen">
         <ScrollProgressBar />
         <SessionProvider>
+          <GoogleTranslate />
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />

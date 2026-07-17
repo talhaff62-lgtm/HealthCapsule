@@ -17,6 +17,14 @@ export type FacilityListItem = {
   address: string | null;
   area: { name: string } | null;
   listingTier: ListingTier;
+  description: string | null;
+  coverImageUrl: string | null;
+  beds: number | null;
+  establishedYear: number | null;
+  hasIcu: boolean;
+  hasEmergency: boolean;
+  hasAmbulance: boolean;
+  website: string | null;
 };
 
 export async function searchFacilities(
@@ -56,6 +64,14 @@ export async function searchFacilities(
       address: true,
       area: { select: { name: true } },
       listingTier: true,
+      description: true,
+      coverImageUrl: true,
+      beds: true,
+      establishedYear: true,
+      hasIcu: true,
+      hasEmergency: true,
+      hasAmbulance: true,
+      website: true,
     },
     orderBy: [{ listingTier: "desc" }, { createdAt: "desc" }],
   });
