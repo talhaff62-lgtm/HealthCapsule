@@ -40,3 +40,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Windows reserved device names — created accidentally by >/dev/null in Git Bash
+nul
+NUL
+
+# ZCode agent workspace (local session plans, scratch)
+.zcode/
+
