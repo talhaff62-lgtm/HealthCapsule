@@ -21,6 +21,7 @@ export default function GoogleTranslate() {
     if (document.getElementById("google-translate-script")) return;
 
     window.googleTranslateElementInit = () => {
+      if (!window.google) return;
       new window.google.translate.TranslateElement(
         { pageLanguage: "en", includedLanguages: "en,bn", autoDisplay: false },
         "google_translate_element",
