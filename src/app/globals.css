@@ -284,6 +284,51 @@ a {
   }
 }
 
+/* ─── Hero illustration float animations ─── */
+@keyframes heroFloat1 {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes heroFloat2 {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes heroFloatIllustration {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-hero-float-1 {
+    animation: heroFloat1 6s ease-in-out infinite;
+  }
+
+  .animate-hero-float-2 {
+    animation: heroFloat2 7.5s ease-in-out infinite;
+  }
+
+  .animate-hero-float-illustration {
+    animation: heroFloatIllustration 9s ease-in-out infinite;
+  }
+}
+
 /* ─── Rendered bio markdown ─── */
 .bio-content p {
   margin-bottom: 0.75rem;

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { ShieldCheck, Clock, MapPin, ArrowRight } from "lucide-react";
 import HeroSearchCard from "@/components/home/HeroSearchCard";
+import HeroIllustration from "@/components/home/HeroIllustration";
 import StatsBar from "@/components/home/StatsBar";
 import HowItWorks from "@/components/home/HowItWorks";
 import WhySection from "@/components/home/WhySection";
@@ -52,8 +53,8 @@ export default async function Home() {
           <div className="absolute bottom-0 left-0 h-[500px] w-[500px] -translate-x-1/4 translate-y-1/4 rounded-full bg-brand-navy-light/50 blur-[120px]" />
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
-          <div className="grid items-start gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+        <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
             {/* Left column */}
             <div className="max-w-2xl">
               <ScrollReveal delay={0}>
@@ -64,35 +65,33 @@ export default async function Home() {
               </ScrollReveal>
 
               <ScrollReveal delay={0.05}>
-                <h1 className="mt-5 font-serif text-4xl font-semibold leading-[1.07] tracking-tight text-white sm:text-5xl lg:text-[3.6rem]">
+                <h1 className="mt-4 font-serif text-4xl font-semibold leading-[1.07] tracking-tight text-white sm:text-5xl lg:text-[3.6rem]">
                   Find a verified doctor.<br />Book today. <span className="italic font-medium text-brand-sky-bright">Keep every record after.</span>
                 </h1>
               </ScrollReveal>
 
               <ScrollReveal delay={0.1}>
-                <p className="mt-3 font-serif text-lg italic text-brand-sky-bright/90">
-                  One trusted record for every step of care.
-                </p>
-              </ScrollReveal>
-
-              <ScrollReveal delay={0.15}>
-                <p className="mt-5 max-w-lg text-base leading-relaxed text-white/75">
+                <p className="mt-4 max-w-lg text-base leading-relaxed text-white/75">
                   Search verified doctors, book in two taps, store every prescription, and reach an ambulance before panic sets in — one platform, instead of a dozen phone numbers and Facebook pages.
                 </p>
               </ScrollReveal>
 
+              <ScrollReveal delay={0.15} className="mt-6 max-w-xl">
+                <HeroSearchCard specialties={specialties} areas={areas} />
+              </ScrollReveal>
+
               <ScrollReveal delay={0.2}>
-                <div className="mt-8 flex flex-wrap items-center gap-4">
+                <div className="mt-5 flex flex-wrap items-center gap-4">
                   <Link
                     href="/doctors"
-                    className="group inline-flex items-center gap-2 rounded-full bg-brand-sky px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-sky/25 transition hover:bg-brand-sky-dark"
+                    className="group inline-flex items-center gap-2 rounded-full bg-brand-sky px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-sky/25 transition hover:bg-brand-sky-dark"
                   >
                     Find a Doctor
                     <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
                   </Link>
                   <Link
                     href="#how"
-                    className="inline-flex items-center gap-2 rounded-full border border-white/25 px-7 py-3.5 text-sm font-medium text-white transition hover:border-brand-sky-bright hover:text-brand-sky-bright"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/25 px-6 py-3 text-sm font-medium text-white transition hover:border-brand-sky-bright hover:text-brand-sky-bright"
                   >
                     See How It Works
                   </Link>
@@ -100,8 +99,8 @@ export default async function Home() {
               </ScrollReveal>
 
               {/* Trust Indicators */}
-              <ScrollReveal delay={0.3}>
-                <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-xs font-medium uppercase tracking-wider text-white/65">
+              <ScrollReveal delay={0.25}>
+                <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-xs font-medium uppercase tracking-wider text-white/65">
                   <span className="inline-flex items-center gap-2">
                     <ShieldCheck className="h-4 w-4 text-brand-sky-bright" />
                     Verified-only network
@@ -116,28 +115,17 @@ export default async function Home() {
                   </span>
                 </div>
               </ScrollReveal>
+            </div>
 
-              {/* Record meta — structured credibility strip */}
-              <ScrollReveal delay={0.35}>
-                <div className="mt-9 flex flex-wrap gap-x-9 gap-y-4 border-t border-white/10 pt-6">
-                  {[
-                    { k: "Launch city", v: "Chattogram" },
-                    { k: "Network", v: "Verified-only" },
-                    { k: "Coverage", v: "5 divisions" },
-                  ].map((m) => (
-                    <div key={m.k} className="flex flex-col gap-1">
-                      <span className="font-mono text-[0.65rem] uppercase tracking-[0.08em] text-white/45">
-                        {m.k}
-                      </span>
-                      <span className="font-mono text-sm text-brand-sky-bright">{m.v}</span>
-                    </div>
-                  ))}
-                </div>
+            {/* Right column — illustration */}
+            <div className="relative">
+              <ScrollReveal delay={0.15}>
+                <HeroIllustration />
               </ScrollReveal>
 
               {/* Recently Verified Doctor strip */}
-              <ScrollReveal delay={0.45}>
-                <div className="mt-8">
+              <ScrollReveal delay={0.3}>
+                <div className="mt-8 hidden lg:block">
                   <span className="mb-3 block font-mono text-[0.65rem] uppercase tracking-[0.08em] text-white/55">
                     Recently verified
                   </span>
@@ -160,11 +148,6 @@ export default async function Home() {
                 </div>
               </ScrollReveal>
             </div>
-
-            {/* Right column — search card (top-aligned with the left text) */}
-            <div className="relative">
-              <HeroSearchCard specialties={specialties} areas={areas} />
-            </div>
           </div>
         </div>
       </section>
@@ -172,14 +155,14 @@ export default async function Home() {
       {/* Stats Bar */}
       <StatsBar />
 
+      {/* Featured Hospitals & Diagnostics */}
+      <FeaturedHospitals />
+
       {/* How It Works */}
       <HowItWorks />
 
       {/* Before vs After */}
       <WhySection />
-
-      {/* Featured Hospitals & Diagnostics */}
-      <FeaturedHospitals />
 
       {/* Featured Specialists */}
       <FeaturedDoctors />

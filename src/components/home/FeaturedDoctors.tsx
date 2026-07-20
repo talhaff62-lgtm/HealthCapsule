@@ -76,6 +76,7 @@ async function getEmergingDoctors(): Promise<FeaturedDoctorListItem[]> {
         verificationStatus: VerificationStatus.VERIFIED,
         deletedAt: null,
         isActive: true,
+        degrees: { equals: ["MBBS"] },
         OR: [
           { yearsExperience: { lt: EXPERIENCED_YEARS_THRESHOLD } },
           { yearsExperience: null },

@@ -30,7 +30,7 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
           : "border-brand-gray"
       }`}
     >
-      <div className="flex items-start gap-4">
+      <div className="flex items-start gap-4 min-w-0">
         {/* Avatar with initials gradient */}
         <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-navy-light to-brand-navy text-base font-semibold text-brand-sky-bright shadow-sm ring-2 ring-brand-cloud-dark">
           {doctor.photoUrl ? (
