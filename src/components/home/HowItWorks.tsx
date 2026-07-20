@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion"
 
 export default function HowItWorks() {
@@ -28,7 +29,7 @@ export default function HowItWorks() {
   return (
     <section id="how" className="bg-brand-cream py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <ScrollReveal className="mx-auto max-w-2xl text-center mb-16">
+        <ScrollReveal className="mx-auto max-w-2xl text-center mb-10">
           <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky">
             How it works
           </span>
@@ -38,6 +39,16 @@ export default function HowItWorks() {
           <p className="mt-4 text-brand-muted">
             HealthCapsule cuts through the noise of group chats, outdated Facebook pages, and unreachable phone numbers.
           </p>
+        </ScrollReveal>
+
+        <ScrollReveal className="mx-auto mb-14 max-w-4xl">
+          <Image
+            src="/images/how_it_works.png"
+            alt="How HealthCapsule works: search and filter doctors, view verified profiles, book in two taps, and store your records"
+            width={1600}
+            height={900}
+            className="h-auto w-full rounded-2xl"
+          />
         </ScrollReveal>
 
         <div className="relative">
