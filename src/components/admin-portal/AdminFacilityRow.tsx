@@ -22,7 +22,7 @@ type FacilityRow = {
   listingTier: ListingTier;
   createdAt: Date;
   area: { name: string; slug: string } | null;
-  admin: { phone: string } | null;
+  admin: { phone: string | null } | null;
 };
 
 const statuses: VerificationStatus[] = ["PENDING", "VERIFIED", "REJECTED"];

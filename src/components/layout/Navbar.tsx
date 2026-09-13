@@ -42,6 +42,8 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  if (pathname?.startsWith("/staff") || pathname?.startsWith("/admin")) return null;
+
   const role = session?.user?.role;
   const portalLink = role ? portalLinksByRole[role] : undefined;
   const navLinks: NavLink[] = portalLink

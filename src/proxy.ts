@@ -1,12 +1,36 @@
 import { withAuth } from "next-auth/middleware";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 /**
  * Next.js 16 renamed the `middleware` file convention to `proxy`.
  * This file replaces `src/middleware.ts` and exports a named `proxy`
- * function that guards the role-based portals.
+ * function that guards the role-based portals and staff/admin pages.
  */
-export const proxy = withAuth(
+
+export async function proxy(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+
+  if (pathname.startsWith("/api")) {
+    return NextResponse.next();
+  }
+
+  if (
+    (pathname.startsWith("/staff") || pathname.startsWith("/admin")) &&
+    pathname !== "/staff/login" &&
+    !req.cookies.get("hc_token")
+  ) {
+    return NextResponse.redirect(new URL("/staff/login", req.url));
+  }
+
+  if (pathname.startsWith("/portal")) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return portalGuard(req as any, {} as any);
+  }
+
+  return NextResponse.next();
+}
+
+const portalGuard = withAuth(
   function proxy(req) {
     const { pathname } = req.nextUrl;
     const role = req.nextauth.token?.role;
@@ -37,5 +61,5 @@ export const proxy = withAuth(
 );
 
 export const config = {
-  matcher: ["/portal/:path*"],
+  matcher: ["/portal/:path*", "/staff/:path*", "/admin/:path*"],
 };

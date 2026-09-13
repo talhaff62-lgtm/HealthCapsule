@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Fraunces, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import FooterGate from "@/components/layout/FooterGate";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import { ScrollProgressBar } from "@/components/ui/motion";
 import GoogleTranslate from "@/components/GoogleTranslate";
@@ -45,7 +45,7 @@ export default function RootLayout({
           <GoogleTranslate />
           <Navbar />
           <main className="flex-1">{children}</main>
-          <Footer />
+          <FooterGate />
         </SessionProvider>
       </body>
     </html>

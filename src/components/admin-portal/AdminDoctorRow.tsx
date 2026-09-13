@@ -17,7 +17,7 @@ type DoctorRow = {
   verificationStatus: VerificationStatus;
   listingTier: ListingTier;
   createdAt: Date;
-  user: { phone: string } | null;
+  user: { phone: string | null } | null;
 };
 
 const statuses: VerificationStatus[] = ["PENDING", "VERIFIED", "REJECTED"];
