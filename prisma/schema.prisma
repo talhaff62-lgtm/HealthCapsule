@@ -46,6 +46,7 @@ enum UserRole {
   DOCTOR
   FACILITY_ADMIN
   ADMIN
+  STAFF
 }
 
 // ========================= Geography =========================
@@ -152,13 +153,20 @@ model AreaAlias {
 
 model User {
   id           String     @id @default(cuid())
-  phone        String     @unique
+  name         String?
+  email        String?    @unique
+  phone        String?    @unique
   passwordHash String?
   role         UserRole
 
   doctorAccount          Doctor?    @relation("DoctorAccount")
   doctorsVerified        Doctor[]   @relation("DoctorVerifier")
   facilitiesAdministered Facility[] @relation("FacilityAdmin")
+
+  facilitiesCollected Facility[] @relation("FacilityCollector")
+  facilitiesReviewed  Facility[] @relation("FacilityReviewer")
+  doctorsCollected    Doctor[]   @relation("DoctorCollector")
+  doctorsReviewed     Doctor[]   @relation("DoctorReviewer")
 
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
@@ -185,6 +193,25 @@ model Specialty {
   deletedAt DateTime?
 
   @@index([deletedAt])
+}
+
+// ========================= Amenities =========================
+
+model Amenity {
+  id         String            @id @default(cuid())
+  name       String            @unique
+  icon       String?
+  facilities FacilityAmenity[]
+  createdAt  DateTime          @default(now())
+}
+
+model FacilityAmenity {
+  facilityId String
+  amenityId  String
+  facility   Facility @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  amenity    Amenity  @relation(fields: [amenityId], references: [id])
+
+  @@id([facilityId, amenityId])
 }
 
 // ========================= Facilities =========================
@@ -221,6 +248,18 @@ model Facility {
   hasAmbulance       Boolean              @default(false)
   establishedYear    Int?
 
+  discountInfo       String?
+  collectedById      String?
+  collectedAt        DateTime?
+  reviewedById       String?
+  reviewedAt         DateTime?
+  rejectReason       String?
+
+  collectedBy        User?                @relation("FacilityCollector", fields: [collectedById], references: [id], onDelete: SetNull)
+  reviewedBy         User?                @relation("FacilityReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  amenities          FacilityAmenity[]
+
   verificationStatus VerificationStatus   @default(PENDING)
   listingTier        ListingTier          @default(FREE)
   featuredUntil      DateTime?
@@ -242,6 +281,8 @@ model Facility {
   @@index([deletedAt])
   @@index([isActive])
   @@index([listingTier])
+  @@index([verificationStatus])
+  @@index([collectedById])
 }
 
 model FacilityService {
@@ -304,6 +345,18 @@ model Doctor {
   gender           String?
   consultationFee  Decimal? @db.Decimal(10, 2)
 
+  currentPosition  String?
+  achievements     String?
+
+  collectedById    String?
+  collectedAt      DateTime?
+  reviewedById     String?
+  reviewedAt       DateTime?
+  rejectReason     String?
+
+  collectedBy      User?    @relation("DoctorCollector", fields: [collectedById], references: [id], onDelete: SetNull)
+  reviewedBy       User?    @relation("DoctorReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+
   verificationStatus VerificationStatus @default(PENDING)
   verifiedById       String?
   verifiedBy         User?              @relation("DoctorVerifier", fields: [verifiedById], references: [id])
@@ -327,6 +380,7 @@ model Doctor {
   @@index([verificationStatus])
   @@index([deletedAt])
   @@index([isActive])
+  @@index([collectedById])
 }
 
 model DoctorSpecialty {
@@ -354,6 +408,9 @@ model Chamber {
 
   address         String?
   consultationFee Decimal? @db.Decimal(10, 2)
+
+  latitude        Float?
+  longitude       Float?
 
   isActive        Boolean  @default(true)
   createdAt       DateTime @default(now())
