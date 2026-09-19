@@ -40,13 +40,15 @@ export async function requireAuth(
 }
 
 export function handleApiError(e: unknown): NextResponse {
-  if (e instanceof ApiError) {
-    return NextResponse.json({ error: e.message }, { status: e.status });
-  }
-  return NextResponse.json(
-    { error: "Internal server error" },
-    { status: 500 }
-  );
+  const response =
+    e instanceof ApiError
+      ? NextResponse.json({ error: e.message }, { status: e.status })
+      : NextResponse.json(
+          { error: "Internal server error" },
+          { status: 500 }
+        );
+  response.headers.set("Access-Control-Allow-Origin", "*");
+  return response;
 }
 
 export function withApi<T extends unknown[]>(
@@ -57,7 +59,9 @@ export function withApi<T extends unknown[]>(
 ): (request: NextRequest, ...args: T) => Promise<Response> {
   return async (request: NextRequest, ...args: T) => {
     try {
-      return await handler(request, ...args);
+      const response = await handler(request, ...args);
+      response.headers.set("Access-Control-Allow-Origin", "*");
+      return response;
     } catch (e) {
       return handleApiError(e);
     }

@@ -61,7 +61,7 @@ export default function FooterPortals() {
               <>
                 <li>
                   <Link
-                    href="/portal/admin"
+                    href="/admin"
                     className="transition hover:text-brand-sky-bright"
                   >
                     Admin Portal

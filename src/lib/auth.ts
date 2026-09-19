@@ -6,17 +6,17 @@ import { prisma } from "@/lib/prisma";
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: "phone-password",
+      name: "email-password",
       credentials: {
-        phone: { label: "Phone", type: "tel" },
+        email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const phone = credentials?.phone;
+        const email = credentials?.email?.trim().toLowerCase();
         const password = credentials?.password;
         if (
-          typeof phone !== "string" ||
-          phone.length < 10 ||
+          !email ||
+          !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
           typeof password !== "string" ||
           password.length < 6
         ) {
@@ -24,10 +24,10 @@ export const authOptions: NextAuthOptions = {
         }
 
         const user = await prisma.user.findUnique({
-          where: { phone },
+          where: { email },
         });
 
-        if (!user || !user.passwordHash) {
+        if (!user || !user.passwordHash || !user.email) {
           return null;
         }
 
@@ -38,7 +38,7 @@ export const authOptions: NextAuthOptions = {
 
         return {
           id: user.id,
-          phone: user.phone,
+          email: user.email,
           role: user.role,
         };
       },

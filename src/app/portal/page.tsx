@@ -18,7 +18,7 @@ export default function PortalRedirectPage() {
     }
 
     if (session.user.role === "ADMIN") {
-      router.replace("/portal/admin");
+      router.replace("/admin");
     } else if (session.user.role === "FACILITY_ADMIN") {
       router.replace("/portal/facility");
     } else {

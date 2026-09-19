@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const VALID_TYPES = ["doctor", "facility"];
 
 type RegisterPageProps = {
-  searchParams?: { type?: string };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export default async function RegisterPage({ searchParams }: RegisterPageProps) {
@@ -21,8 +21,10 @@ export default async function RegisterPage({ searchParams }: RegisterPageProps) 
     redirect("/portal");
   }
 
+  const params = await searchParams;
+  const typeParam = typeof params?.type === "string" ? params.type : undefined;
   const defaultType =
-    searchParams?.type && VALID_TYPES.includes(searchParams.type) ? searchParams.type : "doctor";
+    typeParam && VALID_TYPES.includes(typeParam) ? typeParam : "doctor";
 
   const [specialties, areas] = await Promise.all([
     prisma.specialty.findMany({

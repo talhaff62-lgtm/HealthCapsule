@@ -18,7 +18,7 @@ const publicLinks: NavLink[] = [
 ];
 
 const portalLinksByRole: Record<string, NavLink> = {
-  ADMIN: { href: "/portal/admin", label: "Admin Panel" },
+  ADMIN: { href: "/admin", label: "Admin Panel" },
   DOCTOR: { href: "/portal/doctor", label: "Doctor Panel" },
   FACILITY_ADMIN: { href: "/portal/facility", label: "Hospital Panel" },
 };

@@ -8,7 +8,7 @@ import { generateUniqueSlug } from "@/lib/slug";
 export type RegisterResult = { ok: true } | { ok: false; error: string };
 
 type RegisterDoctorInput = {
-  phone: string;
+  email: string;
   password: string;
   name: string;
   bmdcRegNo: string;
@@ -16,7 +16,7 @@ type RegisterDoctorInput = {
 };
 
 type RegisterFacilityInput = {
-  phone: string;
+  email: string;
   password: string;
   name: string;
   type: FacilityType;
@@ -24,14 +24,14 @@ type RegisterFacilityInput = {
   address: string;
 };
 
-function sanitizePhone(raw: string): string {
-  return raw.trim().replace(/\s+/g, "");
+function normalizeEmail(raw: string): string {
+  return raw.trim().toLowerCase();
 }
 
-function validateCommon(phone: string, password: string, name: string): string | null {
-  const cleanPhone = sanitizePhone(phone);
-  if (!/^\d{10,}$/.test(cleanPhone)) {
-    return "Enter a valid phone number with at least 10 digits.";
+function validateCommon(email: string, password: string, name: string): string | null {
+  const cleanEmail = normalizeEmail(email);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+    return "Enter a valid email address.";
   }
   if (password.length < 6) {
     return "Password must be at least 6 characters.";
@@ -52,7 +52,7 @@ function isUniqueConstraintError(err: unknown): boolean {
 
 export async function registerDoctor(input: RegisterDoctorInput): Promise<RegisterResult> {
   try {
-    const commonError = validateCommon(input.phone, input.password, input.name);
+    const commonError = validateCommon(input.email, input.password, input.name);
     if (commonError) {
       return { ok: false, error: commonError };
     }
@@ -75,7 +75,7 @@ export async function registerDoctor(input: RegisterDoctorInput): Promise<Regist
     }
 
     const passwordHash = await hash(input.password, 10);
-    const phone = sanitizePhone(input.phone);
+    const email = normalizeEmail(input.email);
 
     const slug = await generateUniqueSlug(input.name, async (candidate) => {
       const existing = await prisma.doctor.findUnique({
@@ -88,7 +88,7 @@ export async function registerDoctor(input: RegisterDoctorInput): Promise<Regist
     await prisma.$transaction(async (tx) => {
       const user = await tx.user.create({
         data: {
-          phone,
+          email,
           passwordHash,
           role: UserRole.DOCTOR,
         },
@@ -116,8 +116,8 @@ export async function registerDoctor(input: RegisterDoctorInput): Promise<Regist
   } catch (err) {
     if (isUniqueConstraintError(err)) {
       const target = (err as { meta?: { target?: string[] } }).meta?.target;
-      if (target?.includes("phone")) {
-        return { ok: false, error: "This phone number is already registered." };
+      if (target?.includes("email")) {
+        return { ok: false, error: "This email is already registered." };
       }
       if (target?.includes("bmdcRegNo")) {
         return { ok: false, error: "This BMDC registration number is already registered." };
@@ -132,7 +132,7 @@ export async function registerDoctor(input: RegisterDoctorInput): Promise<Regist
 
 export async function registerFacility(input: RegisterFacilityInput): Promise<RegisterResult> {
   try {
-    const commonError = validateCommon(input.phone, input.password, input.name);
+    const commonError = validateCommon(input.email, input.password, input.name);
     if (commonError) {
       return { ok: false, error: commonError };
     }
@@ -155,7 +155,7 @@ export async function registerFacility(input: RegisterFacilityInput): Promise<Re
     }
 
     const passwordHash = await hash(input.password, 10);
-    const phone = sanitizePhone(input.phone);
+    const email = normalizeEmail(input.email);
 
     const slug = await generateUniqueSlug(input.name, async (candidate) => {
       const existing = await prisma.facility.findUnique({
@@ -168,7 +168,7 @@ export async function registerFacility(input: RegisterFacilityInput): Promise<Re
     await prisma.$transaction(async (tx) => {
       const user = await tx.user.create({
         data: {
-          phone,
+          email,
           passwordHash,
           role: UserRole.FACILITY_ADMIN,
         },
@@ -182,7 +182,6 @@ export async function registerFacility(input: RegisterFacilityInput): Promise<Re
           type: input.type,
           areaId: area.id,
           address,
-          phone,
           verificationStatus: VerificationStatus.PENDING,
           listingTier: ListingTier.FREE,
           adminId: user.id,
@@ -194,8 +193,8 @@ export async function registerFacility(input: RegisterFacilityInput): Promise<Re
   } catch (err) {
     if (isUniqueConstraintError(err)) {
       const target = (err as { meta?: { target?: string[] } }).meta?.target;
-      if (target?.includes("phone")) {
-        return { ok: false, error: "This phone number is already registered." };
+      if (target?.includes("email")) {
+        return { ok: false, error: "This email is already registered." };
       }
       return { ok: false, error: "A unique field conflict occurred. Please check your details." };
     }

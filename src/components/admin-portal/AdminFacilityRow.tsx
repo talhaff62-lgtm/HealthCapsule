@@ -22,7 +22,7 @@ type FacilityRow = {
   listingTier: ListingTier;
   createdAt: Date;
   area: { name: string; slug: string } | null;
-  admin: { phone: string | null } | null;
+  admin: { email: string | null } | null;
 };
 
 const statuses: VerificationStatus[] = ["PENDING", "VERIFIED", "REJECTED"];
@@ -88,7 +88,7 @@ export default function AdminFacilityRow({ facility }: { facility: FacilityRow }
             {facility.address ? ` — ${facility.address}` : ""}
           </p>
           <p className="text-sm text-brand-slate">
-            Phone: {facility.phone || facility.admin?.phone || "—"}
+            Phone: {facility.phone || "—"} · Account: {facility.admin?.email || "—"}
           </p>
           <p className="text-xs text-brand-muted">
             Submitted {facility.createdAt.toLocaleDateString()}

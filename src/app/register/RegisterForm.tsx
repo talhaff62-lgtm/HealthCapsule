@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { Award, Building2, Lock, MapPin, Phone, Stethoscope, User } from "lucide-react";
+import { Award, Building2, Lock, Mail, MapPin, Stethoscope, User } from "lucide-react";
 import { FacilityType } from "@prisma/client";
 import { registerDoctor, registerFacility, RegisterResult } from "./actions";
 
@@ -26,7 +26,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
   const router = useRouter();
   const [type, setType] = useState<"doctor" | "facility">(defaultType);
 
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
@@ -45,7 +45,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
   );
 
   function resetForm() {
-    setPhone("");
+    setEmail("");
     setPassword("");
     setName("");
     setBmdcRegNo("");
@@ -69,7 +69,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
     let result: RegisterResult;
     if (type === "doctor") {
       result = await registerDoctor({
-        phone,
+        email,
         password,
         name,
         bmdcRegNo,
@@ -77,7 +77,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
       });
     } else {
       result = await registerFacility({
-        phone,
+        email,
         password,
         name,
         type: facilityType,
@@ -93,7 +93,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
     }
 
     const signInResult = await signIn("credentials", {
-      phone,
+      email,
       password,
       redirect: false,
     });
@@ -103,7 +103,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
     if (signInResult?.error) {
       setStatus({
         type: "success",
-        message: "Registration successful. Please sign in with your phone and password.",
+        message: "Registration successful. Please sign in with your email and password.",
       });
       return;
     }
@@ -312,28 +312,27 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
             </>
           )}
 
-          {/* Phone */}
+          {/* Email */}
           <div>
             <label
-              htmlFor="phone"
+              htmlFor="email"
               className="text-xs font-medium uppercase tracking-wider text-brand-muted"
             >
-              Phone
+              Email
             </label>
             <div className="relative mt-1">
-              <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
+              <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
               <input
-                id="phone"
-                type="tel"
+                id="email"
+                type="email"
                 required
-                pattern="[0-9]{11}"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="01XXXXXXXXX"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
                 className="block w-full rounded-lg border border-brand-gray bg-white py-2.5 pl-10 pr-4 text-sm text-brand-slate outline-none transition focus:border-brand-sky focus:ring-2 focus:ring-brand-sky/20"
               />
             </div>
-            <p className="mt-1 text-xs text-brand-muted">This will be your login number.</p>
+            <p className="mt-1 text-xs text-brand-muted">This will be your login email.</p>
           </div>
 
           {/* Password */}

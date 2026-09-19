@@ -17,7 +17,7 @@ type DoctorRow = {
   verificationStatus: VerificationStatus;
   listingTier: ListingTier;
   createdAt: Date;
-  user: { phone: string | null } | null;
+  user: { email: string | null } | null;
 };
 
 const statuses: VerificationStatus[] = ["PENDING", "VERIFIED", "REJECTED"];
@@ -81,7 +81,7 @@ export default function AdminDoctorRow({ doctor }: { doctor: DoctorRow }) {
             {doctor.degrees.join(", ") || "No degrees listed"}
           </p>
           <p className="mt-1 text-sm text-brand-slate">
-            BMDC: {doctor.bmdcRegNo || "—"} · Phone: {doctor.user?.phone || "—"}
+            BMDC: {doctor.bmdcRegNo || "—"} · Email: {doctor.user?.email || "—"}
           </p>
           <p className="text-xs text-brand-muted">
             Submitted {doctor.createdAt.toLocaleDateString()}

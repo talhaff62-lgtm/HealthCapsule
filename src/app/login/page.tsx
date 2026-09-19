@@ -3,11 +3,11 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-import { Lock, Phone } from "lucide-react";
+import { Lock, Mail } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ export default function LoginPage() {
     setLoading(true);
 
     const result = await signIn("credentials", {
-      phone,
+      email,
       password,
       redirect: false,
     });
@@ -26,7 +26,7 @@ export default function LoginPage() {
     setLoading(false);
 
     if (result?.error) {
-      setError("Invalid phone number or password.");
+      setError("Invalid email or password.");
       return;
     }
 
@@ -42,27 +42,27 @@ export default function LoginPage() {
             Sign in to HealthCapsule
           </h1>
           <p className="mt-2 text-sm text-white/70">
-            Enter your phone number and password.
+            Enter your email and password.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5 p-8">
           <div>
             <label
-              htmlFor="phone"
+              htmlFor="email"
               className="text-xs font-medium uppercase tracking-wider text-brand-muted"
             >
-              Phone
+              Email
             </label>
             <div className="relative mt-1">
-              <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
+              <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
               <input
-                id="phone"
-                type="tel"
+                id="email"
+                type="email"
                 required
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="01XXXXXXXXX"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
                 className="block w-full rounded-lg border border-brand-gray bg-white py-2.5 pl-10 pr-4 text-brand-slate outline-none transition focus:border-brand-sky focus:ring-2 focus:ring-brand-sky/20"
               />
             </div>
