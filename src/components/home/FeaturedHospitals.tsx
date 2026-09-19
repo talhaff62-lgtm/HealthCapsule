@@ -14,6 +14,7 @@ async function getFeaturedFacilities() {
         verificationStatus: VerificationStatus.VERIFIED,
         deletedAt: null,
         isActive: true,
+        featuredUntil: { gt: new Date() },
       },
       include: {
         area: {

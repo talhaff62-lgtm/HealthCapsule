@@ -57,6 +57,7 @@ async function getExperiencedDoctors(): Promise<FeaturedDoctorListItem[]> {
         deletedAt: null,
         isActive: true,
         yearsExperience: { gte: EXPERIENCED_YEARS_THRESHOLD },
+        featuredUntil: { gt: new Date() },
       },
       include: sharedInclude,
       orderBy: [{ listingTier: "desc" }, { yearsExperience: "desc" }],
@@ -77,6 +78,7 @@ async function getEmergingDoctors(): Promise<FeaturedDoctorListItem[]> {
         deletedAt: null,
         isActive: true,
         degrees: { equals: ["MBBS"] },
+        featuredUntil: { gt: new Date() },
         OR: [
           { yearsExperience: { lt: EXPERIENCED_YEARS_THRESHOLD } },
           { yearsExperience: null },
