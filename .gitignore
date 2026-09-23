@@ -59,3 +59,8 @@ graphify-out/
 /*.png
 /serve-dist.js
 /staff-check.yml
+
+# --- built APK/AAB output ---------------------------------------------------
+/apk/
+*.apk
+*.aab
