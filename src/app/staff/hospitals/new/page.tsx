@@ -63,6 +63,16 @@ export default function NewHospitalPage() {
   const [success, setSuccess] = useState(false);
   const [submittedName, setSubmittedName] = useState("");
 
+  const [logoUrl, setLogoUrl] = useState("");
+  const [logoPreview, setLogoPreview] = useState("");
+  const [logoUploading, setLogoUploading] = useState(false);
+  const [logoError, setLogoError] = useState("");
+
+  const [coverImageUrl, setCoverImageUrl] = useState("");
+  const [coverPreview, setCoverPreview] = useState("");
+  const [coverUploading, setCoverUploading] = useState(false);
+  const [coverError, setCoverError] = useState("");
+
   useEffect(() => {
     let alive = true;
     api<Amenity[]>("/api/v1/amenities")
@@ -161,6 +171,45 @@ export default function NewHospitalPage() {
     );
   };
 
+  const uploadImage = async (
+    file: File,
+    setPreview: (v: string) => void,
+    setUrl: (v: string) => void,
+    setUploading: (v: boolean) => void,
+    setUploadError: (v: string) => void
+  ) => {
+    setUploadError("");
+    if (!file.type.startsWith("image/")) {
+      setUploadError("File must be an image");
+      return;
+    }
+    setPreview(URL.createObjectURL(file));
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("folder", "facilities");
+      const res = await fetch("/api/v1/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = (await res.json().catch(() => null)) as {
+        success?: boolean;
+        image?: { url?: string };
+        error?: string;
+      } | null;
+      if (!res.ok || !data?.success || !data.image?.url) {
+        throw new Error(data?.error ?? `Upload failed (${res.status})`);
+      }
+      setUrl(data.image.url);
+    } catch (err) {
+      setUrl("");
+      setUploadError(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
@@ -183,6 +232,8 @@ export default function NewHospitalPage() {
           areaId: selectedArea.id,
           amenityIds: selectedAmenityIds,
           discountInfo: discountInfo.trim() || undefined,
+          logoUrl: logoUrl || undefined,
+          coverImageUrl: coverImageUrl || undefined,
         }),
       });
 
@@ -210,6 +261,12 @@ export default function NewHospitalPage() {
     setDiscountInfo("");
     setSelectedArea(null);
     setAreaQuery("");
+    setLogoUrl("");
+    setLogoPreview("");
+    setLogoError("");
+    setCoverImageUrl("");
+    setCoverPreview("");
+    setCoverError("");
     setError("");
     setAreaError("");
     setSuccess(false);
@@ -438,6 +495,50 @@ export default function NewHospitalPage() {
             {error}
           </div>
         )}
+
+        {/* Facility Logo */}
+        <div>
+          <label htmlFor="logo" className="block mb-1.5 text-sm font-semibold text-brand-slate">
+            Facility Logo (optional)
+          </label>
+          <input
+            id="logo"
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) uploadImage(file, setLogoPreview, setLogoUrl, setLogoUploading, setLogoError);
+            }}
+            className="block w-full text-sm text-brand-slate file:mr-4 file:rounded-full file:border-0 file:bg-brand-navy file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-brand-navy/90"
+          />
+          {logoPreview && (
+            <img src={logoPreview} alt="Logo preview" className="mt-2 h-20 w-20 rounded-xl object-cover" />
+          )}
+          {logoUploading && <p className="mt-1.5 text-sm text-brand-muted">Uploading logo...</p>}
+          {logoError && <p className="mt-1.5 text-sm text-status-emergency">{logoError}</p>}
+        </div>
+
+        {/* Cover Image */}
+        <div>
+          <label htmlFor="cover" className="block mb-1.5 text-sm font-semibold text-brand-slate">
+            Cover Image (optional)
+          </label>
+          <input
+            id="cover"
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) uploadImage(file, setCoverPreview, setCoverImageUrl, setCoverUploading, setCoverError);
+            }}
+            className="block w-full text-sm text-brand-slate file:mr-4 file:rounded-full file:border-0 file:bg-brand-navy file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-brand-navy/90"
+          />
+          {coverPreview && (
+            <img src={coverPreview} alt="Cover preview" className="mt-2 h-32 w-full rounded-xl object-cover" />
+          )}
+          {coverUploading && <p className="mt-1.5 text-sm text-brand-muted">Uploading cover...</p>}
+          {coverError && <p className="mt-1.5 text-sm text-status-emergency">{coverError}</p>}
+        </div>
 
         {/* Sticky bottom bar */}
         <div className="sticky bottom-0 -mx-4 mt-6 border-t border-brand-gray/60 bg-white/95 px-4 py-3 backdrop-blur pb-[max(0.75rem,env(safe-area-inset-bottom))]">

@@ -94,6 +94,10 @@ export default function NewDoctorPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [submittedName, setSubmittedName] = useState("");
+  const [photoUrl, setPhotoUrl] = useState("");
+  const [photoPreview, setPhotoPreview] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
 
   useEffect(() => {
     let alive = true;
@@ -194,6 +198,41 @@ export default function NewDoctorPage() {
 
   const finalSpecialization = isOther ? customSpec.trim() : selectedSpec;
 
+  const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadError("");
+    if (!file.type.startsWith("image/")) {
+      e.target.value = "";
+      setUploadError("Please select an image file");
+      return;
+    }
+    setPhotoPreview(URL.createObjectURL(file));
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("folder", "doctors");
+      const res = await fetch("/api/v1/upload", { method: "POST", body: formData });
+      const data = (await res.json().catch(() => null)) as {
+        success?: boolean;
+        image?: { url?: string };
+        error?: string;
+      } | null;
+      if (!res.ok || !data?.success || !data?.image?.url) {
+        throw new Error(data?.error ?? `Upload failed (${res.status})`);
+      }
+      setPhotoUrl(data.image.url);
+    } catch (err) {
+      e.target.value = "";
+      setPhotoUrl("");
+      setPhotoPreview("");
+      setUploadError(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
@@ -214,6 +253,7 @@ export default function NewDoctorPage() {
           degrees: degrees.trim(),
           currentPosition: currentPosition.trim() || undefined,
           achievements: achievements.trim() || undefined,
+          photoUrl: photoUrl || undefined,
           facilityId: selectedFacility?.id || undefined,
         }),
       });
@@ -236,6 +276,9 @@ export default function NewDoctorPage() {
     setDegrees("");
     setCurrentPosition("");
     setAchievements("");
+    setPhotoUrl("");
+    setPhotoPreview("");
+    setUploadError("");
     setError("");
     setSuccess(false);
     setSubmitting(false);
@@ -421,6 +464,33 @@ export default function NewDoctorPage() {
           onChange={(e) => setAchievements(e.target.value)}
           placeholder="e.g. Gold Medalist"
         />
+
+        <div>
+          <label className="block mb-1.5 text-sm font-semibold text-brand-slate">
+            Doctor Photo (optional)
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handlePhotoChange}
+            className="block w-full text-sm text-brand-slate file:mr-4 file:rounded-full file:border-0 file:bg-brand-sky-bg file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-brand-sky-deep hover:file:bg-brand-sky/20"
+          />
+          {uploading && (
+            <p className="mt-2 text-sm text-brand-muted">Uploading...</p>
+          )}
+          {photoPreview && (
+            <img
+              src={photoPreview}
+              alt="Doctor photo preview"
+              className="mt-2 h-24 w-24 rounded-xl object-cover"
+            />
+          )}
+          {uploadError && (
+            <p className="mt-2 text-sm font-medium text-status-emergency">
+              {uploadError}
+            </p>
+          )}
+        </div>
 
         <div className="relative">
           <label className="block mb-1.5 text-sm font-semibold text-brand-slate">

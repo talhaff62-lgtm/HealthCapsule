@@ -13,6 +13,7 @@ const createDoctorSchema = z.object({
   degrees: z.string().min(1),
   currentPosition: z.string().optional().nullable(),
   achievements: z.string().optional().nullable(),
+  photoUrl: z.string().optional().nullable(),
   facilityId: z.string().optional().nullable(),
 });
 
@@ -73,6 +74,7 @@ async function postHandler(request: NextRequest) {
     data: {
       name: data.name,
       slug,
+      photoUrl: data.photoUrl || null,
       degrees: degreesArray,
       currentPosition: data.currentPosition || null,
       achievements: data.achievements || null,

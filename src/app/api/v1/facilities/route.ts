@@ -14,6 +14,8 @@ const createFacilitySchema = z.object({
   areaId: z.string().min(1),
   amenityIds: z.array(z.string()).default([]),
   discountInfo: z.string().optional().nullable(),
+  logoUrl: z.string().url().optional().nullable(),
+  coverImageUrl: z.string().url().optional().nullable(),
 });
 
 async function postHandler(request: NextRequest) {
@@ -65,6 +67,8 @@ async function postHandler(request: NextRequest) {
       address: data.address,
       areaId: area.id,
       discountInfo: data.discountInfo || null,
+      logoUrl: data.logoUrl || null,
+      coverImageUrl: data.coverImageUrl || null,
       latitude: area.latitude,
       longitude: area.longitude,
       verificationStatus: VerificationStatus.PENDING,
