@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "HealthCapsule",
+    "slug": "healthcapsule",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "healthcapsule",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.healthcapsule.patient"
+    },
+    "android": {
+      "package": "com.healthcapsule.patient",
+      "predictiveBackGestureEnabled": false
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-secure-store"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "fa15afeb-b70d-4552-87fd-d8189b101f5e"
+      }
+    },
+    "owner": "talha_6"
+  }
+}
