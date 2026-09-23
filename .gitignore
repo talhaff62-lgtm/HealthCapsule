@@ -47,4 +47,12 @@ NUL
 
 # ZCode agent workspace (local session plans, scratch)
 .zcode/
+.agents/
+.claude/
+
+# Generated code-graph analysis output (graphify)
+graphify-out/
+
+# AI workflow scratch state (kimchi ferments, reviews, plans)
+.kimchi/
 
