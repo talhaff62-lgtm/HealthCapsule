@@ -90,4 +90,46 @@ async function handler(
   return NextResponse.json(updated, { status: 200 });
 }
 
+async function getHandler(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  await requireAuth(request, [UserRole.ADMIN, UserRole.STAFF]);
+  const { id } = await params;
+
+  const facility = await prisma.facility.findUnique({
+    where: { id },
+    include: { collectedBy: { select: { name: true } } },
+  });
+  if (!facility) {
+    return NextResponse.json({ error: "Facility not found" }, { status: 404 });
+  }
+  return NextResponse.json(facility, { status: 200 });
+}
+
+async function deleteHandler(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  await requireAuth(request, [UserRole.ADMIN]);
+  const { id } = await params;
+
+  const existing = await prisma.facility.findUnique({ where: { id }, select: { id: true } });
+  if (!existing) {
+    return NextResponse.json({ error: "Facility not found" }, { status: 404 });
+  }
+
+  // Chambers detach rather than delete (they belong to doctors); appointments
+  // at this facility go with it. Amenities/services/departments/images cascade.
+  await prisma.$transaction([
+    prisma.appointment.deleteMany({ where: { facilityId: id } }),
+    prisma.chamber.updateMany({ where: { facilityId: id }, data: { facilityId: null } }),
+    prisma.facility.delete({ where: { id } }),
+  ]);
+
+  return NextResponse.json({ ok: true }, { status: 200 });
+}
+
+export const GET = withApi(getHandler);
 export const PATCH = withApi(handler);
+export const DELETE = withApi(deleteHandler);

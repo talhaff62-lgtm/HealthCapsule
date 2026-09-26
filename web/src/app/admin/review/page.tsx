@@ -85,6 +85,9 @@ export default function AdminReviewPage() {
   const [rejectError, setRejectError] = useState("");
   const [actionLoading, setActionLoading] = useState(false);
 
+  // Delete confirm modal
+  const [deletingEntry, setDeletingEntry] = useState<Entry | null>(null);
+
   // Edit modal
   const [editingEntry, setEditingEntry] = useState<Entry | null>(null);
   const [editName, setEditName] = useState("");
@@ -258,6 +261,29 @@ export default function AdminReviewPage() {
     setLoading(true);
     setError("");
     setReloadKey((prev) => prev + 1);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!deletingEntry) return;
+    setActionLoading(true);
+    try {
+      const endpoint =
+        deletingEntry.kind === "FACILITY"
+          ? `/api/v1/facilities/${deletingEntry.id}`
+          : `/api/v1/doctors/${deletingEntry.id}`;
+      await api(endpoint, { method: "DELETE" });
+
+      setEntries((prev) => prev.filter((e) => e.id !== deletingEntry.id));
+      if (selectedEntry?.id === deletingEntry.id) {
+        setSelectedEntry(null);
+      }
+      setDeletingEntry(null);
+      showToast("Deleted");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Delete failed");
+    } finally {
+      setActionLoading(false);
+    }
   };
 
   const toLocalInput = (iso?: string | null) => {
@@ -726,6 +752,15 @@ export default function AdminReviewPage() {
               >
                 Reject entry
               </Button>
+              <Button
+                variant="outlineDanger"
+                size="lg"
+                fullWidth
+                onClick={() => setDeletingEntry(selectedEntry)}
+                disabled={actionLoading}
+              >
+                Delete entry
+              </Button>
             </div>
           </div>
         </>
@@ -769,6 +804,40 @@ export default function AdminReviewPage() {
                 disabled={!rejectReason.trim()}
               >
                 Reject
+              </Button>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Delete Confirm Modal */}
+      {deletingEntry && (
+        <div className="fixed inset-0 z-50 grid place-items-center p-4 bg-brand-navy/40 backdrop-blur-[2px]">
+          <Card className="w-full max-w-md p-6">
+            <h3 className="font-serif text-xl font-semibold text-brand-navy">
+              Delete entry
+            </h3>
+            <p className="mt-1 text-sm text-brand-muted">
+              Permanently delete{" "}
+              <span className="font-semibold text-brand-slate">{deletingEntry.name}</span>{" "}
+              and its linked schedules and appointments. This cannot be undone.
+            </p>
+            <div className="flex gap-3 justify-end mt-5">
+              <Button
+                variant="outline"
+                size="md"
+                onClick={() => setDeletingEntry(null)}
+                disabled={actionLoading}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="danger"
+                size="md"
+                onClick={handleDeleteConfirm}
+                loading={actionLoading}
+              >
+                Delete
               </Button>
             </div>
           </Card>

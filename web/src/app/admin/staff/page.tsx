@@ -40,6 +40,10 @@ export default function AdminStaffPage() {
   const [createError, setCreateError] = useState("");
   const [createSuccess, setCreateSuccess] = useState(false);
 
+  // Delete state
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState("");
+
   useEffect(() => {
     if (!me) return;
     if (me.role !== "ADMIN") {
@@ -113,6 +117,17 @@ export default function AdminStaffPage() {
       }
     } finally {
       setCreateSubmitting(false);
+    }
+  };
+
+  const handleDeleteUser = async (u: UserItem) => {
+    setDeleteError("");
+    try {
+      await api(`/api/v1/users/${u.id}`, { method: "DELETE" });
+      setUsers((prev) => prev.filter((row) => row.id !== u.id));
+      setDeletingId(null);
+    } catch (err) {
+      setDeleteError(err instanceof Error ? err.message : "Failed to delete account");
     }
   };
 
@@ -217,6 +232,13 @@ export default function AdminStaffPage() {
           </h2>
         </div>
 
+        {deleteError && (
+          <div className="p-4 border-b border-brand-gray/70">
+            <div className="rounded-xl bg-status-emergency-light px-4 py-3 text-sm font-medium text-status-emergency">
+              {deleteError}
+            </div>
+          </div>
+        )}
         {loading ? (
           <div className="p-4 space-y-2">
             {[1, 2, 3].map((i) => (
@@ -244,6 +266,7 @@ export default function AdminStaffPage() {
                 <th className="px-4 py-3 text-left">Submissions</th>
                 <th className="px-4 py-3 text-left">Approved</th>
                 <th className="px-4 py-3 text-left">Joined</th>
+                <th className="px-4 py-3 text-left">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -270,6 +293,42 @@ export default function AdminStaffPage() {
                   </td>
                   <td className="px-4 py-3.5 text-brand-muted tabular-nums">
                     {new Date(u.createdAt).toLocaleDateString()}
+                  </td>
+                  <td className="px-4 py-3.5">
+                    {u.id === me.id ? (
+                      <span className="text-xs text-brand-muted">You</span>
+                    ) : deletingId === u.id ? (
+                      <span className="inline-flex gap-2">
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          onClick={() => handleDeleteUser(u)}
+                        >
+                          Confirm
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            setDeletingId(null);
+                            setDeleteError("");
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </span>
+                    ) : (
+                      <Button
+                        variant="outlineDanger"
+                        size="sm"
+                        onClick={() => {
+                          setDeletingId(u.id);
+                          setDeleteError("");
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    )}
                   </td>
                 </tr>
               ))}

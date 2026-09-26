@@ -104,4 +104,50 @@ async function handler(
   return NextResponse.json(updated, { status: 200 });
 }
 
+async function getHandler(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  await requireAuth(request, [UserRole.ADMIN, UserRole.STAFF]);
+  const { id } = await params;
+
+  const doctor = await prisma.doctor.findUnique({
+    where: { id },
+    include: {
+      collectedBy: { select: { name: true } },
+      specialties: { include: { specialty: { select: { name: true } } } },
+    },
+  });
+  if (!doctor) {
+    return NextResponse.json({ error: "Doctor not found" }, { status: 404 });
+  }
+  return NextResponse.json(doctor, { status: 200 });
+}
+
+async function deleteHandler(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  await requireAuth(request, [UserRole.ADMIN]);
+  const { id } = await params;
+
+  const existing = await prisma.doctor.findUnique({ where: { id }, select: { id: true } });
+  if (!existing) {
+    return NextResponse.json({ error: "Doctor not found" }, { status: 404 });
+  }
+
+  // Chamber/Schedule and DoctorSpecialty rows restrict by default, so clear the
+  // branches explicitly before removing the doctor.
+  await prisma.$transaction([
+    prisma.appointment.deleteMany({ where: { doctorId: id } }),
+    prisma.chamber.deleteMany({ where: { doctorId: id } }),
+    prisma.doctorSpecialty.deleteMany({ where: { doctorId: id } }),
+    prisma.doctor.delete({ where: { id } }),
+  ]);
+
+  return NextResponse.json({ ok: true }, { status: 200 });
+}
+
+export const GET = withApi(getHandler);
 export const PATCH = withApi(handler);
+export const DELETE = withApi(deleteHandler);
