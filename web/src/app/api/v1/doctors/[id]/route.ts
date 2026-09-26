@@ -28,6 +28,7 @@ async function handler(
     consultationFee?: unknown;
     listingTier?: unknown;
     featuredUntil?: unknown;
+    photoUrl?: unknown;
   } | null;
   if (!body) {
     return NextResponse.json({ error: "Invalid body" }, { status: 400 });
@@ -39,6 +40,7 @@ async function handler(
     consultationFee?: number | null;
     listingTier?: ListingTier;
     featuredUntil?: Date | null;
+    photoUrl?: string | null;
   } = {};
 
   if (body.name !== undefined) {
@@ -97,6 +99,23 @@ async function handler(
         );
       }
       data.featuredUntil = new Date(time);
+    }
+  }
+
+  if (body.photoUrl !== undefined) {
+    if (body.photoUrl === null) {
+      data.photoUrl = null;
+    } else if (
+      typeof body.photoUrl === "string" &&
+      body.photoUrl.trim().length > 0 &&
+      (body.photoUrl.startsWith("http://") || body.photoUrl.startsWith("https://"))
+    ) {
+      data.photoUrl = body.photoUrl;
+    } else {
+      return NextResponse.json(
+        { error: "Invalid photoUrl" },
+        { status: 400 }
+      );
     }
   }
 

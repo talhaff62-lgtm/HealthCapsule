@@ -27,6 +27,8 @@ async function handler(
     description?: unknown;
     listingTier?: unknown;
     featuredUntil?: unknown;
+    logoUrl?: unknown;
+    coverImageUrl?: unknown;
   } | null;
   if (!body) {
     return NextResponse.json({ error: "Invalid body" }, { status: 400 });
@@ -37,6 +39,8 @@ async function handler(
     description?: string | null;
     listingTier?: ListingTier;
     featuredUntil?: Date | null;
+    logoUrl?: string | null;
+    coverImageUrl?: string | null;
   } = {};
 
   if (body.name !== undefined) {
@@ -83,6 +87,40 @@ async function handler(
         );
       }
       data.featuredUntil = new Date(time);
+    }
+  }
+
+  if (body.logoUrl !== undefined) {
+    if (body.logoUrl === null) {
+      data.logoUrl = null;
+    } else if (
+      typeof body.logoUrl === "string" &&
+      body.logoUrl.trim().length > 0 &&
+      (body.logoUrl.startsWith("http://") || body.logoUrl.startsWith("https://"))
+    ) {
+      data.logoUrl = body.logoUrl;
+    } else {
+      return NextResponse.json(
+        { error: "Invalid logoUrl" },
+        { status: 400 }
+      );
+    }
+  }
+
+  if (body.coverImageUrl !== undefined) {
+    if (body.coverImageUrl === null) {
+      data.coverImageUrl = null;
+    } else if (
+      typeof body.coverImageUrl === "string" &&
+      body.coverImageUrl.trim().length > 0 &&
+      (body.coverImageUrl.startsWith("http://") || body.coverImageUrl.startsWith("https://"))
+    ) {
+      data.coverImageUrl = body.coverImageUrl;
+    } else {
+      return NextResponse.json(
+        { error: "Invalid coverImageUrl" },
+        { status: 400 }
+      );
     }
   }
 

@@ -26,6 +26,7 @@ async function handler(request: NextRequest) {
       id: true,
       name: true,
       slug: true,
+      photoUrl: true,
       degrees: true,
       currentPosition: true,
       specialties: {

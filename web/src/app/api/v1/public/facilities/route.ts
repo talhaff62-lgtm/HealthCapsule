@@ -32,9 +32,11 @@ async function handler(request: NextRequest) {
       name: true,
       slug: true,
       type: true,
+      logoUrl: true,
       address: true,
       phone: true,
       hasEmergency: true,
+      coverImageUrl: true,
       area: {
         select: {
           name: true,

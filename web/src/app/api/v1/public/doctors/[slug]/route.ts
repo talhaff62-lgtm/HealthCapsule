@@ -22,6 +22,7 @@ async function handler(
       id: true,
       name: true,
       slug: true,
+      photoUrl: true,
       degrees: true,
       currentPosition: true,
       achievements: true,
