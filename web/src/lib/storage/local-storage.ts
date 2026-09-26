@@ -3,8 +3,8 @@
 import { randomUUID } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import sharp from "sharp";
 import type { StoredImage, StoreImageInput, StoreImage } from "./index";
+import { getSharp, sniffImageFormat } from "./sharp-loader";
 
 const MAX_BYTES = 8 * 1024 * 1024; // 8MB
 const ALLOWED_FORMATS = new Set(["jpeg", "jpg", "png", "webp", "avif"]);
@@ -38,61 +38,71 @@ export const storeImageLocal: StoreImage = async (
     );
   }
 
-  const metadata = await sharp(input.data).metadata();
-  const detectedFormat = metadata.format?.toLowerCase();
-
-  if (!detectedFormat || !ALLOWED_FORMATS.has(detectedFormat)) {
-    throw new Error(
-      `Unsupported image format: "${detectedFormat ?? "unknown"}". Allowed formats: jpeg, png, webp, avif.`
-    );
-  }
-
   let outputBuffer: Buffer;
   let info: { width?: number; height?: number; size: number };
   let contentType: string;
   let ext: string;
 
-  if (detectedFormat === "png") {
-    const result = await sharp(input.data)
-      .rotate()
-      .png({ compressionLevel: 9 })
-      .toBuffer({ resolveWithObject: true });
-    outputBuffer = result.data;
-    info = result.info;
-    contentType = "image/png";
-    ext = "png";
-  } else if (detectedFormat === "webp") {
-    const result = await sharp(input.data)
-      .rotate()
-      .webp({ lossless: true })
-      .toBuffer({ resolveWithObject: true });
-    outputBuffer = result.data;
-    info = result.info;
-    contentType = "image/webp";
-    ext = "webp";
-  } else if (detectedFormat === "avif") {
-    const result = await sharp(input.data)
-      .rotate()
-      .avif({ lossless: true })
-      .toBuffer({ resolveWithObject: true });
-    outputBuffer = result.data;
-    info = result.info;
-    contentType = "image/avif";
-    ext = "avif";
-  } else if (detectedFormat === "jpeg" || detectedFormat === "jpg") {
-    // ponytail: jpeg cannot be re-encoded bit-exact by sharp; quality 100 + 4:4:4 + mozjpeg is near-lossless. Swap for a true-lossless jpeg encoder (e.g. jpegtran) if bit-exactness is ever needed.
-    const result = await sharp(input.data)
-      .rotate()
-      .jpeg({ quality: 100, chromaSubsampling: "4:4:4", mozjpeg: true })
-      .toBuffer({ resolveWithObject: true });
-    outputBuffer = result.data;
-    info = result.info;
-    contentType = "image/jpeg";
-    ext = "jpg";
+  const sharp = getSharp();
+
+  if (sharp) {
+    const metadata = await sharp(input.data).metadata();
+    const detectedFormat = metadata.format?.toLowerCase();
+
+    if (!detectedFormat || !ALLOWED_FORMATS.has(detectedFormat)) {
+      throw new Error(
+        `Unsupported image format: "${detectedFormat ?? "unknown"}". Allowed formats: jpeg, png, webp, avif.`
+      );
+    }
+
+    if (detectedFormat === "png") {
+      const result = await sharp(input.data)
+        .rotate()
+        .png({ compressionLevel: 9 })
+        .toBuffer({ resolveWithObject: true });
+      outputBuffer = result.data;
+      info = result.info;
+      contentType = "image/png";
+      ext = "png";
+    } else if (detectedFormat === "webp") {
+      const result = await sharp(input.data)
+        .rotate()
+        .webp({ lossless: true })
+        .toBuffer({ resolveWithObject: true });
+      outputBuffer = result.data;
+      info = result.info;
+      contentType = "image/webp";
+      ext = "webp";
+    } else if (detectedFormat === "avif") {
+      const result = await sharp(input.data)
+        .rotate()
+        .avif({ lossless: true })
+        .toBuffer({ resolveWithObject: true });
+      outputBuffer = result.data;
+      info = result.info;
+      contentType = "image/avif";
+      ext = "avif";
+    } else if (detectedFormat === "jpeg" || detectedFormat === "jpg") {
+      // ponytail: jpeg cannot be re-encoded bit-exact by sharp; quality 100 + 4:4:4 + mozjpeg is near-lossless. Swap for a true-lossless jpeg encoder (e.g. jpegtran) if bit-exactness is ever needed.
+      const result = await sharp(input.data)
+        .rotate()
+        .jpeg({ quality: 100, chromaSubsampling: "4:4:4", mozjpeg: true })
+        .toBuffer({ resolveWithObject: true });
+      outputBuffer = result.data;
+      info = result.info;
+      contentType = "image/jpeg";
+      ext = "jpg";
+    } else {
+      throw new Error(
+        `Unsupported image format: "${detectedFormat}". Allowed formats: jpeg, png, webp, avif.`
+      );
+    }
   } else {
-    throw new Error(
-      `Unsupported image format: "${detectedFormat}". Allowed formats: jpeg, png, webp, avif.`
-    );
+    const format = sniffImageFormat(input.data);
+    outputBuffer = input.data;
+    info = { width: 0, height: 0, size: input.data.length };
+    contentType = format.contentType;
+    ext = format.ext;
   }
 
   const safeFolder = input.folder.toLowerCase().replace(/[^a-z0-9_-]/g, "");

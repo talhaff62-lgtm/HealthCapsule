@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
-import sharp from "sharp";
 import type { StoredImage, StoreImageInput, StoreImage } from "./index";
+import { getSharp, sniffImageFormat } from "./sharp-loader";
 
 const MAX_BYTES = 8 * 1024 * 1024; // 8MB
 const ALLOWED_FORMATS = new Set(["jpeg", "jpg", "png", "webp", "avif"]);
@@ -53,25 +53,6 @@ export const storeImageSupabase: StoreImage = async (
     );
   }
 
-  const initialMeta = await sharp(input.data).metadata();
-  const detectedFormat = initialMeta.format?.toLowerCase();
-
-  if (!detectedFormat || !ALLOWED_FORMATS.has(detectedFormat)) {
-    throw new Error(
-      `Unsupported image format: "${detectedFormat ?? "unknown"}". Allowed formats: jpeg, png, webp, avif.`
-    );
-  }
-
-  // ponytail: lossy webp compression with 1600x1600 cap; swap for multi-size responsive variants or dynamic transformation pipeline if original fidelity or multiple breakpoints are needed.
-  const { data: outputBuffer, info } = await sharp(input.data)
-    .rotate()
-    .resize({ width: 1600, height: 1600, fit: "inside", withoutEnlargement: true })
-    .webp({ quality: 80 })
-    .toBuffer({ resolveWithObject: true });
-
-  const width = info.width ?? 0;
-  const height = info.height ?? 0;
-
   const safeFolder = input.folder.toLowerCase().replace(/[^a-z0-9_-]/g, "");
   if (!safeFolder) {
     throw new Error(
@@ -79,11 +60,62 @@ export const storeImageSupabase: StoreImage = async (
     );
   }
 
-  const key = `${safeFolder}/${randomUUID()}.webp`;
+  const sharp = getSharp();
+
+  if (sharp) {
+    const initialMeta = await sharp(input.data).metadata();
+    const detectedFormat = initialMeta.format?.toLowerCase();
+
+    if (!detectedFormat || !ALLOWED_FORMATS.has(detectedFormat)) {
+      throw new Error(
+        `Unsupported image format: "${detectedFormat ?? "unknown"}". Allowed formats: jpeg, png, webp, avif.`
+      );
+    }
+
+    // ponytail: lossy webp compression with 1600x1600 cap; swap for multi-size responsive variants or dynamic transformation pipeline if original fidelity or multiple breakpoints are needed.
+    const { data: outputBuffer, info } = await sharp(input.data)
+      .rotate()
+      .resize({ width: 1600, height: 1600, fit: "inside", withoutEnlargement: true })
+      .webp({ quality: 80 })
+      .toBuffer({ resolveWithObject: true });
+
+    const width = info.width ?? 0;
+    const height = info.height ?? 0;
+
+    const key = `${safeFolder}/${randomUUID()}.webp`;
+
+    const supabase = getSupabaseClient();
+    const { error } = await supabase.storage.from(bucket).upload(key, outputBuffer, {
+      contentType: "image/webp",
+      upsert: false,
+      cacheControl: "31536000",
+    });
+
+    if (error) {
+      throw new Error(
+        `Supabase storage upload failed for key "${key}": ${error.message}`
+      );
+    }
+
+    const { data } = supabase.storage.from(bucket).getPublicUrl(key);
+    const url = data.publicUrl;
+
+    return {
+      url,
+      key,
+      width,
+      height,
+      bytes: info.size,
+      contentType: "image/webp",
+    };
+  }
+
+  const format = sniffImageFormat(input.data);
+  const key = `${safeFolder}/${randomUUID()}.${format.ext}`;
 
   const supabase = getSupabaseClient();
-  const { error } = await supabase.storage.from(bucket).upload(key, outputBuffer, {
-    contentType: "image/webp",
+  const { error } = await supabase.storage.from(bucket).upload(key, input.data, {
+    contentType: format.contentType,
     upsert: false,
     cacheControl: "31536000",
   });
@@ -100,10 +132,10 @@ export const storeImageSupabase: StoreImage = async (
   return {
     url,
     key,
-    width,
-    height,
-    bytes: info.size,
-    contentType: "image/webp",
+    width: 0,
+    height: 0,
+    bytes: input.data.length,
+    contentType: format.contentType,
   };
 };
 
