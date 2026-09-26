@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAuth } from "@/lib/auth-context";
-import { createUser, listUsers } from "@/api/panel";
+import { createUser, deleteUser, listUsers } from "@/api/panel";
 import { useAsync } from "@/hooks/use-data";
 import { Button, Card, LabeledInput, SectionTitle } from "@/components/panel-ui";
 import { EmptyState, ErrorState, LoadingState } from "@/components/skeleton";
@@ -30,7 +30,7 @@ function countOf(v: unknown): number {
 }
 
 export default function StaffManagementScreen() {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   const insets = useSafeAreaInsets();
   const [users, setUsers] = useState<PanelUser[] | null>(null);
   const [formOpen, setFormOpen] = useState(false);
@@ -43,6 +43,9 @@ export default function StaffManagementScreen() {
   const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string; password?: string }>({});
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+  const [deleteOpenId, setDeleteOpenId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const load = useCallback(async (): Promise<PanelUser[]> => {
     if (!token) return [];
@@ -92,6 +95,23 @@ export default function StaffManagementScreen() {
       setFormError(messageOf(err));
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function remove(u: PanelUser) {
+    const tok = token;
+    if (!tok || deletingId) return;
+    setDeletingId(u.id);
+    setDeleteError(null);
+    try {
+      await deleteUser<unknown>(tok, u.id);
+      setUsers((visible ?? []).filter((row) => row.id !== u.id));
+      setNotice(`Deleted ${u.name}'s account.`);
+      setDeleteOpenId(null);
+    } catch (err) {
+      setDeleteError(messageOf(err));
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -193,25 +213,80 @@ export default function StaffManagementScreen() {
           hint="Use Add staff to create the first account."
         />
       ) : (
-        visible.map((u) => (
-          <View key={u.id} style={styles.card}>
-            <View style={styles.cardHead}>
-              <View style={styles.cardBody}>
-                <Text style={styles.name}>{u.name}</Text>
-                <Text style={styles.email} numberOfLines={1}>
-                  {u.email}
-                </Text>
+        visible.map((u) => {
+          const isSelf = u.id === user?.id;
+          const deleteOpen = deleteOpenId === u.id;
+          return (
+            <View key={u.id} style={styles.card}>
+              <View style={styles.cardHead}>
+                <View style={styles.cardBody}>
+                  <Text style={styles.name}>{u.name}</Text>
+                  <Text style={styles.email} numberOfLines={1}>
+                    {u.email}
+                  </Text>
+                </View>
+                <View style={styles.roleChip} accessibilityLabel={`${u.role} role`}>
+                  <Text style={styles.roleChipText}>{u.role}</Text>
+                </View>
               </View>
-              <View style={styles.roleChip} accessibilityLabel={`${u.role} role`}>
-                <Text style={styles.roleChipText}>{u.role}</Text>
-              </View>
+              <Text style={styles.counts}>
+                {countOf(u.submissionCount)} submissions · {countOf(u.approvedCount)} approved
+              </Text>
+              <Text style={styles.joined}>Joined {formatDate(u.createdAt)}</Text>
+
+              {deleteOpen ? (
+                <View style={styles.deleteBlock}>
+                  {deleteError ? (
+                    <Text style={styles.apiError} accessibilityRole="alert">
+                      {deleteError}
+                    </Text>
+                  ) : null}
+                  <View style={styles.deleteRow}>
+                    <View style={styles.flex}>
+                      <Button
+                        title={deletingId === u.id ? "Deleting…" : "Confirm delete"}
+                        variant="danger"
+                        loading={deletingId === u.id}
+                        onPress={() => void remove(u)}
+                        accessibilityLabel={`Confirm deleting ${u.name}`}
+                      />
+                    </View>
+                    <View style={styles.flex}>
+                      <Button
+                        title="Cancel"
+                        variant="outline"
+                        disabled={deletingId === u.id}
+                        onPress={() => {
+                          setDeleteOpenId(null);
+                          setDeleteError(null);
+                        }}
+                      />
+                    </View>
+                  </View>
+                </View>
+              ) : (
+                <Pressable
+                  onPress={() => {
+                    setDeleteOpenId(u.id);
+                    setDeleteError(null);
+                  }}
+                  disabled={isSelf}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Delete ${u.name}'s account`}
+                  style={({ pressed }) => [
+                    styles.deleteButton,
+                    isSelf && styles.deleteDisabled,
+                    pressed && !isSelf && styles.deletePressed,
+                  ]}
+                >
+                  <Text style={[styles.deleteText, isSelf && styles.deleteTextDisabled]}>
+                    {isSelf ? "You can't delete your own account" : "Delete account"}
+                  </Text>
+                </Pressable>
+              )}
             </View>
-            <Text style={styles.counts}>
-              {countOf(u.submissionCount)} submissions · {countOf(u.approvedCount)} approved
-            </Text>
-            <Text style={styles.joined}>Joined {formatDate(u.createdAt)}</Text>
-          </View>
-        ))
+          );
+        })
       )}
     </ScrollView>
   );
@@ -295,5 +370,36 @@ const styles = StyleSheet.create({
   joined: {
     color: colors.secondaryLabel,
     fontSize: 12,
+  },
+  deleteBlock: {
+    gap: spacing.sm,
+    paddingTop: spacing.xs,
+  },
+  deleteRow: {
+    flexDirection: "row",
+    gap: spacing.sm,
+  },
+  deleteButton: {
+    alignSelf: "flex-start",
+    minHeight: minTouch,
+    justifyContent: "center",
+    paddingHorizontal: spacing.xs,
+  },
+  deletePressed: {
+    opacity: 0.6,
+  },
+  deleteDisabled: {
+    opacity: 0.5,
+  },
+  deleteText: {
+    color: colors.danger,
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  deleteTextDisabled: {
+    color: colors.tertiaryLabel,
+  },
+  flex: {
+    flex: 1,
   },
 });

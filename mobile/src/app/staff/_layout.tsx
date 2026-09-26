@@ -1,15 +1,22 @@
 import { Redirect, Stack } from "expo-router";
 import { View } from "react-native";
+import {
+  Building2,
+  ClipboardList,
+  FolderSearch,
+  PlusCircle,
+  Stethoscope,
+} from "lucide-react-native";
 import { useAuth } from "@/lib/auth-context";
 import { colors } from "@/theme";
 import { PanelTabBar } from "@/components/panel-tab-bar";
 
 const STAFF_TABS = [
-  { href: "/staff", label: "Home" },
-  { href: "/staff/new-facility", label: "Add facility" },
-  { href: "/staff/new-doctor", label: "Add doctor" },
-  { href: "/staff/submissions", label: "My submissions" },
-  { href: "/staff/directory", label: "Directory" },
+  { href: "/staff", label: "Home", icon: ClipboardList },
+  { href: "/staff/new-facility", label: "Add facility", icon: Building2 },
+  { href: "/staff/new-doctor", label: "Add doctor", icon: Stethoscope },
+  { href: "/staff/submissions", label: "My submissions", icon: PlusCircle },
+  { href: "/staff/directory", label: "Directory", icon: FolderSearch },
 ];
 
 export default function StaffLayout() {

@@ -181,3 +181,56 @@ export async function createUser<T = unknown>(
     body: JSON.stringify(body),
   });
 }
+
+export async function deleteUser<T = unknown>(token: string, id: string): Promise<T> {
+  return authFetch<T>(`/api/v1/users/${encodeURIComponent(id)}`, {
+    token,
+    method: "DELETE",
+  });
+}
+
+export async function getDoctor<T = unknown>(token: string, id: string): Promise<T> {
+  return authFetch<T>(`/api/v1/doctors/${encodeURIComponent(id)}`, { token });
+}
+
+export async function getFacility<T = unknown>(token: string, id: string): Promise<T> {
+  return authFetch<T>(`/api/v1/facilities/${encodeURIComponent(id)}`, { token });
+}
+
+export async function updateDoctor<T = unknown>(
+  token: string,
+  id: string,
+  body: Record<string, unknown>,
+): Promise<T> {
+  return authFetch<T>(`/api/v1/doctors/${encodeURIComponent(id)}`, {
+    token,
+    method: "PATCH",
+    body: JSON.stringify(body),
+  });
+}
+
+export async function updateFacility<T = unknown>(
+  token: string,
+  id: string,
+  body: Record<string, unknown>,
+): Promise<T> {
+  return authFetch<T>(`/api/v1/facilities/${encodeURIComponent(id)}`, {
+    token,
+    method: "PATCH",
+    body: JSON.stringify(body),
+  });
+}
+
+export async function deleteDoctor<T = unknown>(token: string, id: string): Promise<T> {
+  return authFetch<T>(`/api/v1/doctors/${encodeURIComponent(id)}`, {
+    token,
+    method: "DELETE",
+  });
+}
+
+export async function deleteFacility<T = unknown>(token: string, id: string): Promise<T> {
+  return authFetch<T>(`/api/v1/facilities/${encodeURIComponent(id)}`, {
+    token,
+    method: "DELETE",
+  });
+}

@@ -1,10 +1,13 @@
 import { useCallback, useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { router } from "expo-router";
 import { useAuth } from "@/lib/auth-context";
 import {
   approveDoctor,
   approveFacility,
+  deleteDoctor,
+  deleteFacility,
   listAllDoctors,
   listAllFacilities,
   rejectDoctor,
@@ -17,7 +20,7 @@ import { useDebounce } from "@/hooks/use-debounce";
 import { StatusBadge } from "@/components/status-badge";
 import { Button, LabeledInput } from "@/components/panel-ui";
 import { EmptyState, ErrorState, LoadingState } from "@/components/skeleton";
-import { colors, radius, spacing } from "@/theme";
+import { colors, minTouch, radius, spacing } from "@/theme";
 import {
   areaName,
   collectedByName,
@@ -38,6 +41,56 @@ function asArray<T>(v: unknown): T[] {
   return Array.isArray(v) ? (v as T[]) : [];
 }
 
+function DeleteBlock({
+  itemName,
+  busy,
+  onConfirm,
+}: {
+  itemName: string;
+  busy: boolean;
+  onConfirm: () => Promise<void>;
+}) {
+  const [open, setOpen] = useState(false);
+
+  if (!open) {
+    return (
+      <Pressable
+        onPress={() => setOpen(true)}
+        accessibilityRole="button"
+        accessibilityLabel={`Delete ${itemName}`}
+        style={({ pressed }) => [styles.deleteOutline, pressed && styles.pressedStyle]}
+      >
+        <Text style={styles.deleteOutlineText}>Delete</Text>
+      </Pressable>
+    );
+  }
+
+  return (
+    <View style={styles.deleteForm}>
+      <Text style={styles.deleteWarning}>
+        Permanently delete {itemName} and its linked data? This cannot be undone.
+      </Text>
+      <View style={styles.deleteRow}>
+        <View style={styles.flex}>
+          <Button
+            title="Confirm delete"
+            variant="danger"
+            loading={busy}
+            onPress={() => {
+              void onConfirm()
+                .then(() => setOpen(false))
+                .catch(() => undefined);
+            }}
+          />
+        </View>
+        <View style={styles.flex}>
+          <Button title="Cancel" variant="outline" disabled={busy} onPress={() => setOpen(false)} />
+        </View>
+      </View>
+    </View>
+  );
+}
+
 function EntryCard({
   record,
   kind,
@@ -46,6 +99,8 @@ function EntryCard({
   onVerify,
   onReject,
   onHide,
+  onEdit,
+  onDelete,
 }: {
   record: PanelRecord;
   kind: Kind;
@@ -54,6 +109,8 @@ function EntryCard({
   onVerify: () => void;
   onReject: (reason: string) => Promise<void>;
   onHide: () => void;
+  onEdit: () => void;
+  onDelete: () => Promise<void>;
 }) {
   const status = record.verificationStatus;
   const subtitle =
@@ -83,8 +140,10 @@ function EntryCard({
       ) : null}
       {status === "PENDING" ? (
         <View style={styles.actions}>
-          <VerifyButton itemName={record.name} busy={entryBusy} onPress={onVerify} />
-          <RejectBlock itemName={record.name} busy={entryBusy} onConfirm={onReject} />
+          <View style={styles.actionRow}>
+            <VerifyButton itemName={record.name} busy={entryBusy} onPress={onVerify} />
+            <RejectBlock itemName={record.name} busy={entryBusy} onConfirm={onReject} />
+          </View>
         </View>
       ) : null}
       {status === "VERIFIED" ? (
@@ -96,6 +155,17 @@ function EntryCard({
           accessibilityLabel={`Hide ${record.name} from site`}
         />
       ) : null}
+      <View style={styles.actionRow}>
+        <Pressable
+          onPress={onEdit}
+          accessibilityRole="button"
+          accessibilityLabel={`Edit ${record.name}`}
+          style={({ pressed }) => [styles.editOutline, pressed && styles.pressedStyle]}
+        >
+          <Text style={styles.editOutlineText}>Edit</Text>
+        </Pressable>
+        <DeleteBlock itemName={record.name} busy={entryBusy} onConfirm={onDelete} />
+      </View>
     </View>
   );
 }
@@ -189,6 +259,25 @@ export default function AllEntriesScreen() {
     ).catch(() => undefined);
   }
 
+  function edit(record: PanelRecord): void {
+    router.push(
+      (kind === "facility"
+        ? `/admin/edit-facility?id=${record.id}`
+        : `/admin/edit-doctor?id=${record.id}`) as never,
+    );
+  }
+
+  function remove(record: PanelRecord): Promise<void> {
+    return mutate(
+      record,
+      (t) =>
+        kind === "facility"
+          ? deleteFacility<PanelRecord>(t, record.id)
+          : deleteDoctor<PanelRecord>(t, record.id),
+      "Deleted",
+    );
+  }
+
   const emptyTitle = q
     ? `No ${kind === "facility" ? "facilities" : "doctors"} match "${debouncedQuery.trim()}"`
     : `No ${status === "ALL" ? "" : `${status.toLowerCase()} `}${kind === "facility" ? "facilities" : "doctors"} found`;
@@ -256,6 +345,8 @@ export default function AllEntriesScreen() {
               onVerify={() => verify(record)}
               onReject={(reason) => reject(record, reason)}
               onHide={() => hide(record)}
+              onEdit={() => edit(record)}
+              onDelete={() => remove(record)}
             />
           );
         })
@@ -319,5 +410,58 @@ const styles = StyleSheet.create({
   actions: {
     gap: spacing.sm,
     paddingTop: spacing.xs,
+  },
+  actionRow: {
+    flexDirection: "row",
+    gap: spacing.sm,
+  },
+  editOutline: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: colors.primary,
+    borderRadius: radius.md,
+    minHeight: minTouch,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: spacing.lg,
+  },
+  editOutlineText: {
+    color: colors.primary,
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  deleteOutline: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: colors.danger,
+    borderRadius: radius.md,
+    minHeight: minTouch,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: spacing.lg,
+  },
+  deleteOutlineText: {
+    color: colors.danger,
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  deleteForm: {
+    flex: 1,
+    gap: spacing.sm,
+  },
+  deleteWarning: {
+    color: colors.secondaryLabel,
+    fontSize: 13,
+    lineHeight: 18,
+  },
+  deleteRow: {
+    flexDirection: "row",
+    gap: spacing.sm,
+  },
+  flex: {
+    flex: 1,
+  },
+  pressedStyle: {
+    opacity: 0.7,
   },
 });
