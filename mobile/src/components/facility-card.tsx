@@ -1,6 +1,6 @@
 import { Link } from "expo-router";
 import { BriefcaseMedical, MapPin } from "lucide-react-native";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { StatusBadge } from "@/components/verified-badge";
 import { colors, radius, spacing } from "@/theme";
 import { facilityTypeLabel } from "@/utils/labels";
@@ -15,10 +15,27 @@ export function FacilityCard({ facility }: { facility: FacilitySummary }) {
         accessibilityHint="Opens diagnostic centre details"
         style={({ pressed }) => [styles.card, pressed && styles.pressed]}
       >
+        {facility.coverImageUrl ? (
+          <Image
+            source={{ uri: facility.coverImageUrl }}
+            style={styles.cover}
+            resizeMode="cover"
+            accessibilityIgnoresInvertColors
+          />
+        ) : null}
         <View style={styles.header}>
-          <View style={styles.logo}>
-            <BriefcaseMedical size={20} color={colors.primary} strokeWidth={2} />
-          </View>
+          {facility.logoUrl ? (
+            <Image
+              source={{ uri: facility.logoUrl }}
+              style={styles.logo}
+              resizeMode="cover"
+              accessibilityIgnoresInvertColors
+            />
+          ) : (
+            <View style={styles.logo}>
+              <BriefcaseMedical size={20} color={colors.primary} strokeWidth={2} />
+            </View>
+          )}
           <View style={styles.body}>
             <Text style={styles.typeLabel}>{facilityTypeLabel(facility.type)}</Text>
             <Text style={styles.name} numberOfLines={2}>
@@ -57,6 +74,14 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
     borderWidth: 1,
     borderColor: colors.border,
+    overflow: "hidden",
+  },
+  cover: {
+    alignSelf: "stretch",
+    height: 96,
+    marginTop: -spacing.lg,
+    marginHorizontal: -spacing.lg,
+    marginBottom: spacing.xs,
   },
   pressed: {
     opacity: 0.7,

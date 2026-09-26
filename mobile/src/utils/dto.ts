@@ -18,6 +18,10 @@ function asString(value: unknown, fallback = ""): string {
   return typeof value === "string" ? value : fallback;
 }
 
+function asStringOrNull(value: unknown): string | null {
+  return typeof value === "string" && value ? value : null;
+}
+
 function asNumber(value: unknown): number | null {
   return typeof value === "number" && Number.isFinite(value) ? value : null;
 }
@@ -73,6 +77,7 @@ export function parseDoctor(raw: unknown): DoctorSummary | null {
     id,
     slug,
     name,
+    photoUrl: asStringOrNull(r.photoUrl),
     degrees: Array.isArray(r.degrees)
       ? (r.degrees.filter((d) => typeof d === "string") as string[])
       : [],
@@ -155,6 +160,8 @@ export function parseFacility(raw: unknown): FacilitySummary | null {
     slug,
     name,
     type: asString(r.type, "DIAGNOSTIC_CENTER"),
+    logoUrl: asStringOrNull(r.logoUrl),
+    coverImageUrl: asStringOrNull(r.coverImageUrl),
     area: area && asString(area.name) ? { name: asString(area.name) } : null,
     address: (r.address as string | null | undefined) ?? null,
     phone: phoneTop,

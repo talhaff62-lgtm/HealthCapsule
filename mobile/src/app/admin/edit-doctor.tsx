@@ -3,8 +3,9 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
 import { useAuth } from "@/lib/auth-context";
-import { getDoctor, updateDoctor } from "@/api/panel";
+import { getDoctor, updateDoctor, uploadImage } from "@/api/panel";
 import { Button, Card, LabeledInput, LabeledTextArea, SectionTitle } from "@/components/panel-ui";
+import { ImagePickerField } from "@/components/image-picker-field";
 import { StatusBadge, type PanelStatus } from "@/components/status-badge";
 import { ErrorState, LoadingState } from "@/components/skeleton";
 import { colors, spacing } from "@/theme";
@@ -20,6 +21,7 @@ type DoctorRecord = {
   consultationFee?: string | number | null;
   listingTier?: string;
   collectedBy?: { name?: string | null } | null;
+  photoUrl?: string | null;
 };
 
 const TIERS: { value: Tier; label: string }[] = [
@@ -41,6 +43,7 @@ export default function EditDoctorScreen() {
   const [bio, setBio] = useState("");
   const [fee, setFee] = useState("");
   const [tier, setTier] = useState<Tier>("FREE");
+  const [photo, setPhoto] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [attempt, setAttempt] = useState(0);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -62,6 +65,7 @@ export default function EditDoctorScreen() {
         setName(r.name ?? "");
         setBio(r.bio ?? "");
         setFee(scalar(r.consultationFee) ?? "");
+        setPhoto(r.photoUrl ?? null);
         const t = String(r.listingTier ?? "FREE").toUpperCase() as Tier;
         if (TIERS.some((o) => o.value === t)) setTier(t);
       })
@@ -90,13 +94,31 @@ export default function EditDoctorScreen() {
     }
     setSaving(true);
     setFormError(null);
+
+    let finalPhotoUrl: string | null = photo;
+    if (photo && !photo.startsWith("http://") && !photo.startsWith("https://")) {
+      try {
+        finalPhotoUrl = await uploadImage(tok, photo, "doctors");
+      } catch {
+        setFormError("Couldn't upload the photo. Try again or remove it.");
+        setSaving(false);
+        return;
+      }
+    }
+
+    const origPhotoUrl = loaded?.photoUrl ?? null;
+    const body: Record<string, unknown> = {
+      name: name.trim(),
+      bio: bio.trim() || null,
+      consultationFee: trimmedFee === "" ? null : Number(trimmedFee),
+      listingTier: tier,
+    };
+    if (finalPhotoUrl !== origPhotoUrl) {
+      body.photoUrl = finalPhotoUrl;
+    }
+
     try {
-      await updateDoctor<DoctorRecord>(tok, doctorId, {
-        name: name.trim(),
-        bio: bio.trim() || null,
-        consultationFee: trimmedFee === "" ? null : Number(trimmedFee),
-        listingTier: tier,
-      });
+      await updateDoctor<DoctorRecord>(tok, doctorId, body);
       router.back();
     } catch (err) {
       setFormError(messageOf(err));
@@ -179,6 +201,12 @@ export default function EditDoctorScreen() {
           value={tier}
           onChange={setTier}
           options={TIERS}
+        />
+        <ImagePickerField
+          label="Doctor photo"
+          hint="Shown on their profile and cards."
+          value={photo}
+          onChange={setPhoto}
         />
         {formError ? (
           <Text style={styles.apiError} accessibilityRole="alert">

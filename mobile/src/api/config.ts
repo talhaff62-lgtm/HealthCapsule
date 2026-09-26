@@ -54,7 +54,10 @@ export async function apiFetch<T>(
       signal: controller.signal,
       headers: {
         Accept: "application/json",
-        ...(init.body ? { "Content-Type": "application/json" } : {}),
+        // FormData sets its own multipart boundary; a JSON content-type would break it.
+        ...(init.body && !(typeof FormData !== "undefined" && init.body instanceof FormData)
+          ? { "Content-Type": "application/json" }
+          : {}),
         ...init.headers,
       },
     });

@@ -234,3 +234,28 @@ export async function deleteFacility<T = unknown>(token: string, id: string): Pr
     method: "DELETE",
   });
 }
+
+// Uploads to POST /api/v1/upload (multipart: file + folder) and returns the
+// stored image's web-servable URL.
+export async function uploadImage(
+  token: string,
+  localUri: string,
+  folder: "doctors" | "facilities",
+): Promise<string> {
+  const filename = localUri.split("/").pop() ?? "upload.jpg";
+  const extMatch = /\.(\w+)$/.exec(filename);
+  const ext = extMatch ? extMatch[1].toLowerCase() : "jpg";
+  const mimeType = ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg";
+
+  const form = new FormData();
+  form.append("file", { uri: localUri, name: filename, type: mimeType } as unknown as Blob);
+  form.append("folder", folder);
+
+  const res = await authFetch<{ success: boolean; image: { url: string } }>(
+    "/api/v1/upload",
+    { token, method: "POST", body: form },
+    30000, // image uploads are slower than the default JSON calls
+  );
+  if (!res?.image?.url) throw new Error("Upload failed");
+  return res.image.url;
+}

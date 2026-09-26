@@ -1,6 +1,6 @@
 import { Link } from "expo-router";
 import { MapPin } from "lucide-react-native";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { StatusBadge } from "@/components/verified-badge";
 import { colors, fonts, radius, spacing } from "@/theme";
 import type { DoctorSummary } from "@/types/dto";
@@ -28,11 +28,20 @@ export function DoctorCard({ doctor, variant = "list" }: Props) {
         ]}
       >
         <View style={styles.row}>
-          <View style={styles.avatar}>
-            <Text style={styles.avatarInitial}>
-              {doctor.name.replace(/^Dr\.?\s+/i, "").charAt(0).toUpperCase()}
-            </Text>
-          </View>
+          {doctor.photoUrl ? (
+            <Image
+              source={{ uri: doctor.photoUrl }}
+              style={styles.avatar}
+              resizeMode="cover"
+              accessibilityIgnoresInvertColors
+            />
+          ) : (
+            <View style={styles.avatar}>
+              <Text style={styles.avatarInitial}>
+                {doctor.name.replace(/^Dr\.?\s+/i, "").charAt(0).toUpperCase()}
+              </Text>
+            </View>
+          )}
           <View style={styles.body}>
             <Text style={styles.name} numberOfLines={1}>
               {doctor.name}

@@ -19,6 +19,7 @@ export type DoctorSummary = {
   id: string;
   slug: string;
   name: string;
+  photoUrl: string | null;
   degrees: string[];
   currentPosition: string | null;
   specialties: { name: string; slug: string }[];
@@ -43,6 +44,8 @@ export type FacilitySummary = {
   slug: string;
   name: string;
   type: string;
+  logoUrl: string | null;
+  coverImageUrl: string | null;
   address: string | null;
   phone: string | null;
   hasEmergency: boolean;

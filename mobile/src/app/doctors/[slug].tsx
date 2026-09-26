@@ -1,5 +1,6 @@
 import { useLocalSearchParams, Stack } from "expo-router";
 import {
+  Image,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -51,11 +52,20 @@ export default function DoctorDetailScreen() {
         ) : (
           <View style={{ gap: spacing.lg }}>
             <View style={styles.header}>
-              <View style={styles.avatar}>
-                <Text style={styles.avatarInitial}>
-                  {data.name.replace(/^Dr\.?\s+/i, "").charAt(0).toUpperCase()}
-                </Text>
-              </View>
+              {data.photoUrl ? (
+                <Image
+                  source={{ uri: data.photoUrl }}
+                  style={styles.avatar}
+                  resizeMode="cover"
+                  accessibilityIgnoresInvertColors
+                />
+              ) : (
+                <View style={styles.avatar}>
+                  <Text style={styles.avatarInitial}>
+                    {data.name.replace(/^Dr\.?\s+/i, "").charAt(0).toUpperCase()}
+                  </Text>
+                </View>
+              )}
               <View style={{ flex: 1, gap: 4 }}>
                 <Text style={styles.name} selectable>
                   {data.name}

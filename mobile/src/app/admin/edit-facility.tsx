@@ -3,8 +3,9 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
 import { useAuth } from "@/lib/auth-context";
-import { getFacility, updateFacility } from "@/api/panel";
+import { getFacility, updateFacility, uploadImage } from "@/api/panel";
 import { Button, Card, LabeledInput, LabeledTextArea, SectionTitle } from "@/components/panel-ui";
+import { ImagePickerField } from "@/components/image-picker-field";
 import { StatusBadge, type PanelStatus } from "@/components/status-badge";
 import { ErrorState, LoadingState } from "@/components/skeleton";
 import { colors, spacing } from "@/theme";
@@ -21,6 +22,8 @@ type FacilityRecord = {
   listingTier?: string;
   area?: { name?: string | null } | null;
   collectedBy?: { name?: string | null } | null;
+  logoUrl?: string | null;
+  coverImageUrl?: string | null;
   [key: string]: unknown;
 };
 
@@ -42,6 +45,8 @@ export default function EditFacilityScreen() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [tier, setTier] = useState<Tier>("FREE");
+  const [logo, setLogo] = useState<string | null>(null);
+  const [cover, setCover] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [attempt, setAttempt] = useState(0);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -62,6 +67,8 @@ export default function EditFacilityScreen() {
         setLoaded(r);
         setName(r.name ?? "");
         setDescription(r.description ?? "");
+        setLogo(r.logoUrl ?? null);
+        setCover(r.coverImageUrl ?? null);
         const t = String(r.listingTier ?? "FREE").toUpperCase() as Tier;
         if (TIERS.some((o) => o.value === t)) setTier(t);
       })
@@ -85,12 +92,47 @@ export default function EditFacilityScreen() {
     }
     setSaving(true);
     setFormError(null);
+
+    let finalLogoUrl: string | null = logo;
+    let finalCoverUrl: string | null = cover;
+
+    if (logo && !logo.startsWith("http://") && !logo.startsWith("https://")) {
+      try {
+        finalLogoUrl = await uploadImage(tok, logo, "facilities");
+      } catch {
+        setFormError("Couldn't upload the images. Try again or remove them.");
+        setSaving(false);
+        return;
+      }
+    }
+
+    if (cover && !cover.startsWith("http://") && !cover.startsWith("https://")) {
+      try {
+        finalCoverUrl = await uploadImage(tok, cover, "facilities");
+      } catch {
+        setFormError("Couldn't upload the images. Try again or remove them.");
+        setSaving(false);
+        return;
+      }
+    }
+
+    const origLogoUrl = loaded?.logoUrl ?? null;
+    const origCoverUrl = loaded?.coverImageUrl ?? null;
+
+    const body: Record<string, unknown> = {
+      name: name.trim(),
+      description: description.trim() || null,
+      listingTier: tier,
+    };
+    if (finalLogoUrl !== origLogoUrl) {
+      body.logoUrl = finalLogoUrl;
+    }
+    if (finalCoverUrl !== origCoverUrl) {
+      body.coverImageUrl = finalCoverUrl;
+    }
+
     try {
-      await updateFacility<FacilityRecord>(tok, facilityId, {
-        name: name.trim(),
-        description: description.trim() || null,
-        listingTier: tier,
-      });
+      await updateFacility<FacilityRecord>(tok, facilityId, body);
       router.back();
     } catch (err) {
       setFormError(messageOf(err));
@@ -179,6 +221,21 @@ export default function EditFacilityScreen() {
         ) : null}
         <Button title="Save changes" loading={saving} onPress={() => void save()} />
         <Button title="Cancel" variant="outline" disabled={saving} onPress={() => router.back()} />
+      </Card>
+
+      <Card>
+        <ImagePickerField
+          label="Logo"
+          hint="Square image works best."
+          value={logo}
+          onChange={setLogo}
+        />
+        <ImagePickerField
+          label="Cover photo"
+          hint="Wide image shown at the top of the facility page."
+          value={cover}
+          onChange={setCover}
+        />
       </Card>
 
       <Text style={styles.readonlyHint}>

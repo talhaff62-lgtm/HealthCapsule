@@ -15,10 +15,12 @@ import {
   getFacilityOptions,
   getSpecialties,
   searchDoctorDirectory,
+  uploadImage,
 } from "@/api/panel";
 import { useDebounce } from "@/hooks/use-debounce";
 import { getLastFacility } from "@/lib/last-facility";
 import { Button, Card, LabeledInput, LabeledTextArea, SectionTitle } from "@/components/panel-ui";
+import { ImagePickerField } from "@/components/image-picker-field";
 import { StatusBadge } from "@/components/status-badge";
 import { colors, fonts, minTouch, radius, spacing } from "@/theme";
 
@@ -54,6 +56,7 @@ export default function NewDoctorScreen() {
   const [degrees, setDegrees] = useState("");
   const [position, setPosition] = useState("");
   const [achievements, setAchievements] = useState("");
+  const [photoUri, setPhotoUri] = useState<string | null>(null);
   const [facilityOptions, setFacilityOptions] = useState<FacilityOption[]>([]);
   const [facilityQuery, setFacilityQuery] = useState("");
   const [selectedFacility, setSelectedFacility] = useState<FacilityOption | null>(() =>
@@ -157,6 +160,7 @@ export default function NewDoctorScreen() {
     setDegrees("");
     setPosition("");
     setAchievements("");
+    setPhotoUri(null);
     setFacilityQuery("");
     setSelectedFacility(null);
     setFee("");
@@ -185,11 +189,22 @@ export default function NewDoctorScreen() {
     setFormError(null);
     setSubmitting(true);
     try {
+      let photoUrl: string | undefined;
+      if (photoUri) {
+        try {
+          photoUrl = await uploadImage(token, photoUri, "doctors");
+        } catch {
+          setFormError("Couldn't upload the photo. Submit without it or try again.");
+          setSubmitting(false);
+          return;
+        }
+      }
       const res = await createDoctor<CreatedDoctor>(token, {
         name: name.trim(),
         degrees: degrees.trim(),
         ...(position.trim() ? { currentPosition: position.trim() } : {}),
         ...(achievements.trim() ? { achievements: achievements.trim() } : {}),
+        ...(photoUrl ? { photoUrl } : {}),
         specialtyId: selectedSpecialty.id,
         ...(selectedFacility ? { facilityId: selectedFacility.id } : {}),
         chamber: {
@@ -246,6 +261,12 @@ export default function NewDoctorScreen() {
         <LabeledInput label="Degrees" required value={degrees} onChangeText={setDegrees} placeholder="MBBS, FCPS, …" hint="Comma-separated" />
         <LabeledInput label="Current position" value={position} onChangeText={setPosition} placeholder="Optional" />
         <LabeledTextArea label="Achievements" value={achievements} onChangeText={setAchievements} placeholder="Optional" />
+        <ImagePickerField
+          label="Doctor photo"
+          hint="Optional — shown on their profile and cards."
+          value={photoUri}
+          onChange={setPhotoUri}
+        />
       </Card>
 
       <Card>

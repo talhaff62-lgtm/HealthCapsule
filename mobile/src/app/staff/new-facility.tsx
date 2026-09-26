@@ -14,10 +14,12 @@ import {
   getAmenities,
   getAreas,
   searchFacilityDirectory,
+  uploadImage,
 } from "@/api/panel";
 import { useDebounce } from "@/hooks/use-debounce";
 import { setLastFacility } from "@/lib/last-facility";
 import { Button, Card, LabeledInput, LabeledTextArea, SectionTitle } from "@/components/panel-ui";
+import { ImagePickerField } from "@/components/image-picker-field";
 import { StatusBadge } from "@/components/status-badge";
 import { colors, fonts, minTouch, radius, spacing } from "@/theme";
 
@@ -45,6 +47,8 @@ export default function NewFacilityScreen() {
   const [amenities, setAmenities] = useState<AmenityOption[]>([]);
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [discount, setDiscount] = useState("");
+  const [logoUri, setLogoUri] = useState<string | null>(null);
+  const [coverUri, setCoverUri] = useState<string | null>(null);
   const [duplicates, setDuplicates] = useState<DirectoryMatch[]>([]);
   const [formError, setFormError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -124,6 +128,8 @@ export default function NewFacilityScreen() {
     setSelectedArea(null);
     setSelectedAmenities([]);
     setDiscount("");
+    setLogoUri(null);
+    setCoverUri(null);
     setDuplicates([]);
     setFormError(null);
     setCreated(null);
@@ -146,6 +152,16 @@ export default function NewFacilityScreen() {
     setFormError(null);
     setSubmitting(true);
     try {
+      let logoUrl: string | undefined;
+      let coverImageUrl: string | undefined;
+      try {
+        if (logoUri) logoUrl = await uploadImage(token, logoUri, "facilities");
+        if (coverUri) coverImageUrl = await uploadImage(token, coverUri, "facilities");
+      } catch {
+        setFormError("Couldn't upload the images. Submit without them or try again.");
+        setSubmitting(false);
+        return;
+      }
       const res = await createFacility<CreatedFacility>(token, {
         name: name.trim(),
         type,
@@ -153,6 +169,8 @@ export default function NewFacilityScreen() {
         areaId: selectedArea.id,
         amenityIds: selectedAmenities,
         ...(discount.trim() ? { discountInfo: discount.trim() } : {}),
+        ...(logoUrl ? { logoUrl } : {}),
+        ...(coverImageUrl ? { coverImageUrl } : {}),
       });
       setLastFacility({ id: res.id, name: res.name });
       setCreated({ id: res.id, name: res.name });
@@ -293,6 +311,22 @@ export default function NewFacilityScreen() {
           })}
         </View>
         <LabeledInput label="Discount info" value={discount} onChangeText={setDiscount} placeholder="Optional discount details" />
+      </Card>
+
+      <Card>
+        <SectionTitle title="Images" subtitle="Optional — shown on cards and the facility page" />
+        <ImagePickerField
+          label="Logo"
+          hint="Square image works best."
+          value={logoUri}
+          onChange={setLogoUri}
+        />
+        <ImagePickerField
+          label="Cover photo"
+          hint="Wide image shown at the top of the facility page."
+          value={coverUri}
+          onChange={setCoverUri}
+        />
       </Card>
 
       {formError ? (

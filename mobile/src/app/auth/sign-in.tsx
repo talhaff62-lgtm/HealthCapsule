@@ -32,7 +32,9 @@ export default function SignInScreen() {
     setLoading(true);
     try {
       const user = await signIn(email.trim(), password);
-      if (user.role === "STAFF" || user.role === "ADMIN") {
+      if (user.role === "ADMIN") {
+        router.replace("/admin" as never);
+      } else if (user.role === "STAFF") {
         router.replace("/staff" as never);
       } else {
         router.replace("/(tabs)" as never);

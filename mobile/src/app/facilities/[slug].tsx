@@ -1,5 +1,6 @@
 import { useLocalSearchParams, Stack } from "expo-router";
 import {
+  Image,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -49,10 +50,27 @@ export default function FacilityDetailScreen() {
           <EmptyState title="Centre not found" />
         ) : (
           <View style={{ gap: spacing.lg }}>
+            {data.coverImageUrl ? (
+              <Image
+                source={{ uri: data.coverImageUrl }}
+                style={styles.cover}
+                resizeMode="cover"
+                accessibilityIgnoresInvertColors
+              />
+            ) : null}
             <View style={styles.header}>
-              <View style={styles.logo}>
-                <BriefcaseMedical size={26} color={colors.primary} strokeWidth={2} />
-              </View>
+              {data.logoUrl ? (
+                <Image
+                  source={{ uri: data.logoUrl }}
+                  style={styles.logo}
+                  resizeMode="cover"
+                  accessibilityIgnoresInvertColors
+                />
+              ) : (
+                <View style={styles.logo}>
+                  <BriefcaseMedical size={26} color={colors.primary} strokeWidth={2} />
+                </View>
+              )}
               <View style={{ flex: 1, gap: 4 }}>
                 <Text style={styles.typeLabel}>{facilityTypeLabel(data.type)}</Text>
                 <Text style={styles.name} selectable>
@@ -257,6 +275,12 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     gap: spacing.md,
+  },
+  cover: {
+    alignSelf: "stretch",
+    height: 150,
+    borderRadius: radius.lg,
+    backgroundColor: colors.surfaceMuted,
   },
   logo: {
     width: 56,
