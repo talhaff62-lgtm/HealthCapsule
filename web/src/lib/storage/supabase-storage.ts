@@ -7,6 +7,45 @@ const MAX_BYTES = 8 * 1024 * 1024; // 8MB
 const ALLOWED_FORMATS = new Set(["jpeg", "jpg", "png", "webp", "avif"]);
 
 let cachedClient: ReturnType<typeof createClient> | null = null;
+let bucketPublicPromise: Promise<void> | null = null;
+
+function ensureBucketPublic(bucket: string): Promise<void> {
+  if (!bucketPublicPromise) {
+    bucketPublicPromise = (async () => {
+      try {
+        const client = getSupabaseClient();
+        const { error: updateError } = await client.storage.updateBucket(bucket, {
+          public: true,
+        });
+        if (updateError) {
+          const message = updateError.message ? updateError.message.toLowerCase() : "";
+          if (message.includes("not found")) {
+            const { error: createError } = await client.storage.createBucket(bucket, {
+              public: true,
+            });
+            if (createError) {
+              console.error(
+                `Failed to create Supabase storage bucket "${bucket}":`,
+                createError
+              );
+            }
+          } else {
+            console.error(
+              `Failed to update Supabase storage bucket "${bucket}" visibility:`,
+              updateError
+            );
+          }
+        }
+      } catch (err) {
+        console.error(
+          `Error ensuring Supabase storage bucket "${bucket}" is public:`,
+          err
+        );
+      }
+    })();
+  }
+  return bucketPublicPromise;
+}
 
 function getSupabaseClient(): ReturnType<typeof createClient> {
   if (cachedClient) {
@@ -59,6 +98,8 @@ export const storeImageSupabase: StoreImage = async (
       `Invalid folder name: "${input.folder}". Folder must contain alphanumeric characters, hyphens, or underscores.`
     );
   }
+
+  await ensureBucketPublic(bucket);
 
   const sharp = getSharp();
 
