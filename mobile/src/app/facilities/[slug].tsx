@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCallback } from "react";
-import { SymbolView } from "expo-symbols";
+import { BriefcaseMedical, Check, MessageCircle, Minus, Phone } from "lucide-react-native";
 import { StatusBadge } from "@/components/verified-badge";
 import {
   EmptyState,
@@ -51,11 +51,7 @@ export default function FacilityDetailScreen() {
           <View style={{ gap: spacing.lg }}>
             <View style={styles.header}>
               <View style={styles.logo}>
-                <SymbolView
-                  name={{ ios: "cross.case.fill", android: "medical_services" }}
-                  tintColor={colors.primary}
-                  size={26}
-                />
+                <BriefcaseMedical size={26} color={colors.primary} strokeWidth={2} />
               </View>
               <View style={{ flex: 1, gap: 4 }}>
                 <Text style={styles.typeLabel}>{facilityTypeLabel(data.type)}</Text>
@@ -111,11 +107,11 @@ export default function FacilityDetailScreen() {
                         : { backgroundColor: colors.surfaceMuted },
                     ]}
                   >
-                    <SymbolView
-                      name={enabled ? { ios: "checkmark", android: "check" } : { ios: "minus", android: "remove" }}
-                      tintColor={enabled ? colors.contact : colors.tertiaryLabel}
-                      size={12}
-                    />
+                    {enabled ? (
+                      <Check size={12} color={colors.contact} strokeWidth={2.5} />
+                    ) : (
+                      <Minus size={12} color={colors.tertiaryLabel} strokeWidth={2.5} />
+                    )}
                     <Text
                       style={[
                         styles.capabilityText,
@@ -225,7 +221,7 @@ function ContactBlock({
             pressed && { opacity: 0.85 },
           ]}
         >
-          <SymbolView name={{ ios: "phone.fill", android: "call" }} tintColor="#FFFFFF" size={18} />
+          <Phone size={18} color="#FFFFFF" strokeWidth={2} />
           <Text style={styles.contactText}>Call</Text>
         </Pressable>
       ) : null}
@@ -245,7 +241,7 @@ function ContactBlock({
             { backgroundColor: colors.contact, opacity: pressed ? 0.85 : 1 },
           ]}
         >
-          <SymbolView name={{ ios: "message.fill", android: "chat" }} tintColor="#FFFFFF" size={18} />
+          <MessageCircle size={18} color="#FFFFFF" strokeWidth={2} />
           <Text style={styles.contactText}>WhatsApp</Text>
         </Pressable>
       ) : null}

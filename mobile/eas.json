@@ -10,13 +10,17 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://health-capsule.vercel.app"
+        "EXPO_PUBLIC_API_URL": "https://health-capsule.vercel.app",
+        "EXPO_ROUTER_DISABLE_NATIVE_TABS_MD": "1"
       }
     },
     "production": {
       "autoIncrement": true,
       "android": {
         "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_ROUTER_DISABLE_NATIVE_TABS_MD": "1"
       }
     }
   }

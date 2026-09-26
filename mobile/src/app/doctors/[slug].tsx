@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCallback } from "react";
-import { SymbolView } from "expo-symbols";
+import { MessageCircle, Phone } from "lucide-react-native";
 import { StatusBadge } from "@/components/verified-badge";
 import {
   EmptyState,
@@ -190,11 +190,7 @@ function ContactBlock({
             pressed && { opacity: 0.85 },
           ]}
         >
-          <SymbolView
-            name={{ ios: "phone.fill", android: "call" }}
-            tintColor="#FFFFFF"
-            size={18}
-          />
+          <Phone size={18} color="#FFFFFF" strokeWidth={2} />
           <Text style={styles.contactText}>Call</Text>
         </Pressable>
       ) : null}
@@ -214,11 +210,7 @@ function ContactBlock({
             { backgroundColor: colors.contact, opacity: pressed ? 0.85 : 1 },
           ]}
         >
-          <SymbolView
-            name={{ ios: "message.fill", android: "chat" }}
-            tintColor="#FFFFFF"
-            size={18}
-          />
+          <MessageCircle size={18} color="#FFFFFF" strokeWidth={2} />
           <Text style={styles.contactText}>WhatsApp</Text>
         </Pressable>
       ) : null}

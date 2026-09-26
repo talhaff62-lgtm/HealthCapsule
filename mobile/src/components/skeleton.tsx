@@ -1,5 +1,5 @@
+import { Inbox, TriangleAlert } from "lucide-react-native";
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
-import { SymbolView } from "expo-symbols";
 import { colors, radius, spacing } from "@/theme";
 
 export function Skeleton({ width, height }: { width?: number | string; height?: number }) {
@@ -51,11 +51,7 @@ export function EmptyState({
       accessibilityLabel={title}
       style={styles.empty}
     >
-      <SymbolView
-        name={{ ios: "tray", android: "inbox" }}
-        tintColor={colors.tertiaryLabel}
-        size={32}
-      />
+      <Inbox size={32} color={colors.tertiaryLabel} strokeWidth={1.5} />
       <Text style={styles.emptyTitle}>{title}</Text>
       {hint ? <Text style={styles.emptyHint}>{hint}</Text> : null}
       {actionLabel && onAction ? (
@@ -84,11 +80,7 @@ export function ErrorState({
       accessibilityLabel={`Error: ${message}`}
       style={styles.empty}
     >
-      <SymbolView
-        name={{ ios: "exclamationmark.triangle.fill", android: "error" }}
-        tintColor={colors.danger}
-        size={28}
-      />
+      <TriangleAlert size={28} color={colors.danger} strokeWidth={2} />
       <Text style={styles.emptyTitle}>Something went wrong</Text>
       <Text style={styles.emptyHint} selectable>
         {message}

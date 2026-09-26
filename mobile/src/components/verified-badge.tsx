@@ -1,4 +1,4 @@
-import { SymbolView } from "expo-symbols";
+import { BadgeCheck, Sparkles, Star } from "lucide-react-native";
 import { StyleSheet, Text, View } from "react-native";
 import { colors, radius, spacing } from "@/theme";
 
@@ -11,9 +11,9 @@ const LABEL: Record<Variant, string> = {
 };
 
 const ICON = {
-  verified: { ios: "checkmark.seal.fill", android: "verified_user" },
-  suggested: { ios: "star.fill", android: "star" },
-  new: { ios: "sparkles", android: "auto_awesome" },
+  verified: BadgeCheck,
+  suggested: Star,
+  new: Sparkles,
 } as const;
 
 const TONE: Record<Variant, { fg: string; bg: string }> = {
@@ -24,12 +24,13 @@ const TONE: Record<Variant, { fg: string; bg: string }> = {
 
 export function StatusBadge({ variant }: { variant: Variant }) {
   const tone = TONE[variant];
+  const Icon = ICON[variant];
   return (
     <View
       accessibilityLabel={`${LABEL[variant]} status`}
       style={[styles.badge, { backgroundColor: tone.bg }]}
     >
-      <SymbolView name={ICON[variant]} tintColor={tone.fg} size={12} weight="semibold" />
+      <Icon size={12} color={tone.fg} strokeWidth={2.5} />
       <Text style={[styles.label, { color: tone.fg }]}>{LABEL[variant]}</Text>
     </View>
   );

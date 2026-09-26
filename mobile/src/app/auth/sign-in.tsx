@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { SymbolView } from "expo-symbols";
+import { ChevronLeft } from "lucide-react-native";
 import { useAuth } from "@/lib/auth-context";
 import { colors, fonts, minTouch, radius, spacing } from "@/theme";
 import { ApiError } from "@/api/config";
@@ -65,11 +65,7 @@ export default function SignInScreen() {
         accessibilityRole="button"
         accessibilityLabel="Go back"
       >
-        <SymbolView
-          name={{ ios: "chevron.left", android: "arrow_back" }}
-          tintColor={colors.primary}
-          size={20}
-        />
+        <ChevronLeft size={20} color={colors.primary} strokeWidth={2} />
         <Text style={styles.backText}>Back</Text>
       </Pressable>
 

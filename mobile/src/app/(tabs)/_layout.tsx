@@ -1,33 +1,57 @@
 import { Tabs } from "expo-router";
-import { Platform, StyleSheet } from "react-native";
+import { Building2, Ellipsis, House, Stethoscope } from "lucide-react-native";
+import { FloatingTabBar } from "@/components/floating-tab-bar";
 import { colors } from "@/theme";
+
+const ICON_SIZE = 22;
 
 export default function TabLayout() {
   return (
     <Tabs
+      tabBar={(props) => <FloatingTabBar {...props} />}
       screenOptions={{
-        tabBarPosition: "bottom",
         headerShown: false,
-        tabBarStyle: styles.bar,
-        tabBarLabelStyle: styles.label,
         tabBarActiveTintColor: colors.accent,
-        tabBarInactiveTintColor: colors.secondaryLabel ?? "#64748b",
+        tabBarInactiveTintColor: colors.secondaryLabel,
         sceneStyle: { backgroundColor: colors.canvas },
       }}
     >
-      <Tabs.Screen name="index" options={{ title: "Home" }} />
-      <Tabs.Screen name="doctors" options={{ title: "Doctors" }} />
-      <Tabs.Screen name="diagnostics" options={{ title: "Diagnostics" }} />
-      <Tabs.Screen name="more" options={{ title: "More" }} />
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color, focused }) => (
+            <House size={ICON_SIZE} color={color} strokeWidth={focused ? 2.5 : 2} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="doctors"
+        options={{
+          title: "Doctors",
+          tabBarIcon: ({ color, focused }) => (
+            <Stethoscope size={ICON_SIZE} color={color} strokeWidth={focused ? 2.5 : 2} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="diagnostics"
+        options={{
+          title: "Diagnostics",
+          tabBarIcon: ({ color, focused }) => (
+            <Building2 size={ICON_SIZE} color={color} strokeWidth={focused ? 2.5 : 2} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="more"
+        options={{
+          title: "More",
+          tabBarIcon: ({ color, focused }) => (
+            <Ellipsis size={ICON_SIZE} color={color} strokeWidth={focused ? 2.5 : 2} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
-
-const styles = StyleSheet.create({
-  bar: {
-    backgroundColor: colors.primary,
-    borderTopWidth: Platform.OS === "web" ? 0 : StyleSheet.hairlineWidth,
-    borderTopColor: "rgba(255,255,255,0.08)",
-  },
-  label: { fontSize: 11, fontWeight: "600", marginTop: 2 },
-});

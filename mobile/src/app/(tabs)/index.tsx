@@ -1,8 +1,9 @@
 import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { SymbolView } from "expo-symbols";
+import { Search, ShieldCheck } from "lucide-react-native";
 import { Link } from "expo-router";
 import { useCallback, useMemo } from "react";
+import { useTabBarInset } from "@/components/floating-tab-bar";
+import { AppHeader } from "@/components/app-header";
 import { DoctorCard } from "@/components/doctor-card";
 import { FacilityCard } from "@/components/facility-card";
 import { Section } from "@/components/section";
@@ -12,7 +13,7 @@ import { getHome, listFacilities } from "@/api";
 import { colors, fonts, radius, spacing } from "@/theme";
 
 export default function HomeScreen() {
-  const insets = useSafeAreaInsets();
+  const tabBarInset = useTabBarInset();
   const { width } = useWindowDimensions();
   const isWide = width >= 768;
   const loadHome = useCallback(() => getHome(), []);
@@ -43,14 +44,16 @@ export default function HomeScreen() {
     : { title: "Nearby Diagnostic Centres", subtitle: "Verified centres for tests and imaging", items: nearbyFacilities };
 
   return (
-    <ScrollView
-      contentInsetAdjustmentBehavior="automatic"
-      contentContainerStyle={[
-        styles.container,
-        { paddingTop: insets.top + spacing.md, paddingBottom: spacing.xxl },
-      ]}
-      keyboardShouldPersistTaps="handled"
-    >
+    <View style={styles.root}>
+      <AppHeader />
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={[
+          styles.container,
+          { paddingTop: spacing.md, paddingBottom: tabBarInset },
+        ]}
+        keyboardShouldPersistTaps="handled"
+      >
       <View style={styles.hero}>
         <Text style={styles.eyebrow}>{home.data?.context.city ?? "Chattogram"}</Text>
         <Text style={styles.title}>Chattogram, verified care.</Text>
@@ -67,11 +70,7 @@ export default function HomeScreen() {
               pressed && { opacity: 0.7 },
             ]}
           >
-            <SymbolView
-              name={{ ios: "magnifyingglass", android: "search" }}
-              tintColor={colors.secondaryLabel}
-              size={18}
-            />
+            <Search size={18} color={colors.secondaryLabel} strokeWidth={2} />
             <Text style={styles.searchPlaceholder}>Search doctors, specialties…</Text>
           </Pressable>
         </Link>
@@ -146,7 +145,8 @@ export default function HomeScreen() {
           <TrustExplainer />
         </View>
       )}
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -154,11 +154,7 @@ function TrustExplainer() {
   return (
     <View accessibilityRole="summary" style={styles.trust}>
       <View style={styles.trustHeader}>
-        <SymbolView
-          name={{ ios: "checkmark.shield.fill", android: "verified_user" }}
-          tintColor={colors.verified}
-          size={18}
-        />
+        <ShieldCheck size={18} color={colors.verified} strokeWidth={2} />
         <Text style={styles.trustTitle}>Why HealthCapsule is trusted</Text>
       </View>
       <Text style={styles.trustBody}>
@@ -171,6 +167,9 @@ function TrustExplainer() {
 }
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
   container: {
     paddingHorizontal: spacing.lg,
     gap: spacing.xl,

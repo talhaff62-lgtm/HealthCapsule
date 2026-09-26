@@ -1,6 +1,6 @@
 import { Link } from "expo-router";
+import { BriefcaseMedical, MapPin } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { SymbolView } from "expo-symbols";
 import { StatusBadge } from "@/components/verified-badge";
 import { colors, radius, spacing } from "@/theme";
 import { facilityTypeLabel } from "@/utils/labels";
@@ -17,11 +17,7 @@ export function FacilityCard({ facility }: { facility: FacilitySummary }) {
       >
         <View style={styles.header}>
           <View style={styles.logo}>
-            <SymbolView
-              name={{ ios: "cross.case.fill", android: "medical_services" }}
-              tintColor={colors.primary}
-              size={20}
-            />
+            <BriefcaseMedical size={20} color={colors.primary} strokeWidth={2} />
           </View>
           <View style={styles.body}>
             <Text style={styles.typeLabel}>{facilityTypeLabel(facility.type)}</Text>
@@ -30,11 +26,7 @@ export function FacilityCard({ facility }: { facility: FacilitySummary }) {
             </Text>
             {facility.area ? (
               <View style={styles.metaRow}>
-                <SymbolView
-                  name={{ ios: "mappin.and.ellipse", android: "place" }}
-                  tintColor={colors.secondaryLabel}
-                  size={12}
-                />
+                <MapPin size={12} color={colors.secondaryLabel} strokeWidth={2} />
                 <Text style={styles.meta} numberOfLines={1}>
                   {facility.area.name}
                 </Text>

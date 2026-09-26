@@ -1,6 +1,6 @@
 import { Link } from "expo-router";
+import { MapPin } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { SymbolView } from "expo-symbols";
 import { StatusBadge } from "@/components/verified-badge";
 import { colors, fonts, radius, spacing } from "@/theme";
 import type { DoctorSummary } from "@/types/dto";
@@ -44,11 +44,7 @@ export function DoctorCard({ doctor, variant = "list" }: Props) {
             </Text>
             {primaryArea ? (
               <View style={styles.metaRow}>
-                <SymbolView
-                  name={{ ios: "mappin.circle.fill", android: "place" }}
-                  tintColor={colors.secondaryLabel}
-                  size={12}
-                />
+                <MapPin size={12} color={colors.secondaryLabel} strokeWidth={2} />
                 <Text style={styles.meta} numberOfLines={1}>
                   {primaryArea}
                 </Text>

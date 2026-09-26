@@ -7,9 +7,10 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { SymbolView } from "expo-symbols";
+import { Search } from "lucide-react-native";
 import { DoctorCard } from "@/components/doctor-card";
+import { AppHeader } from "@/components/app-header";
+import { useTabBarInset } from "@/components/floating-tab-bar";
 import {
   EmptyState,
   ErrorState,
@@ -21,7 +22,7 @@ import { colors, radius, spacing } from "@/theme";
 import type { DoctorSummary, FilterOption } from "@/types/dto";
 
 export default function DoctorsScreen() {
-  const insets = useSafeAreaInsets();
+  const tabBarInset = useTabBarInset();
   const [query, setQuery] = useState("");
   const [specialty, setSpecialty] = useState<string | null>(null);
   const [area, setArea] = useState<string | null>(null);
@@ -41,7 +42,8 @@ export default function DoctorsScreen() {
   }, [doctors, filters]);
 
   return (
-    <View style={[styles.root, { paddingTop: insets.top }]}>
+    <View style={styles.root}>
+      <AppHeader />
       <View style={styles.header}>
         <Text style={styles.title}>Doctors</Text>
         <Text style={styles.subtitle}>
@@ -51,11 +53,7 @@ export default function DoctorsScreen() {
 
       <View style={styles.searchRow}>
         <View style={styles.searchBox}>
-          <SymbolView
-            name={{ ios: "magnifyingglass", android: "search" }}
-            tintColor={colors.secondaryLabel}
-            size={18}
-          />
+          <Search size={18} color={colors.secondaryLabel} strokeWidth={2} />
           <TextInput
             value={query}
             onChangeText={setQuery}
@@ -91,7 +89,7 @@ export default function DoctorsScreen() {
         <FlatList<DoctorSummary>
           data={doctors.data?.results ?? []}
           keyExtractor={(d) => d.id}
-          contentContainerStyle={styles.listContent}
+          contentContainerStyle={[styles.listContent, { paddingBottom: tabBarInset }]}
           ItemSeparatorComponent={() => <View style={{ height: spacing.sm }} />}
           contentInsetAdjustmentBehavior="automatic"
           keyboardShouldPersistTaps="handled"
@@ -240,7 +238,6 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingHorizontal: spacing.lg,
-    paddingBottom: spacing.xxl,
     paddingTop: spacing.xs,
   },
 });

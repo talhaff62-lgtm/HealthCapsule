@@ -1,15 +1,25 @@
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { SymbolView } from "expo-symbols";
+import {
+  Bell,
+  Briefcase,
+  ExternalLink,
+  Globe,
+  KeyRound,
+  LogOut,
+  UserPlus,
+  type LucideIcon,
+} from "lucide-react-native";
 import { useAuth } from "@/lib/auth-context";
+import { useTabBarInset } from "@/components/floating-tab-bar";
+import { AppHeader } from "@/components/app-header";
 import { openExternalUri } from "@/utils/open-uri";
 import { colors, radius, spacing } from "@/theme";
 
 const REGISTER_URL = "https://www.healthcapsule.app/register";
 
 export default function MoreScreen() {
-  const insets = useSafeAreaInsets();
+  const tabBarInset = useTabBarInset();
   const { status, user, signOut } = useAuth();
   const signedIn = status === "signedIn" && user;
   const panelRole = user?.role === "STAFF" || user?.role === "ADMIN";
@@ -17,18 +27,20 @@ export default function MoreScreen() {
     openExternalUri(url, { label, help: `Couldn't open ${label}. Please try again.` });
 
   return (
-    <ScrollView
-      contentInsetAdjustmentBehavior="automatic"
-      contentContainerStyle={[
-        styles.container,
-        { paddingTop: insets.top + spacing.md, paddingBottom: spacing.xxl },
-      ]}
-    >
+    <View style={styles.root}>
+      <AppHeader />
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={[
+          styles.container,
+          { paddingTop: spacing.md, paddingBottom: tabBarInset },
+        ]}
+      >
       <Text style={styles.title}>More</Text>
 
       <Section label="Account">
         <Row
-          icon={{ ios: "person.crop.circle.badge.plus", android: "person_add" }}
+          icon={UserPlus}
           title="Register as a provider"
           subtitle="Doctors and diagnostic centres can apply on the web portal"
           onPress={() => open(REGISTER_URL, "Registration page")}
@@ -36,7 +48,7 @@ export default function MoreScreen() {
           accessibilityHint="Opens the web portal registration page"
         />
         <Row
-          icon={{ ios: "key.fill", android: "vpn_key" }}
+          icon={KeyRound}
           title="Sign in"
           subtitle="Staff and admin panel access"
           onPress={() => router.push("/auth/sign-in" as never)}
@@ -45,7 +57,7 @@ export default function MoreScreen() {
         />
         {signedIn && panelRole ? (
           <Row
-            icon={{ ios: "briefcase.fill", android: "work" }}
+            icon={Briefcase}
             title={user?.role === "ADMIN" ? "Open admin panel" : "Open staff panel"}
             subtitle={`Signed in as ${user?.name ?? user?.email ?? "staff"}`}
             onPress={() => router.push((user?.role === "ADMIN" ? "/admin" : "/staff") as never)}
@@ -57,7 +69,7 @@ export default function MoreScreen() {
         ) : null}
         {signedIn ? (
           <Row
-            icon={{ ios: "rectangle.portrait.and.arrow.right", android: "logout" }}
+            icon={LogOut}
             title="Sign out"
             subtitle={user?.email ?? "Signed in"}
             onPress={() => {
@@ -71,14 +83,14 @@ export default function MoreScreen() {
 
       <Section label="Preferences">
         <Row
-          icon={{ ios: "globe", android: "language" }}
+          icon={Globe}
           title="Language"
           subtitle="English (Bangla coming soon)"
           onPress={() => {}}
           accessibilityHint="Language preference isn't adjustable yet"
         />
         <Row
-          icon={{ ios: "bell.badge", android: "notifications" }}
+          icon={Bell}
           title="Notifications"
           subtitle="Availability and update preferences (coming soon)"
           onPress={() => {}}
@@ -98,7 +110,8 @@ export default function MoreScreen() {
       </Section>
 
       <Text style={styles.footer}>v1.0.0 · Patient preview</Text>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -112,14 +125,14 @@ function Section({ label, children }: { label: string; children: React.ReactNode
 }
 
 function Row({
-  icon,
+  icon: Icon,
   title,
   subtitle,
   onPress,
   accessibilityLabel,
   accessibilityHint,
 }: {
-  icon: { ios: string; android: string };
+  icon: LucideIcon;
   title: string;
   subtitle: string;
   onPress: () => void;
@@ -135,22 +148,21 @@ function Row({
       style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
     >
       <View style={styles.rowIcon}>
-        <SymbolView name={icon as never} tintColor={colors.primary} size={18} />
+        <Icon size={18} color={colors.primary} strokeWidth={2} />
       </View>
       <View style={{ flex: 1 }}>
         <Text style={styles.rowTitle}>{title}</Text>
         <Text style={styles.rowSubtitle}>{subtitle}</Text>
       </View>
-      <SymbolView
-        name={{ ios: "arrow.up.right.square", android: "open_in_new" }}
-        tintColor={colors.tertiaryLabel}
-        size={18}
-      />
+      <ExternalLink size={18} color={colors.tertiaryLabel} strokeWidth={2} />
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
   container: {
     paddingHorizontal: spacing.lg,
     gap: spacing.xl,
