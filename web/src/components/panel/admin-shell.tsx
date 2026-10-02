@@ -4,7 +4,15 @@
 
 import { PanelShell } from "./panel-shell";
 
-export function AdminShell({ children }: { children: React.ReactNode }) {
+export function AdminShell({
+  title,
+  userName,
+  children,
+}: {
+  title?: string;
+  userName?: string;
+  children: React.ReactNode;
+}) {
   return (
     <PanelShell
       panelLabel="ADMIN PANEL"
@@ -15,6 +23,8 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         { href: "/admin/entries", label: "All entries" },
         { href: "/admin/staff", label: "Staff" },
       ]}
+      title={title}
+      userName={userName}
     >
       {children}
     </PanelShell>

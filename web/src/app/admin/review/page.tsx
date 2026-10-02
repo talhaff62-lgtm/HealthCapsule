@@ -88,17 +88,6 @@ export default function AdminReviewPage() {
   // Delete confirm modal
   const [deletingEntry, setDeletingEntry] = useState<Entry | null>(null);
 
-  // Edit modal
-  const [editingEntry, setEditingEntry] = useState<Entry | null>(null);
-  const [editName, setEditName] = useState("");
-  const [editBio, setEditBio] = useState("");
-  const [editDescription, setEditDescription] = useState("");
-  const [editFee, setEditFee] = useState("");
-  const [editTier, setEditTier] = useState("FREE");
-  const [editFeaturedUntil, setEditFeaturedUntil] = useState("");
-  const [editError, setEditError] = useState("");
-  const [editSaving, setEditSaving] = useState(false);
-
   // Toast
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -286,103 +275,6 @@ export default function AdminReviewPage() {
     }
   };
 
-  const toLocalInput = (iso?: string | null) => {
-    if (!iso) return "";
-    const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return "";
-    const pad = (n: number) => String(n).padStart(2, "0");
-    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(
-      d.getHours()
-    )}:${pad(d.getMinutes())}`;
-  };
-
-  const openEdit = (entry: Entry) => {
-    setEditingEntry(entry);
-    setEditName(entry.name || "");
-    setEditTier(entry.listingTier || "FREE");
-    setEditFeaturedUntil(toLocalInput(entry.featuredUntil));
-    setEditBio(entry.kind === "DOCTOR" ? entry.bio || "" : "");
-    setEditDescription(
-      entry.kind === "FACILITY" ? entry.description || "" : ""
-    );
-    setEditFee(
-      entry.kind === "DOCTOR" && entry.consultationFee != null
-        ? String(entry.consultationFee)
-        : ""
-    );
-    setEditError("");
-  };
-
-  const editFeaturedWarning =
-    editTier === "FEATURED" &&
-    (!editFeaturedUntil || new Date(editFeaturedUntil).getTime() < Date.now());
-
-  const handleEditSave = async () => {
-    if (!editingEntry) return;
-    if (!editName.trim()) {
-      setEditError("Name is required");
-      return;
-    }
-    if (!["FREE", "VERIFIED", "FEATURED", "PREMIUM"].includes(editTier)) {
-      setEditError("Invalid listing tier");
-      return;
-    }
-    if (editFeaturedUntil && Number.isNaN(new Date(editFeaturedUntil).getTime())) {
-      setEditError("Invalid featured until date");
-      return;
-    }
-    if (
-      editingEntry.kind === "DOCTOR" &&
-      editFee.trim() !== "" &&
-      (Number.isNaN(Number(editFee)) || Number(editFee) < 0)
-    ) {
-      setEditError("Invalid consultation fee");
-      return;
-    }
-
-    setEditSaving(true);
-    setEditError("");
-    try {
-      const endpoint =
-        editingEntry.kind === "FACILITY"
-          ? `/api/v1/facilities/${editingEntry.id}`
-          : `/api/v1/doctors/${editingEntry.id}`;
-      const body: Record<string, unknown> =
-        editingEntry.kind === "FACILITY"
-          ? {
-              name: editName.trim(),
-              description: editDescription.trim() === "" ? null : editDescription,
-              listingTier: editTier,
-              featuredUntil: editFeaturedUntil ? new Date(editFeaturedUntil).toISOString() : null,
-            }
-          : {
-              name: editName.trim(),
-              bio: editBio.trim() === "" ? null : editBio,
-              consultationFee: editFee.trim() === "" ? null : Number(editFee),
-              listingTier: editTier,
-              featuredUntil: editFeaturedUntil ? new Date(editFeaturedUntil).toISOString() : null,
-            };
-      const updated = await api<Entry>(endpoint, {
-        method: "PATCH",
-        body: JSON.stringify(body),
-      });
-
-      const merged = { ...updated, kind: editingEntry.kind } as Entry;
-      setEntries((prev) =>
-        prev.map((e) => (e.id === editingEntry.id ? merged : e))
-      );
-      if (selectedEntry?.id === editingEntry.id) {
-        setSelectedEntry(merged);
-      }
-      setEditingEntry(null);
-      showToast("Saved");
-    } catch (err) {
-      setEditError(err instanceof Error ? err.message : "Save failed");
-    } finally {
-      setEditSaving(false);
-    }
-  };
-
   return (
     <AdminShell>
       <Eyebrow className="mb-1 block">REVIEW QUEUE</Eyebrow>
@@ -545,7 +437,13 @@ export default function AdminReviewPage() {
                       onClick={(e) => e.stopPropagation()}
                     >
                       <button
-                        onClick={() => openEdit(entry)}
+                        onClick={() =>
+                          router.push(
+                            entry.kind === "FACILITY"
+                              ? `/admin/facilities/${entry.id}/edit`
+                              : `/admin/doctors/${entry.id}/edit`
+                          )
+                        }
                         className="text-xs font-semibold text-brand-sky-deep hover:underline"
                       >
                         Edit
@@ -734,8 +632,13 @@ export default function AdminReviewPage() {
                 variant="outline"
                 size="lg"
                 fullWidth
-                onClick={() => openEdit(selectedEntry)}
-                disabled={actionLoading}
+                onClick={() =>
+                  router.push(
+                    selectedEntry.kind === "FACILITY"
+                      ? `/admin/facilities/${selectedEntry.id}/edit`
+                      : `/admin/doctors/${selectedEntry.id}/edit`
+                  )
+                }
               >
                 Edit entry
               </Button>
@@ -838,152 +741,6 @@ export default function AdminReviewPage() {
                 loading={actionLoading}
               >
                 Delete
-              </Button>
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {/* Edit Modal */}
-      {editingEntry && (
-        <div className="fixed inset-0 z-50 grid place-items-center p-4 bg-brand-navy/40 backdrop-blur-[2px]">
-          <Card className="w-full max-w-md p-6">
-            <h3 className="font-serif text-xl font-semibold text-brand-navy">
-              Edit entry
-            </h3>
-            <p className="mt-1 text-sm text-brand-muted">{editingEntry.name}</p>
-            <div className="mt-4 space-y-4">
-              <div>
-                <label
-                  htmlFor="edit-name"
-                  className="mb-1.5 block text-sm font-semibold text-brand-slate"
-                >
-                  Name <span className="text-status-emergency"> *</span>
-                </label>
-                <input
-                  id="edit-name"
-                  value={editName}
-                  onChange={(e) => setEditName(e.target.value)}
-                  className="h-12 w-full rounded-xl border border-brand-gray bg-white px-4 text-base text-brand-slate focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/25"
-                />
-              </div>
-
-              {editingEntry.kind === "DOCTOR" ? (
-                <>
-                  <div>
-                    <label
-                      htmlFor="edit-bio"
-                      className="mb-1.5 block text-sm font-semibold text-brand-slate"
-                    >
-                      Bio
-                    </label>
-                    <textarea
-                      id="edit-bio"
-                      value={editBio}
-                      onChange={(e) => setEditBio(e.target.value)}
-                      rows={3}
-                      className="min-h-[96px] w-full rounded-xl border border-brand-gray bg-white px-4 py-3 text-base text-brand-slate focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/25"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="edit-fee"
-                      className="mb-1.5 block text-sm font-semibold text-brand-slate"
-                    >
-                      Consultation fee
-                    </label>
-                    <input
-                      id="edit-fee"
-                      type="number"
-                      min="0"
-                      value={editFee}
-                      onChange={(e) => setEditFee(e.target.value)}
-                      className="h-12 w-full rounded-xl border border-brand-gray bg-white px-4 text-base text-brand-slate focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/25"
-                    />
-                  </div>
-                </>
-              ) : (
-                <div>
-                  <label
-                    htmlFor="edit-description"
-                    className="mb-1.5 block text-sm font-semibold text-brand-slate"
-                  >
-                    Description
-                  </label>
-                  <textarea
-                    id="edit-description"
-                    value={editDescription}
-                    onChange={(e) => setEditDescription(e.target.value)}
-                    rows={3}
-                    className="min-h-[96px] w-full rounded-xl border border-brand-gray bg-white px-4 py-3 text-base text-brand-slate focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/25"
-                  />
-                </div>
-              )}
-
-              <div>
-                <label
-                  htmlFor="edit-tier"
-                  className="mb-1.5 block text-sm font-semibold text-brand-slate"
-                >
-                  Listing tier
-                </label>
-                <select
-                  id="edit-tier"
-                  value={editTier}
-                  onChange={(e) => setEditTier(e.target.value)}
-                  className="h-12 w-full rounded-xl border border-brand-gray bg-white px-4 text-base text-brand-slate focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/25"
-                >
-                  <option value="FREE">FREE</option>
-                  <option value="VERIFIED">VERIFIED</option>
-                  <option value="FEATURED">FEATURED</option>
-                  <option value="PREMIUM">PREMIUM</option>
-                </select>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="edit-featured-until"
-                  className="mb-1.5 block text-sm font-semibold text-brand-slate"
-                >
-                  Featured until
-                </label>
-                <input
-                  id="edit-featured-until"
-                  type="datetime-local"
-                  value={editFeaturedUntil}
-                  onChange={(e) => setEditFeaturedUntil(e.target.value)}
-                  className="h-12 w-full rounded-xl border border-brand-gray bg-white px-4 text-base text-brand-slate focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/25"
-                />
-                <p className="mt-1.5 text-xs text-brand-muted">
-                  Featured items show on homepage until this date
-                </p>
-                {editFeaturedWarning && (
-                  <p className="mt-1.5 text-xs font-semibold text-status-emergency">
-                    Warning: tier is FEATURED but featured-until is empty or in the past.
-                  </p>
-                )}
-              </div>
-
-              {editError && (
-                <p className="text-sm text-status-emergency">{editError}</p>
-              )}
-            </div>
-            <div className="flex gap-3 justify-end mt-5">
-              <Button
-                variant="outline"
-                size="md"
-                onClick={() => setEditingEntry(null)}
-                disabled={editSaving}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="primary"
-                size="md"
-                onClick={handleEditSave}
-                loading={editSaving}
-              >
-                Save
               </Button>
             </div>
           </Card>

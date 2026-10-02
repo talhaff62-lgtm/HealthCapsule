@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Search, X, CheckCircle2 } from "lucide-react";
 import { AdminShell } from "@/components/panel/admin-shell";
 import { useMe } from "@/components/panel/use-me";
@@ -268,9 +269,23 @@ export default function AdminAllEntriesPage() {
   return (
     <AdminShell>
       <Eyebrow className="mb-1 block">ALL ENTRIES</Eyebrow>
-      <h1 className="font-serif text-3xl font-semibold text-brand-navy mb-6">
-        Everything in the system
-      </h1>
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <h1 className="font-serif text-3xl font-semibold text-brand-navy">
+          Everything in the system
+        </h1>
+        <div className="flex items-center gap-3">
+          <Link href="/admin/facilities/new">
+            <Button variant="primary" size="sm">
+              Add facility
+            </Button>
+          </Link>
+          <Link href="/admin/doctors/new">
+            <Button variant="primary" size="sm">
+              Add doctor
+            </Button>
+          </Link>
+        </div>
+      </div>
 
       {/* Toolbar */}
       <div className="mb-5 space-y-4 rounded-2xl border border-brand-gray bg-white p-4">
@@ -663,6 +678,21 @@ export default function AdminAllEntriesPage() {
                   Verify — show on site
                 </Button>
               )}
+
+              <Button
+                variant="outline"
+                size="md"
+                fullWidth
+                onClick={() =>
+                  router.push(
+                    selectedEntry.kind === "FACILITY"
+                      ? `/admin/facilities/${selectedEntry.id}/edit`
+                      : `/admin/doctors/${selectedEntry.id}/edit`
+                  )
+                }
+              >
+                Edit entry
+              </Button>
 
               <Button
                 variant="outline"
