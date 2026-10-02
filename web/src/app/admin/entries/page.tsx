@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Search, X, CheckCircle2 } from "lucide-react";
+import { Search, X, CheckCircle2, Star } from "lucide-react";
 import { AdminShell } from "@/components/panel/admin-shell";
 import { useMe } from "@/components/panel/use-me";
 import { StatusBadge } from "@/components/status-badge";
@@ -24,6 +24,8 @@ type FacilityItem = {
   amenities: Array<{ amenity: { id: string; name: string } }>;
   discountInfo?: string;
   verificationStatus: string;
+  listingTier?: string;
+  featuredUntil?: string | Date | null;
   collectedById?: string;
   collectedBy?: { id: string; name: string };
   collectedAt: string;
@@ -40,6 +42,8 @@ type DoctorItem = {
   achievements?: string;
   chambers?: Array<{ facility?: { id: string; name: string } }>;
   verificationStatus: string;
+  listingTier?: string;
+  featuredUntil?: string | Date | null;
   collectedById?: string;
   collectedBy?: { id: string; name: string };
   collectedAt: string;
@@ -92,6 +96,9 @@ export default function AdminAllEntriesPage() {
 
   // Toast notification
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const [featuredOnly, setFeaturedOnly] = useState(false);
+  const [featuringId, setFeaturingId] = useState<string | null>(null);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -183,6 +190,13 @@ export default function AdminAllEntriesPage() {
       if (typeFilter === "DOCTOR" && item.kind !== "DOCTOR") return false;
     }
 
+    if (
+      featuredOnly &&
+      item.listingTier !== "FEATURED" &&
+      item.listingTier !== "PREMIUM"
+    )
+      return false;
+
     return true;
   });
 
@@ -264,6 +278,41 @@ export default function AdminAllEntriesPage() {
     setLoading(true);
     setError("");
     setReloadKey((prev) => prev + 1);
+  };
+
+  const handleToggleFeatured = async (entry: Entry) => {
+    const isFeatured =
+      entry.listingTier === "FEATURED" || entry.listingTier === "PREMIUM";
+    const body = isFeatured
+      ? { listingTier: "VERIFIED", featuredUntil: null }
+      : {
+          listingTier: "FEATURED",
+          featuredUntil: new Date(
+            Date.now() + 365 * 24 * 60 * 60 * 1000
+          ).toISOString(),
+        };
+    const endpoint =
+      entry.kind === "FACILITY"
+        ? `/api/v1/facilities/${entry.id}`
+        : `/api/v1/doctors/${entry.id}`;
+    setFeaturingId(entry.id);
+    try {
+      const updated = await api<FacilityItem | DoctorItem>(endpoint, {
+        method: "PATCH",
+        body: JSON.stringify(body),
+      });
+      const updatedEntry = { ...updated, kind: entry.kind } as Entry;
+
+      setEntries((prev) =>
+        prev.map((e) => (e.id === entry.id ? updatedEntry : e))
+      );
+      setSelectedEntry(updatedEntry);
+      showToast(isFeatured ? "Removed from featured" : "Marked as featured");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Featured update failed");
+    } finally {
+      setFeaturingId(null);
+    }
   };
 
   return (
@@ -357,9 +406,19 @@ export default function AdminAllEntriesPage() {
                 </button>
               );
             })}
+              <button
+                onClick={() => setFeaturedOnly((prev) => !prev)}
+                className={`h-9 rounded-full px-4 text-xs font-semibold transition-colors ${
+                  featuredOnly
+                    ? "bg-brand-navy text-white"
+                    : "border border-brand-gray bg-white text-brand-muted hover:border-brand-sky"
+                }`}
+              >
+                Featured
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
       {loading ? (
         <div className="space-y-2">
@@ -405,7 +464,13 @@ export default function AdminAllEntriesPage() {
                     className="cursor-pointer border-t border-brand-gray/70 transition-colors hover:bg-brand-sky-bg-soft"
                   >
                     <td className="px-4 py-3.5 font-semibold text-brand-navy">
-                      {entry.name}
+                      <span className="inline-flex items-center gap-1.5">
+                        {entry.name}
+                        {(entry.listingTier === "FEATURED" ||
+                          entry.listingTier === "PREMIUM") && (
+                          <Star className="h-3.5 w-3.5 fill-current text-yellow-500" />
+                        )}
+                      </span>
                     </td>
                     <td className="px-4 py-3.5 text-brand-slate">
                       {entry.kind === "DOCTOR"
@@ -692,6 +757,23 @@ export default function AdminAllEntriesPage() {
                 }
               >
                 Edit entry
+              </Button>
+
+              <Button
+                variant="outline"
+                size="md"
+                fullWidth
+                onClick={() => handleToggleFeatured(selectedEntry)}
+                loading={featuringId === selectedEntry.id}
+                disabled={actionLoading || featuringId !== null}
+              >
+                <span className="inline-flex items-center gap-1.5">
+                  <Star className="h-4 w-4" />
+                  {selectedEntry.listingTier === "FEATURED" ||
+                  selectedEntry.listingTier === "PREMIUM"
+                    ? "Unfeature"
+                    : "Mark featured"}
+                </span>
               </Button>
 
               <Button
