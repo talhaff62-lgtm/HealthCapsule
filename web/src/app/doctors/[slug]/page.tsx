@@ -8,10 +8,17 @@ import {
   Briefcase,
   Building2,
   Clock,
+  GraduationCap,
   Languages,
+  Mail,
   MapPin,
+  Phone,
   ShieldCheck,
+  Star,
+  Stethoscope,
   User,
+  Users,
+  Video,
 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { VerificationStatus } from "@prisma/client";
@@ -73,15 +80,6 @@ async function getVerifiedDoctorBySlug(slug: string) {
   return doctor;
 }
 
-function getInitials(name: string): string {
-  return name
-    .split(" ")
-    .map((part) => part[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
-}
-
 function formatFee(amount: string | null | undefined): string | null {
   if (!amount) return null;
   return `৳${amount}`;
@@ -115,7 +113,6 @@ export default async function DoctorProfilePage({
     notFound();
   }
 
-  const initials = getInitials(doctor.name);
   const baseFee = doctor.consultationFee?.toString() ?? null;
 
   return (
@@ -136,7 +133,11 @@ export default async function DoctorProfilePage({
                     className="h-full w-full rounded-2xl object-cover"
                   />
                 ) : (
-                  initials
+                  <img
+                    src="/images/placeholders/doctor-photo.svg"
+                    alt={doctor.name}
+                    className="h-full w-full rounded-2xl object-cover"
+                  />
                 )}
               </div>
 
@@ -159,6 +160,12 @@ export default async function DoctorProfilePage({
                       </span>
                     ))}
                   </div>
+                )}
+
+                {doctor.expertise && (
+                  <p className="mt-1 text-xs text-white/70 italic">
+                    Expertise: {doctor.expertise}
+                  </p>
                 )}
 
                 {doctor.bmdcRegNo && (
@@ -197,6 +204,14 @@ export default async function DoctorProfilePage({
                     {doctor.degrees.join(", ")}
                   </p>
                 )}
+
+                {doctor.medicalCollege && (
+                  <p className="mt-2 flex items-start gap-1.5 text-xs text-white/70">
+                    <GraduationCap className="mt-0.5 h-4 w-4 shrink-0 text-brand-sky-bright" />
+                    {doctor.medicalCollege}
+                    {doctor.pgInstitution ? ` • PG: ${doctor.pgInstitution}` : ""}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -213,8 +228,55 @@ export default async function DoctorProfilePage({
             <span className="text-[0.65rem] font-mono font-bold uppercase tracking-wider text-brand-sky-bright bg-brand-sky/10 px-3 py-1 rounded-full border border-brand-sky/20">
               BMDC Verified Professional
             </span>
+            {doctor.hasOnlineConsultation && (
+              <span className="text-[0.65rem] font-mono font-bold uppercase tracking-wider text-green-400 bg-green-400/10 px-3 py-1 rounded-full border border-green-400/20 inline-flex items-center gap-1">
+                <Video className="h-3 w-3" />
+                Online Consultation
+              </span>
+            )}
+            {doctor.rating != null && (
+              <span className="inline-flex items-center gap-1.5 text-xs text-white/80 font-medium">
+                <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
+                {doctor.rating.toFixed(1)}
+                {doctor.totalReviews ? <span className="text-white/50">({doctor.totalReviews})</span> : null}
+              </span>
+            )}
           </div>
         </div>
+
+        {(doctor.phone || doctor.email || doctor.patientsTreated || doctor.currentPosition) && (
+          <div className="mt-6 rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
+            <h2 className="font-serif text-lg font-semibold text-brand-navy border-b border-brand-gray pb-3">
+              Professional Details
+            </h2>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {doctor.currentPosition && (
+                <div className="flex items-center gap-2.5 text-sm text-brand-slate">
+                  <Stethoscope className="h-4 w-4 shrink-0 text-brand-sky" />
+                  {doctor.currentPosition}
+                </div>
+              )}
+              {doctor.phone && (
+                <a href={`tel:${doctor.phone}`} className="flex items-center gap-2.5 text-sm text-brand-slate hover:text-brand-sky transition">
+                  <Phone className="h-4 w-4 shrink-0 text-brand-sky" />
+                  <span className="font-mono">{doctor.phone}</span>
+                </a>
+              )}
+              {doctor.email && (
+                <a href={`mailto:${doctor.email}`} className="flex items-center gap-2.5 text-sm text-brand-slate hover:text-brand-sky transition break-all">
+                  <Mail className="h-4 w-4 shrink-0 text-brand-sky" />
+                  {doctor.email}
+                </a>
+              )}
+              {doctor.patientsTreated ? (
+                <div className="flex items-center gap-2.5 text-sm text-brand-slate">
+                  <Users className="h-4 w-4 shrink-0 text-brand-sky" />
+                  {doctor.patientsTreated.toLocaleString()} patients treated
+                </div>
+              ) : null}
+            </div>
+          </div>
+        )}
 
         {/* About */}
         {doctor.bio && (

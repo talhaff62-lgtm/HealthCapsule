@@ -185,9 +185,11 @@ export default async function FeaturedHospitals() {
                       className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                     />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand-navy to-brand-navy-light">
-                      <Building2 className="h-10 w-10 text-brand-navy-muted" />
-                    </div>
+                    <img
+                      src="/images/placeholders/facility-cover.svg"
+                      alt={facility.name}
+                      className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    />
                   )}
 
                   {/* Gradient for depth + badge legibility */}

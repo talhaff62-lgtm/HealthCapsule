@@ -14,13 +14,6 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
     new Set(doctor.chambers.map((c) => c.area?.name).filter(Boolean))
   );
 
-  const initials = doctor.name
-    .split(" ")
-    .map((part) => part[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
-
   return (
     <Link
       href={`/doctors/${doctor.slug}`}
@@ -40,7 +33,11 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
               className="h-full w-full rounded-full object-cover"
             />
           ) : (
-            initials
+            <img
+              src="/images/placeholders/doctor-photo.svg"
+              alt={doctor.name}
+              className="h-full w-full rounded-full object-cover"
+            />
           )}
         </div>
 

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0b1f3a"/>
+      <stop offset="100%" stop-color="#1e3a66"/>
+    </linearGradient>
+    <pattern id="dotPattern" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="8" cy="8" r="1" fill="#ffffff" fill-opacity="0.06"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="400" fill="url(#bgGrad)"/>
+  <rect width="400" height="400" fill="url(#dotPattern)"/>
+  <rect x="12" y="12" width="376" height="376" rx="12" fill="none" stroke="#ffffff" stroke-opacity="0.25" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <g stroke="#ffffff" stroke-opacity="0.25" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="125" y="130" width="150" height="150" rx="4"/>
+    <path d="M140 130 V115 H260 V130"/>
+    <path d="M200 120 V126 M197 123 H203" stroke-width="2.5"/>
+    <path d="M180 280 V240 C180 230 220 230 220 240 V280"/>
+    <rect x="145" y="150" width="24" height="24" rx="2"/>
+    <rect x="188" y="150" width="24" height="24" rx="2"/>
+    <rect x="231" y="150" width="24" height="24" rx="2"/>
+    <rect x="145" y="188" width="24" height="24" rx="2"/>
+    <rect x="188" y="188" width="24" height="24" rx="2"/>
+    <rect x="231" y="188" width="24" height="24" rx="2"/>
+  </g>
+</svg>
