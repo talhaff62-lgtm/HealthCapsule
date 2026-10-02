@@ -242,11 +242,35 @@ model Facility {
   website            String?
 
   beds               Int?
+  icuBeds            Int?
+  nicuBeds           Int?
+  operationTheaters  Int?
   hasIcu             Boolean              @default(false)
   hasNicu            Boolean              @default(false)
   hasEmergency       Boolean              @default(false)
   hasAmbulance       Boolean              @default(false)
+  hasBloodBank       Boolean              @default(false)
+  hasPharmacy        Boolean              @default(false)
+  hasPathologyLab    Boolean              @default(false)
+  hasHomeSampleCollection Boolean         @default(false)
+  hasOnlineReport    Boolean              @default(false)
+  hasParkingAvailable Boolean             @default(false)
   establishedYear    Int?
+
+  emergencyPhone     String?
+  mobile             String?
+
+  ownership          String?
+  openingHours       String?
+  accreditation      String?
+  dghsLicenceNo      String?
+  insurancePanels    String[]
+  diagnosticTests    String[]
+  imagingServices    String[]
+
+  rating             Float?
+  totalReviews       Int?                 @default(0)
+  doctorsOnPanel     Int?
 
   discountInfo       String?
   collectedById      String?
@@ -347,6 +371,16 @@ model Doctor {
 
   currentPosition  String?
   achievements     String?
+
+  expertise        String?
+  medicalCollege   String?
+  pgInstitution    String?
+  phone            String?
+  email            String?
+  rating           Float?
+  totalReviews     Int?     @default(0)
+  patientsTreated  Int?
+  hasOnlineConsultation Boolean @default(false)
 
   collectedById    String?
   collectedAt      DateTime?
