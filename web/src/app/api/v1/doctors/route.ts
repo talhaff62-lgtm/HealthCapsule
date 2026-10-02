@@ -15,6 +15,18 @@ const createDoctorSchema = z.object({
   achievements: z.string().optional().nullable(),
   photoUrl: z.string().optional().nullable(),
   facilityId: z.string().optional().nullable(),
+  expertise: z.string().optional().nullable(),
+  medicalCollege: z.string().optional().nullable(),
+  pgInstitution: z.string().optional().nullable(),
+  phone: z.string().optional().nullable(),
+  email: z.string().optional().nullable(),
+  bmdcRegNo: z.string().optional().nullable(),
+  yearsExperience: z.number().int().optional().nullable(),
+  gender: z.string().optional().nullable(),
+  languages: z.string().optional().nullable(),
+  consultationFee: z.number().optional().nullable(),
+  bio: z.string().optional().nullable(),
+  hasOnlineConsultation: z.boolean().default(false).optional(),
 });
 
 async function postHandler(request: NextRequest) {
@@ -40,6 +52,10 @@ async function postHandler(request: NextRequest) {
     .split(",")
     .map((d) => d.trim())
     .filter(Boolean);
+
+  const languagesArray = data.languages
+    ? data.languages.split(",").map((l) => l.trim()).filter(Boolean)
+    : [];
 
   let facilityAreaId: string | null = null;
   if (data.facilityId) {
@@ -78,7 +94,22 @@ async function postHandler(request: NextRequest) {
       degrees: degreesArray,
       currentPosition: data.currentPosition || null,
       achievements: data.achievements || null,
-      verificationStatus: VerificationStatus.PENDING,
+      expertise: data.expertise || null,
+      medicalCollege: data.medicalCollege || null,
+      pgInstitution: data.pgInstitution || null,
+      phone: data.phone || null,
+      email: data.email || null,
+      bmdcRegNo: data.bmdcRegNo || null,
+      yearsExperience: data.yearsExperience ?? null,
+      gender: data.gender || null,
+      languages: languagesArray,
+      consultationFee: data.consultationFee ?? null,
+      bio: data.bio || null,
+      hasOnlineConsultation: data.hasOnlineConsultation ?? false,
+      verificationStatus:
+        auth.role === UserRole.ADMIN
+          ? VerificationStatus.VERIFIED
+          : VerificationStatus.PENDING,
       collectedById: auth.userId,
       collectedAt: new Date(),
       specialties: {
