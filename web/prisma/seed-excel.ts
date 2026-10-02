@@ -357,6 +357,7 @@ async function main() {
   const facilityMap = new Map<string, { id: string; address: string | null; areaId: string }>();
 
   let facilityCount = 0;
+  let featuredFacilityCount = 0;
   for (const fRow of facilityRows) {
     facilityCount++;
     const name = fRow["Name"]?.trim();
@@ -384,6 +385,10 @@ async function main() {
     const insuranceList = splitList(fRow["Insurance / Panels Accepted"], ";").filter(
       (v) => v.toLowerCase() !== "none"
     );
+
+    const rating = toFloat(fRow["Rating (out of 5)"]);
+    const isFeatured = rating != null && rating >= 4.8;
+    if (isFeatured) featuredFacilityCount++;
 
     const facility = await prisma.facility.create({
       data: {
@@ -418,14 +423,15 @@ async function main() {
         email: fRow["Email (Dummy)"] || null,
         website: fRow["Website (Dummy)"] || null,
         dghsLicenceNo: fRow["DGHS Licence No. (Dummy)"] || null,
-        rating: toFloat(fRow["Rating (out of 5)"]),
+        rating,
         totalReviews: toInt(fRow["Reviews"]),
         doctorsOnPanel: toInt(fRow["Doctors on Panel"]),
         latitude: toFloat(fRow["Latitude (approx.)"]),
         longitude: toFloat(fRow["Longitude (approx.)"]),
         description: fRow["Short Description"] || null,
         verificationStatus: VerificationStatus.VERIFIED,
-        listingTier: ListingTier.VERIFIED,
+        listingTier: isFeatured ? ListingTier.FEATURED : ListingTier.VERIFIED,
+        featuredUntil: isFeatured ? new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) : undefined,
         areaId,
         departments: {
           create: deptsList.map((deptName) => ({ name: deptName })),
@@ -455,6 +461,7 @@ async function main() {
   const specialtyMap = new Map<string, string>(); // slug -> specialtyId
 
   let doctorCount = 0;
+  let featuredDoctorCount = 0;
   let chamberCount = 0;
   let scheduleCount = 0;
   let specialtiesCreatedCount = 0;
@@ -552,6 +559,10 @@ async function main() {
       scheduleCount += scheduleCreates.length;
     }
 
+    const rating = toFloat(dRow["Rating (out of 5)"]);
+    const isFeatured = rating != null && rating >= 4.8;
+    if (isFeatured) featuredDoctorCount++;
+
     try {
       await prisma.doctor.create({
         data: {
@@ -569,13 +580,14 @@ async function main() {
           consultationFee,
           phone: dRow["Phone (Dummy)"] || null,
           email: dRow["Email (Dummy)"] || null,
-          rating: toFloat(dRow["Rating (out of 5)"]),
+          rating,
           totalReviews: toInt(dRow["Reviews"]),
           patientsTreated: toInt(dRow["Patients Treated"]),
           hasOnlineConsultation: (dRow["Online Consultation"] || "").trim().toLowerCase() === "yes",
           bio: dRow["Short Bio"] || null,
           verificationStatus: VerificationStatus.VERIFIED,
-          listingTier: ListingTier.VERIFIED,
+          listingTier: isFeatured ? ListingTier.FEATURED : ListingTier.VERIFIED,
+          featuredUntil: isFeatured ? new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) : undefined,
           specialties: {
             create: [{ specialtyId }],
           },
@@ -594,7 +606,9 @@ async function main() {
 
   console.log("\n=== Seed Summary ===");
   console.log(`Facilities Created   : ${facilityCount}`);
+  console.log(`Facilities FEATURED  : ${featuredFacilityCount}`);
   console.log(`Doctors Created      : ${doctorCount}`);
+  console.log(`Doctors FEATURED     : ${featuredDoctorCount}`);
   console.log(`Chambers Created     : ${chamberCount}`);
   console.log(`Schedules Created    : ${scheduleCount}`);
   console.log(`Specialties Created  : ${specialtiesCreatedCount}`);

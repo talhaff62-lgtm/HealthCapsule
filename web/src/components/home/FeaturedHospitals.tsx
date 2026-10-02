@@ -9,145 +9,47 @@ import { VerificationStatus } from "@prisma/client";
 
 async function getFeaturedFacilities() {
   try {
-    const facilities = await prisma.facility.findMany({
+    const featured = await prisma.facility.findMany({
       where: {
         verificationStatus: VerificationStatus.VERIFIED,
         deletedAt: null,
         isActive: true,
-        featuredUntil: { gt: new Date() },
+        listingTier: { in: ["FEATURED", "PREMIUM"] },
       },
       include: {
         area: {
           select: { name: true },
         },
       },
-      orderBy: {
-        listingTier: "desc",
-      },
+      orderBy: [{ rating: "desc" }, { totalReviews: "desc" }],
       take: 6,
     });
-    return facilities;
+    if (featured.length >= 6) return featured;
+    const pickedIds = featured.map((f) => f.id);
+    const backfill = await prisma.facility.findMany({
+      where: {
+        verificationStatus: VerificationStatus.VERIFIED,
+        deletedAt: null,
+        isActive: true,
+        id: { notIn: pickedIds },
+      },
+      include: {
+        area: {
+          select: { name: true },
+        },
+      },
+      orderBy: [{ rating: "desc" }, { totalReviews: "desc" }],
+      take: 6 - featured.length,
+    });
+    return [...featured, ...backfill];
   } catch (error) {
     console.error("Error fetching facilities:", error);
     return [];
   }
 }
 
-// Curated backup list of Chattogram facilities matching the example HTML
-const fallbackFacilities = [
-  {
-    id: "fb-1",
-    name: "Evercare Hospital Chattogram",
-    slug: "evercare-hospital-chattogram",
-    type: "HOSPITAL" as const,
-    description: "A 470-bed multi-disciplinary tertiary care hospital with 27+ specialties and a 24/7 emergency department.",
-    beds: 470,
-    establishedYear: 2021,
-    hasIcu: true,
-    hasEmergency: true,
-    hasAmbulance: true,
-    phone: "09612310663",
-    website: "https://www.evercarebd.com/en/chattogram",
-    area: { name: "Anannya Residential Area" },
-    address: "Oxygen-Kuwaish Road, Chattogram",
-    listingTier: "FEATURED",
-    imageUrl: "/images/facilities/evercare-hospital-chattogram.jpg",
-  },
-  {
-    id: "fb-2",
-    name: "Chattogram Medical College Hospital",
-    slug: "cmch",
-    type: "HOSPITAL" as const,
-    description: "The region's largest public teaching hospital, training doctors and treating patients since 1957.",
-    beds: 2200,
-    establishedYear: 1957,
-    hasIcu: true,
-    hasEmergency: true,
-    hasAmbulance: true,
-    phone: "031-619400",
-    website: "https://cmch.gov.bd",
-    area: { name: "Panchlaish" },
-    address: "KB Fazlul Kader Road, Panchlaish, Chattogram",
-    listingTier: "VERIFIED",
-    imageUrl: "/images/facilities/chattogram-medical-college-hospital.jpg",
-  },
-  {
-    id: "fb-3",
-    name: "Imperial Hospital Chattogram",
-    slug: "imperial-hospital",
-    type: "HOSPITAL" as const,
-    description: "A 375-bed multi-specialty hospital built across seven acres, offering international-standard inpatient care.",
-    beds: 375,
-    establishedYear: 2019,
-    hasIcu: true,
-    hasEmergency: true,
-    hasAmbulance: true,
-    phone: "09612-247247",
-    website: "https://aihlbd.org",
-    area: { name: "Pahartali" },
-    address: "Zakir Hossain Road, Pahartali, Chattogram",
-    listingTier: "FEATURED",
-    imageUrl: "/images/facilities/imperial-hospital-chattogram.jpg",
-  },
-  {
-    id: "fb-4",
-    name: "CSCR (Center for Specialized Care)",
-    slug: "cscr-chattogram",
-    type: "DIAGNOSTIC_CENTER" as const,
-    description: "One of Chattogram's most established diagnostic and imaging centres, with a specialized stroke unit.",
-    beds: 100,
-    establishedYear: 1998,
-    hasIcu: true,
-    hasEmergency: true,
-    hasAmbulance: false,
-    phone: "031-656565",
-    website: "https://nationalhospital.com.bd",
-    area: { name: "O.R. Nizam Road" },
-    address: "O.R. Nizam Road, Panchlaish, Chattogram",
-    listingTier: "FEATURED",
-    imageUrl: "/images/facilities/cscr-hospital-chittagong.jpg",
-  },
-  {
-    id: "fb-5",
-    name: "Sensiv Diagnostic & Consultation",
-    slug: "sensiv-diagnostic",
-    type: "CLINIC" as const,
-    description: "Modern outpatient consultation center with state-of-the-art pathology, imaging, and cardiology tests.",
-    beds: null,
-    establishedYear: 2015,
-    hasIcu: false,
-    hasEmergency: false,
-    hasAmbulance: false,
-    phone: "01844-080000",
-    website: null,
-    area: { name: "Probortok More" },
-    address: "KB Fazlul Kader Road, Probortok, Chattogram",
-    listingTier: "VERIFIED",
-    imageUrl: "/images/facilities/sensiv-diagnostic.jpg",
-  },
-  {
-    id: "fb-6",
-    name: "Chevron Clinical Laboratory",
-    slug: "chevron-clinical-laboratory",
-    type: "DIAGNOSTIC_CENTER" as const,
-    description: "A pioneer in diagnostic services in Chattogram, offering highly accurate reports and specialized consultations.",
-    beds: null,
-    establishedYear: 1984,
-    hasIcu: false,
-    hasEmergency: false,
-    hasAmbulance: false,
-    phone: "031-652533",
-    website: "http://chevronlab.com",
-    area: { name: "Panchlaish" },
-    address: "12 KB Fazlul Kader Road, Panchlaish, Chattogram",
-    listingTier: "VERIFIED",
-    imageUrl: "/images/facilities/chevron-clinical-laboratory.jpg",
-  },
-];
-
 export default async function FeaturedHospitals() {
-  const dbFacilities = await getFeaturedFacilities();
-  const displayFacilities = dbFacilities.length > 0 ? dbFacilities : fallbackFacilities;
+  const displayFacilities = await getFeaturedFacilities();
 
   return (
     <section id="hospitals" className="bg-brand-cloud py-20 border-t border-brand-gray">
@@ -166,8 +68,7 @@ export default async function FeaturedHospitals() {
 
         <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {displayFacilities.map((facility) => {
-            const imageSrc =
-              "imageUrl" in facility ? facility.imageUrl : facility.coverImageUrl;
+            const imageSrc = facility.coverImageUrl;
 
             return (
               <StaggerItem
@@ -196,7 +97,8 @@ export default async function FeaturedHospitals() {
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/35 via-transparent to-transparent" />
 
                   {/* Featured Tier Label */}
-                  {facility.listingTier === "FEATURED" && (
+                  {(facility.listingTier === "FEATURED" ||
+                    facility.listingTier === "PREMIUM") && (
                     <span className="absolute right-3 top-3 z-10 inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 font-mono text-[0.6rem] font-bold uppercase tracking-wider text-brand-sky shadow-sm backdrop-blur-sm">
                       <Star className="h-3 w-3 fill-brand-sky text-brand-sky" />
                       Featured
@@ -235,6 +137,15 @@ export default async function FeaturedHospitals() {
                       <div>
                         <span className="uppercase text-[0.65rem] block tracking-wider text-brand-muted">Est.</span>
                         <span className="text-brand-navy font-semibold">{facility.establishedYear}</span>
+                      </div>
+                    )}
+                    {facility.rating != null && (
+                      <div>
+                        <span className="uppercase text-[0.65rem] block tracking-wider text-brand-muted">Rating</span>
+                        <span className="inline-flex items-center gap-1 text-brand-navy font-semibold">
+                          <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                          {facility.rating.toFixed(1)}
+                        </span>
                       </div>
                     )}
                     <div className="flex-1 flex justify-end gap-1.5 self-end">
