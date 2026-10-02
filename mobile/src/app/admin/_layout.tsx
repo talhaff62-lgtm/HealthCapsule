@@ -1,4 +1,5 @@
 import { Redirect, Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";
 import { ClipboardList, LayoutDashboard, Stethoscope, UsersRound } from "lucide-react-native";
 import { useAuth } from "@/lib/auth-context";
@@ -22,6 +23,8 @@ export default function AdminLayout() {
 
   return (
     <View style={{ flex: 1 }}>
+      {/* The panel headers are dark navy, so status bar icons must stay light regardless of system theme. */}
+      <StatusBar style="light" />
       <Stack
         screenOptions={{
           headerStyle: { backgroundColor: colors.primary },
