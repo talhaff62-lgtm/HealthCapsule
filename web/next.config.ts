@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 import path from "path";
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["sharp"],
+  serverExternalPackages: ["sharp", "isomorphic-dompurify", "jsdom", "marked"],
   turbopack: {
     root: path.join(__dirname, ".."),
   },
