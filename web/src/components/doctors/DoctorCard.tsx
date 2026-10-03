@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Clock, MapPin, Briefcase, Star } from "lucide-react";
-import { DoctorListItem, isFeaturedDoctor, isNewDoctor } from "@/lib/doctors";
+import { Clock, MapPin, Briefcase, Star, Video, CalendarDays } from "lucide-react";
+import { DoctorListItem, isFeaturedDoctor, isNewDoctor, formatScheduleSummary } from "@/lib/doctors";
 
 type DoctorCardProps = {
   doctor: DoctorListItem;
@@ -12,6 +12,9 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
   const primarySpecialty = doctor.specialties[0]?.specialty.name;
   const areas = Array.from(
     new Set(doctor.chambers.map((c) => c.area?.name).filter(Boolean))
+  );
+  const scheduleSummary = formatScheduleSummary(
+    doctor.chambers.flatMap((c) => c.schedules)
   );
 
   return (
@@ -57,6 +60,11 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
                 New
               </span>
             )}
+            {doctor.hasOnlineConsultation && (
+              <span className="inline-flex items-center gap-0.5 rounded-full bg-green-50 px-2 py-0.5 text-[0.6rem] font-bold text-green-700">
+                <Video className="h-2.5 w-2.5" /> Online
+              </span>
+            )}
             {doctor.rating != null ? (
               <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-700">
                 <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
@@ -94,6 +102,12 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
             <span className="inline-flex items-center gap-1">
               <MapPin className="h-3.5 w-3.5 text-brand-muted" />
               {areas.join(", ")}
+            </span>
+          ) : null}
+          {scheduleSummary ? (
+            <span className="inline-flex items-center gap-1">
+              <CalendarDays className="h-3.5 w-3.5 text-brand-muted" />
+              {scheduleSummary}
             </span>
           ) : null}
         </div>

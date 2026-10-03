@@ -16,6 +16,10 @@ type SearchParams = Promise<{
   area?: string;
   q?: string;
   page?: string;
+  minRating?: string;
+  maxFee?: string;
+  day?: string;
+  online?: string;
 }>;
 
 export default async function DoctorsPage({
@@ -26,12 +30,27 @@ export default async function DoctorsPage({
   const params = await searchParams;
   const pageParam = parseInt(params.page ?? "1", 10) || 1;
 
+  const minRatingNum = params.minRating ? Number(params.minRating) : undefined;
+  const minRating = minRatingNum !== undefined && !isNaN(minRatingNum) ? minRatingNum : undefined;
+
+  const maxFeeNum = params.maxFee ? Number(params.maxFee) : undefined;
+  const maxFee = maxFeeNum !== undefined && !isNaN(maxFeeNum) ? maxFeeNum : undefined;
+
+  const dayNum = params.day ? Number(params.day) : undefined;
+  const day = dayNum !== undefined && !isNaN(dayNum) ? dayNum : undefined;
+
+  const online = params.online === "1";
+
   const [{ items: doctors, total, page, pageSize }, specialtyOptions, areaOptions] = await Promise.all([
     searchDoctors({
       specialty: params.specialty,
       area: params.area,
       q: params.q,
       page: pageParam,
+      minRating,
+      maxFee,
+      day,
+      online,
     }),
     prisma.specialty.findMany({
       where: { deletedAt: null },
@@ -104,6 +123,10 @@ export default async function DoctorsPage({
                     specialty: params.specialty,
                     area: params.area,
                     q: params.q,
+                    minRating: params.minRating,
+                    maxFee: params.maxFee,
+                    day: params.day,
+                    online: params.online,
                   }}
                 />
               </div>

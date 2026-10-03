@@ -5,27 +5,11 @@ import { prisma } from "@/lib/prisma";
 import DoctorCard from "@/components/doctors/DoctorCard";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion";
 import { Prisma, VerificationStatus } from "@prisma/client";
-import { EXPERIENCED_YEARS_THRESHOLD } from "@/lib/doctors";
-
-type FeaturedDoctorListItem = {
-  id: string;
-  name: string;
-  slug: string;
-  photoUrl: string | null;
-  degrees: string[];
-  yearsExperience: number | null;
-  consultationFee: string | null;
-  registrationYear: number | null;
-  listingTier: import("@prisma/client").ListingTier;
-  rating: number | null;
-  totalReviews: number | null;
-  specialties: { specialty: { name: string; slug: string } }[];
-  chambers: { area: { name: string; slug: string } | null }[];
-};
+import { EXPERIENCED_YEARS_THRESHOLD, DoctorListItem } from "@/lib/doctors";
 
 function mapDoctor(
   d: Prisma.DoctorGetPayload<{ include: typeof sharedInclude }>
-): FeaturedDoctorListItem {
+): DoctorListItem {
   return {
     id: d.id,
     name: d.name,
@@ -38,6 +22,7 @@ function mapDoctor(
     listingTier: d.listingTier,
     rating: d.rating,
     totalReviews: d.totalReviews,
+    hasOnlineConsultation: d.hasOnlineConsultation,
     specialties: d.specialties,
     chambers: d.chambers,
   };
@@ -49,11 +34,18 @@ const sharedInclude = {
   },
   chambers: {
     where: { deletedAt: null, isActive: true },
-    include: { area: { select: { name: true, slug: true } } },
+    include: {
+      area: { select: { name: true, slug: true } },
+      schedules: {
+        where: { deletedAt: null, isActive: true },
+        select: { dayOfWeek: true, startTime: true, endTime: true },
+        orderBy: { dayOfWeek: "asc" },
+      },
+    },
   },
 } as const;
 
-async function getExperiencedDoctors(): Promise<FeaturedDoctorListItem[]> {
+async function getExperiencedDoctors(): Promise<DoctorListItem[]> {
   try {
     const doctors = await prisma.doctor.findMany({
       where: {
@@ -77,7 +69,7 @@ async function getExperiencedDoctors(): Promise<FeaturedDoctorListItem[]> {
   }
 }
 
-async function getEmergingDoctors(): Promise<FeaturedDoctorListItem[]> {
+async function getEmergingDoctors(): Promise<DoctorListItem[]> {
   try {
     const doctors = await prisma.doctor.findMany({
       where: {

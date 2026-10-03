@@ -7,6 +7,10 @@ export type SearchDoctorsParams = {
   q?: string;
   page?: number;
   pageSize?: number;
+  minRating?: number;
+  maxFee?: number;
+  day?: number;
+  online?: boolean;
 };
 
 export type DoctorListItem = {
@@ -21,8 +25,12 @@ export type DoctorListItem = {
   listingTier: ListingTier;
   rating: number | null;
   totalReviews: number | null;
+  hasOnlineConsultation: boolean;
   specialties: { specialty: { name: string; slug: string } }[];
-  chambers: { area: { name: string; slug: string } | null }[];
+  chambers: {
+    area: { name: string; slug: string } | null;
+    schedules: { dayOfWeek: number; startTime: string; endTime: string }[];
+  }[];
 };
 
 export async function searchDoctors(
@@ -45,12 +53,35 @@ export async function searchDoctors(
     };
   }
 
-  if (params.area) {
-    where.chambers = {
-      some: {
-        area: { slug: params.area },
-      },
-    };
+  if (params.area || params.day !== undefined) {
+    const chambersSome: Prisma.ChamberWhereInput = {};
+    if (params.area) {
+      chambersSome.area = { slug: params.area };
+    }
+    if (params.day !== undefined) {
+      chambersSome.deletedAt = null;
+      chambersSome.isActive = true;
+      chambersSome.schedules = {
+        some: {
+          deletedAt: null,
+          isActive: true,
+          dayOfWeek: params.day,
+        },
+      };
+    }
+    where.chambers = { some: chambersSome };
+  }
+
+  if (params.minRating !== undefined) {
+    where.rating = { gte: params.minRating };
+  }
+
+  if (params.maxFee !== undefined) {
+    where.consultationFee = { lte: params.maxFee };
+  }
+
+  if (params.online) {
+    where.hasOnlineConsultation = true;
   }
 
   if (params.q) {
@@ -80,7 +111,14 @@ export async function searchDoctors(
         },
         chambers: {
           where: { deletedAt: null, isActive: true },
-          include: { area: { select: { name: true, slug: true } } },
+          include: {
+            area: { select: { name: true, slug: true } },
+            schedules: {
+              where: { deletedAt: null, isActive: true },
+              select: { dayOfWeek: true, startTime: true, endTime: true },
+              orderBy: { dayOfWeek: "asc" },
+            },
+          },
         },
       },
       orderBy: [
@@ -102,11 +140,78 @@ export async function searchDoctors(
     listingTier: d.listingTier,
     rating: d.rating,
     totalReviews: d.totalReviews,
+    hasOnlineConsultation: d.hasOnlineConsultation,
     specialties: d.specialties,
     chambers: d.chambers,
   }));
 
   return { items, total, page, pageSize };
+}
+
+export function formatScheduleSummary(
+  schedules: { dayOfWeek: number; startTime: string; endTime: string }[]
+): string | null {
+  if (!schedules || schedules.length === 0) return null;
+
+  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const uniqueDays = Array.from(
+    new Set(
+      schedules
+        .map((s) => s.dayOfWeek)
+        .filter((d) => typeof d === "number" && d >= 0 && d <= 6)
+    )
+  ).sort((a, b) => a - b);
+
+  const dayPart =
+    uniqueDays.length > 0
+      ? uniqueDays.map((d) => dayNames[d]).join(", ")
+      : null;
+
+  function parseTime(timeStr: string) {
+    if (!timeStr) return null;
+    const parts = timeStr.split(":");
+    if (parts.length < 2) return null;
+    const h = parseInt(parts[0], 10);
+    const m = parseInt(parts[1], 10);
+    if (isNaN(h) || isNaN(m)) return null;
+    const meridiem = h >= 12 ? "PM" : "AM";
+    const hour12 = h % 12 === 0 ? 12 : h % 12;
+    const display = m > 0 ? `${hour12}:${parts[1].padStart(2, "0")}` : `${hour12}`;
+    return { h, m, hour12, meridiem, display, totalMinutes: h * 60 + m };
+  }
+
+  const validStartTimes = schedules
+    .map((s) => parseTime(s.startTime))
+    .filter((t): t is NonNullable<ReturnType<typeof parseTime>> => t !== null);
+
+  const validEndTimes = schedules
+    .map((s) => parseTime(s.endTime))
+    .filter((t): t is NonNullable<ReturnType<typeof parseTime>> => t !== null);
+
+  let timePart: string | null = null;
+
+  if (validStartTimes.length > 0 && validEndTimes.length > 0) {
+    const minStart = [...validStartTimes].sort(
+      (a, b) => a.totalMinutes - b.totalMinutes
+    )[0];
+    const maxEnd = [...validEndTimes].sort(
+      (a, b) => b.totalMinutes - a.totalMinutes
+    )[0];
+
+    if (minStart.meridiem === maxEnd.meridiem) {
+      if (minStart.display === maxEnd.display) {
+        timePart = `${minStart.display} ${minStart.meridiem}`;
+      } else {
+        timePart = `${minStart.display}–${maxEnd.display} ${maxEnd.meridiem}`;
+      }
+    } else {
+      timePart = `${minStart.display} ${minStart.meridiem}–${maxEnd.display} ${maxEnd.meridiem}`;
+    }
+  }
+
+  if (!dayPart && !timePart) return null;
+  if (dayPart && timePart) return `${dayPart} · ${timePart}`;
+  return dayPart ?? timePart;
 }
 
 export function isFeaturedDoctor(listingTier: ListingTier): boolean {

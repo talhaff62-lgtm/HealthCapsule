@@ -26,7 +26,11 @@ export default function FacilityCard({ facility }: FacilityCardProps) {
           />
         ) : (
           <img
-            src="/images/placeholders/facility-cover.svg"
+            src={
+              facility.type === "DIAGNOSTIC_CENTER"
+                ? "/images/placeholders/facility-cover-diagnostic.svg"
+                : "/images/placeholders/facility-cover.svg"
+            }
             alt=""
             className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
           />

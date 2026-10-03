@@ -179,7 +179,11 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
                 />
               ) : (
                 <img
-                  src="/images/placeholders/facility-cover.svg"
+                  src={
+                    facility.type === "DIAGNOSTIC_CENTER"
+                      ? "/images/placeholders/facility-cover-diagnostic.svg"
+                      : "/images/placeholders/facility-cover.svg"
+                  }
                   alt=""
                   className="absolute inset-0 h-full w-full object-cover"
                 />

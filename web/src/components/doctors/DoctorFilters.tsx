@@ -15,6 +15,29 @@ export type DoctorFiltersProps = {
   areas: FilterOption[];
 };
 
+const RATING_OPTIONS = [
+  { value: "4", label: "4.0+ ★" },
+  { value: "4.5", label: "4.5+ ★" },
+  { value: "4.8", label: "4.8+ ★" },
+];
+
+const FEE_OPTIONS = [
+  { value: "500", label: "Up to ৳500" },
+  { value: "1000", label: "Up to ৳1000" },
+  { value: "2000", label: "Up to ৳2000" },
+  { value: "3000", label: "Up to ৳3000" },
+];
+
+const DAY_OPTIONS = [
+  { value: "0", label: "Sunday" },
+  { value: "1", label: "Monday" },
+  { value: "2", label: "Tuesday" },
+  { value: "3", label: "Wednesday" },
+  { value: "4", label: "Thursday" },
+  { value: "5", label: "Friday" },
+  { value: "6", label: "Saturday" },
+];
+
 export default function DoctorFilters({ specialties, areas }: DoctorFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -27,10 +50,18 @@ export default function DoctorFilters({ specialties, areas }: DoctorFiltersProps
     const q = form.get("q")?.toString().trim();
     const specialty = form.get("specialty")?.toString();
     const area = form.get("area")?.toString();
+    const minRating = form.get("minRating")?.toString();
+    const maxFee = form.get("maxFee")?.toString();
+    const day = form.get("day")?.toString();
+    const online = form.get("online")?.toString();
 
     if (q) params.set("q", q);
     if (specialty) params.set("specialty", specialty);
     if (area) params.set("area", area);
+    if (minRating) params.set("minRating", minRating);
+    if (maxFee) params.set("maxFee", maxFee);
+    if (day) params.set("day", day);
+    if (online === "1") params.set("online", "1");
 
     router.push(`/doctors?${params.toString()}`);
   }
@@ -76,6 +107,47 @@ export default function DoctorFilters({ specialties, areas }: DoctorFiltersProps
           options={areas}
           placeholder="All areas"
         />
+
+        <Select
+          id="minRating"
+          name="minRating"
+          label="Rating"
+          defaultValue={searchParams.get("minRating") ?? ""}
+          options={RATING_OPTIONS}
+          placeholder="Any rating"
+        />
+
+        <Select
+          id="maxFee"
+          name="maxFee"
+          label="Max fee"
+          defaultValue={searchParams.get("maxFee") ?? ""}
+          options={FEE_OPTIONS}
+          placeholder="Any fee"
+        />
+
+        <Select
+          id="day"
+          name="day"
+          label="Available on"
+          defaultValue={searchParams.get("day") ?? ""}
+          options={DAY_OPTIONS}
+          placeholder="Any day"
+        />
+
+        <div className="flex items-center sm:pt-6">
+          <label htmlFor="online" className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-brand-muted cursor-pointer">
+            <input
+              id="online"
+              name="online"
+              type="checkbox"
+              value="1"
+              defaultChecked={searchParams.get("online") === "1"}
+              className="h-4 w-4 rounded border-brand-gray text-brand-sky focus:ring-brand-sky/20"
+            />
+            Offers online consultation
+          </label>
+        </div>
 
         <div className="flex items-end gap-2">
           <button
