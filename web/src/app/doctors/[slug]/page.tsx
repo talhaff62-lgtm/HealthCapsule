@@ -1,8 +1,6 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
-import DOMPurify from "isomorphic-dompurify";
-import { marked } from "marked";
 import {
   Award,
   Briefcase,
@@ -282,12 +280,9 @@ export default async function DoctorProfilePage({
         {doctor.bio && (
           <div className="mt-6 rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
             <h2 className="font-serif text-lg font-semibold text-brand-navy border-b border-brand-gray pb-3">About Dr. {doctor.name.split(" ").slice(-1)[0]}</h2>
-            <div
-              className="bio-content mt-3 text-sm leading-relaxed text-brand-muted"
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(marked.parse(doctor.bio) as string),
-              }}
-            />
+<p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-brand-muted">
+              {doctor.bio}
+            </p>
           </div>
         )}
 
