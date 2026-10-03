@@ -5,6 +5,8 @@ export type SearchDoctorsParams = {
   specialty?: string;
   area?: string;
   q?: string;
+  page?: number;
+  pageSize?: number;
 };
 
 export type DoctorListItem = {
@@ -17,13 +19,18 @@ export type DoctorListItem = {
   consultationFee: string | null;
   registrationYear: number | null;
   listingTier: ListingTier;
+  rating: number | null;
+  totalReviews: number | null;
   specialties: { specialty: { name: string; slug: string } }[];
   chambers: { area: { name: string; slug: string } | null }[];
 };
 
 export async function searchDoctors(
   params: SearchDoctorsParams
-): Promise<DoctorListItem[]> {
+): Promise<{ items: DoctorListItem[]; total: number; page: number; pageSize: number }> {
+  const page = Math.max(1, params.page ?? 1);
+  const pageSize = params.pageSize ?? 24;
+
   const where: Prisma.DoctorWhereInput = {
     verificationStatus: VerificationStatus.VERIFIED,
     deletedAt: null,
@@ -61,24 +68,29 @@ export async function searchDoctors(
     ];
   }
 
-  const doctors = await prisma.doctor.findMany({
-    where,
-    include: {
-      specialties: {
-        include: { specialty: { select: { name: true, slug: true } } },
+  const [total, doctors] = await Promise.all([
+    prisma.doctor.count({ where }),
+    prisma.doctor.findMany({
+      where,
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      include: {
+        specialties: {
+          include: { specialty: { select: { name: true, slug: true } } },
+        },
+        chambers: {
+          where: { deletedAt: null, isActive: true },
+          include: { area: { select: { name: true, slug: true } } },
+        },
       },
-      chambers: {
-        where: { deletedAt: null, isActive: true },
-        include: { area: { select: { name: true, slug: true } } },
-      },
-    },
-    orderBy: [
-      { listingTier: "desc" },
-      { createdAt: "desc" },
-    ],
-  });
+      orderBy: [
+        { listingTier: "desc" },
+        { createdAt: "desc" },
+      ],
+    }),
+  ]);
 
-  return doctors.map((d) => ({
+  const items = doctors.map((d) => ({
     id: d.id,
     name: d.name,
     slug: d.slug,
@@ -88,9 +100,13 @@ export async function searchDoctors(
     consultationFee: d.consultationFee?.toString() ?? null,
     registrationYear: d.registrationYear,
     listingTier: d.listingTier,
+    rating: d.rating,
+    totalReviews: d.totalReviews,
     specialties: d.specialties,
     chambers: d.chambers,
   }));
+
+  return { items, total, page, pageSize };
 }
 
 export function isFeaturedDoctor(listingTier: ListingTier): boolean {

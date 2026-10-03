@@ -29,13 +29,13 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
           {doctor.photoUrl ? (
             <img
               src={doctor.photoUrl}
-              alt={doctor.name}
+              alt=""
               className="h-full w-full rounded-full object-cover"
             />
           ) : (
             <img
               src="/images/placeholders/doctor-photo.svg"
-              alt={doctor.name}
+              alt=""
               className="h-full w-full rounded-full object-cover"
             />
           )}
@@ -57,6 +57,15 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
                 New
               </span>
             )}
+            {doctor.rating != null ? (
+              <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-700">
+                <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                {doctor.rating.toFixed(1)}
+                {doctor.totalReviews ? (
+                  <span className="font-normal text-amber-600/70">({doctor.totalReviews})</span>
+                ) : null}
+              </span>
+            ) : null}
           </div>
 
           {primarySpecialty && (

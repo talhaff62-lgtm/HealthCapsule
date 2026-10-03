@@ -17,6 +17,8 @@ type FeaturedDoctorListItem = {
   consultationFee: string | null;
   registrationYear: number | null;
   listingTier: import("@prisma/client").ListingTier;
+  rating: number | null;
+  totalReviews: number | null;
   specialties: { specialty: { name: string; slug: string } }[];
   chambers: { area: { name: string; slug: string } | null }[];
 };
@@ -34,6 +36,8 @@ function mapDoctor(
     consultationFee: d.consultationFee?.toString() ?? null,
     registrationYear: d.registrationYear,
     listingTier: d.listingTier,
+    rating: d.rating,
+    totalReviews: d.totalReviews,
     specialties: d.specialties,
     chambers: d.chambers,
   };

@@ -6,6 +6,8 @@ export type SearchFacilitiesParams = {
   type?: string;
   area?: string;
   q?: string;
+  page?: number;
+  pageSize?: number;
 };
 
 export type FacilityListItem = {
@@ -17,6 +19,8 @@ export type FacilityListItem = {
   address: string | null;
   area: { name: string } | null;
   listingTier: ListingTier;
+  rating: number | null;
+  totalReviews: number | null;
   description: string | null;
   coverImageUrl: string | null;
   beds: number | null;
@@ -29,7 +33,10 @@ export type FacilityListItem = {
 
 export async function searchFacilities(
   params: SearchFacilitiesParams
-): Promise<FacilityListItem[]> {
+): Promise<{ items: FacilityListItem[]; total: number; page: number; pageSize: number }> {
+  const page = Math.max(1, params.page ?? 1);
+  const pageSize = params.pageSize ?? 24;
+
   const where: Prisma.FacilityWhereInput = {
     verificationStatus: VerificationStatus.VERIFIED,
     deletedAt: null,
@@ -53,30 +60,37 @@ export async function searchFacilities(
     ];
   }
 
-  const facilities = await prisma.facility.findMany({
-    where,
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      type: true,
-      phone: true,
-      address: true,
-      area: { select: { name: true } },
-      listingTier: true,
-      description: true,
-      coverImageUrl: true,
-      beds: true,
-      establishedYear: true,
-      hasIcu: true,
-      hasEmergency: true,
-      hasAmbulance: true,
-      website: true,
-    },
-    orderBy: [{ listingTier: "desc" }, { createdAt: "desc" }],
-  });
+  const [total, facilities] = await Promise.all([
+    prisma.facility.count({ where }),
+    prisma.facility.findMany({
+      where,
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        type: true,
+        phone: true,
+        address: true,
+        area: { select: { name: true } },
+        listingTier: true,
+        rating: true,
+        totalReviews: true,
+        description: true,
+        coverImageUrl: true,
+        beds: true,
+        establishedYear: true,
+        hasIcu: true,
+        hasEmergency: true,
+        hasAmbulance: true,
+        website: true,
+      },
+      orderBy: [{ listingTier: "desc" }, { createdAt: "desc" }],
+    }),
+  ]);
 
-  return facilities;
+  return { items: facilities, total, page, pageSize };
 }
 
 export { parseFacilityType } from "./facility-helpers";

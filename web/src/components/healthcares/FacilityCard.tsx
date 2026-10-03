@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Phone, Building2, Star } from "lucide-react";
+import { MapPin, Phone, Building2, Star, Activity, Siren, Ambulance } from "lucide-react";
 import type { FacilityListItem } from "@/lib/facilities";
 import FacilityTypeBadge from "@/components/ui/FacilityTypeBadge";
 import { StaggerItem } from "@/components/ui/motion";
@@ -19,7 +19,7 @@ export default function FacilityCard({ facility }: FacilityCardProps) {
         {facility.coverImageUrl ? (
           <Image
             src={facility.coverImageUrl}
-            alt={`${facility.name} building`}
+            alt=""
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
@@ -27,7 +27,7 @@ export default function FacilityCard({ facility }: FacilityCardProps) {
         ) : (
           <img
             src="/images/placeholders/facility-cover.svg"
-            alt={facility.name}
+            alt=""
             className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
           />
         )}
@@ -51,9 +51,21 @@ export default function FacilityCard({ facility }: FacilityCardProps) {
             <h2 className="font-serif text-lg font-semibold text-brand-navy leading-snug">
               {facility.name}
             </h2>
-            <span className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-brand-muted">
+            <span className="mt-1 inline-flex flex-wrap items-center gap-1 text-xs font-medium text-brand-muted">
               <MapPin className="h-3.5 w-3.5 text-brand-muted" />
               {facility.area?.name || "Chattogram"}
+              {facility.rating != null ? (
+                <>
+                  <span className="text-brand-muted/40">•</span>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-700">
+                    <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                    {facility.rating.toFixed(1)}
+                    {facility.totalReviews ? (
+                      <span className="font-normal text-amber-600/70">({facility.totalReviews})</span>
+                    ) : null}
+                  </span>
+                </>
+              ) : null}
             </span>
           </div>
           <FacilityTypeBadge type={facility.type} />
@@ -89,18 +101,21 @@ export default function FacilityCard({ facility }: FacilityCardProps) {
           ) : null}
           <div className="flex-1 flex justify-end gap-1.5 self-end">
             {facility.hasIcu && (
-              <span className="px-2 py-0.5 rounded bg-brand-navy-light text-white font-semibold text-[0.65rem]">
-                ICU
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-brand-navy-light text-white font-semibold text-[0.65rem]">
+                <Activity className="h-3 w-3" />
+                <span className="hidden sm:inline">ICU</span>
               </span>
             )}
             {facility.hasEmergency && (
-              <span className="px-2 py-0.5 rounded bg-status-emergency-light text-status-emergency font-semibold text-[0.65rem]">
-                EMERGENCY
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-status-emergency-light text-status-emergency font-semibold text-[0.65rem]">
+                <Siren className="h-3 w-3" />
+                <span className="hidden sm:inline">EMERGENCY</span>
               </span>
             )}
             {facility.hasAmbulance && (
-              <span className="px-2 py-0.5 rounded bg-brand-sky-bg text-brand-sky-deep font-semibold text-[0.65rem]">
-                AMBULANCE
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-brand-sky-bg text-brand-sky-deep font-semibold text-[0.65rem]">
+                <Ambulance className="h-3 w-3" />
+                <span className="hidden sm:inline">AMBULANCE</span>
               </span>
             )}
           </div>

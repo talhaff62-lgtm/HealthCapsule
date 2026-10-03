@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { searchDoctors } from "@/lib/doctors";
 import DoctorFilters from "@/components/doctors/DoctorFilters";
 import DoctorCard from "@/components/doctors/DoctorCard";
+import Pagination from "@/components/ui/Pagination";
 import { ShieldCheck } from "lucide-react";
 
 export const metadata = {
@@ -14,6 +15,7 @@ type SearchParams = Promise<{
   specialty?: string;
   area?: string;
   q?: string;
+  page?: string;
 }>;
 
 export default async function DoctorsPage({
@@ -22,11 +24,14 @@ export default async function DoctorsPage({
   searchParams: SearchParams;
 }) {
   const params = await searchParams;
-  const [doctors, specialtyOptions, areaOptions] = await Promise.all([
+  const pageParam = parseInt(params.page ?? "1", 10) || 1;
+
+  const [{ items: doctors, total, page, pageSize }, specialtyOptions, areaOptions] = await Promise.all([
     searchDoctors({
       specialty: params.specialty,
       area: params.area,
       q: params.q,
+      page: pageParam,
     }),
     prisma.specialty.findMany({
       where: { deletedAt: null },
@@ -72,16 +77,37 @@ export default async function DoctorsPage({
         </Suspense>
 
         <div className="mt-8">
+          {total > 0 && (
+            <p className="mb-4 text-sm text-brand-muted">
+              Showing <span className="font-semibold text-brand-navy">{doctors.length}</span> of {total} verified doctors
+            </p>
+          )}
+
           {doctors.length === 0 ? (
             <div className="rounded-2xl border border-brand-gray bg-white p-12 text-center text-brand-muted">
               No verified doctors found. Try adjusting your filters.
             </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {doctors.map((doctor) => (
-                <DoctorCard key={doctor.id} doctor={doctor} />
-              ))}
-            </div>
+            <>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {doctors.map((doctor) => (
+                  <DoctorCard key={doctor.id} doctor={doctor} />
+                ))}
+              </div>
+
+              <div className="mt-8 flex justify-center">
+                <Pagination
+                  currentPage={page}
+                  totalPages={Math.ceil(total / pageSize)}
+                  basePath="/doctors"
+                  queryParams={{
+                    specialty: params.specialty,
+                    area: params.area,
+                    q: params.q,
+                  }}
+                />
+              </div>
+            </>
           )}
         </div>
       </div>

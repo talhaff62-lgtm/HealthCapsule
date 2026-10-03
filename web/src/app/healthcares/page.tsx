@@ -4,6 +4,7 @@ import { FacilityType } from "@prisma/client";
 import { searchFacilities } from "@/lib/facilities";
 import { parseFacilityType } from "@/lib/facility-helpers";
 import FacilityCard from "@/components/healthcares/FacilityCard";
+import Pagination from "@/components/ui/Pagination";
 import { ScrollReveal, StaggerContainer } from "@/components/ui/motion";
 
 export const metadata = {
@@ -19,7 +20,7 @@ const TABS: { value: FacilityType | "ALL"; label: string }[] = [
   { value: "CLINIC", label: "Clinics" },
 ];
 
-type SearchParams = Promise<{ type?: string }>;
+type SearchParams = Promise<{ type?: string; page?: string }>;
 
 export default async function HealthcaresPage({
   searchParams,
@@ -27,9 +28,13 @@ export default async function HealthcaresPage({
   searchParams: SearchParams;
 }) {
   const params = await searchParams;
+  const pageParam = parseInt(params.page ?? "1", 10) || 1;
   const selectedType = parseFacilityType(params.type);
 
-  const facilities = await searchFacilities({ type: params.type });
+  const { items: facilities, total, page, pageSize } = await searchFacilities({
+    type: params.type,
+    page: pageParam,
+  });
 
   const activeType = selectedType ?? "ALL";
 
@@ -72,16 +77,33 @@ export default async function HealthcaresPage({
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
+        {total > 0 && (
+          <p className="mb-4 text-sm text-brand-muted">
+            Showing <span className="font-semibold text-brand-navy">{facilities.length}</span> of {total} verified facilities
+          </p>
+        )}
+
         {facilities.length === 0 ? (
           <div className="rounded-2xl border border-brand-gray bg-white p-12 text-center text-brand-muted">
             No verified facilities found.
           </div>
         ) : (
-          <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {facilities.map((facility) => (
-              <FacilityCard key={facility.id} facility={facility} />
-            ))}
-          </StaggerContainer>
+          <>
+            <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {facilities.map((facility) => (
+                <FacilityCard key={facility.id} facility={facility} />
+              ))}
+            </StaggerContainer>
+
+            <div className="mt-8 flex justify-center">
+              <Pagination
+                currentPage={page}
+                totalPages={Math.ceil(total / pageSize)}
+                basePath="/healthcares"
+                queryParams={{ type: params.type }}
+              />
+            </div>
+          </>
         )}
       </div>
     </div>
