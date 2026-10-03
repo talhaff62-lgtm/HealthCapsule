@@ -8,6 +8,7 @@ import { Logo } from "@/components/layout/Logo";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 
 type NavLink = { href: string; label: string };
 
@@ -31,7 +32,7 @@ function isActive(href: string, pathname: string): boolean {
 export default function Navbar() {
   const pathname = usePathname();
   const { data: session } = useSession();
-  const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -41,6 +42,20 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setMenuOpen(false);
+    }
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen]);
 
   if (pathname?.startsWith("/staff") || pathname?.startsWith("/admin")) return null;
 
@@ -85,48 +100,59 @@ export default function Navbar() {
           <LanguageSwitcher />
         </div>
 
-        <button
-          className="text-white md:hidden"
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Toggle menu"
-        >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="relative z-[80] md:hidden">
+          <button
+            className="text-white"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile menu overlay */}
-      {open && (
-        <div className="fixed inset-x-0 top-[57px] bottom-0 z-50 bg-brand-navy/98 backdrop-blur-md md:hidden">
-          <div className="flex flex-col gap-1 px-6 py-6 text-base font-medium">
-            {navLinks.map((link, i) => {
-              const active = isActive(link.href, pathname);
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className={`border-b border-white/10 py-4 transition ${
-                    active
-                      ? "text-brand-sky-bright"
-                      : "text-white/70 hover:text-white"
-                  }`}
-                  style={{ animationDelay: `${i * 60}ms` }}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-            <div className="mt-6 flex flex-col gap-3">
-              <div className="pt-2">
-                <AuthStatus />
-              </div>
-              <div className="pt-2">
-                <LanguageSwitcher />
+      {menuOpen &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <>
+            <div
+              className="fixed inset-x-0 top-[57px] bottom-0 z-[70] bg-black/60 md:hidden"
+              onClick={() => setMenuOpen(false)}
+            />
+            <div className="fixed inset-x-0 top-[57px] bottom-0 z-[80] bg-brand-navy md:hidden">
+              <div className="flex flex-col gap-1 px-6 py-6 text-base font-medium">
+                {navLinks.map((link, i) => {
+                  const active = isActive(link.href, pathname);
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMenuOpen(false)}
+                      className={`border-b border-white/10 py-4 transition ${
+                        active
+                          ? "text-brand-sky-bright"
+                          : "text-white/70 hover:text-white"
+                      }`}
+                      style={{ animationDelay: `${i * 60}ms` }}
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })}
+                <div className="mt-6 flex flex-col gap-3">
+                  <div className="pt-2">
+                    <AuthStatus />
+                  </div>
+                  <div className="pt-2">
+                    <LanguageSwitcher />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          </>,
+          document.body
+        )}
     </header>
   );
 }
