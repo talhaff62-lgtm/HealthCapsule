@@ -25,13 +25,20 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="ml-2 flex items-center gap-0.5 rounded-full border border-white/20 bg-white/5 p-0.5">
+    <div className="relative flex h-9 w-fit items-center rounded-full border border-ink/10 bg-brand-mist p-1">
+      {/* Sliding thumb — visual only, sits behind the labels */}
+      <span
+        aria-hidden="true"
+        className={`absolute inset-y-1 left-1 w-[calc(50%-0.25rem)] rounded-full bg-brand-sky shadow-sm transition-transform duration-300 ease-out motion-reduce:transition-none ${
+          lang === "bn" ? "translate-x-full" : "translate-x-0"
+        }`}
+      />
       <button
         type="button"
         onClick={() => switchLang("en")}
         aria-pressed={lang === "en"}
-        className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
-          lang === "en" ? "bg-brand-sky-bright text-brand-navy shadow-sm" : "text-white/60 hover:text-white"
+        className={`relative z-10 w-14 rounded-full px-0 py-1.5 text-center text-xs font-medium transition-colors duration-300 ${
+          lang === "en" ? "text-white" : "text-ink-muted hover:text-ink"
         }`}
       >
         English
@@ -40,8 +47,8 @@ export default function LanguageSwitcher() {
         type="button"
         onClick={() => switchLang("bn")}
         aria-pressed={lang === "bn"}
-        className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
-          lang === "bn" ? "bg-brand-sky-bright text-brand-navy shadow-sm" : "text-white/60 hover:text-white"
+        className={`relative z-10 w-14 rounded-full px-0 py-1.5 text-center text-xs font-medium transition-colors duration-300 ${
+          lang === "bn" ? "text-white" : "text-ink-muted hover:text-ink"
         }`}
       >
         বাংলা
