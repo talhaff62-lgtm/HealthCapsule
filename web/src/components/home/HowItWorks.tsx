@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion"
+import { SectionCanvas } from "@/components/home/SectionCanvas";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion";
 
 export default function HowItWorks() {
   const steps = [
@@ -27,47 +28,49 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section id="how" className="bg-brand-cream py-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <ScrollReveal className="mx-auto max-w-2xl text-center mb-10">
-          <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky">
+    <SectionCanvas tone="white" id="how">
+      <div className="mx-auto max-w-7xl px-6 py-14 sm:px-8 sm:py-20">
+        <ScrollReveal className="mx-auto mb-10 max-w-2xl text-center">
+          <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
             How it works
           </span>
-          <h2 className="mt-2 font-serif text-3xl font-semibold text-brand-navy sm:text-4xl">
+          <h2 className="mt-2 font-serif text-3xl font-medium text-ink sm:text-4xl">
             From search to appointment in two minutes.
           </h2>
-          <p className="mt-4 text-brand-muted">
-            HealthCapsule cuts through the noise of group chats, outdated Facebook pages, and unreachable phone numbers.
+          <p className="mt-3 text-ink-muted">
+            Capsule cuts through the noise of group chats, outdated Facebook pages, and unreachable phone numbers.
           </p>
         </ScrollReveal>
 
         <ScrollReveal className="mx-auto mb-14 max-w-4xl">
-          <Image
-            src="/images/how_it_works.png"
-            alt="How HealthCapsule works: search and filter doctors, view verified profiles, book in two taps, and store your records"
-            width={1600}
-            height={900}
-            className="h-auto w-full rounded-2xl"
-          />
+          <div className="rounded-[2rem] bg-white p-4 shadow-card">
+            <Image
+              src="/images/how_it_works.png"
+              alt="How Capsule works: search and filter doctors, view verified profiles, book in two taps, and store your records"
+              width={1600}
+              height={900}
+              className="h-auto w-full rounded-3xl"
+            />
+          </div>
         </ScrollReveal>
 
         <div className="relative">
           {/* Connecting line for desktop */}
           <div className="hidden lg:block step-connector" />
 
-          <StaggerContainer className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 relative z-10">
+          <StaggerContainer className="relative z-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step) => (
-              <StaggerItem key={step.num} className="flex flex-col items-center text-center px-4">
-                <div className="w-16 h-16 rounded-full bg-brand-navy border-2 border-brand-sky flex items-center justify-center font-mono text-lg font-semibold text-brand-sky-bright shadow-[0_0_0_6px_var(--color-brand-cloud)] transition-transform duration-300 hover:scale-110">
+              <StaggerItem key={step.num} className="flex flex-col items-center px-4 text-center">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full border border-brand-sky/30 bg-white text-lg font-semibold text-brand-sky-dark shadow-card">
                   {step.num}
                 </div>
                 <h3 className="mt-6 text-lg font-semibold text-brand-navy">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-brand-muted">{step.desc}</p>
+                <p className="mt-2 text-sm leading-relaxed text-ink-muted">{step.desc}</p>
               </StaggerItem>
             ))}
           </StaggerContainer>
         </div>
       </div>
-    </section>
+    </SectionCanvas>
   );
 }

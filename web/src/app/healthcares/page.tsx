@@ -8,7 +8,7 @@ import Pagination from "@/components/ui/Pagination";
 import { ScrollReveal, StaggerContainer } from "@/components/ui/motion";
 
 export const metadata = {
-  title: "Healthcare Providers — HealthCapsule",
+  title: "Healthcare Providers — Capsule",
   description:
     "Browse verified hospitals, diagnostic centers, and clinics in Chattogram.",
 };

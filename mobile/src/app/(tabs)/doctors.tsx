@@ -47,7 +47,7 @@ export default function DoctorsScreen() {
       <View style={styles.header}>
         <Text style={styles.title}>Doctors</Text>
         <Text style={styles.subtitle}>
-          Verification status reviewed by HealthCapsule before listing
+          Verification status reviewed by Capsule before listing
         </Text>
       </View>
 

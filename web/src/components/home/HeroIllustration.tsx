@@ -15,7 +15,7 @@ export default function HeroIllustration() {
           <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-status-verified">
             <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
           </span>
-          <span className="text-xs font-semibold text-brand-slate">Verified by HealthCapsule</span>
+          <span className="text-xs font-semibold text-brand-slate">Verified by Capsule</span>
         </div>
       </div>
 

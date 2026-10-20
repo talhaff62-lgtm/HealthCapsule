@@ -24,9 +24,9 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "HealthCapsule — Find Verified Doctors in Chattogram",
+  title: "Capsule — Find Verified Doctors in Chattogram",
   description:
-    "Search verified doctors by specialty, area, and name. Book appointments and manage your practice with HealthCapsule.",
+    "Search verified doctors by specialty, area, and name. Book appointments and manage your practice with Capsule.",
 };
 
 export default function RootLayout({

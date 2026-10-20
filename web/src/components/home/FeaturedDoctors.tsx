@@ -1,8 +1,9 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Award, Sparkles } from "lucide-react";
+import { Award, Sparkles } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import DoctorCard from "@/components/doctors/DoctorCard";
+import { SectionCanvas } from "@/components/home/SectionCanvas";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion";
 import { Prisma, VerificationStatus } from "@prisma/client";
 import { EXPERIENCED_YEARS_THRESHOLD, DoctorListItem } from "@/lib/doctors";
@@ -106,35 +107,23 @@ export default async function FeaturedDoctors() {
   if (experienced.length === 0 && emerging.length === 0) return null;
 
   return (
-    <section
-      id="featured-doctors"
-      className="bg-brand-cream py-20 border-t border-brand-gray"
-    >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <SectionCanvas tone="white" id="featured-doctors">
+      <div className="mx-auto max-w-7xl px-6 py-14 sm:px-8 sm:py-20">
         {/* Experienced Specialists */}
         {experienced.length > 0 && (
           <div className="mb-16">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
-              <ScrollReveal className="max-w-2xl">
-                <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky flex items-center gap-1.5">
-                  <Award className="h-3.5 w-3.5" />
-                  Highly Experienced
-                </span>
-                <h2 className="mt-2 font-serif text-3xl font-semibold text-brand-navy sm:text-4xl">
-                  Experienced Specialists
-                </h2>
-                <p className="mt-3 text-brand-muted">
-                  Book consultations with BMDC verified, seasoned specialists bringing a decade or more of practice across Chattogram.
-                </p>
-              </ScrollReveal>
-              <Link
-                href="/doctors"
-                className="group mt-6 md:mt-0 inline-flex items-center gap-2 font-semibold text-brand-navy hover:text-brand-sky transition-colors"
-              >
-                View All Doctors
-                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-              </Link>
-            </div>
+            <ScrollReveal className="mx-auto mb-12 mt-12 max-w-2xl text-center sm:mt-16">
+              <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
+                <Award className="h-3.5 w-3.5" />
+                Highly Experienced
+              </span>
+              <h2 className="mt-2 font-serif text-3xl font-medium text-ink sm:text-4xl">
+                Experienced Specialists
+              </h2>
+              <p className="mt-3 text-ink-muted">
+                Book consultations with BMDC verified, seasoned specialists bringing a decade or more of practice across Chattogram.
+              </p>
+            </ScrollReveal>
 
             <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {experienced.map((doctor) => (
@@ -149,20 +138,18 @@ export default async function FeaturedDoctors() {
         {/* Emerging Specialists */}
         {emerging.length > 0 && (
           <div>
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
-              <ScrollReveal className="max-w-2xl">
-                <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky flex items-center gap-1.5">
-                  <Sparkles className="h-3.5 w-3.5" />
-                  Rising Talent
-                </span>
-                <h2 className="mt-2 font-serif text-3xl font-semibold text-brand-navy sm:text-4xl">
-                  Emerging Specialists
-                </h2>
-                <p className="mt-3 text-brand-muted">
-                  Discover promising BMDC verified doctors early in their careers — fresh perspectives, modern training, and growing practices in Chattogram.
-                </p>
-              </ScrollReveal>
-            </div>
+            <ScrollReveal className="mx-auto mb-12 max-w-2xl text-center">
+              <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
+                <Sparkles className="h-3.5 w-3.5" />
+                Rising Talent
+              </span>
+              <h2 className="mt-2 font-serif text-3xl font-medium text-ink sm:text-4xl">
+                Emerging Specialists
+              </h2>
+              <p className="mt-3 text-ink-muted">
+                Discover promising BMDC verified doctors early in their careers — fresh perspectives, modern training, and growing practices in Chattogram.
+              </p>
+            </ScrollReveal>
 
             <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {emerging.map((doctor) => (
@@ -173,7 +160,16 @@ export default async function FeaturedDoctors() {
             </StaggerContainer>
           </div>
         )}
+
+        <div className="mt-10 text-center">
+          <Link
+            href="/doctors"
+            className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-6 py-3 text-sm font-medium text-ink transition hover:border-brand-sky hover:text-brand-sky-dark"
+          >
+            View All Doctors
+          </Link>
+        </div>
       </div>
-    </section>
+    </SectionCanvas>
   );
 }

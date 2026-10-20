@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ExternalLink, LogOut, Menu, X } from "lucide-react";
 import { Eyebrow } from "./ui";
+import { signOut } from "next-auth/react";
 
 type PanelShellProps = {
   panelLabel: string;
@@ -63,8 +64,8 @@ export function PanelShell({
     setSigningOut(true);
     try {
       await api("/api/v1/auth/logout", { method: "POST" });
-      // ponytail: sign-out redirect hardcoded to /staff/login; add a prop when a panel with a different login surface (doctor/facility) adopts this shell.
-      router.replace("/staff/login");
+      await signOut({ redirect: false });
+      router.replace("/login");
     } catch {
       setSigningOut(false);
     }
@@ -119,7 +120,7 @@ export function PanelShell({
           href={homeHref}
           className="font-serif text-lg font-semibold text-white"
         >
-          HealthCapsule
+          Capsule
         </Link>
         <button
           type="button"
@@ -150,7 +151,7 @@ export function PanelShell({
             href={homeHref}
             className="font-serif text-lg font-semibold text-white"
           >
-            HealthCapsule
+            Capsule
           </Link>
           <button
             type="button"
@@ -191,7 +192,7 @@ export function PanelShell({
         <div className="p-6 border-b border-white/10">
           <Eyebrow className="text-white/50 block">{panelLabel}</Eyebrow>
           <div className="mt-1 font-serif text-xl font-semibold text-white">
-            HealthCapsule
+            Capsule
           </div>
         </div>
         <nav className="flex-1 py-4 space-y-1">

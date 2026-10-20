@@ -1,20 +1,22 @@
-import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { ShieldCheck, Clock, MapPin, ArrowRight } from "lucide-react";
+import { ShieldCheck, Clock, MapPin } from "lucide-react";
 import HeroSearchCard from "@/components/home/HeroSearchCard";
 import HeroIllustration from "@/components/home/HeroIllustration";
+import { SectionCanvas } from "@/components/home/SectionCanvas";
 import StatsBar from "@/components/home/StatsBar";
 import HowItWorks from "@/components/home/HowItWorks";
 import WhySection from "@/components/home/WhySection";
 import Audiences from "@/components/home/Audiences";
 import FeaturedHospitals from "@/components/home/FeaturedHospitals";
 import FeaturedDoctors from "@/components/home/FeaturedDoctors";
+import VideosSection from "@/components/home/VideosSection";
+import BlogSection from "@/components/home/BlogSection";
 import TrustSection from "@/components/home/TrustSection";
 import CtaBanner from "@/components/home/CtaBanner";
 import { ScrollReveal } from "@/components/ui/motion";
 
 export const metadata = {
-  title: "HealthCapsule — Find Verified Doctors in Chattogram",
+  title: "Capsule — Find Verified Doctors in Chattogram",
   description:
     "Search verified doctors by specialty, area, and name. View profiles, chambers, and next available schedules.",
 };
@@ -38,19 +40,14 @@ async function getFilterOptions() {
 export default async function Home() {
   const { specialties, areas } = await getFilterOptions();
 
-  // Curated list of recently verified doctors for the hero chip strip
-  const recentlyVerified = [
-    { name: "Dr. Sarah Rahman", spec: "Cardiology", initials: "SR" },
-    { name: "Dr. Kamal Hossain", spec: "Medicine", initials: "KH" },
-  ];
-
   return (
-    <>
+    <div className="flex flex-col gap-4 px-3 pb-4 pt-2 sm:gap-5 sm:px-4 sm:pb-5">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-brand-navy">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute right-0 top-0 h-[500px] w-[500px] -translate-y-1/3 translate-x-1/4 rounded-full bg-brand-sky/15 blur-[120px]" />
-          <div className="absolute bottom-0 left-0 h-[500px] w-[500px] -translate-x-1/4 translate-y-1/4 rounded-full bg-brand-navy-light/50 blur-[120px]" />
+      <SectionCanvas tone="white" className="pt-2">
+        {/* Aurora background blobs */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-brand-sky/20 blur-3xl motion-safe:animate-[drift_18s_ease-in-out_infinite_alternate]" />
+          <div className="absolute -bottom-32 -right-16 h-[28rem] w-[28rem] rounded-full bg-teal/15 blur-3xl motion-safe:animate-[drift_22s_ease-in-out_infinite_alternate-reverse]" />
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
@@ -58,20 +55,20 @@ export default async function Home() {
             {/* Left column */}
             <div className="max-w-2xl">
               <ScrollReveal delay={0}>
-                <span className="inline-flex items-center gap-2.5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-brand-sky-bright">
-                  <span className="h-px w-5 bg-brand-sky-bright/60" aria-hidden="true" />
+                <span className="inline-flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.2em] text-brand-sky-deep">
+                  <span className="h-px w-5 bg-brand-sky-deep/60" aria-hidden="true" />
                   Bangladesh · Verified doctors, hospitals &amp; records
                 </span>
               </ScrollReveal>
 
               <ScrollReveal delay={0.05}>
-                <h1 className="mt-4 font-serif text-4xl font-semibold leading-[1.07] tracking-tight text-white sm:text-5xl lg:text-[3.6rem]">
-                  Find a verified doctor.<br />Book today. <span className="italic font-medium text-brand-sky-bright">Keep every record after.</span>
+                <h1 className="mt-4 font-serif text-4xl font-semibold leading-[1.07] tracking-tight text-brand-navy sm:text-5xl lg:text-6xl">
+                  Find a <span className="text-gradient">verified doctor</span>.<br />Book today. <span className="italic font-medium">Keep every record after.</span>
                 </h1>
               </ScrollReveal>
 
               <ScrollReveal delay={0.1}>
-                <p className="mt-4 max-w-lg text-base leading-relaxed text-white/75">
+                <p className="mt-4 max-w-lg text-base leading-relaxed text-ink-muted">
                   Search verified doctors, book in two taps, store every prescription, and reach an ambulance before panic sets in — one platform, instead of a dozen phone numbers and Facebook pages.
                 </p>
               </ScrollReveal>
@@ -80,37 +77,19 @@ export default async function Home() {
                 <HeroSearchCard specialties={specialties} areas={areas} />
               </ScrollReveal>
 
-              <ScrollReveal delay={0.2}>
-                <div className="mt-5 flex flex-wrap items-center gap-4">
-                  <Link
-                    href="/doctors"
-                    className="group inline-flex items-center gap-2 rounded-full bg-brand-sky px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-sky/25 transition hover:bg-brand-sky-dark"
-                  >
-                    Find a Doctor
-                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-                  </Link>
-                  <Link
-                    href="#how"
-                    className="inline-flex items-center gap-2 rounded-full border border-white/25 px-6 py-3 text-sm font-medium text-white transition hover:border-brand-sky-bright hover:text-brand-sky-bright"
-                  >
-                    See How It Works
-                  </Link>
-                </div>
-              </ScrollReveal>
-
-              {/* Trust Indicators */}
+              {/* Trust chips */}
               <ScrollReveal delay={0.25}>
-                <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-xs font-medium uppercase tracking-wider text-white/65">
-                  <span className="inline-flex items-center gap-2">
-                    <ShieldCheck className="h-4 w-4 text-brand-sky-bright" />
+                <div className="mt-5 flex flex-wrap gap-3">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-ink/8 bg-white px-4 py-2 text-xs font-medium text-ink-muted shadow-card">
+                    <ShieldCheck className="h-4 w-4 text-brand-sky" />
                     Verified-only network
                   </span>
-                  <span className="inline-flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-brand-sky-bright" />
+                  <span className="inline-flex items-center gap-2 rounded-full border border-ink/8 bg-white px-4 py-2 text-xs font-medium text-ink-muted shadow-card">
+                    <Clock className="h-4 w-4 text-brand-sky" />
                     Real-time availability
                   </span>
-                  <span className="inline-flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-brand-sky-bright" />
+                  <span className="inline-flex items-center gap-2 rounded-full border border-ink/8 bg-white px-4 py-2 text-xs font-medium text-ink-muted shadow-card">
+                    <MapPin className="h-4 w-4 text-brand-sky" />
                     Free for patients
                   </span>
                 </div>
@@ -120,52 +99,35 @@ export default async function Home() {
             {/* Right column — illustration */}
             <div className="relative">
               <ScrollReveal delay={0.15}>
-                <HeroIllustration />
-              </ScrollReveal>
-
-              {/* Recently Verified Doctor strip */}
-              <ScrollReveal delay={0.3}>
-                <div className="mt-8 hidden lg:block">
-                  <span className="mb-3 block font-mono text-[0.65rem] uppercase tracking-[0.08em] text-white/55">
-                    Recently verified
-                  </span>
-                  <div className="flex flex-wrap gap-2.5">
-                    {recentlyVerified.map((doc) => (
-                      <div
-                        key={doc.name}
-                        className="inline-flex cursor-pointer items-center gap-2.5 rounded-full border border-white/12 bg-white/[0.06] p-1.5 pr-4 text-xs transition hover:border-brand-sky-bright/60 hover:bg-white/[0.1]"
-                      >
-                        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-navy-light font-serif text-[0.72rem] font-semibold text-brand-sky-bright ring-1 ring-brand-sky-bright/30">
-                          {doc.initials}
-                        </div>
-                        <div className="leading-tight">
-                          <strong className="block font-medium text-white">{doc.name}</strong>
-                          <span className="font-mono text-[0.62rem] uppercase tracking-wide text-white/55">{doc.spec}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                <div className="relative rounded-[2rem] bg-white/70 p-4 shadow-card backdrop-blur">
+                  <HeroIllustration />
                 </div>
               </ScrollReveal>
             </div>
           </div>
         </div>
-      </section>
+      </SectionCanvas>
 
       {/* Stats Bar */}
       <StatsBar />
 
+      {/* Featured Specialists */}
+      <FeaturedDoctors />
+
+      {/* Health Videos */}
+      <VideosSection />
+
       {/* Featured Hospitals & Diagnostics */}
       <FeaturedHospitals />
+
+      {/* From the Blog */}
+      <BlogSection />
 
       {/* How It Works */}
       <HowItWorks />
 
       {/* Before vs After */}
       <WhySection />
-
-      {/* Featured Specialists */}
-      <FeaturedDoctors />
 
       {/* Audiences */}
       <Audiences />
@@ -175,6 +137,6 @@ export default async function Home() {
 
       {/* CTA Split Banner */}
       <CtaBanner />
-    </>
+    </div>
   );
 }

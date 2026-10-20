@@ -4,6 +4,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { Lock, Mail } from "lucide-react";
+import BackButton from "@/components/ui/BackButton";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -35,11 +36,14 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-[calc(100vh-64px-80px)] items-center justify-center px-4 py-12">
+    <main className="relative flex min-h-screen items-center justify-center px-4 py-16 sm:py-20">
+      <div className="absolute left-4 top-4 sm:left-6 sm:top-6">
+        <BackButton />
+      </div>
       <div className="w-full max-w-md overflow-hidden rounded-2xl border border-brand-gray bg-white shadow-lg">
         <div className="bg-brand-navy px-8 py-8 text-center">
           <h1 className="font-serif text-2xl font-semibold text-white">
-            Sign in to HealthCapsule
+            Sign in to Capsule
           </h1>
           <p className="mt-2 text-sm text-white/70">
             Enter your email and password.

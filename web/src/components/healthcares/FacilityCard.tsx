@@ -13,7 +13,7 @@ type FacilityCardProps = {
 
 export default function FacilityCard({ facility }: FacilityCardProps) {
   return (
-    <StaggerItem className="premium-card group relative flex flex-col overflow-hidden rounded-2xl border border-brand-gray bg-white shadow-sm">
+    <StaggerItem className="premium-card group relative flex flex-col overflow-hidden rounded-3xl border border-brand-gray bg-white shadow-card">
       {/* Cover photo */}
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-brand-cloud">
         {facility.coverImageUrl ? (

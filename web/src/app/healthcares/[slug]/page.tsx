@@ -26,6 +26,8 @@ import {
   Users,
   PhoneCall,
   Smartphone,
+  Home,
+  FileCheck,
 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { VerificationStatus } from "@prisma/client";
@@ -78,12 +80,12 @@ export async function generateMetadata({
 
   if (!facility) {
     return {
-      title: "Not Found — HealthCapsule",
+      title: "Not Found — Capsule",
     };
   }
 
   return {
-    title: `${facility.name} — HealthCapsule`,
+    title: `${facility.name} — Capsule`,
     description: `View ${facility.name} details, services, and contact information in Chattogram.`,
   };
 }
@@ -96,60 +98,84 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
     notFound();
   }
 
+  // Stats array computation
+  const statsList = [
+    facility.beds != null && facility.beds > 0 && { label: "BEDS", value: facility.beds },
+    facility.icuBeds != null && facility.icuBeds > 0 && { label: "ICU BEDS", value: facility.icuBeds },
+    facility.operationTheaters != null && facility.operationTheaters > 0 && { label: "OPERATION THEATERS", value: facility.operationTheaters },
+    facility.doctorsOnPanel != null && facility.doctorsOnPanel > 0 && { label: "DOCTORS", value: facility.doctorsOnPanel },
+    facility.establishedYear != null && { label: "ESTABLISHED", value: facility.establishedYear },
+  ].filter(Boolean) as { label: string; value: number | string }[];
+
+  const statsGridColsClass =
+    statsList.length === 5
+      ? "grid-cols-3 sm:grid-cols-5"
+      : statsList.length === 4
+      ? "grid-cols-2 sm:grid-cols-4"
+      : statsList.length === 3
+      ? "grid-cols-3"
+      : statsList.length === 2
+      ? "grid-cols-2"
+      : "grid-cols-1";
+
+  // Capability chips definition
   const capabilities = [
     facility.hasEmergency && {
       key: "emergency",
       label: "24/7 Emergency",
       icon: Siren,
-      className: "bg-status-emergency/20 text-status-emergency",
-    },
-    facility.hasIcu && {
-      key: "icu",
-      label: "ICU",
-      icon: Stethoscope,
-      className: "bg-brand-sky/10 text-brand-sky-bright",
-    },
-    facility.hasNicu && {
-      key: "nicu",
-      label: "NICU",
-      icon: Baby,
-      className: "bg-brand-sky/10 text-brand-sky-bright",
+      isEmergency: true,
     },
     facility.hasAmbulance && {
       key: "ambulance",
       label: "Ambulance",
       icon: Ambulance,
-      className: "bg-brand-sky/10 text-brand-sky-bright",
+    },
+    facility.hasIcu && {
+      key: "icu",
+      label: "ICU",
+      icon: Stethoscope,
+    },
+    facility.hasNicu && {
+      key: "nicu",
+      label: "NICU",
+      icon: Baby,
     },
     facility.hasBloodBank && {
       key: "bloodbank",
       label: "Blood Bank",
       icon: Droplets,
-      className: "bg-brand-sky/10 text-brand-sky-bright",
     },
     facility.hasPharmacy && {
       key: "pharmacy",
       label: "Pharmacy",
       icon: Pill,
-      className: "bg-brand-sky/10 text-brand-sky-bright",
     },
     facility.hasPathologyLab && {
       key: "pathlab",
       label: "Pathology Lab",
       icon: Microscope,
-      className: "bg-brand-sky/10 text-brand-sky-bright",
     },
     facility.hasParkingAvailable && {
       key: "parking",
       label: "Parking",
       icon: ParkingCircle,
-      className: "bg-brand-sky/10 text-brand-sky-bright",
+    },
+    facility.hasHomeSampleCollection && {
+      key: "homesample",
+      label: "Home Sample",
+      icon: Home,
+    },
+    facility.hasOnlineReport && {
+      key: "onlinereport",
+      label: "Online Reports",
+      icon: FileCheck,
     },
   ].filter(Boolean) as {
     key: string;
     label: string;
     icon: typeof Siren;
-    className: string;
+    isEmergency?: boolean;
   }[];
 
   return (
@@ -165,9 +191,9 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
 
         {/* Hero */}
         <ScrollReveal>
-          <div className="overflow-hidden rounded-2xl bg-brand-navy shadow-xl border border-brand-sky/15">
-            {/* Cover banner */}
-            <div className="relative h-44 w-full overflow-hidden bg-gradient-to-br from-brand-navy to-brand-navy-light sm:h-56">
+          <div className="relative">
+            {/* Cover Band */}
+            <div className="relative h-80 sm:h-[28rem] w-full overflow-hidden rounded-t-3xl bg-brand-navy shadow-md">
               {facility.coverImageUrl ? (
                 <Image
                   src={facility.coverImageUrl}
@@ -188,116 +214,135 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/60 to-transparent" />
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-brand-navy/50 to-transparent" />
 
-            <div className="p-6 sm:p-8">
-              <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-                {/* Logo / initials avatar */}
-                <div className="-mt-16 flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-brand-sky-light to-brand-sky text-2xl font-bold text-white sm:h-32 sm:w-32 sm:text-3xl border-4 border-brand-navy shadow-md">
-                  {facility.logoUrl ? (
-                    <img
-                      src={facility.logoUrl}
-                      alt={facility.name}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <img
-                      src="/images/placeholders/facility-logo.svg"
-                      alt={facility.name}
-                      className="h-full w-full object-cover"
-                    />
-                  )}
+              {/* On-cover identity */}
+              <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 pr-24 sm:pr-36">
+                <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-bright">
+                  {getFacilityTypeLabel(facility.type).toUpperCase()}
+                </span>
+                <div className="mt-1 flex flex-wrap items-center gap-3">
+                  <h1 className="font-serif text-4xl font-bold text-white sm:text-5xl">
+                    {facility.name}
+                  </h1>
+                  <TierBadge tier={facility.listingTier} />
                 </div>
-
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h1 className="font-serif text-2xl font-semibold text-white sm:text-3xl">
-                      {facility.name}
-                    </h1>
-                    <TierBadge tier={facility.listingTier} />
-                  </div>
-
-                  <p className="mt-2 text-sm text-white/80">
-                    {getFacilityTypeLabel(facility.type)}
-                  </p>
-
-                  {facility.area && (
-                    <p className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white">
-                      <MapPin className="h-4 w-4 text-brand-sky-bright" />
-                      {facility.area.name}
-                    </p>
-                  )}
-
+                <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-white/80">
                   {facility.rating != null && (
-                    <span className="mt-4 ml-2 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white">
-                      <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
+                    <span className="inline-flex items-center gap-1 font-semibold text-white">
+                      <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
                       {facility.rating.toFixed(1)}
-                      {facility.totalReviews ? <span className="text-white/60">({facility.totalReviews} reviews)</span> : null}
+                      {facility.totalReviews ? (
+                        <span className="font-normal text-white/70">({facility.totalReviews})</span>
+                      ) : null}
                     </span>
                   )}
-
-                  <div className="mt-5 flex flex-wrap gap-4 text-xs text-white/70 font-medium">
-                    {facility.establishedYear ? (
-                      <span className="inline-flex items-center gap-1.5">
-                        <Calendar className="h-4 w-4" />
-                        Est. {facility.establishedYear}
-                      </span>
-                    ) : null}
-
-                    {facility.beds ? (
-                      <span className="inline-flex items-center gap-1.5">
-                        <Bed className="h-4 w-4" />
-                        {facility.beds} beds
-                      </span>
-                    ) : null}
-                  </div>
-
-                  {facility.address && (
-                    <p className="mt-4 flex items-start gap-1.5 text-sm text-white/80">
-                      <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-sky-bright" />
-                      {facility.address}
-                    </p>
+                  {facility.rating != null && facility.area ? <span>•</span> : null}
+                  {facility.area && (
+                    <span className="inline-flex items-center gap-1">
+                      <MapPin className="h-3.5 w-3.5 text-brand-sky-bright" />
+                      {facility.area.name}
+                    </span>
                   )}
+                  {facility.area && facility.establishedYear ? <span>•</span> : null}
+                  {facility.establishedYear ? (
+                    <span className="inline-flex items-center gap-1">
+                      <Calendar className="h-3.5 w-3.5 text-white/70" />
+                      Est. {facility.establishedYear}
+                    </span>
+                  ) : null}
+                  {(facility.area || facility.establishedYear || facility.rating != null) && facility.openingHours ? <span>•</span> : null}
+                  {facility.openingHours ? (
+                    <span className="inline-flex items-center gap-1">
+                      <Clock className="h-3.5 w-3.5 text-white/70" />
+                      {facility.openingHours}
+                    </span>
+                  ) : null}
                 </div>
+              </div>
+
+              {/* Overlapping logo badge */}
+              <div className="absolute -bottom-8 sm:-bottom-10 right-6 sm:right-8 h-20 w-20 sm:h-28 sm:w-28 overflow-hidden rounded-2xl border-4 border-white bg-white shadow-lg z-10">
+                <img
+                  src={facility.logoUrl || "/images/placeholders/facility-logo.svg"}
+                  alt={facility.name}
+                  className="h-full w-full object-cover"
+                />
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 bg-white/5 px-6 py-4 sm:px-8">
-              <div className="flex flex-wrap gap-2">
-                {capabilities.map((cap) => {
-                  const Icon = cap.icon;
-                  return (
-                    <span
-                      key={cap.key}
-                      className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold ${cap.className}`}
-                    >
-                      <Icon className="h-3.5 w-3.5" />
-                      {cap.label}
-                    </span>
-                  );
-                })}
+            {/* White Content Block */}
+            <div className="-mt-4 relative z-0 rounded-b-3xl rounded-t-3xl border border-brand-gray bg-white p-6 sm:p-8 pt-10 sm:pt-12 shadow-sm">
+              <div className="flex flex-col gap-4">
+                {/* Address Line */}
+                {facility.address && (
+                  <p className="flex items-start gap-1.5 text-sm text-brand-slate">
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-sky" />
+                    {facility.address}
+                  </p>
+                )}
+
+                {/* Stats Strip */}
+                {statsList.length > 0 && (
+                  <div className={`mt-4 grid ${statsGridColsClass} sm:divide-x divide-brand-gray gap-y-4 rounded-2xl border border-brand-gray bg-brand-cloud/60 py-4 shadow-inner`}>
+                    {statsList.map((stat) => (
+                      <div key={stat.label} className="flex flex-col items-center justify-center px-2 text-center">
+                        <span className="font-serif text-2xl font-bold text-brand-navy">
+                          {stat.value}
+                        </span>
+                        <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted mt-0.5">
+                          {stat.label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Capability Chips Row */}
+                {capabilities.length > 0 && (
+                  <div className="mt-4 flex flex-wrap gap-1.5 sm:gap-2">
+                    {capabilities.map((cap) => {
+                      const Icon = cap.icon;
+                      return (
+                        <span
+                          key={cap.key}
+                          className={`inline-flex items-center gap-1 rounded-full border px-2.5 sm:px-3 py-1 text-xs font-semibold ${
+                            cap.isEmergency
+                              ? "border-red-200 bg-status-emergency-light/40 text-status-emergency"
+                              : "border-brand-gray bg-white text-brand-slate"
+                          }`}
+                        >
+                          <Icon
+                            className={`h-3.5 w-3.5 ${
+                              cap.isEmergency ? "text-status-emergency" : "text-brand-sky"
+                            }`}
+                          />
+                          {cap.label}
+                        </span>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
-              <span className="inline-flex items-center gap-1 text-[0.65rem] font-mono font-bold uppercase tracking-wider text-brand-sky-bright">
-                <ShieldCheck className="h-3.5 w-3.5" />
-                Verified Provider
-              </span>
             </div>
           </div>
         </ScrollReveal>
 
         {/* Body */}
         <div className="mt-8 grid gap-6 lg:grid-cols-3">
-          {/* Main column */}
+          {/* Main Column */}
           <div className="flex flex-col gap-6 lg:col-span-2">
             {/* About */}
             {(facility.longDescription || facility.description) && (
               <ScrollReveal>
                 <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
-                  <h2 className="font-serif text-lg font-semibold text-brand-navy border-b border-brand-gray pb-3">
+                  <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted">
+                    OVERVIEW
+                  </span>
+                  <h2 className="font-serif text-xl font-semibold text-brand-navy border-b border-brand-gray pb-3 mt-0.5">
                     About
                   </h2>
-                  <p className="mt-4 text-sm leading-relaxed text-brand-slate whitespace-pre-line">
+                  <p className="mt-4 text-[15px] leading-relaxed text-brand-slate whitespace-pre-line">
                     {facility.longDescription || facility.description}
                   </p>
                 </div>
@@ -308,14 +353,17 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
             {facility.departments.length > 0 && (
               <ScrollReveal>
                 <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
-                  <h2 className="font-serif text-lg font-semibold text-brand-navy border-b border-brand-gray pb-3">
+                  <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted">
+                    SPECIALTIES
+                  </span>
+                  <h2 className="font-serif text-xl font-semibold text-brand-navy border-b border-brand-gray pb-3 mt-0.5">
                     Departments
                   </h2>
                   <StaggerContainer className="mt-4 grid gap-3 sm:grid-cols-2">
                     {facility.departments.map((dept) => (
                       <StaggerItem
                         key={dept.name}
-                        className="rounded-lg border border-brand-gray bg-brand-cloud/50 p-4"
+                        className="rounded-xl border border-brand-gray bg-brand-cloud/40 p-4 transition-colors hover:bg-brand-cloud/80"
                       >
                         <h3 className="text-sm font-semibold text-brand-navy">
                           {dept.name}
@@ -336,20 +384,25 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
             {facility.services.length > 0 && (
               <ScrollReveal>
                 <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
-                  <h2 className="font-serif text-lg font-semibold text-brand-navy border-b border-brand-gray pb-3">
+                  <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted">
+                    PRICING & OFFERS
+                  </span>
+                  <h2 className="font-serif text-xl font-semibold text-brand-navy border-b border-brand-gray pb-3 mt-0.5">
                     Services
                   </h2>
-                  <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                  <div className="mt-4 divide-y divide-brand-gray border-t border-b border-brand-gray">
                     {facility.services.map((service) => (
                       <div
                         key={service.name}
-                        className="flex items-center justify-between rounded-lg border border-brand-gray bg-brand-cloud/50 p-3"
+                        className="flex items-center justify-between py-3 px-1 hover:bg-brand-cloud/40 transition-colors"
                       >
-                        <span className="text-sm text-brand-slate">{service.name}</span>
-                        {service.price && (
-                          <span className="text-xs font-mono font-semibold text-brand-navy">
+                        <span className="text-sm font-medium text-brand-slate">{service.name}</span>
+                        {service.price ? (
+                          <span className="text-sm font-mono font-semibold text-brand-navy">
                             ৳{service.price.toString()}
                           </span>
+                        ) : (
+                          <span className="text-xs text-brand-muted">—</span>
                         )}
                       </div>
                     ))}
@@ -358,29 +411,52 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
               </ScrollReveal>
             )}
 
-            {/* Diagnostic Tests */}
-            {facility.diagnosticTests.length > 0 && (
+            {/* Diagnostics & Imaging */}
+            {(facility.diagnosticTests.length > 0 || facility.imagingServices.length > 0) && (
               <ScrollReveal>
                 <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
-                  <h2 className="font-serif text-lg font-semibold text-brand-navy border-b border-brand-gray pb-3">Diagnostic Tests</h2>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {facility.diagnosticTests.map((test) => (
-                      <span key={test} className="rounded-full border border-brand-gray bg-brand-cloud/50 px-3 py-1 text-xs font-medium text-brand-slate">{test}</span>
-                    ))}
-                  </div>
-                </div>
-              </ScrollReveal>
-            )}
+                  <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted">
+                    LABORATORY & RADIOLOGY
+                  </span>
+                  <h2 className="font-serif text-xl font-semibold text-brand-navy border-b border-brand-gray pb-3 mt-0.5">
+                    Diagnostics & Imaging
+                  </h2>
+                  <div className="mt-4 space-y-6">
+                    {facility.diagnosticTests.length > 0 && (
+                      <div>
+                        <h3 className="text-xs font-semibold uppercase tracking-wider text-brand-slate mb-3">
+                          Diagnostic Tests
+                        </h3>
+                        <div className="flex flex-wrap gap-2">
+                          {facility.diagnosticTests.map((test) => (
+                            <span
+                              key={test}
+                              className="rounded-full bg-brand-cloud px-3 py-1 text-xs font-medium text-brand-slate border border-brand-gray/60"
+                            >
+                              {test}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
-            {/* Imaging Services */}
-            {facility.imagingServices.length > 0 && (
-              <ScrollReveal>
-                <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
-                  <h2 className="font-serif text-lg font-semibold text-brand-navy border-b border-brand-gray pb-3">Imaging & Procedures</h2>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {facility.imagingServices.map((service) => (
-                      <span key={service} className="rounded-full border border-brand-gray bg-brand-cloud/50 px-3 py-1 text-xs font-medium text-brand-slate">{service}</span>
-                    ))}
+                    {facility.imagingServices.length > 0 && (
+                      <div>
+                        <h3 className="text-xs font-semibold uppercase tracking-wider text-brand-slate mb-3">
+                          Imaging & Procedures
+                        </h3>
+                        <div className="flex flex-wrap gap-2">
+                          {facility.imagingServices.map((service) => (
+                            <span
+                              key={service}
+                              className="rounded-full bg-brand-cloud px-3 py-1 text-xs font-medium text-brand-slate border border-brand-gray/60"
+                            >
+                              {service}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </ScrollReveal>
@@ -390,26 +466,44 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
             {(facility.accreditation || facility.dghsLicenceNo || facility.insurancePanels.length > 0) && (
               <ScrollReveal>
                 <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
-                  <h2 className="font-serif text-lg font-semibold text-brand-navy border-b border-brand-gray pb-3">Accreditation & Insurance</h2>
-                  <div className="mt-4 space-y-3">
+                  <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted">
+                    CREDENTIALS
+                  </span>
+                  <h2 className="font-serif text-xl font-semibold text-brand-navy border-b border-brand-gray pb-3 mt-0.5">
+                    Accreditation & Insurance
+                  </h2>
+                  <div className="mt-4 space-y-4">
                     {facility.accreditation && (
-                      <div className="flex items-center gap-2 text-sm text-brand-slate">
+                      <div className="flex items-center gap-2.5 text-sm text-brand-slate">
                         <Shield className="h-4 w-4 shrink-0 text-brand-sky" />
-                        <span className="font-medium">Accreditation:</span> {facility.accreditation}
+                        <span>
+                          <strong className="font-medium text-brand-navy">Accreditation:</strong>{" "}
+                          {facility.accreditation}
+                        </span>
                       </div>
                     )}
                     {facility.dghsLicenceNo && (
-                      <div className="flex items-center gap-2 text-sm text-brand-slate">
+                      <div className="flex items-center gap-2.5 text-sm text-brand-slate">
                         <ShieldCheck className="h-4 w-4 shrink-0 text-brand-sky" />
-                        <span className="font-medium">DGHS Licence:</span> {facility.dghsLicenceNo}
+                        <span>
+                          <strong className="font-medium text-brand-navy">DGHS Licence:</strong>{" "}
+                          {facility.dghsLicenceNo}
+                        </span>
                       </div>
                     )}
                     {facility.insurancePanels.length > 0 && (
-                      <div>
-                        <p className="text-sm font-medium text-brand-slate mb-2">Insurance Panels</p>
+                      <div className="pt-2">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-brand-slate mb-3">
+                          Insurance Panels
+                        </p>
                         <div className="flex flex-wrap gap-2">
                           {facility.insurancePanels.map((panel) => (
-                            <span key={panel} className="rounded-full border border-brand-gray bg-brand-cloud/50 px-3 py-1 text-xs font-medium text-brand-slate">{panel}</span>
+                            <span
+                              key={panel}
+                              className="rounded-full bg-brand-cloud px-3 py-1 text-xs font-medium text-brand-slate border border-brand-gray/60"
+                            >
+                              {panel}
+                            </span>
                           ))}
                         </div>
                       </div>
@@ -423,14 +517,17 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
             {facility.gallery.length > 0 && (
               <ScrollReveal>
                 <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
-                  <h2 className="font-serif text-lg font-semibold text-brand-navy border-b border-brand-gray pb-3">
+                  <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted">
+                    MEDIA
+                  </span>
+                  <h2 className="font-serif text-xl font-semibold text-brand-navy border-b border-brand-gray pb-3 mt-0.5">
                     Gallery
                   </h2>
                   <StaggerContainer className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                     {facility.gallery.map((image) => (
                       <StaggerItem
                         key={image.id}
-                        className="relative aspect-[4/3] overflow-hidden rounded-lg border border-brand-gray bg-brand-cloud"
+                        className="relative aspect-[4/3] overflow-hidden rounded-xl border border-brand-gray bg-brand-cloud"
                       >
                         <Image
                           src={image.url}
@@ -450,24 +547,38 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
           {/* Sidebar */}
           <aside className="lg:col-span-1">
             <div className="lg:sticky lg:top-24 flex flex-col gap-6">
-              {/* Contact card */}
+              {/* Contact Card */}
               <ScrollReveal>
                 <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm">
-                  <h2 className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-muted">
+                  <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted">
+                    GET IN TOUCH
+                  </span>
+                  <h2 className="font-serif text-xl font-semibold text-brand-navy border-b border-brand-gray pb-3 mt-0.5">
                     Contact
                   </h2>
 
-                  {facility.phone && (
-                    <a
-                      href={`tel:${facility.phone}`}
-                      className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-brand-sky px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-sky-dark"
-                    >
-                      <Phone className="h-4 w-4" />
-                      Call now
-                    </a>
-                  )}
+                  <div className="mt-4 flex flex-col gap-2">
+                    {facility.phone && (
+                      <a
+                        href={`tel:${facility.phone}`}
+                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand-sky px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-sky-dark shadow-sm"
+                      >
+                        <Phone className="h-4 w-4" />
+                        Call now
+                      </a>
+                    )}
+                    {facility.emergencyPhone && (
+                      <a
+                        href={`tel:${facility.emergencyPhone}`}
+                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-status-emergency px-4 py-3 text-sm font-semibold text-white transition hover:bg-red-700 shadow-sm"
+                      >
+                        <PhoneCall className="h-4 w-4" />
+                        Emergency
+                      </a>
+                    )}
+                  </div>
 
-                  <div className="mt-4 flex flex-col gap-3 text-sm">
+                  <div className="mt-5 space-y-3 text-sm">
                     {facility.phone && (
                       <a
                         href={`tel:${facility.phone}`}
@@ -478,14 +589,22 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
                       </a>
                     )}
                     {facility.emergencyPhone && (
-                      <a href={`tel:${facility.emergencyPhone}`} className="flex items-center gap-2.5 text-brand-slate hover:text-brand-sky transition">
+                      <a
+                        href={`tel:${facility.emergencyPhone}`}
+                        className="flex items-center gap-2.5 rounded-lg bg-status-emergency-light/60 p-2 text-status-emergency hover:bg-status-emergency-light transition"
+                      >
                         <PhoneCall className="h-4 w-4 shrink-0 text-status-emergency" />
-                        <span className="font-mono">{facility.emergencyPhone}</span>
-                        <span className="text-[0.6rem] font-semibold text-status-emergency uppercase">Emergency</span>
+                        <span className="font-mono font-medium">{facility.emergencyPhone}</span>
+                        <span className="ml-auto text-[0.6rem] font-bold uppercase tracking-wide">
+                          Emergency
+                        </span>
                       </a>
                     )}
                     {facility.mobile && (
-                      <a href={`tel:${facility.mobile}`} className="flex items-center gap-2.5 text-brand-slate hover:text-brand-sky transition">
+                      <a
+                        href={`tel:${facility.mobile}`}
+                        className="flex items-center gap-2.5 text-brand-slate hover:text-brand-sky transition"
+                      >
                         <Smartphone className="h-4 w-4 shrink-0 text-brand-sky" />
                         <span className="font-mono">{facility.mobile}</span>
                       </a>
@@ -496,7 +615,7 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
                         className="flex items-center gap-2.5 break-all text-brand-slate hover:text-brand-sky transition"
                       >
                         <Mail className="h-4 w-4 shrink-0 text-brand-sky" />
-                        {facility.email}
+                        <span>{facility.email}</span>
                       </a>
                     )}
                     {facility.website && (
@@ -507,98 +626,66 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
                         className="flex items-center gap-2.5 break-all text-brand-slate hover:text-brand-sky transition"
                       >
                         <Globe className="h-4 w-4 shrink-0 text-brand-sky" />
-                        Visit website ↗
+                        <span>Visit website ↗</span>
                       </a>
                     )}
                     {facility.address && (
-                      <p className="flex items-start gap-2.5 text-brand-muted">
+                      <div className="flex items-start gap-2.5 text-brand-slate pt-1 border-t border-brand-gray/60">
                         <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-sky" />
-                        {facility.address}
-                      </p>
+                        <span className="text-xs leading-relaxed text-brand-muted">
+                          {facility.address}
+                        </span>
+                      </div>
                     )}
                   </div>
                 </div>
               </ScrollReveal>
 
-              {/* Quick facts */}
+              {/* Quick Facts Card */}
               <ScrollReveal delay={0.05}>
                 <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm">
-                  <h2 className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-muted">
+                  <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted">
+                    AT A GLANCE
+                  </span>
+                  <h2 className="font-serif text-xl font-semibold text-brand-navy border-b border-brand-gray pb-3 mt-0.5">
                     Quick facts
                   </h2>
-                  <dl className="mt-4 grid grid-cols-2 gap-4">
-                    {facility.beds ? (
-                      <div>
-                        <dt className="font-mono text-[0.65rem] uppercase tracking-wider text-brand-muted">
-                          Beds
-                        </dt>
-                        <dd className="mt-1 font-serif text-xl font-semibold text-brand-navy">
-                          {facility.beds}
-                        </dd>
-                      </div>
-                    ) : null}
-                    {facility.establishedYear ? (
-                      <div>
-                        <dt className="font-mono text-[0.65rem] uppercase tracking-wider text-brand-muted">
-                          Established
-                        </dt>
-                        <dd className="mt-1 font-serif text-xl font-semibold text-brand-navy">
-                          {facility.establishedYear}
-                        </dd>
-                      </div>
-                    ) : null}
-                    {facility.icuBeds ? (
-                      <div>
-                        <dt className="font-mono text-[0.65rem] uppercase tracking-wider text-brand-muted">ICU Beds</dt>
-                        <dd className="mt-1 font-serif text-xl font-semibold text-brand-navy">{facility.icuBeds}</dd>
-                      </div>
-                    ) : null}
-                    {facility.nicuBeds ? (
-                      <div>
-                        <dt className="font-mono text-[0.65rem] uppercase tracking-wider text-brand-muted">NICU Beds</dt>
-                        <dd className="mt-1 font-serif text-xl font-semibold text-brand-navy">{facility.nicuBeds}</dd>
-                      </div>
-                    ) : null}
-                    {facility.operationTheaters ? (
-                      <div>
-                        <dt className="font-mono text-[0.65rem] uppercase tracking-wider text-brand-muted">OT</dt>
-                        <dd className="mt-1 font-serif text-xl font-semibold text-brand-navy">{facility.operationTheaters}</dd>
-                      </div>
-                    ) : null}
-                    {facility.doctorsOnPanel ? (
-                      <div>
-                        <dt className="font-mono text-[0.65rem] uppercase tracking-wider text-brand-muted">Doctors</dt>
-                        <dd className="mt-1 font-serif text-xl font-semibold text-brand-navy">{facility.doctorsOnPanel}</dd>
-                      </div>
-                    ) : null}
-                    <div>
-                      <dt className="font-mono text-[0.65rem] uppercase tracking-wider text-brand-muted">
-                        Type
-                      </dt>
-                      <dd className="mt-1 text-sm font-semibold text-brand-navy">
+
+                  <dl className="mt-4 divide-y divide-brand-gray text-sm">
+                    <div className="flex items-center justify-between py-2.5">
+                      <dt className="text-xs text-brand-muted">Type</dt>
+                      <dd className="font-semibold text-brand-navy">
                         {getFacilityTypeLabel(facility.type)}
                       </dd>
                     </div>
-                    <div>
-                      <dt className="font-mono text-[0.65rem] uppercase tracking-wider text-brand-muted">
-                        Emergency
-                      </dt>
-                      <dd className="mt-1 text-sm font-semibold text-brand-navy">
+
+                    <div className="flex items-center justify-between py-2.5">
+                      <dt className="text-xs text-brand-muted">Ownership</dt>
+                      <dd className="font-semibold text-brand-navy">
+                        {facility.ownership || "—"}
+                      </dd>
+                    </div>
+
+                    <div className="flex items-center justify-between py-2.5">
+                      <dt className="text-xs text-brand-muted">Opening Hours</dt>
+                      <dd className="font-semibold text-brand-navy text-right">
+                        {facility.openingHours || "—"}
+                      </dd>
+                    </div>
+
+                    <div className="flex items-center justify-between py-2.5">
+                      <dt className="text-xs text-brand-muted">Emergency</dt>
+                      <dd className="font-semibold text-brand-navy">
                         {facility.hasEmergency ? "24/7" : "—"}
                       </dd>
                     </div>
-                    {facility.ownership && (
-                      <div>
-                        <dt className="font-mono text-[0.65rem] uppercase tracking-wider text-brand-muted">Ownership</dt>
-                        <dd className="mt-1 text-sm font-semibold text-brand-navy">{facility.ownership}</dd>
-                      </div>
-                    )}
-                    {facility.openingHours && (
-                      <div>
-                        <dt className="font-mono text-[0.65rem] uppercase tracking-wider text-brand-muted">Hours</dt>
-                        <dd className="mt-1 text-sm font-semibold text-brand-navy">{facility.openingHours}</dd>
-                      </div>
-                    )}
+
+                    <div className="flex items-center justify-between py-2.5">
+                      <dt className="text-xs text-brand-muted">Parking</dt>
+                      <dd className="font-semibold text-brand-navy">
+                        {facility.hasParkingAvailable ? "Yes" : "No"}
+                      </dd>
+                    </div>
                   </dl>
 
                   <div className="mt-5 flex items-center gap-1.5 border-t border-brand-gray pt-4 text-[0.65rem] font-mono font-bold uppercase tracking-wider text-status-verified">

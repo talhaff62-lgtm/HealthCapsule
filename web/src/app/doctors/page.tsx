@@ -7,7 +7,7 @@ import Pagination from "@/components/ui/Pagination";
 import { ShieldCheck } from "lucide-react";
 
 export const metadata = {
-  title: "Find Doctors — HealthCapsule",
+  title: "Find Doctors — Capsule",
   description: "Search verified doctors by specialty, area, and name in Chattogram.",
 };
 

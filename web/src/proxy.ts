@@ -25,12 +25,10 @@ export async function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  if (
-    (pathname.startsWith("/staff") || pathname.startsWith("/admin")) &&
-    pathname !== "/staff/login" &&
-    !req.cookies.get("hc_token")
-  ) {
-    return NextResponse.redirect(new URL("/staff/login", req.url));
+  if (pathname.startsWith("/staff") || pathname.startsWith("/admin")) {
+    // Use NextAuth's withAuth to guard staff/admin routes (mirrors /portal guard)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return staffAdminGuard(req as any, {} as any);
   }
 
   if (pathname.startsWith("/portal")) {
@@ -40,6 +38,36 @@ export async function proxy(req: NextRequest) {
 
   return NextResponse.next();
 }
+
+const staffAdminGuard = withAuth(
+  function proxy(req) {
+    const { pathname } = req.nextUrl;
+    const role = req.nextauth.token?.role;
+
+    if (pathname.startsWith("/admin") && role !== "ADMIN") {
+      return NextResponse.redirect(new URL("/portal", req.url));
+    }
+
+    if (pathname.startsWith("/staff") && role !== "STAFF") {
+      return NextResponse.redirect(new URL("/portal", req.url));
+    }
+
+    return NextResponse.next();
+  },
+  {
+    callbacks: {
+      authorized({ req, token }) {
+        if (req.nextUrl.pathname.startsWith("/staff") || req.nextUrl.pathname.startsWith("/admin")) {
+          return token !== null;
+        }
+        return true;
+      },
+    },
+    pages: {
+      signIn: "/login",
+    },
+  }
+);
 
 const portalGuard = withAuth(
   function proxy(req) {

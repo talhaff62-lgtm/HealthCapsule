@@ -3,9 +3,10 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import RegisterForm from "./RegisterForm";
+import BackButton from "@/components/ui/BackButton";
 
 export const metadata: Metadata = {
-  title: "Register — HealthCapsule",
+  title: "Register — Capsule",
   description: "Register as a verified doctor or healthcare provider in Chattogram.",
 };
 
@@ -40,7 +41,10 @@ export default async function RegisterPage({ searchParams }: RegisterPageProps) 
   ]);
 
   return (
-    <main className="flex min-h-[calc(100vh-64px-80px)] items-center justify-center bg-brand-cream px-4 py-12">
+    <main className="relative flex min-h-screen items-center justify-center px-4 py-16 sm:py-20">
+      <div className="absolute left-4 top-4 sm:left-6 sm:top-6">
+        <BackButton />
+      </div>
       <div className="w-full max-w-lg">
         <RegisterForm
           defaultType={defaultType as "doctor" | "facility"}

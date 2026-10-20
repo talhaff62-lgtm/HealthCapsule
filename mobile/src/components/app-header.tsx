@@ -26,7 +26,7 @@ export function AppHeader() {
             />
           </View>
           <Text maxFontSizeMultiplier={1.4} style={styles.wordmark}>
-            HealthCapsule
+            Capsule
           </Text>
         </View>
 

@@ -21,6 +21,8 @@ export function AdminShell({
         { href: "/admin", label: "Dashboard" },
         { href: "/admin/review", label: "Review queue" },
         { href: "/admin/entries", label: "All entries" },
+        { href: "/admin/blog", label: "Blog" },
+        { href: "/admin/videos", label: "Videos" },
         { href: "/admin/staff", label: "Staff" },
       ]}
       title={title}

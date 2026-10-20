@@ -16,6 +16,8 @@ const publicLinks: NavLink[] = [
   { href: "/", label: "Home" },
   { href: "/healthcares", label: "Healthcares" },
   { href: "/doctors", label: "Doctors" },
+  { href: "/blog", label: "Blog" },
+  { href: "/videos", label: "Videos" },
 ];
 
 const portalLinksByRole: Record<string, NavLink> = {
@@ -57,7 +59,7 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
-  if (pathname?.startsWith("/staff") || pathname?.startsWith("/admin")) return null;
+  if (pathname?.startsWith("/staff") || pathname?.startsWith("/admin") || pathname === "/login" || pathname === "/register") return null;
 
   const role = session?.user?.role;
   const portalLink = role ? portalLinksByRole[role] : undefined;
@@ -66,50 +68,50 @@ export default function Navbar() {
     : publicLinks;
 
   return (
-    <header
-      className={`sticky top-0 z-50 border-b bg-brand-navy/95 backdrop-blur-md text-white transition-shadow duration-300 ${
-        scrolled
-          ? "border-brand-sky/20 shadow-[0_4px_32px_rgba(0,0,0,0.35)]"
-          : "border-white/10"
-      }`}
-    >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <Logo size="md" />
+    <>
+      <div className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
+        <nav
+          className={`mx-auto flex h-16 max-w-7xl items-center justify-between rounded-2xl border px-4 shadow-soft backdrop-blur-xl [backdrop-saturate:1.4] transition-all duration-300 sm:px-6 ${
+            scrolled
+              ? "border-ink/10 bg-white/90 shadow-[0_16px_48px_-16px_rgba(11,31,58,0.28)]"
+              : "border-ink/8 bg-white/75"
+          }`}
+        >
+          <Logo size="xs" showTagline={false} />
 
-        <div className="hidden items-center gap-7 text-sm font-medium md:flex">
-          {navLinks.map((link) => {
-            const active = isActive(link.href, pathname);
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`relative py-1 transition ${
-                  active
-                    ? "text-brand-sky-bright"
-                    : "text-white/70 hover:text-white"
-                }`}
-              >
-                {link.label}
-                {active && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-brand-sky-bright" />
-                )}
-              </Link>
-            );
-          })}
-          <AuthStatus />
-          <LanguageSwitcher />
-        </div>
+          <div className="hidden items-center gap-7 text-sm font-medium md:flex">
+            {navLinks.map((link) => {
+              const active = isActive(link.href, pathname);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`py-1 transition ${
+                    active
+                      ? "text-brand-sky-dark"
+                      : "text-ink-muted hover:text-ink"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+            <AuthStatus />
+            <LanguageSwitcher />
+          </div>
 
-        <div className="relative z-[80] md:hidden">
-          <button
-            className="text-white"
-            onClick={() => setMenuOpen((v) => !v)}
-            aria-label="Toggle menu"
-          >
-            {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
-        </div>
-      </nav>
+          <div className="relative z-[80] md:hidden">
+            <button
+              className="text-ink"
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-label="Toggle menu"
+            >
+              {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+        </nav>
+      </div>
+      <div aria-hidden className="h-[76px] sm:h-[80px]" />
 
       {/* Mobile menu overlay */}
       {menuOpen &&
@@ -117,24 +119,23 @@ export default function Navbar() {
         createPortal(
           <>
             <div
-              className="fixed inset-x-0 top-[57px] bottom-0 z-[70] bg-black/60 md:hidden"
+              className="fixed inset-x-0 top-[76px] bottom-0 z-[70] bg-black/60 sm:top-[80px] md:hidden"
               onClick={() => setMenuOpen(false)}
             />
-            <div className="fixed inset-x-0 top-[57px] bottom-0 z-[80] bg-brand-navy md:hidden">
-              <div className="flex flex-col gap-1 px-6 py-6 text-base font-medium">
-                {navLinks.map((link, i) => {
+            <div className="fixed inset-x-3 top-[76px] z-[80] rounded-3xl border border-ink/8 bg-white/95 p-4 shadow-soft backdrop-blur-xl sm:inset-x-4 sm:top-[80px] md:hidden">
+              <div className="flex flex-col gap-1 text-base font-medium">
+                {navLinks.map((link) => {
                   const active = isActive(link.href, pathname);
                   return (
                     <Link
                       key={link.href}
                       href={link.href}
                       onClick={() => setMenuOpen(false)}
-                      className={`border-b border-white/10 py-4 transition ${
+                      className={`py-3 transition ${
                         active
-                          ? "text-brand-sky-bright"
-                          : "text-white/70 hover:text-white"
+                          ? "text-brand-sky-dark"
+                          : "text-ink-muted hover:text-ink"
                       }`}
-                      style={{ animationDelay: `${i * 60}ms` }}
                     >
                       {link.label}
                     </Link>
@@ -153,6 +154,6 @@ export default function Navbar() {
           </>,
           document.body
         )}
-    </header>
+    </>
   );
 }

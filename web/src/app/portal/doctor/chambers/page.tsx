@@ -9,7 +9,7 @@ import DeleteChamberButton from "@/components/doctor-portal/DeleteChamberButton"
 import { deleteChamber } from "./actions";
 
 export const metadata: Metadata = {
-  title: "Manage Chambers — HealthCapsule",
+  title: "Manage Chambers — Capsule",
   description: "Update your chambers and weekly schedules.",
 };
 

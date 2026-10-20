@@ -1,5 +1,6 @@
 import React from "react";
-import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion"
+import { SectionCanvas } from "@/components/home/SectionCanvas";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion";
 import { ShieldCheck, Heart, Lock, Award } from "lucide-react";
 
 export default function TrustSection() {
@@ -22,32 +23,32 @@ export default function TrustSection() {
   ];
 
   return (
-    <section id="trust" className="bg-brand-cream-dark/30 py-20 border-t border-brand-gray">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <SectionCanvas tone="tint" id="trust">
+      <div className="mx-auto max-w-7xl px-6 py-14 sm:px-8 sm:py-20">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           {/* Left Column: Text & List */}
           <div>
             <ScrollReveal>
-              <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-navy">
-                Trust & Verification
+              <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
+                Trust &amp; Verification
               </span>
-              <h2 className="mt-2 font-serif text-3xl font-semibold text-brand-navy sm:text-4xl">
+              <h2 className="mt-2 font-serif text-3xl font-medium text-ink sm:text-4xl">
                 Patient safety starts with data integrity.
               </h2>
-              <p className="mt-4 text-brand-muted leading-relaxed">
-                In a landscape filled with outdated medical phone numbers, broken links, and unverified social media profiles, HealthCapsule serves as Chattogram&apos;s single source of truth for doctor coordinates.
+              <p className="mt-3 leading-relaxed text-ink-muted">
+                In a landscape filled with outdated medical phone numbers, broken links, and unverified social media profiles, Capsule serves as Chattogram&apos;s single source of truth for doctor coordinates.
               </p>
             </ScrollReveal>
 
             <StaggerContainer className="mt-8 space-y-6">
               {points.map((pt) => (
-                <StaggerItem key={pt.title} className="flex gap-4 items-start p-4 rounded-xl hover:bg-brand-cream/60 transition duration-300">
-                  <div className="w-10 h-10 rounded-lg bg-brand-sky-bg flex items-center justify-center text-brand-sky shrink-0">
+                <StaggerItem key={pt.title} className="flex items-start gap-4 rounded-xl p-4 transition duration-300 hover:bg-white/60">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-sky-bg text-brand-sky-deep">
                     <pt.icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-base font-semibold text-brand-navy">{pt.title}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-brand-muted">{pt.desc}</p>
+                    <h3 className="text-base font-semibold text-ink">{pt.title}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-ink-muted">{pt.desc}</p>
                   </div>
                 </StaggerItem>
               ))}
@@ -56,23 +57,23 @@ export default function TrustSection() {
 
           {/* Right Column: Verification seal */}
           <div className="flex justify-center lg:justify-end">
-            <div className="relative w-64 h-64 sm:w-72 sm:h-72 rounded-3xl bg-white p-8 shadow-xl ring-1 ring-brand-gray flex flex-col items-center justify-center text-center motion-safe:animate-[skyPulse_3s_ease-in-out_infinite]">
-              <div className="w-14 h-14 rounded-2xl bg-brand-sky-bg flex items-center justify-center mb-4">
+            <div className="relative flex h-64 w-64 flex-col items-center justify-center rounded-[2rem] bg-white p-8 text-center shadow-soft ring-1 ring-ink/5 motion-safe:animate-[skyPulse_3s_ease-in-out_infinite] sm:h-72 sm:w-72">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-sky-bg">
                 <Heart className="h-7 w-7 text-brand-sky stroke-[1.5]" />
               </div>
-              <span className="font-serif text-3xl sm:text-4xl font-semibold block tracking-tight text-brand-navy">
+              <span className="block font-serif text-3xl font-semibold tracking-tight text-brand-navy sm:text-4xl">
                 100%
               </span>
-              <span className="font-mono text-[0.7rem] font-bold uppercase tracking-widest block mt-1 text-brand-sky">
+              <span className="mt-1 block font-mono text-[0.7rem] font-bold uppercase tracking-widest text-brand-sky-deep">
                 Verified Only
               </span>
-              <span className="text-[0.7rem] text-brand-muted block mt-3 max-w-[180px] mx-auto leading-relaxed">
+              <span className="mx-auto mt-3 block max-w-[180px] text-[0.7rem] leading-relaxed text-ink-muted">
                 Bangladesh Medical &amp; Dental Council Checked
               </span>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </SectionCanvas>
   );
 }

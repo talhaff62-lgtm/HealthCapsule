@@ -20,9 +20,9 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
   return (
     <Link
       href={`/doctors/${doctor.slug}`}
-      className={`premium-card group flex flex-col gap-4 rounded-2xl bg-white p-5 transition-all duration-300 ${
+      className={`premium-card group flex flex-col gap-4 rounded-3xl bg-white p-5 shadow-card transition-all duration-300 ${
         featured
-          ? "border-brand-sky/70 shadow-[0_4px_20px_-4px_rgba(14,165,233,0.18)]"
+          ? "border-brand-sky/70"
           : "border-brand-gray"
       }`}
     >

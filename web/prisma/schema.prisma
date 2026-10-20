@@ -168,6 +168,9 @@ model User {
   doctorsCollected    Doctor[]   @relation("DoctorCollector")
   doctorsReviewed     Doctor[]   @relation("DoctorReviewer")
 
+  createdBlogPosts    BlogPost[] @relation("BlogPostCreator")
+  createdVideos       Video[]    @relation("VideoCreator")
+
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   deletedAt    DateTime?
@@ -405,6 +408,8 @@ model Doctor {
   specialties        DoctorSpecialty[]
   chambers           Chamber[]
   appointments       Appointment[]
+  blogPosts          BlogPost[]
+  videos             Video[]
 
   isActive           Boolean            @default(true)
   createdAt          DateTime           @default(now())
@@ -515,4 +520,71 @@ model Appointment {
   @@index([facilityId, scheduledAt])
   @@index([status])
   @@index([deletedAt])
+}
+
+// ========================= Blog & Videos =========================
+
+enum BlogPostStatus {
+  DRAFT
+  PENDING_REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+model BlogPost {
+  id            String         @id @default(cuid())
+  title         String
+  slug          String         @unique
+  excerpt       String?
+  content       String         @db.Text
+  coverImageUrl String?
+  tags          String[]       @default([])
+  status        BlogPostStatus @default(PUBLISHED)
+  publishedAt   DateTime?
+  isFeatured    Boolean        @default(false)
+  viewsCount    Int            @default(0)
+
+  authorName String?
+  doctorId   String?
+  doctor     Doctor? @relation(fields: [doctorId], references: [id], onDelete: SetNull)
+
+  createdById String
+  createdBy   User   @relation("BlogPostCreator", fields: [createdById], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([status, publishedAt])
+  @@index([isFeatured])
+  @@index([doctorId])
+  @@index([createdById])
+}
+
+model Video {
+  id             String  @id @default(cuid())
+  title          String
+  slug           String  @unique
+  description    String? @db.Text
+  youtubeUrl     String
+  youtubeVideoId String
+  thumbnailUrl   String?
+  duration       String?
+  isFeatured     Boolean @default(false)
+  displayOrder   Int     @default(0)
+
+  authorName String?
+  doctorId   String?
+  doctor     Doctor? @relation(fields: [doctorId], references: [id], onDelete: SetNull)
+
+  createdById String
+  createdBy   User   @relation("VideoCreator", fields: [createdById], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([isFeatured, displayOrder])
+  @@index([doctorId])
+  @@index([createdById])
 }

@@ -117,7 +117,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
   return (
     <div className="overflow-hidden rounded-2xl border border-brand-gray bg-white shadow-lg">
       <div className="bg-brand-navy px-8 py-8 text-center">
-        <h1 className="font-serif text-2xl font-semibold text-white">Join HealthCapsule</h1>
+        <h1 className="font-serif text-2xl font-semibold text-white">Join Capsule</h1>
         <p className="mt-2 text-sm text-white/70">Create your account to get listed.</p>
       </div>
 

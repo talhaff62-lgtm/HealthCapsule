@@ -3,24 +3,23 @@ import { Metadata } from "next";
 import Link from "next/link";
 import {
   Award,
+  BookOpen,
   Briefcase,
   Building2,
   Clock,
   GraduationCap,
   Languages,
   Mail,
-  MapPin,
   Phone,
   ShieldCheck,
   Star,
-  Stethoscope,
   User,
-  Users,
   Video,
+  MapPin,
 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { VerificationStatus } from "@prisma/client";
-import { getNextAvailableSlot } from "@/lib/doctors";
+import { getNextAvailableSlot, formatScheduleSummary } from "@/lib/doctors";
 import VerifiedBadge from "@/components/ui/VerifiedBadge";
 import BackButton from "@/components/ui/BackButton";
 
@@ -91,15 +90,17 @@ export async function generateMetadata({
 
   if (!doctor) {
     return {
-      title: "Not Found — HealthCapsule",
+      title: "Not Found — Capsule",
     };
   }
 
   return {
-    title: `${doctor.name} — HealthCapsule`,
+    title: `${doctor.name} — Capsule`,
     description: `Book an appointment with ${doctor.name}. View chambers, consultation fees, and available schedules.`,
   };
 }
+
+const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default async function DoctorProfilePage({
   params,
@@ -112,185 +113,308 @@ export default async function DoctorProfilePage({
   }
 
   const baseFee = doctor.consultationFee?.toString() ?? null;
+  const lastName = doctor.name.split(" ").slice(-1)[0] || doctor.name;
+
+  const hasCredentials =
+    Boolean(doctor.medicalCollege) ||
+    Boolean(doctor.pgInstitution) ||
+    Boolean(doctor.bmdcRegNo) ||
+    Boolean(doctor.currentPosition) ||
+    doctor.degrees.length > 0;
 
   return (
     <section className="min-h-screen bg-brand-cream py-10">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 space-y-6">
         <BackButton />
 
-        {/* Header card */}
-        <div className="overflow-hidden rounded-2xl bg-brand-navy shadow-xl border border-brand-sky/15">
-          <div className="p-6 sm:p-8">
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-              {/* Profile Avatar */}
-              <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-sky-light to-brand-sky text-2xl font-bold text-white sm:h-32 sm:w-32 sm:text-3xl ring-1 ring-white/15 shadow-md">
+        {/* 1. Hero Card ("Meet the doctor") */}
+        <div className="overflow-hidden rounded-3xl bg-white border border-brand-gray shadow-sm">
+          <div className="flex flex-col sm:flex-row">
+            {/* Photo Block */}
+            <div className="relative aspect-[4/3] w-full sm:aspect-auto sm:h-auto sm:w-72 lg:w-80 sm:self-stretch sm:shrink-0">
+              <div className="h-full w-full overflow-hidden bg-brand-sky-bg sm:rounded-l-3xl">
                 {doctor.photoUrl ? (
                   <img
                     src={doctor.photoUrl}
                     alt={doctor.name}
-                    className="h-full w-full rounded-2xl object-cover"
+                    className="h-full w-full object-cover"
                   />
                 ) : (
                   <img
                     src="/images/placeholders/doctor-photo.svg"
                     alt={doctor.name}
-                    className="h-full w-full rounded-2xl object-cover"
+                    className="h-full w-full object-cover"
                   />
                 )}
               </div>
+              <div className="absolute -bottom-2 -right-2 z-10 bg-emerald-500 text-white p-1 rounded-full shadow-md inline-flex items-center justify-center ring-4 ring-white">
+                <ShieldCheck className="h-4 w-4" />
+              </div>
+            </div>
 
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <h1 className="font-serif text-2xl font-semibold text-white sm:text-3xl">
-                    {doctor.name}
-                  </h1>
-                  <VerifiedBadge size="sm" className="bg-brand-sky/10 text-brand-sky-bright" />
-                </div>
+            {/* Right Column */}
+            <div className="min-w-0 flex-1 p-6 sm:p-8">
+              <span className="font-mono text-xs uppercase tracking-wider text-brand-muted font-semibold block">
+                MEET THE DOCTOR
+              </span>
+              <div className="mt-1 flex flex-wrap items-center gap-2">
+                <h1 className="font-serif text-4xl sm:text-5xl text-brand-navy font-bold">
+                  {doctor.name}
+                </h1>
+                <VerifiedBadge size="sm" />
+              </div>
 
-                {doctor.specialties.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {doctor.specialties.map((s) => (
-                      <span
-                        key={s.specialty.slug}
-                        className="inline-block rounded-full bg-brand-navy-light border border-brand-navy-muted/20 px-3 py-0.5 text-xs text-brand-sky-bright font-medium"
-                      >
-                        {s.specialty.name}
-                      </span>
-                    ))}
-                  </div>
-                )}
-
-                {doctor.expertise && (
-                  <p className="mt-1 text-xs text-white/70 italic">
-                    Expertise: {doctor.expertise}
-                  </p>
-                )}
-
-                {doctor.bmdcRegNo && (
-                  <p className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white">
-                    <ShieldCheck className="h-4 w-4 text-brand-sky-bright" />
-                    BMDC Reg: {doctor.bmdcRegNo}
-                  </p>
-                )}
-
-                <div className="mt-5 flex flex-wrap gap-4 text-xs text-white/70 font-medium">
-                  {doctor.yearsExperience ? (
-                    <span className="inline-flex items-center gap-1.5">
-                      <Briefcase className="h-4 w-4" />
-                      {doctor.yearsExperience} years experience
+              {doctor.specialties.length > 0 && (
+                <div className="mt-2.5 flex flex-wrap gap-1.5">
+                  {doctor.specialties.map((s) => (
+                    <span
+                      key={s.specialty.slug}
+                      className="inline-block rounded-full bg-brand-sky-bg text-brand-sky-deep text-xs font-medium px-3 py-1"
+                    >
+                      {s.specialty.name}
                     </span>
+                  ))}
+                </div>
+              )}
+
+              {doctor.expertise && (
+                <p className="mt-2 text-xs sm:text-sm italic text-brand-slate">
+                  Expertise in {doctor.expertise}
+                </p>
+              )}
+
+              {/* Stats Row */}
+              {(doctor.yearsExperience ||
+                doctor.rating != null ||
+                doctor.patientsTreated) && (
+                <div className="my-4 flex flex-wrap items-center gap-4 sm:gap-6 border-y border-brand-gray/60 py-3">
+                  {doctor.yearsExperience ? (
+                    <div>
+                      <span className="text-xl font-bold text-brand-navy">
+                        {doctor.yearsExperience}+
+                      </span>
+                      <span className="text-[0.65rem] font-mono uppercase tracking-wider text-brand-muted block">
+                        Years Experience
+                      </span>
+                    </div>
                   ) : null}
 
-                  {doctor.languages.length > 0 && (
-                    <span className="inline-flex items-center gap-1.5">
-                      <Languages className="h-4 w-4" />
-                      Speaks {doctor.languages.join(", ")}
-                    </span>
+                  {doctor.rating != null && (
+                    <div className={doctor.yearsExperience ? "border-l border-brand-gray/60 pl-4 sm:pl-6" : ""}>
+                      <div className="flex items-center gap-1">
+                        <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
+                        <span className="text-xl font-bold text-brand-navy">
+                          {doctor.rating.toFixed(1)}
+                        </span>
+                        {doctor.totalReviews ? (
+                          <span className="text-xs text-brand-muted">
+                            ({doctor.totalReviews})
+                          </span>
+                        ) : null}
+                      </div>
+                      <span className="text-[0.65rem] font-mono uppercase tracking-wider text-brand-muted block">
+                        Rating & Reviews
+                      </span>
+                    </div>
                   )}
 
-                  {doctor.gender && (
-                    <span className="inline-flex items-center gap-1.5 capitalize">
-                      <User className="h-4 w-4" />
-                      {doctor.gender}
-                    </span>
-                  )}
+                  {doctor.patientsTreated ? (
+                    <div className={(doctor.yearsExperience || doctor.rating != null) ? "border-l border-brand-gray/60 pl-4 sm:pl-6" : ""}>
+                      <span className="text-xl font-bold text-brand-navy">
+                        {doctor.patientsTreated.toLocaleString()}+
+                      </span>
+                      <span className="text-[0.65rem] font-mono uppercase tracking-wider text-brand-muted block">
+                        Patients Treated
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
+              )}
 
-                {doctor.degrees.length > 0 && (
-                  <p className="mt-4 flex items-start gap-1.5 text-xs text-white/80 leading-relaxed font-semibold">
-                    <Award className="mt-0.5 h-4 w-4 shrink-0 text-brand-sky-bright" />
-                    {doctor.degrees.join(", ")}
-                  </p>
+              {/* Badge Row */}
+              <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-brand-slate">
+                {doctor.bmdcRegNo && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-brand-cream border border-brand-gray px-3 py-1 font-medium">
+                    <ShieldCheck className="h-3.5 w-3.5 text-brand-sky-deep" />
+                    BMDC Reg: {doctor.bmdcRegNo}
+                  </span>
                 )}
 
-                {doctor.medicalCollege && (
-                  <p className="mt-2 flex items-start gap-1.5 text-xs text-white/70">
-                    <GraduationCap className="mt-0.5 h-4 w-4 shrink-0 text-brand-sky-bright" />
-                    {doctor.medicalCollege}
-                    {doctor.pgInstitution ? ` • PG: ${doctor.pgInstitution}` : ""}
-                  </p>
+                {doctor.hasOnlineConsultation && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 font-medium">
+                    <Video className="h-3.5 w-3.5 text-emerald-600" />
+                    Online consultation available
+                  </span>
+                )}
+
+                {doctor.languages.length > 0 && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-brand-cream border border-brand-gray px-3 py-1 font-medium">
+                    <Languages className="h-3.5 w-3.5 text-brand-sky-deep" />
+                    {doctor.languages.join(", ")}
+                  </span>
+                )}
+
+                {doctor.gender && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-brand-cream border border-brand-gray px-3 py-1 font-medium capitalize">
+                    <User className="h-3.5 w-3.5 text-brand-sky-deep" />
+                    {doctor.gender}
+                  </span>
                 )}
               </div>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 bg-white/5 px-6 py-4 sm:px-8">
+          {/* Hero Bottom Strip */}
+          <div className="flex flex-wrap items-center justify-between gap-4 border-t border-brand-gray px-6 sm:px-8 py-4">
             <div>
-              <p className="text-xs font-mono font-medium uppercase tracking-wider text-white/70">
-                Consultation fee
+              <p className="text-[0.65rem] font-mono font-medium uppercase tracking-wider text-brand-muted">
+                Consultation Fee
               </p>
-              <p className="text-xl font-bold text-white">
+              <p className="text-2xl font-bold text-brand-navy">
                 {formatFee(baseFee) ?? "Contact for fee"}
               </p>
             </div>
-            <span className="text-[0.65rem] font-mono font-bold uppercase tracking-wider text-brand-sky-bright bg-brand-sky/10 px-3 py-1 rounded-full border border-brand-sky/20">
-              BMDC Verified Professional
-            </span>
-            {doctor.hasOnlineConsultation && (
-              <span className="text-[0.65rem] font-mono font-bold uppercase tracking-wider text-green-400 bg-green-400/10 px-3 py-1 rounded-full border border-green-400/20 inline-flex items-center gap-1">
-                <Video className="h-3 w-3" />
-                Online Consultation
-              </span>
-            )}
-            {doctor.rating != null && (
-              <span className="inline-flex items-center gap-1.5 text-xs text-white/80 font-medium">
-                <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
-                {doctor.rating.toFixed(1)}
-                {doctor.totalReviews ? <span className="text-white/50">({doctor.totalReviews})</span> : null}
-              </span>
-            )}
+
+            <div className="flex items-center gap-3">
+              {doctor.email && (
+                <a
+                  href={`mailto:${doctor.email}`}
+                  title={doctor.email}
+                  className="p-2.5 rounded-xl border border-brand-gray text-brand-navy hover:text-brand-sky hover:border-brand-sky transition"
+                >
+                  <Mail className="h-5 w-5" />
+                </a>
+              )}
+              {doctor.phone && (
+                <a
+                  href={`tel:${doctor.phone}`}
+                  className="bg-brand-sky text-white rounded-xl px-5 py-2.5 font-semibold text-sm inline-flex items-center gap-2 hover:bg-brand-sky-deep transition"
+                >
+                  <Phone className="h-4 w-4" />
+                  Call Doctor
+                </a>
+              )}
+            </div>
           </div>
         </div>
 
-        {(doctor.phone || doctor.email || doctor.patientsTreated || doctor.currentPosition) && (
-          <div className="mt-6 rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
-            <h2 className="font-serif text-lg font-semibold text-brand-navy border-b border-brand-gray pb-3">
-              Professional Details
+        {/* 2. Education & Credentials Section */}
+        {hasCredentials && (
+          <div className="rounded-2xl border border-brand-gray bg-white p-6 sm:p-8 shadow-sm">
+            <h2 className="font-serif text-lg font-semibold text-brand-navy mb-5">
+              Education & Credentials
             </h2>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2">
+              {doctor.medicalCollege && (
+                <div className="flex items-center gap-3.5">
+                  <div className="h-10 w-10 rounded-full bg-brand-sky-bg text-brand-sky-deep flex items-center justify-center shrink-0">
+                    <GraduationCap className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <span className="text-[0.65rem] font-mono uppercase tracking-wider text-brand-muted block">
+                      MBBS
+                    </span>
+                    <span className="text-sm font-semibold text-brand-navy">
+                      {doctor.medicalCollege}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {doctor.pgInstitution && (
+                <div className="flex items-center gap-3.5">
+                  <div className="h-10 w-10 rounded-full bg-brand-sky-bg text-brand-sky-deep flex items-center justify-center shrink-0">
+                    <Award className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <span className="text-[0.65rem] font-mono uppercase tracking-wider text-brand-muted block">
+                      Postgraduate
+                    </span>
+                    <span className="text-sm font-semibold text-brand-navy">
+                      {doctor.pgInstitution}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {doctor.bmdcRegNo && (
+                <div className="flex items-center gap-3.5">
+                  <div className="h-10 w-10 rounded-full bg-brand-sky-bg text-brand-sky-deep flex items-center justify-center shrink-0">
+                    <ShieldCheck className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <span className="text-[0.65rem] font-mono uppercase tracking-wider text-brand-muted block">
+                      Registration
+                    </span>
+                    <span className="text-sm font-semibold text-brand-navy">
+                      BMDC {doctor.bmdcRegNo}
+                    </span>
+                  </div>
+                </div>
+              )}
+
               {doctor.currentPosition && (
-                <div className="flex items-center gap-2.5 text-sm text-brand-slate">
-                  <Stethoscope className="h-4 w-4 shrink-0 text-brand-sky" />
-                  {doctor.currentPosition}
+                <div className="flex items-center gap-3.5">
+                  <div className="h-10 w-10 rounded-full bg-brand-sky-bg text-brand-sky-deep flex items-center justify-center shrink-0">
+                    <Briefcase className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <span className="text-[0.65rem] font-mono uppercase tracking-wider text-brand-muted block">
+                      Designation
+                    </span>
+                    <span className="text-sm font-semibold text-brand-navy">
+                      {doctor.currentPosition}
+                    </span>
+                  </div>
                 </div>
               )}
-              {doctor.phone && (
-                <a href={`tel:${doctor.phone}`} className="flex items-center gap-2.5 text-sm text-brand-slate hover:text-brand-sky transition">
-                  <Phone className="h-4 w-4 shrink-0 text-brand-sky" />
-                  <span className="font-mono">{doctor.phone}</span>
-                </a>
-              )}
-              {doctor.email && (
-                <a href={`mailto:${doctor.email}`} className="flex items-center gap-2.5 text-sm text-brand-slate hover:text-brand-sky transition break-all">
-                  <Mail className="h-4 w-4 shrink-0 text-brand-sky" />
-                  {doctor.email}
-                </a>
-              )}
-              {doctor.patientsTreated ? (
-                <div className="flex items-center gap-2.5 text-sm text-brand-slate">
-                  <Users className="h-4 w-4 shrink-0 text-brand-sky" />
-                  {doctor.patientsTreated.toLocaleString()} patients treated
+
+              {doctor.degrees.length > 0 && (
+                <div className="flex items-center gap-3.5 sm:col-span-2">
+                  <div className="h-10 w-10 rounded-full bg-brand-sky-bg text-brand-sky-deep flex items-center justify-center shrink-0">
+                    <BookOpen className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <span className="text-[0.65rem] font-mono uppercase tracking-wider text-brand-muted block">
+                      Degrees
+                    </span>
+                    <span className="text-sm font-semibold text-brand-navy">
+                      {doctor.degrees.join(", ")}
+                    </span>
+                  </div>
                 </div>
-              ) : null}
+              )}
             </div>
           </div>
         )}
 
-        {/* About */}
+        {/* 3. About Section */}
         {doctor.bio && (
-          <div className="mt-6 rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
-            <h2 className="font-serif text-lg font-semibold text-brand-navy border-b border-brand-gray pb-3">About Dr. {doctor.name.split(" ").slice(-1)[0]}</h2>
-<p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-brand-muted">
-              {doctor.bio}
-            </p>
+          <div className="rounded-2xl border border-brand-gray bg-white p-6 sm:p-8 shadow-sm">
+            <span className="text-xs font-mono uppercase tracking-wider text-brand-muted font-semibold block">
+              ABOUT
+            </span>
+            <h2 className="font-serif text-xl font-semibold text-brand-navy mt-1">
+              About Dr. {lastName}
+            </h2>
+            <div className="border-l-2 border-brand-sky pl-4 mt-3">
+              <p className="whitespace-pre-line text-[15px] leading-relaxed text-brand-slate">
+                {doctor.bio}
+              </p>
+            </div>
           </div>
         )}
 
-        {/* Chambers */}
-        <div className="mt-8">
-          <h2 className="mb-4 font-serif text-lg font-semibold text-brand-navy">
-            Chambers & Schedules
-          </h2>
+        {/* 4. Chambers & Schedules */}
+        <div className="space-y-4">
+          <div>
+            <span className="text-xs font-mono uppercase tracking-wider text-brand-muted font-semibold block">
+              APPOINTMENTS
+            </span>
+            <h2 className="font-serif text-xl sm:text-2xl font-bold text-brand-navy mt-0.5">
+              Chambers & Schedules
+            </h2>
+          </div>
 
           {doctor.chambers.length === 0 ? (
             <div className="rounded-2xl border border-brand-gray bg-white p-8 text-center text-brand-muted">
@@ -302,54 +426,94 @@ export default async function DoctorProfilePage({
                 const chamberFee =
                   chamber.consultationFee?.toString() ?? baseFee;
                 const nextSlot = getNextAvailableSlot(chamber.schedules);
+                const summary = formatScheduleSummary(chamber.schedules);
+                const scheduledDaySet = new Set(
+                  chamber.schedules.map((s) => s.dayOfWeek)
+                );
 
                 return (
                   <div
                     key={chamber.id}
-                    className="rounded-2xl border-y border-r border-brand-gray border-l-4 border-l-brand-sky bg-white p-5 shadow-sm transition hover:border-brand-sky/40"
+                    className="rounded-2xl border-y border-r border-brand-gray border-l-4 border-l-brand-sky bg-white p-6 shadow-sm transition hover:border-brand-sky/40"
                   >
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                       <div className="min-w-0 flex-1">
-                        <div className="flex flex-col gap-1">
+                        <div className="flex flex-wrap items-center gap-2">
                           {chamber.facility && (
                             <Link
                               href={`/healthcares/${chamber.facility.slug}`}
-                              className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-navy hover:text-brand-sky uppercase tracking-wider font-mono"
+                              className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-navy hover:text-brand-sky uppercase tracking-wider font-mono"
                             >
                               <Building2 className="h-4 w-4" />
                               {chamber.facility.name}
                             </Link>
                           )}
                           {chamber.area && (
-                            <p className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-sky uppercase tracking-wider font-mono">
-                              <MapPin className="h-4 w-4" />
+                            <span className="inline-flex items-center gap-1 text-xs font-medium text-brand-sky-deep bg-brand-sky-bg px-2.5 py-0.5 rounded-full">
+                              <MapPin className="h-3 w-3" />
                               {chamber.area.name}
-                            </p>
+                            </span>
                           )}
                         </div>
-                        <p className="mt-1.5 text-sm font-medium text-brand-slate">
+
+                        <p className="mt-2 text-sm text-brand-muted">
                           {chamber.address ?? "Address not available"}
                         </p>
 
-                        {nextSlot ? (
-                          <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-status-verified-light px-3 py-1 text-xs font-semibold text-status-verified">
-                            <Clock className="h-4 w-4" />
-                            Next slot: {nextSlot.label}
-                          </p>
-                        ) : (
-                          <p className="mt-4 text-xs text-brand-muted italic">
-                            No schedule available currently
-                          </p>
+                        {/* Schedule Block */}
+                        <div className="mt-4">
+                          {chamber.schedules.length > 0 ? (
+                            <>
+                              <div className="flex flex-wrap items-center gap-1.5">
+                                {DAY_LABELS.map((dayLabel, index) => {
+                                  const isScheduled = scheduledDaySet.has(index);
+                                  return (
+                                    <span
+                                      key={dayLabel}
+                                      className={`h-7 w-9 text-[0.6rem] font-semibold rounded-full inline-flex items-center justify-center ${
+                                        isScheduled
+                                          ? "bg-brand-navy text-white"
+                                          : "bg-brand-cloud text-brand-muted"
+                                      }`}
+                                    >
+                                      {dayLabel}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+
+                              {summary && (
+                                <p className="mt-3 text-sm font-semibold text-brand-navy inline-flex items-center gap-1.5">
+                                  <Clock className="h-4 w-4 text-brand-sky" />
+                                  {summary}
+                                </p>
+                              )}
+                            </>
+                          ) : (
+                            <p className="text-sm text-brand-muted italic">
+                              No schedule available currently
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Next Available Slot */}
+                        {nextSlot && (
+                          <div className="mt-3">
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-700">
+                              <Clock className="h-3.5 w-3.5 text-emerald-600" />
+                              Next slot: {nextSlot.label}
+                            </span>
+                          </div>
                         )}
                       </div>
 
                       <div className="shrink-0 text-left sm:text-right">
-                        <p className="text-[0.65rem] font-mono font-medium uppercase tracking-wider text-brand-muted">
-                          Chamber fee
-                        </p>
-                        <p className="text-base font-bold text-brand-navy mt-0.5">
+                        <span className="text-[0.65rem] font-mono font-medium uppercase tracking-wider text-brand-muted block">
+                          Chamber Fee
+                        </span>
+                        <span className="text-lg font-bold text-brand-navy mt-0.5 block">
                           {formatFee(chamberFee) ?? "Contact for fee"}
-                        </p>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -358,8 +522,41 @@ export default async function DoctorProfilePage({
             </div>
           )}
         </div>
+
+        {/* 5. Contact Strip (Footer Card) */}
+        {(doctor.phone || doctor.email) && (
+          <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <span className="text-xs font-mono uppercase tracking-wider text-brand-muted font-semibold block">
+                CONTACT
+              </span>
+              <h3 className="font-serif text-lg font-semibold text-brand-navy mt-0.5">
+                Get in Touch
+              </h3>
+            </div>
+            <div className="flex flex-wrap items-center gap-4 text-sm font-mono">
+              {doctor.phone && (
+                <a
+                  href={`tel:${doctor.phone}`}
+                  className="inline-flex items-center gap-2 text-brand-navy hover:text-brand-sky transition"
+                >
+                  <Phone className="h-4 w-4 text-brand-sky" />
+                  {doctor.phone}
+                </a>
+              )}
+              {doctor.email && (
+                <a
+                  href={`mailto:${doctor.email}`}
+                  className="inline-flex items-center gap-2 text-brand-navy hover:text-brand-sky transition break-all"
+                >
+                  <Mail className="h-4 w-4 text-brand-sky" />
+                  {doctor.email}
+                </a>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
 }
-

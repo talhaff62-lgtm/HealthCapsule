@@ -25,7 +25,7 @@ export function useMe() {
         if (alive) {
           const msg = e instanceof Error ? e.message : "Auth check failed";
           if (msg.includes("401") || msg.includes("Unauthorized")) {
-            router.replace("/staff/login");
+            router.replace("/login");
           } else {
             setError(msg);
             setLoading(false);

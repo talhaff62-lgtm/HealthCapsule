@@ -102,7 +102,7 @@ export default function MoreScreen() {
         <View style={styles.info}>
           <Text style={styles.infoBody}>
             Every listed doctor&apos;s verification status is reviewed by
-            HealthCapsule before they appear in search results. Listed phone
+            Capsule before they appear in search results. Listed phone
             numbers and WhatsApp lines belong to the doctor&apos;s chamber or
             facility, not their personal account.
           </Text>

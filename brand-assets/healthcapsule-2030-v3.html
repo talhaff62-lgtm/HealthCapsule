@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HealthCapsule — Care, understood. Verified doctors in Chattogram</title>
+<meta name="description" content="Describe how you feel. We point you to the right verified doctor in Chattogram, book in two taps, and keep your records safe.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Manrope:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F6FC;--ink:#0B1220;--mute:#52627A;--glass:rgba(255,255,255,.66);--edge:rgba(11,18,32,.09);
+  --aqua:#00B8A9;--violet:#6C5CE7;--coral:#FF5A4E;--sun:#FFC24B;--card:#fff;
+  --grad:linear-gradient(120deg,#00B8A9,#4C8DF6 55%,#6C5CE7);
+  --d:'Sora','Hind Siliguri',system-ui,sans-serif;--b:'Manrope','Hind Siliguri',system-ui,sans-serif;
+  --fs:100%;
+}
+[data-theme=dark]{--bg:#060A13;--ink:#EAF1FF;--mute:#93A3BD;--glass:rgba(255,255,255,.06);--edge:rgba(255,255,255,.12);--card:#0E1626}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:var(--fs);scroll-behavior:smooth}
+body{font-family:var(--b);background:var(--bg);color:var(--ink);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s}
+a{color:inherit;text-decoration:none}svg{display:block}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:10px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:var(--d);letter-spacing:-.025em;line-height:1.08}
+h2{font-size:clamp(1.9rem,4vw,3rem);font-weight:800;max-width:18ch}
+.lead{color:var(--mute);font-size:1.08rem;max-width:56ch;margin-top:14px}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+section{padding:96px 0;position:relative}
+
+/* aurora */
+.aur{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.aur i{position:absolute;width:55vmax;height:55vmax;border-radius:50%;filter:blur(90px);opacity:.38;animation:drift 22s ease-in-out infinite alternate}
+.aur i:nth-child(1){background:#00B8A9;left:-15%;top:-20%}
+.aur i:nth-child(2){background:#6C5CE7;right:-20%;top:5%;animation-delay:-7s}
+.aur i:nth-child(3){background:#4C8DF6;left:25%;bottom:-35%;animation-delay:-13s;opacity:.28}
+[data-theme=dark] .aur i{opacity:.26}
+@keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.15)}}
+
+.glass{background:var(--glass);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid var(--edge)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:50px;padding:0 26px;border-radius:999px;font:700 1rem var(--b);border:0;cursor:pointer;transition:transform .15s,box-shadow .2s}
+.btn:active{transform:scale(.96)}
+.btn-g{background:var(--grad);color:#fff;box-shadow:0 14px 34px -14px #4C8DF6}
+.btn-g:hover{box-shadow:0 18px 40px -12px #6C5CE7}
+.btn-o{background:var(--glass);border:1px solid var(--edge);color:var(--ink)}
+.btn-o:hover{border-color:var(--aqua)}
+
+/* nav */
+header{position:sticky;top:14px;z-index:60;padding:0 14px}
+.nav{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px 9px 18px;border-radius:999px}
+.brand{display:flex;align-items:center;gap:10px;font:800 1.15rem var(--d)}
+.logo{width:34px;height:34px;border-radius:11px;background:var(--grad);display:grid;place-items:center}
+.nav ul{display:flex;gap:26px;list-style:none;font-weight:600;font-size:.94rem}
+.nav ul a{color:var(--mute)}.nav ul a:hover{color:var(--ink)}
+.tools{display:flex;gap:6px;align-items:center}
+.ib{min-width:42px;height:42px;border-radius:50%;border:1px solid var(--edge);background:var(--glass);color:var(--ink);cursor:pointer;font:700 .85rem var(--b);display:grid;place-items:center;padding:0 10px}
+.ib:hover{border-color:var(--aqua)}
+
+/* hero */
+.hero{padding:70px 0 90px;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:9px;padding:7px 16px;border-radius:999px;font-size:.86rem;font-weight:600}
+.badge b{width:8px;height:8px;border-radius:50%;background:#22C58B;box-shadow:0 0 0 0 #22C58B;animation:ping 2s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 10px transparent}}
+h1{font-size:clamp(2.7rem,7.4vw,5.8rem);font-weight:800;margin:26px auto 20px;max-width:15ch}
+.hero .lead{margin:0 auto}
+.guide{max-width:760px;margin:38px auto 0;border-radius:30px;padding:12px;text-align:left;box-shadow:0 40px 80px -40px rgba(76,141,246,.55)}
+.ask{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--edge);border-radius:22px;padding:8px 8px 8px 20px}
+.ask:focus-within{border-color:var(--aqua);box-shadow:0 0 0 4px rgba(0,184,169,.18)}
+.ask input{flex:1;border:0;background:none;color:var(--ink);font:500 1.08rem var(--b);outline:0;min-width:0;padding:12px 0}
+.mic{width:50px;height:50px;border-radius:50%;border:0;background:var(--grad);color:#fff;cursor:pointer;display:grid;place-items:center;flex:none;position:relative}
+.mic.on::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--aqua);animation:ping2 1.1s infinite}
+@keyframes ping2{to{transform:scale(1.3);opacity:0}}
+.ask .btn{height:50px;border-radius:16px}
+.try{display:flex;flex-wrap:wrap;gap:8px;padding:12px 8px 4px;align-items:center;font-size:.85rem;color:var(--mute)}
+.try button{border:1px solid var(--edge);background:var(--glass);color:var(--ink);padding:7px 14px;border-radius:999px;font:600 .85rem var(--b);cursor:pointer}
+.try button:hover{border-color:var(--aqua)}
+.result{display:none;margin:12px 8px 6px;padding:20px;border-radius:20px;background:var(--card);border:1px solid var(--edge);animation:rise .4s}
+.result.show{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}}
+.result h3{font-size:1.2rem;margin-bottom:6px}
+.result p{color:var(--mute);font-size:.94rem;margin-bottom:14px}
+.result .row{display:flex;gap:10px;flex-wrap:wrap}
+.sos{display:none;margin:12px 8px 0;padding:14px 18px;border-radius:16px;background:rgba(255,90,78,.14);border:1px solid var(--coral);font-weight:600;font-size:.95rem}
+.sos.show{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.note{font-size:.76rem;color:var(--mute);padding:8px 10px 0}
+.pulse{margin:56px auto 0;max-width:900px;opacity:.9}
+.pulse path{stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 3.4s ease-out .3s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:-20px}
+.stat{border-radius:24px;padding:24px;text-align:center}
+.stat b{display:block;font:800 2.5rem var(--d)}
+.stat span{color:var(--mute);font-size:.9rem}
+
+/* bento */
+.bento{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(190px,auto);gap:16px;margin-top:46px}
+.cell{border-radius:30px;padding:28px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;transition:transform .25s,border-color .25s}
+.cell:hover{transform:translateY(-4px);border-color:var(--aqua)}
+.cell h3{font-size:1.4rem;margin:12px 0 6px}
+.cell p{color:var(--mute);font-size:.95rem;max-width:38ch}
+.ico{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;background:var(--grad)}
+.c1{grid-column:span 3;grid-row:span 2}
+.c2{grid-column:span 3}
+.c3{grid-column:span 3}
+.c4,.c5,.c6{grid-column:span 2}
+.mini{display:grid;gap:10px;margin-bottom:auto}
+.mrow{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--edge);padding:12px 14px;border-radius:18px;font-size:.9rem}
+.mrow .av{width:38px;height:38px;border-radius:12px;background:var(--grad);color:#fff;display:grid;place-items:center;font:800 .85rem var(--d);flex:none}
+.mrow small{color:var(--mute);display:block}
+.mrow .tk{margin-left:auto;color:#22C58B;font-weight:700;font-size:.8rem}
+.slots{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:auto}
+.slots span{padding:8px 14px;border-radius:12px;border:1px solid var(--edge);background:var(--card);font-weight:700;font-size:.88rem}
+.slots .on{background:var(--grad);color:#fff;border-color:transparent}
+
+/* doctors */
+.scroller{display:flex;gap:16px;overflow-x:auto;padding:30px 0 16px;scroll-snap-type:x mandatory;scrollbar-width:thin}
+.dc{flex:0 0 min(310px,82vw);scroll-snap-align:start;border-radius:28px;padding:24px;display:flex;flex-direction:column;gap:14px;transition:transform .25s}
+.dc:hover{transform:translateY(-4px)}
+.dc .top{display:flex;gap:14px;align-items:center}
+.dc .av{width:60px;height:60px;border-radius:20px;background:var(--grad);color:#fff;display:grid;place-items:center;font:800 1.15rem var(--d)}
+.dc h3{font-size:1.08rem}.dc .sp{color:var(--aqua);font-weight:700;font-size:.86rem}
+.dc .m{color:var(--mute);font-size:.88rem;display:grid;gap:3px}
+.dc .f{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:14px;border-top:1px dashed var(--edge)}
+.fee{font:800 1.2rem var(--d)}
+.live{font-size:.78rem;font-weight:700;color:#22C58B;display:flex;align-items:center;gap:6px}
+.live::before{content:"";width:8px;height:8px;border-radius:50%;background:#22C58B}
+
+/* roles */
+.seg{display:inline-flex;padding:5px;border-radius:999px;margin-top:30px;gap:4px}
+.seg button{border:0;background:none;color:var(--mute);font:700 .96rem var(--b);padding:12px 24px;border-radius:999px;cursor:pointer}
+.seg button[aria-selected=true]{background:var(--grad);color:#fff}
+.panel{display:none;margin-top:26px;border-radius:32px;padding:38px;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+.panel.show{display:grid;animation:rise .4s}
+.panel h3{font-size:1.9rem;margin-bottom:10px}
+.panel ul{list-style:none;display:grid;gap:14px}
+.panel li{display:flex;gap:12px;align-items:flex-start}
+.panel li::before{content:"";flex:none;width:22px;height:22px;margin-top:2px;border-radius:50%;background:var(--grad) center/12px no-repeat;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E"),var(--grad);background-repeat:no-repeat;background-position:center;background-size:12px,cover}
+
+/* trust */
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+.tl{display:grid;gap:18px;margin-top:30px}
+.tl div{display:flex;gap:16px;padding:20px;border-radius:22px}
+.tl h3{font-size:1.05rem;margin-bottom:3px}.tl p{color:var(--mute);font-size:.92rem}
+.orb{aspect-ratio:1;max-width:420px;margin:auto;border-radius:50%;display:grid;place-items:center;text-align:center;position:relative;background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.35),transparent 40%),var(--grad);color:#fff;box-shadow:0 50px 100px -40px #6C5CE7}
+.orb::before,.orb::after{content:"";position:absolute;inset:-26px;border-radius:50%;border:1px solid var(--edge);animation:spin 28s linear infinite}
+.orb::after{inset:-56px;animation-direction:reverse;animation-duration:40s;border-style:dashed}
+@keyframes spin{to{transform:rotate(360deg)}}
+.orb b{font:800 5rem/1 var(--d);display:block}
+.orb span{font-weight:600;max-width:16ch;display:block;margin:6px auto 0}
+
+/* cta */
+.cta{border-radius:40px;padding:64px 34px;text-align:center;background:var(--grad);color:#fff;position:relative;overflow:hidden}
+.cta h2{margin:0 auto 14px;max-width:16ch;color:#fff}
+.cta p{opacity:.9;max-width:50ch;margin:0 auto 28px}
+.cta .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta .btn-w{background:#fff;color:#0B1220}
+.cta .btn-l{border:2px solid rgba(255,255,255,.7);color:#fff;background:none}
+
+footer{padding:60px 0 30px;color:var(--mute);font-size:.92rem}
+.fg{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:30px}
+footer h4{color:var(--ink);font:700 1rem var(--d);margin-bottom:12px}
+footer ul{list-style:none;display:grid;gap:8px}footer a:hover{color:var(--ink)}
+.lg{margin-top:36px;padding-top:20px;border-top:1px solid var(--edge);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.84rem}
+
+/* blog & video */
+.hrow{display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px}
+.bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}
+.post{border-radius:28px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s}
+.post:hover{transform:translateY(-4px)}
+.pt{height:150px;padding:18px}
+.chip{display:inline-block;background:rgba(255,255,255,.24);backdrop-filter:blur(6px);color:#fff;font:700 .78rem var(--b);padding:6px 13px;border-radius:999px}
+.pb{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.pb h3{font-size:1.15rem;line-height:1.25}
+.pb p{color:var(--mute);font-size:.93rem}
+.pb small{margin-top:auto;color:var(--mute);font-size:.8rem;padding-top:6px}
+.vgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr;grid-template-rows:repeat(2,minmax(150px,1fr));gap:16px;margin-top:38px}
+.vid{position:relative;border:0;border-radius:28px;background:var(--g);cursor:pointer;text-align:left;color:#fff;padding:0;overflow:hidden;min-height:170px;font-family:var(--b);transition:transform .25s}
+.vid:hover{transform:translateY(-4px)}
+.vfeat{grid-row:span 2}
+.vid::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(6,10,19,.78),transparent 62%)}
+.play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.22);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.5);display:grid;place-items:center;z-index:1}
+.vfeat .play{width:78px;height:78px}
+.vt{position:absolute;left:20px;right:20px;bottom:18px;z-index:1;display:grid;gap:4px}
+.vt small{font-weight:600;opacity:.85;font-size:.8rem}
+.vt b{font:700 1rem/1.25 var(--d)}
+.vfeat .vt b{font-size:1.5rem}
+dialog{border:0;border-radius:24px;padding:0;width:min(900px,94vw);background:#000;overflow:hidden;margin:auto}
+dialog::backdrop{background:rgba(6,10,19,.75);backdrop-filter:blur(6px)}
+dialog iframe{width:100%;aspect-ratio:16/9;border:0;display:block}
+.dx{position:absolute;top:10px;right:10px;z-index:2;color:#fff;background:rgba(0,0,0,.5)}
+@media(max-width:980px){.bgrid{grid-template-columns:1fr 1fr}.vgrid{grid-template-columns:1fr 1fr}.vfeat{grid-column:span 2;grid-row:auto;min-height:260px}}
+@media(max-width:620px){.bgrid,.vgrid{grid-template-columns:1fr}.vfeat{grid-column:auto}}
+/* featured & plans */
+.ftag{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(120deg,#FFC24B,#FF8A4C);color:#2A1A00;font:800 .72rem var(--b);padding:5px 11px;border-radius:999px;letter-spacing:.02em}
+.rib{position:absolute;top:16px;right:16px;background:linear-gradient(120deg,#FFC24B,#FF8A4C);color:#2A1A00;font:800 .72rem var(--b);padding:5px 12px;border-radius:999px}
+.dc,.cc,.plan{position:relative}
+.strip{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;align-items:center;margin-top:42px}
+.mini2{display:flex;gap:12px;align-items:center;padding:10px 18px 10px 10px;border-radius:20px;background:var(--glass);border:1px solid var(--edge);backdrop-filter:blur(14px);text-align:left;transition:transform .2s,border-color .2s}
+.mini2:hover{transform:translateY(-3px);border-color:#FFC24B}
+.mini2 .av{width:42px;height:42px;border-radius:14px;background:var(--grad);color:#fff;display:grid;place-items:center;font:800 .85rem var(--d)}
+.mini2 b{display:block;font-size:.92rem}.mini2 small{color:var(--mute);font-size:.78rem}
+.dc{padding-top:30px}
+.vb{display:flex;gap:12px;flex-wrap:wrap;font-size:.8rem;font-weight:700;color:var(--aqua)}
+.dc .f{align-items:end}.fee small{display:block;font:500 .72rem var(--b);color:var(--mute)}
+.bt{display:flex;gap:8px}.bt .btn{min-height:42px;padding:0 18px;font-size:.9rem}
+.ts{display:flex;gap:10px;padding:10px 10px 10px 22px;border-radius:999px;margin-top:30px;align-items:center}
+.ts input{flex:1;min-width:0;border:0;background:none;color:var(--ink);font:500 1rem var(--b);outline:0}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}
+.cc{border-radius:28px;padding:30px 24px 24px;display:flex;flex-direction:column;gap:12px;transition:transform .25s}
+.cc:hover{transform:translateY(-4px)}
+.cc h3{font-size:1.2rem}.ar{color:var(--mute);font-size:.9rem;margin-top:-6px}
+.tg2{display:flex;flex-wrap:wrap;gap:6px}.tg2 span{font-size:.78rem;font-weight:700;padding:5px 11px;border-radius:999px;background:rgba(0,184,169,.14);color:var(--aqua)}
+.perks{list-style:none;display:grid;gap:5px;font-size:.88rem;color:var(--mute)}.perks li::before{content:"✓ ";color:#22C58B;font-weight:800}
+.cc .f{display:flex;justify-content:space-between;align-items:end;margin-top:auto;padding-top:14px;border-top:1px dashed var(--edge)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px;align-items:stretch}
+.plan{border-radius:30px;padding:34px 28px;display:flex;flex-direction:column;gap:14px}
+.plan.pop{border:2px solid #FFC24B;box-shadow:0 40px 70px -40px #FFC24B}
+.plan h3{font-size:1.3rem}.pr{font:800 2rem var(--d)}.pr small{display:block;font:500 .82rem/1.5 var(--b);color:var(--mute)}
+.plan ul{list-style:none;display:grid;gap:10px;font-size:.93rem;margin-bottom:auto}.plan li::before{content:"✓ ";color:#22C58B;font-weight:800}
+.rfc{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px;padding:12px 14px;border-radius:14px;border:1px solid #FFC24B;background:rgba(255,194,75,.12)}
+.rfc small{color:var(--mute)}
+@media(max-width:980px){.cgrid,.plans{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.cgrid,.plans{grid-template-columns:1fr}.ts{border-radius:26px;flex-wrap:wrap;padding:14px}.ts .btn{width:100%}.bt{width:100%}.bt .btn{flex:1}.dc .f{flex-wrap:wrap;gap:12px}}
+@media(max-width:980px){
+  .nav ul{display:none}
+  .stats{grid-template-columns:1fr 1fr}
+  .bento{grid-template-columns:repeat(2,1fr)}
+  .c1,.c2,.c3{grid-column:span 2}.c4,.c5,.c6{grid-column:span 1}.c1{grid-row:auto}
+  .panel,.tg{grid-template-columns:1fr}
+  .fg{grid-template-columns:1fr 1fr}
+}
+@media(max-width:620px){
+  section{padding:68px 0}
+  .ask .btn span{display:none}.ask .btn{padding:0 16px}
+  .c4,.c5,.c6{grid-column:span 2}
+  .nav .btn{display:none}
+  .panel{padding:26px}.seg button{padding:11px 15px;font-size:.88rem}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.pulse path{stroke-dashoffset:0}}
+</style>
+</head>
+<body>
+<div class="aur" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<header><nav class="nav glass" aria-label="Main">
+  <a class="brand" href="https://health-capsule.vercel.app/" aria-label="HealthCapsule home"><span class="logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>HealthCapsule</a>
+  <ul>
+    <li><a href="https://health-capsule.vercel.app/doctors" data-i="n1">Doctors</a></li>
+    <li><a href="https://health-capsule.vercel.app/healthcares" data-i="n2">Hospitals</a></li>
+    <li><a href="#diagnostics" data-i="n5">Diagnostics</a></li>
+    <li><a href="#blog" data-i="n3">Blog</a></li>
+    <li><a href="#videos" data-i="n4">Videos</a></li>
+  </ul>
+  <div class="tools">
+    <button class="ib" id="fs" aria-label="Larger text" title="Larger text">A+</button>
+    <button class="ib" id="lg" aria-label="Switch language">বাং</button>
+    <button class="ib" id="th" aria-label="Toggle dark mode"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 13A9 9 0 1111 3a7 7 0 0010 10z"/></svg></button>
+    <a class="btn btn-g" style="min-height:42px;padding:0 20px" href="https://health-capsule.vercel.app/register?type=doctor" data-i="join">Join as doctor</a>
+  </div>
+</nav></header>
+
+<main>
+<section class="hero"><div class="wrap">
+  <span class="badge glass"><b></b><span data-i="badge">Verified doctors live across Chattogram</span></span>
+  <h1><span data-i="h1a">Care,</span> <span class="grad" data-i="h1b">understood.</span></h1>
+  <p class="lead" data-i="lead">Tell us how you feel in your own words. We point you to the right verified doctor, book in two taps, and share trusted health advice from local doctors.</p>
+
+  <div class="guide glass" id="guide">
+    <form class="ask" onsubmit="ask(event)">
+      <input id="q" type="text" autocomplete="off" aria-label="Describe how you feel" placeholder="e.g. chest pain, skin rash, child has fever…" data-ph="ph">
+      <button type="button" class="mic" id="mic" aria-label="Speak your symptoms"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></button>
+      <button class="btn btn-g" type="submit"><span data-i="find">Find my doctor</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </form>
+    <div class="try"><span data-i="try">Try:</span>
+      <button data-s="chest pain">Chest pain</button><button data-s="skin rash">Skin rash</button><button data-s="baby fever">Baby fever</button><button data-s="knee pain">Knee pain</button><button data-s="গলা ব্যথা">গলা ব্যথা</button>
+    </div>
+    <div class="sos" id="sos" role="alert"><span><b data-i="sos">Severe symptoms? Don't wait.</b> <span data-i="sos2">Call 999 or go to the nearest emergency department.</span></span><a class="btn" style="background:var(--coral);color:#fff;min-height:42px" href="tel:999">Call 999</a></div>
+    <div class="result" id="res" aria-live="polite"><h3 id="rt"></h3><p id="rp"></p><div id="rf"></div><div class="row"><a class="btn btn-g" id="rl" href="#">See verified doctors</a><a class="btn btn-o" href="https://health-capsule.vercel.app/healthcares">Nearby hospitals</a></div></div>
+    <p class="note" data-i="note">This is a guide to the right specialist, not a medical diagnosis.</p>
+  </div>
+
+  <div class="strip" aria-label="Featured today"><span class="ftag">Featured</span><a class="mini2" href="https://health-capsule.vercel.app/doctors/dr-nasir-hossain"><span class="av">NH</span><span><b>Dr. Nasir Hossain</b><small>Dermatology · Chawkbazar</small></span></a><a class="mini2" href="https://health-capsule.vercel.app/doctors/dr-shahriar-majumder"><span class="av">SM</span><span><b>Dr. Shahriar Majumder</b><small>Pediatrics · Bashundhara R/A</small></span></a><a class="mini2" href="https://health-capsule.vercel.app/healthcares"><span class="av">DC</span><span><b>Sample Diagnostic Centre</b><small>Agrabad · Home sample pickup</small></span></a></div>
+</div></section>
+
+<div class="wrap"><div class="stats">
+  <div class="stat glass"><b class="grad" data-n="500" data-x="+">0</b><span data-i="s1">Verified doctors</span></div>
+  <div class="stat glass"><b class="grad" data-n="150" data-x="+">0</b><span data-i="s2">Hospitals &amp; labs</span></div>
+  <div class="stat glass"><b class="grad" data-n="25">0</b><span data-i="s3">Specialties</span></div>
+  <div class="stat glass"><b class="grad" data-n="50" data-x="+">0</b><span data-i="s4">Areas covered</span></div>
+</div></div>
+
+<section id="features"><div class="wrap">
+  <h2 data-i="fh">Everything care needs, in one place.</h2>
+  <p class="lead" data-i="fl">One verified registry replaces scattered phone numbers, Facebook pages and paper folders.</p>
+  <div class="bento">
+<div class="cell glass c1"><div class="mini">
+      <div class="mrow"><span class="av">SA</span><span>Dr. Sadia Ahmed<small>Cardiology · Khulshi</small></span><span class="tk">✓ BMDC</span></div>
+      <div class="mrow"><span class="av">NH</span><span>Dr. Nasir Hossain<small>Dermatology · Chawkbazar</small></span><span class="tk">✓ BMDC</span></div>
+      <div class="mrow"><span class="av">SM</span><span>Dr. Shahriar Majumder<small>Pediatrics · Bashundhara R/A</small></span><span class="tk">✓ BMDC</span></div></div>
+      <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M8.500 12l2.500 2.500 4.500-5"/></svg></span>
+      <h3 data-i="b1">Verified doctors only</h3><p data-i="b1p">Every registration is checked against the Bangladesh Medical &amp; Dental Council. No scraped or duplicate listings.</p></div>
+    <div class="cell glass c2"><div class="slots"><span>10:00</span><span>11:30</span><span class="on">4:00 PM</span><span>5:00 PM</span></div><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/></svg></span><h3 data-i="b3">Book in two taps</h3><p data-i="b3p">Live slots and an SMS reminder 24 hours before.</p></div>
+    <div class="cell glass c3"><div class="mini"><div class="mrow"><span class="av">+</span><span>Dengue season: warning signs<small>Prevention · 5 min read</small></span></div><div class="mrow"><span class="av">?</span><span>Choosing the right specialist<small>Guide · 4 min read</small></span></div></div><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4zM8 9h8M8 13h8M8 16h4"/></svg></span><h3 data-i="bb">Health blog</h3><p data-i="bbp">Plain-language articles on symptoms, prevention and local health news.</p></div>
+<div class="cell glass c4"><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="14" height="14" rx="3"/><path d="M17 10l4-2v8l-4-2"/></svg></span><h3 data-i="bv">Doctor videos</h3><p data-i="bvp">Short talks from doctors on everyday health.</p></div>
+<div class="cell glass c5"><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V8l8-5 8 5v13M9 21v-6h6v6"/></svg></span><h3 data-i="bh">Hospitals &amp; labs</h3><p data-i="bhp">Departments, ICU capacity and contacts in one place.</p></div>
+<div class="cell glass c6"><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><h3 data-i="b6">English &amp; বাংলা</h3><p data-i="b6p">Speak or type in the language you think in.</p></div>
+  </div>
+</div></section>
+
+<section id="doctors" style="padding-top:20px"><div class="wrap">
+  <div class="hrow"><div><h2 data-i="fdh">Featured doctors, ready to book.</h2><p class="lead" data-i="fdl">Verified specialists with open chambers. Featured listings are clearly labelled, and every doctor is BMDC-checked.</p></div><a class="btn btn-o" href="https://health-capsule.vercel.app/doctors" data-i="all">View all doctors</a></div>
+  <div class="scroller" tabindex="0" aria-label="Featured doctors"><article class="dc glass"><span class="rib">Featured</span><div class="top"><span class="av">SK</span><div><h3>Dr. Salahuddin Kabir Siddique</h3><span class="sp">Dentistry</span></div></div><div class="m"><span>BDS, FCPS (Dental) · 42 yrs</span><span>Panchlaish · Sun, Tue, Wed, Thu, Sat · 10 AM–2 PM</span></div><div class="vb"><span>✓ BMDC verified</span><span class="live">Online booking</span></div><div class="f"><span class="fee">৳2100<small>consultation</small></span><span class="bt"><a class="btn btn-o" href="https://health-capsule.vercel.app/doctors/dr-salahuddin-kabir-siddique">Profile</a><a class="btn btn-g" href="https://health-capsule.vercel.app/doctors/dr-salahuddin-kabir-siddique">Book</a></span></div></article><article class="dc glass"><span class="rib">Featured</span><div class="top"><span class="av">NH</span><div><h3>Dr. Nasir Hossain</h3><span class="sp">Dermatology</span></div></div><div class="m"><span>MBBS, MD (Dermatology) · 42 yrs</span><span>Chawkbazar · Sun, Wed, Thu · 10 AM–2 PM</span></div><div class="vb"><span>✓ BMDC verified</span><span class="live">Online booking</span></div><div class="f"><span class="fee">৳1800<small>consultation</small></span><span class="bt"><a class="btn btn-o" href="https://health-capsule.vercel.app/doctors/dr-nasir-hossain">Profile</a><a class="btn btn-g" href="https://health-capsule.vercel.app/doctors/dr-nasir-hossain">Book</a></span></div></article><article class="dc glass"><span class="rib">Featured</span><div class="top"><span class="av">RM</span><div><h3>Dr. Reza Mizanur Akter</h3><span class="sp">Urology</span></div></div><div class="m"><span>MBBS, MS (Urology), FACS · 39 yrs</span><span>Sonadanga · Tue, Wed, Sat · 4–8 PM</span></div><div class="vb"><span>✓ BMDC verified</span><span class="live">Online booking</span></div><div class="f"><span class="fee">৳1900<small>consultation</small></span><span class="bt"><a class="btn btn-o" href="https://health-capsule.vercel.app/doctors/dr-reza-mizanur-akter">Profile</a><a class="btn btn-g" href="https://health-capsule.vercel.app/doctors/dr-reza-mizanur-akter">Book</a></span></div></article><article class="dc glass"><span class="rib">Featured</span><div class="top"><span class="av">FB</span><div><h3>Dr. Faisal Biswas</h3><span class="sp">Gynecology &amp; Obstetrics</span></div></div><div class="m"><span>MBBS, MS (Obs &amp; Gynae) · 39 yrs</span><span>Bandar · Sun, Wed, Sat · 5–9 PM</span></div><div class="vb"><span>✓ BMDC verified</span><span class="live">Online booking</span></div><div class="f"><span class="fee">৳2000<small>consultation</small></span><span class="bt"><a class="btn btn-o" href="https://health-capsule.vercel.app/doctors/dr-faisal-biswas">Profile</a><a class="btn btn-g" href="https://health-capsule.vercel.app/doctors/dr-faisal-biswas">Book</a></span></div></article><article class="dc glass"><span class="rib">Featured</span><div class="top"><span class="av">SM</span><div><h3>Dr. Shahriar Majumder</h3><span class="sp">Pediatrics</span></div></div><div class="m"><span>MBBS, MD (Pediatrics) · 38 yrs</span><span>Bashundhara R/A · Sun, Mon, Wed, Sat · 5–9 PM</span></div><div class="vb"><span>✓ BMDC verified</span><span class="live">Online booking</span></div><div class="f"><span class="fee">৳1800<small>consultation</small></span><span class="bt"><a class="btn btn-o" href="https://health-capsule.vercel.app/doctors/dr-shahriar-majumder">Profile</a><a class="btn btn-g" href="https://health-capsule.vercel.app/doctors/dr-shahriar-majumder">Book</a></span></div></article><article class="dc glass"><span class="rib">Featured</span><div class="top"><span class="av">TS</span><div><h3>Dr. Touhid Sikder</h3><span class="sp">Gynecology &amp; Obstetrics</span></div></div><div class="m"><span>MBBS, MRCOG · 38 yrs</span><span>Mohakhali · Sun–Fri · 3–7 PM</span></div><div class="vb"><span>✓ BMDC verified</span><span class="live">Online booking</span></div><div class="f"><span class="fee">৳2250<small>consultation</small></span><span class="bt"><a class="btn btn-o" href="https://health-capsule.vercel.app/doctors/dr-touhid-sikder">Profile</a><a class="btn btn-g" href="https://health-capsule.vercel.app/doctors/dr-touhid-sikder">Book</a></span></div></article></div>
+</div></section>
+
+<section id="diagnostics" style="padding-top:20px"><div class="wrap">
+  <div class="hrow"><div><h2 data-i="dgh">Diagnostic centres, compared simply.</h2><p class="lead" data-i="dgl">Find a test, see the price, and book a slot or home sample pickup near you.</p></div><a class="btn btn-o" href="https://health-capsule.vercel.app/healthcares" data-i="dga">All centres</a></div>
+  <form class="ts glass" onsubmit="event.preventDefault();location.href='https://health-capsule.vercel.app/healthcares?test='+encodeURIComponent(this.t.value)"><input name="t" aria-label="Search a test" placeholder="Search a test: CBC, ECG, X-ray, MRI, ultrasound…"><button class="btn btn-g" type="submit">Find test</button></form>
+  <div class="cgrid"><article class="cc glass"><span class="rib">Featured</span><h3>Sample Diagnostic Centre</h3><p class="ar">Agrabad, Chattogram</p><div class="tg2"><span>CBC</span><span>ECG</span><span>X-ray</span><span>Ultrasound</span></div><ul class="perks"><li>Home sample collection</li><li>Reports in 24 hours</li><li>Open until 10 PM</li></ul><div class="f"><span class="fee">From ৳500<small>HealthCapsule price</small></span><a class="btn btn-g" href="https://health-capsule.vercel.app/healthcares">Book a test</a></div></article><article class="cc glass"><span class="rib">Featured</span><h3>Sample Imaging &amp; Lab</h3><p class="ar">GEC Circle, Chattogram</p><div class="tg2"><span>MRI</span><span>CT scan</span><span>Lipid profile</span><span>Thyroid</span></div><ul class="perks"><li>Home sample collection</li><li>Reports in 24 hours</li><li>Open until 10 PM</li></ul><div class="f"><span class="fee">From ৳800<small>HealthCapsule price</small></span><a class="btn btn-g" href="https://health-capsule.vercel.app/healthcares">Book a test</a></div></article><article class="cc glass"><span class="rib">Featured</span><h3>Sample Health Lab</h3><p class="ar">Khulshi, Chattogram</p><div class="tg2"><span>Full body checkup</span><span>Diabetes panel</span><span>Vitamin D</span><span>Urine R/E</span></div><ul class="perks"><li>Home sample collection</li><li>Reports in 24 hours</li><li>Open until 10 PM</li></ul><div class="f"><span class="fee">From ৳999<small>HealthCapsule price</small></span><a class="btn btn-g" href="https://health-capsule.vercel.app/healthcares">Book a test</a></div></article></div>
+</div></section>
+
+<section id="featured-plans" style="padding-top:20px"><div class="wrap">
+  <h2 data-i="plh">Get seen first by patients who are searching.</h2><p class="lead" data-i="pll">For doctors and diagnostic centres. Featured listings are always labelled, and verification is never for sale.</p>
+  <div class="plans"><div class="plan glass"><h3>Verified</h3><p class="pr">Free</p><ul><li>Verified profile and BMDC badge</li><li>Listed in search and by area</li><li>Patient booking requests</li></ul><a class="btn btn-o" href="https://health-capsule.vercel.app/register?type=doctor">Join free</a></div><div class="plan glass pop"><span class="rib">Most popular</span><h3>Featured</h3><p class="pr">from ৳1,500<small>/month · doctors<br>from ৳5,000/month · centres</small></p><ul><li>Top placement in your specialty and area</li><li>Featured badge and homepage row</li><li>Shown in the care guide results</li><li>Monthly report: views, calls, bookings</li></ul><a class="btn btn-g" href="https://health-capsule.vercel.app/register?type=doctor">Apply to be featured</a></div><div class="plan glass"><h3>Spotlight</h3><p class="pr">Custom<small>limited slots each month</small></p><ul><li>Top strip on the homepage</li><li>Video and blog feature</li><li>Priority support and campaigns</li></ul><a class="btn btn-o" href="https://health-capsule.vercel.app/register?type=facility">Talk to us</a></div></div><p class="note" style="text-align:center;margin-top:16px" data-i="pln">Pay with bKash or Nagad. Prices shown are starting points and can be changed.</p>
+</div></section>
+
+<section id="blog" style="padding-top:20px"><div class="wrap">
+  <div class="hrow"><div><h2 data-i="blh">Health advice you can trust.</h2><p class="lead" data-i="bll">New articles from local doctors and our editorial team, written in plain English and বাংলা.</p></div><a class="btn btn-o" href="#" data-i="ba">All articles</a></div>
+  <div class="bgrid">
+    <article class="post glass"><div class="pt" style="background:linear-gradient(135deg,#00B8A9,#4C8DF6)"><span class="chip">Prevention</span></div><div class="pb"><h3>Dengue season in Chattogram: warning signs and when to see a doctor</h3><p>The symptoms to watch for, simple ways to protect your home, and when waiting is no longer safe.</p><small>5 min read · HealthCapsule Editorial</small></div></article>
+    <article class="post glass"><div class="pt" style="background:linear-gradient(135deg,#4C8DF6,#6C5CE7)"><span class="chip">Symptom guide</span></div><div class="pb"><h3>Chest pain: when it needs a heart doctor and when it does not</h3><p>A plain-language guide to common causes and the signs that call for urgent care.</p><small>6 min read · Reviewed by a cardiologist</small></div></article>
+    <article class="post glass"><div class="pt" style="background:linear-gradient(135deg,#6C5CE7,#00B8A9)"><span class="chip">Guide</span></div><div class="pb"><h3>How to choose the right specialist for your problem</h3><p>Which doctor to see first, what to bring, and how to read a doctor profile.</p><small>4 min read · HealthCapsule Editorial</small></div></article>
+  </div>
+</div></section>
+
+<section id="videos" style="padding-top:20px"><div class="wrap">
+  <div class="hrow"><div><h2 data-i="vh">Learn from doctors, in minutes.</h2><p class="lead" data-i="vl">Short, clear videos from verified doctors on everyday health questions.</p></div><a class="btn btn-o" href="#" data-i="va">All videos</a></div>
+  <div class="vgrid">
+    <button class="vid vfeat glass" data-yt="" style="--g:linear-gradient(135deg,#0B1F3A,#4C8DF6 60%,#00B8A9)"><span class="play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span><span class="vt"><small>Cardiology · 6:30</small><b>Heart health basics every family should know</b></span></button>
+    <button class="vid glass" data-yt="" style="--g:linear-gradient(135deg,#00B8A9,#1E8F82)"><span class="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span><span class="vt"><small>Pediatrics · 4:10</small><b>Fever in children: what parents should do</b></span></button>
+    <button class="vid glass" data-yt="" style="--g:linear-gradient(135deg,#6C5CE7,#4C8DF6)"><span class="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span><span class="vt"><small>Dermatology · 3:45</small><b>Skin care in the humid months</b></span></button>
+    <button class="vid glass" data-yt="" style="--g:linear-gradient(135deg,#FF8A4C,#6C5CE7)"><span class="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span><span class="vt"><small>Orthopedics · 5:00</small><b>Back and knee pain: simple daily habits</b></span></button>
+  </div>
+</div></section>
+
+<section style="padding-top:20px"><div class="wrap">
+  <h2 data-i="rh">Built for everyone in care.</h2>
+  <div class="seg glass" role="tablist"><button role="tab" aria-selected="true" data-p="0">Patients</button><button role="tab" aria-selected="false" data-p="1">Doctors</button><button role="tab" aria-selected="false" data-p="2">Hospitals</button></div>
+  <div class="panel glass show"><div><h3>For patients</h3><p class="lead" style="margin:0">Free, simple and in your language.</p></div><ul><li>Describe symptoms and get the right specialist</li><li>Book online with SMS reminders</li><li>Read trusted articles written by local doctors</li><li>Watch short doctor videos on everyday health</li></ul></div>
+  <div class="panel glass"><div><h3>For doctors</h3><p class="lead" style="margin:0">A verified profile and a full chamber, without the phone calls.</p></div><ul><li>Verified profile patients trust</li><li>Self-managed booking slots and chambers</li><li>Reputation built on genuine reviews</li><li>Share your own articles and health videos</li></ul></div>
+  <div class="panel glass"><div><h3>For hospitals &amp; clinics</h3><p class="lead" style="margin:0">A digital front door that reduces desk load.</p></div><ul><li>Department grids and ICU information</li><li>Fewer no-shows with automatic reminders</li><li>Lab partnerships and test routing</li><li>Reach patients with health content and updates</li></ul></div>
+</div></section>
+
+<section id="trust" style="padding-top:20px"><div class="wrap tg">
+  <div><h2 data-i="th2">Safety starts with trustworthy data.</h2>
+    <div class="tl">
+      <div class="glass"><span class="ico" style="flex:none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.500 12l2.500 2.500 4.500-5"/><circle cx="12" cy="12" r="9"/></svg></span><span><h3>Verified BMDC credentials</h3><p>Checked against the council's database, never scraped.</p></span></div>
+      <div class="glass"><span class="ico" style="flex:none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V8l8-5 8 5v13M9 21v-6h6v6"/></svg></span><span><h3>Confirmed affiliations</h3><p>Timings and fees coordinated with facility administrators.</p></span></div>
+      <div class="glass"><span class="ico" style="flex:none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4zM8 9h8M8 13h5"/></svg></span><span><h3>Doctor-reviewed content</h3><p>Articles and videos are written or reviewed by verified doctors.</p></span></div>
+    </div></div>
+  <div class="orb" aria-hidden="true"><div><b>100%</b><span>Verified-only listings</span></div></div>
+</div></section>
+
+<section style="padding-top:10px"><div class="wrap"><div class="cta">
+  <h2 data-i="ch">Ready to find care that feels simple?</h2>
+  <p>Patients search free. Doctors and hospitals join Chattogram's trusted network.</p>
+  <div class="row"><a class="btn btn-w" href="https://health-capsule.vercel.app/doctors">Search doctors</a><a class="btn btn-l" href="https://health-capsule.vercel.app/register?type=doctor">Register as doctor</a><a class="btn btn-l" href="https://health-capsule.vercel.app/register?type=facility">Register a facility</a></div>
+</div></div></section>
+</main>
+
+<footer><div class="wrap">
+  <div class="fg">
+    <div><a class="brand" href="#" style="color:var(--ink)"><span class="logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>HealthCapsule</a><p style="margin-top:14px;max-width:32ch">Verified doctors, live schedules and trusted care. Made in Chattogram.</p></div>
+    <div><h4>Directory</h4><ul><li><a href="https://health-capsule.vercel.app/doctors">Find doctors</a></li><li><a href="https://health-capsule.vercel.app/healthcares">Hospitals</a></li><li><a href="https://health-capsule.vercel.app/doctors?specialty=cardiology">Cardiologists</a></li></ul></div>
+    <div><h4>Join</h4><ul><li><a href="https://health-capsule.vercel.app/register?type=doctor">Doctors</a></li><li><a href="https://health-capsule.vercel.app/register?type=facility">Facilities</a></li></ul></div>
+    <div><h4>Legal</h4><ul><li><a href="#">Privacy policy</a></li><li><a href="#">Terms</a></li><li><a href="#">Data protection</a></li></ul></div>
+  </div>
+  <div class="lg"><span>© 2026 HealthCapsule. All rights reserved.</span><span>Encrypted &amp; secure</span></div>
+</div></footer>
+
+<dialog id="vm" aria-label="Video player"><button class="ib dx" id="vx" aria-label="Close video">✕</button><iframe id="vf" title="Health video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></dialog>
+
+<script>
+const B='https://health-capsule.vercel.app/',$=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+/* Symptom → specialty (client-side guide; no data leaves the page) */
+const MAP=[
+ [/chest|heart|palpitat|বুক|হার্ট/i,'Cardiology','Heart & chest symptoms are best seen by a cardiologist.','cardiology'],
+ [/skin|rash|itch|acne|hair|চুল|চামড়া|চুলকা|ফুসকুড়ি/i,'Dermatology','Skin, hair and nail concerns go to a dermatologist.','dermatology'],
+ [/baby|child|infant|kid|শিশু|বাচ্চা/i,'Pediatrics','Children are best cared for by a pediatrician.','pediatrics'],
+ [/pregnan|period|gyn|মাসিক|গর্ভ/i,'Gynecology & Obstetrics','Pregnancy and women\'s health are handled by a gynecologist.','gynecology'],
+ [/head|migraine|seizure|numb|মাথা|মাইগ্রেন/i,'Neurology','Headaches, numbness and nerve issues need a neurologist.','neurology'],
+ [/knee|bone|joint|back|fracture|হাড়|হাঁটু|কোমর|জয়েন্ট/i,'Orthopedics','Bone, joint and back pain go to an orthopedic specialist.','orthopedics'],
+ [/tooth|teeth|gum|দাঁত/i,'Dentistry','Tooth and gum problems are treated by a dentist.','dentistry'],
+ [/eye|vision|চোখ/i,'Ophthalmology','Eye and vision problems need an ophthalmologist.','ophthalmology'],
+ [/ear|nose|throat|sinus|কান|নাক|গলা/i,'ENT','Ear, nose and throat issues go to an ENT specialist.','ent'],
+ [/stress|anxi|depress|sleep|মানসিক|ঘুম|দুশ্চিন্তা/i,'Psychiatry','Mental wellbeing is cared for by a psychiatrist.','psychiatry'],
+ [/urine|kidney|prostate|প্রস্রাব|কিডনি/i,'Urology','Urinary and kidney symptoms go to a urologist.','urology'],
+ [/stomach|gastric|acid|vomit|diarr|পেট|গ্যাস্ট্রিক|বমি/i,'Gastroenterology','Stomach and digestive issues go to a gastroenterologist.','gastroenterology'],
+ [/fever|cough|cold|flu|diabet|pressure|জ্বর|কাশি|সর্দি|ডায়াবেটিস/i,'Medicine','A medicine specialist is the right first stop for general illness.','medicine']
+];
+const FEAT={dermatology:['Dr. Nasir Hossain','Dermatology · Chawkbazar','dr-nasir-hossain'],pediatrics:['Dr. Shahriar Majumder','Pediatrics · Bashundhara R/A','dr-shahriar-majumder'],gynecology:['Dr. Faisal Biswas','Gynecology · Bandar','dr-faisal-biswas'],urology:['Dr. Reza Mizanur Akter','Urology · Sonadanga','dr-reza-mizanur-akter'],dentistry:['Dr. Salahuddin Kabir Siddique','Dentistry · Panchlaish','dr-salahuddin-kabir-siddique']};
+const SOS=/severe|can'?t breathe|breath|unconscious|bleeding|stroke|faint|শ্বাস|অজ্ঞান|রক্তক্ষরণ/i;
+function ask(e){
+  e&&e.preventDefault();
+  const v=$('#q').value.trim(); if(!v)return;
+  $('#sos').classList.toggle('show',SOS.test(v)||(/chest|বুক/i.test(v)&&/severe|sudden|তীব্র/i.test(v)));
+  const m=MAP.find(x=>x[0].test(v))||[0,'Medicine','We couldn\'t match that exactly. A general medicine doctor is a good first step.','medicine'];
+  $('#rt').textContent='Suggested: '+m[1];$('#rp').textContent=m[2];
+  $('#rl').href=B+'doctors?specialty='+m[3];
+  const f=FEAT[m[3]];$('#rf').innerHTML=f?'<a class="rfc" href="'+B+'doctors/'+f[2]+'"><span class="ftag">Featured</span><b>'+f[0]+'</b><small>'+f[1]+'</small></a>':'';
+  $('#res').classList.add('show');
+}
+$$('.try button').forEach(b=>b.onclick=()=>{$('#q').value=b.dataset.s;ask()});
+/* Voice input */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+$('#mic').onclick=()=>{
+  if(!SR){$('#q').focus();return}
+  const r=new SR();r.lang=document.documentElement.lang==='bn'?'bn-BD':'en-US';
+  const m=$('#mic');m.classList.add('on');
+  r.onresult=e=>{$('#q').value=e.results[0][0].transcript;ask()};
+  r.onend=r.onerror=()=>m.classList.remove('on');r.start();
+};
+/* Theme / text size / language */
+const root=document.documentElement;
+if(matchMedia('(prefers-color-scheme:dark)').matches)root.dataset.theme='dark';
+$('#th').onclick=()=>root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';
+let big=false;$('#fs').onclick=()=>{big=!big;root.style.setProperty('--fs',big?'118%':'100%');$('#fs').textContent=big?'A−':'A+'};
+const T={bn:{n1:'ডাক্তার',n2:'হাসপাতাল',n3:'ব্লগ',n4:'ভিডিও',n5:'ডায়াগনস্টিক',fdh:'ফিচার্ড ডাক্তার, বুকিংয়ের জন্য প্রস্তুত।',fdl:'খোলা চেম্বারসহ যাচাইকৃত বিশেষজ্ঞ। ফিচার্ড তালিকা স্পষ্টভাবে চিহ্নিত।',dgh:'ডায়াগনস্টিক সেন্টার, সহজ তুলনায়।',dgl:'টেস্ট খুঁজুন, দাম দেখুন, স্লট বা হোম স্যাম্পল কালেকশন বুক করুন।',dga:'সব সেন্টার',plh:'রোগীর সার্চে সবার আগে দেখা দিন।',pll:'ডাক্তার ও ডায়াগনস্টিক সেন্টারের জন্য। ফিচার্ড সবসময় চিহ্নিত থাকে, যাচাইকরণ কখনো বিক্রি হয় না।',pln:'বিকাশ বা নগদে পেমেন্ট। মূল্য শুরুর হিসাব, পরিবর্তনযোগ্য।',join:'ডাক্তার হিসেবে যোগ দিন',badge:'চট্টগ্রাম জুড়ে যাচাইকৃত ডাক্তার',h1a:'সেবা,',h1b:'সহজ ভাষায়।',lead:'আপনার কষ্টের কথা নিজের ভাষায় বলুন। আমরা সঠিক যাচাইকৃত ডাক্তার খুঁজে দেব, দুই ট্যাপে বুক করব এবং স্থানীয় ডাক্তারদের নির্ভরযোগ্য স্বাস্থ্য পরামর্শ দেব।',ph:'যেমন: বুকে ব্যথা, ত্বকে র‍্যাশ, শিশুর জ্বর…',find:'ডাক্তার খুঁজুন',try:'চেষ্টা করুন:',sos:'গুরুতর অবস্থা? অপেক্ষা করবেন না।',note:'এটি সঠিক বিশেষজ্ঞ খোঁজার সহায়ক, চিকিৎসা নির্ণয় নয়।',s1:'যাচাইকৃত ডাক্তার',s2:'হাসপাতাল ও ল্যাব',s3:'বিশেষত্ব',s4:'এলাকা',fh:'সব স্বাস্থ্যসেবা, এক জায়গায়।',fl:'ছড়ানো ফোন নম্বর, ফেসবুক পেজ আর কাগজের ফাইলের বদলে একটি যাচাইকৃত রেজিস্ট্রি।',b1:'শুধু যাচাইকৃত ডাক্তার',b3:'দুই ট্যাপে বুকিং',bb:'স্বাস্থ্য ব্লগ',bbp:'উপসর্গ, প্রতিরোধ ও স্থানীয় স্বাস্থ্য সংবাদ নিয়ে সহজ ভাষায় লেখা।',bv:'ডাক্তারের ভিডিও',bvp:'দৈনন্দিন স্বাস্থ্য নিয়ে ডাক্তারদের ছোট আলোচনা।',bh:'হাসপাতাল ও ল্যাব',bhp:'বিভাগ, আইসিইউ ও যোগাযোগ এক জায়গায়।',b6:'English ও বাংলা',dh:'অভিজ্ঞ বিশেষজ্ঞ, হাতের নাগালে।',dl:'চট্টগ্রাম জুড়ে দশ বছরের বেশি অভিজ্ঞতার ডাক্তার।',all:'সব ডাক্তার দেখুন',rh:'সবার জন্য তৈরি।',th2:'নিরাপত্তা শুরু হয় নির্ভরযোগ্য তথ্য দিয়ে।',ch:'সেবা পাওয়া হোক সহজ।',sos2:'৯৯৯-এ কল করুন বা নিকটস্থ জরুরি বিভাগে যান।',blh:'নির্ভরযোগ্য স্বাস্থ্য পরামর্শ।',bll:'স্থানীয় ডাক্তার ও আমাদের সম্পাদকীয় দলের নতুন লেখা, সহজ ভাষায়।',ba:'সব লেখা',vh:'ডাক্তারের কাছ থেকে শিখুন, কয়েক মিনিটে।',vl:'যাচাইকৃত ডাক্তারদের ছোট ও স্পষ্ট ভিডিও।',va:'সব ভিডিও'}};
+const EN={};$$('[data-i]').forEach(el=>EN[el.dataset.i]=el.textContent);const PH=$('#q').placeholder;
+let bn=false;$('#lg').onclick=()=>{
+  bn=!bn;root.lang=bn?'bn':'en';$('#lg').textContent=bn?'EN':'বাং';
+  $$('[data-i]').forEach(el=>{const k=el.dataset.i;el.textContent=bn&&T.bn[k]?T.bn[k]:EN[k]});
+  $('#q').placeholder=bn?T.bn.ph:PH;
+};
+/* Video modal: put a YouTube video ID in each data-yt attribute */
+const vm=$('#vm'),vf=$('#vf');
+$$('.vid').forEach(v=>v.onclick=()=>{const id=v.dataset.yt;if(!id)return;vf.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0';vm.showModal()});
+$('#vx').onclick=()=>vm.close();vm.onclose=()=>vf.src='';
+vm.addEventListener('click',e=>{if(e.target===vm)vm.close()});
+/* Tabs */
+$$('.seg button').forEach(b=>b.onclick=()=>{
+  $$('.seg button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  $$('.panel').forEach((p,i)=>p.classList.toggle('show',i==b.dataset.p));
+});
+/* Count-up */
+const io=new IntersectionObserver(es=>es.forEach(en=>{
+  if(!en.isIntersecting)return;io.unobserve(en.target);
+  const el=en.target,n=+el.dataset.n,x=el.dataset.x||'',t0=performance.now();
+  (function f(t){const k=Math.min((t-t0)/1300,1);el.textContent=Math.round(n*(1-Math.pow(1-k,3)))+(k===1?x:'');if(k<1)requestAnimationFrame(f)})(t0);
+}),{threshold:.6});
+$$('[data-n]').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

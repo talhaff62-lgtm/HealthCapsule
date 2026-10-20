@@ -52,17 +52,11 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
 
   const fieldLabel = "mb-1.5 block font-mono text-[0.68rem] uppercase tracking-[0.06em] text-brand-muted";
   const fieldInput =
-    "w-full rounded-lg border border-brand-gray bg-white px-3.5 py-2.5 text-sm text-brand-slate placeholder:text-brand-muted transition focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/15";
+    "w-full rounded-xl border border-brand-gray bg-white px-4 py-3 text-sm text-brand-slate placeholder:text-brand-muted transition focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/15";
 
   return (
     <div className="relative">
-      {/* Decorative ring tying the card to the navy hero */}
-      <span
-        aria-hidden="true"
-        className="absolute -left-3 -top-3 hidden h-16 w-16 rounded-tl-[1.4rem] border-l-2 border-t-2 border-brand-sky-bright/40 sm:block"
-      />
-
-      <div className="relative overflow-hidden rounded-2xl border border-brand-gray bg-white shadow-2xl shadow-black/40">
+      <div className="relative overflow-hidden rounded-3xl border border-ink/5 bg-white shadow-soft">
         {/* Verified corner ribbon */}
         <div className="pointer-events-none absolute right-0 top-0 h-16 w-16 overflow-hidden">
           <span
@@ -73,13 +67,13 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
         </div>
 
         <div className="px-5 pt-6 sm:px-7">
-          <span className="inline-flex items-center gap-2.5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-brand-navy-light">
-            <span className="h-px w-4 bg-brand-navy-light/50" aria-hidden="true" />
+          <span className="inline-flex items-center gap-2.5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-brand-sky-deep">
+            <span className="h-px w-4 bg-brand-sky-deep/50" aria-hidden="true" />
             Find care now
           </span>
 
-          {/* Underline-style tabs */}
-          <div className="mt-4 flex gap-1 overflow-x-auto border-b border-brand-gray scrollbar-none">
+          {/* Segmented pill tabs */}
+          <div className="mt-4 flex gap-1 overflow-x-auto rounded-full border border-brand-gray bg-brand-mist p-1 scrollbar-none">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const active = activeTab === tab.id;
@@ -88,12 +82,12 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`-mb-px flex shrink-0 items-center gap-1.5 whitespace-nowrap border-b-2 px-2.5 py-2.5 text-xs font-semibold transition sm:flex-1 sm:justify-center ${
+                  className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold transition sm:flex-1 sm:justify-center ${
                     active
-                      ? "border-brand-sky text-brand-navy"
+                      ? "bg-white shadow-sm text-ink"
                       : isEmergency
-                      ? "border-transparent text-status-emergency hover:text-brand-navy"
-                      : "border-transparent text-brand-muted hover:text-brand-navy-light"
+                      ? "text-status-emergency hover:text-status-emergency"
+                      : "text-ink-muted hover:text-ink"
                   }`}
                 >
                   <Icon className="h-3.5 w-3.5" />
@@ -146,7 +140,7 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
 
               <button
                 type="submit"
-                className="flex w-full items-center justify-center gap-2 rounded-lg bg-brand-navy py-3 text-sm font-semibold text-white transition hover:bg-brand-navy-light"
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-sky to-teal py-3.5 text-sm font-semibold text-white shadow-card transition hover:brightness-105"
               >
                 <Search className="h-4 w-4" />
                 Search Doctors
@@ -177,7 +171,7 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
                 onClick={() => {
                   document.getElementById("hospitals")?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="flex w-full items-center justify-center gap-2 rounded-lg bg-brand-navy py-3 text-sm font-semibold text-white transition hover:bg-brand-navy-light"
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-sky to-teal py-3.5 text-sm font-semibold text-white shadow-card transition hover:brightness-105"
               >
                 <Search className="h-4 w-4" />
                 Explore Hospital List
@@ -250,7 +244,7 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
                 </div>
               </div>
 
-              <button className="flex w-full items-center justify-center gap-2 rounded-lg bg-brand-navy py-3 text-sm font-semibold text-white transition hover:bg-brand-navy-light">
+              <button className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-sky to-teal py-3.5 text-sm font-semibold text-white shadow-card transition hover:brightness-105">
                 Search Donors
               </button>
 

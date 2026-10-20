@@ -1,5 +1,9 @@
 #!/usr/bin/env python
-"""Derive the full Expo brand-asset set from D:/Work/healthcapsule_icon.png.
+"""Derive the full Expo brand-asset set from brand-assets/capsule_logo.jpg.
+
+The source is the circular Capsule lockup (gradient ring, white interior,
+"capsule" wordmark) on a solid black background. It is masked to the
+inscribed circle and placed on the canvases below.
 
 Generates: splash-icon.png, icon.png, adaptive-icon.png,
 monochrome-icon.png (black silhouette), favicon.png.
@@ -7,11 +11,11 @@ Writes them into mobile/assets/images/.
 """
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageChops, ImageDraw
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 OUT_DIR = SCRIPT_DIR.parent / "assets" / "images"
-SRC = Path("D:/Work/healthcapsule_icon.png")
+SRC = SCRIPT_DIR.parent.parent / "brand-assets" / "capsule_logo.jpg"
 WHITE = (255, 255, 255)
 
 SPECS = [
@@ -27,34 +31,29 @@ SPECS = [
 ]
 
 
-# Compression noise leaves ~700 stray pixels at alpha 1-16 across the canvas.
-# Floor anything below this so the crop finds the mark, not the whole image.
-NOISE_FLOOR = 24
+# JPEG ringing around the solid-black background stays below this level.
+NOISE_FLOOR = 64
 
 
-def key_white_to_alpha(src_rgb: Image.Image) -> Image.Image:
-    px = list(src_rgb.getdata())
-    raw = [255 - min(r, g, b) for r, g, b in px]
-    scale = 255 / max(raw)
-    print(f"alpha scale factor: {scale:.4f}")
-    out = []
-    for (r, g, b), a_raw in zip(px, raw):
-        a = min(255, round(a_raw * scale))
-        if a <= NOISE_FLOOR:
-            out.append((0, 0, 0, 0))
-        else:
-            inv = 255 - a
-            out.append(
-                (
-                    max(0, min(255, round((r - inv) * 255 / a))),
-                    max(0, min(255, round((g - inv) * 255 / a))),
-                    max(0, min(255, round((b - inv) * 255 / a))),
-                    a,
-                )
-            )
-    keyed = Image.new("RGBA", src_rgb.size)
-    keyed.putdata(out)
-    return keyed
+def circle_mark(src_rgb: Image.Image) -> Image.Image:
+    """Mask the source to its inscribed logo circle (4x supersampled edge)."""
+    r_ch, g_ch, b_ch = src_rgb.split()
+    peak = ImageChops.lighter(ImageChops.lighter(r_ch, g_ch), b_ch)
+    bbox = peak.point(lambda v: 255 if v > NOISE_FLOOR else 0).getbbox()
+    if not bbox:
+        raise SystemExit("no content found above the noise floor")
+    cx = (bbox[0] + bbox[2]) / 2
+    cy = (bbox[1] + bbox[3]) / 2
+    radius = max(bbox[2] - bbox[0], bbox[3] - bbox[1]) / 2
+    alpha = Image.new("L", (src_rgb.width * 4, src_rgb.height * 4), 0)
+    ImageDraw.Draw(alpha).ellipse(
+        ((cx - radius) * 4, (cy - radius) * 4, (cx + radius) * 4, (cy + radius) * 4),
+        fill=255,
+    )
+    alpha = alpha.resize(src_rgb.size, Image.Resampling.LANCZOS)
+    out = src_rgb.convert("RGBA")
+    out.putalpha(alpha)
+    return out
 
 
 def place(canvas_size: int, mark: Image.Image, target_h: int, bg) -> Image.Image:
@@ -82,17 +81,17 @@ def main() -> None:
     if not OUT_DIR.is_dir():
         raise SystemExit(f"missing output dir: {OUT_DIR}")
 
-    keyed = key_white_to_alpha(Image.open(SRC).convert("RGB"))
-    w, h = keyed.size
+    mark = circle_mark(Image.open(SRC).convert("RGB"))
+    w, h = mark.size
     for cx, cy in [(0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1)]:
-        assert keyed.getpixel((cx, cy))[3] == 0, f"corner {(cx, cy)} not transparent"
-    # The mark is a C-shape, so its centre is background — assert on peak alpha instead.
-    assert max(p[3] for p in keyed.getdata()) == 255, "no fully opaque pixel"
+        assert mark.getpixel((cx, cy))[3] == 0, f"corner {(cx, cy)} not transparent"
+    # The mark is a solid disc, so its centre is opaque — assert on peak alpha.
+    assert mark.getchannel("A").getextrema()[1] == 255, "no fully opaque pixel"
 
-    bbox = keyed.split()[3].getbbox()
+    bbox = mark.split()[3].getbbox()
     print(f"mark bbox: {bbox}")
     assert bbox, "empty alpha bbox"
-    mark = keyed.crop(bbox)
+    mark = mark.crop(bbox)
 
     rows = []
     for name, size, mode, bg, mh in SPECS:

@@ -5,7 +5,7 @@ import { requireRole } from "@/lib/session";
 import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
-  title: "Facility Portal — HealthCapsule",
+  title: "Facility Portal — Capsule",
   description: "Manage your healthcare facilities.",
 };
 

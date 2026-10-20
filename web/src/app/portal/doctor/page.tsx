@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Metadata } from "next";
 import { UserRole } from "@prisma/client";
@@ -6,8 +7,8 @@ import { prisma } from "@/lib/prisma";
 import DoctorProfileForm from "@/components/doctor-portal/DoctorProfileForm";
 
 export const metadata: Metadata = {
-  title: "Doctor Portal — HealthCapsule",
-  description: "Manage your HealthCapsule doctor profile.",
+  title: "Doctor Portal — Capsule",
+  description: "Manage your Capsule doctor profile.",
 };
 
 export default async function DoctorPortalPage() {
@@ -61,6 +62,16 @@ export default async function DoctorPortalPage() {
             }}
           />
         </div>
+
+        <Link
+          href="/portal/doctor/blog"
+          className="mt-6 block rounded-2xl border border-brand-gray bg-white p-6 shadow-sm transition-colors hover:border-brand-sky"
+        >
+          <h2 className="font-serif text-lg font-semibold text-brand-navy">My Blog Posts</h2>
+          <p className="mt-2 text-brand-muted">
+            Write health articles for the Capsule blog.
+          </p>
+        </Link>
 
         {doctor.specialties.length > 0 && (
           <div className="mt-6 rounded-2xl border border-brand-gray bg-white p-6 shadow-sm">

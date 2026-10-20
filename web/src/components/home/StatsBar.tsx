@@ -4,6 +4,7 @@ import {
   StaggerContainer,
   StaggerItem,
 } from "@/components/ui/motion";
+import { SectionCanvas } from "@/components/home/SectionCanvas";
 
 async function getCounts() {
   const [doctors, facilities, specialties, areas] = await Promise.all([
@@ -46,8 +47,13 @@ export default async function StatsBar() {
   ];
 
   return (
-    <section className="bg-brand-navy" aria-label="Statistics">
-      <StaggerContainer className="mx-auto grid max-w-7xl grid-cols-2 border-l border-white/10 px-0 lg:grid-cols-4">
+    <SectionCanvas tone="navy" className="overflow-hidden rounded-[1.75rem]" aria-label="Statistics">
+      {/* Soft glow */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-brand-sky/20 blur-3xl"
+      />
+      <StaggerContainer className="relative mx-auto grid max-w-7xl grid-cols-2 border-l border-white/10 px-6 py-12 sm:py-16 lg:grid-cols-4">
         {stats.map((stat) => (
           <StaggerItem
             key={stat.label}
@@ -63,6 +69,6 @@ export default async function StatsBar() {
           </StaggerItem>
         ))}
       </StaggerContainer>
-    </section>
+    </SectionCanvas>
   );
 }

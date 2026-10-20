@@ -108,7 +108,7 @@ export default function HomeScreen() {
 
           <Section
             title="Suggested Doctors"
-            subtitle="Practitioners whose verification status is reviewed by HealthCapsule"
+            subtitle="Practitioners whose verification status is reviewed by Capsule"
           >
             {suggested.length === 0 ? (
               <EmptyState
@@ -155,10 +155,10 @@ function TrustExplainer() {
     <View accessibilityRole="summary" style={styles.trust}>
       <View style={styles.trustHeader}>
         <ShieldCheck size={18} color={colors.verified} strokeWidth={2} />
-        <Text style={styles.trustTitle}>Why HealthCapsule is trusted</Text>
+        <Text style={styles.trustTitle}>Why Capsule is trusted</Text>
       </View>
       <Text style={styles.trustBody}>
-        Every listed doctor&apos;s verification status is reviewed by HealthCapsule
+        Every listed doctor&apos;s verification status is reviewed by Capsule
         before they appear here. We never expose account data; only public
         contact details for chambers and diagnostic centres.
       </Text>

@@ -225,7 +225,7 @@ export function AnimatedSplash({
 
       <View style={styles.below}>
         <Animated.Text style={[styles.word, rise(word, 12)]}>
-          HealthCapsule
+          Capsule
         </Animated.Text>
         <Animated.View style={[styles.rule, { transform: [{ scaleX: rule }] }]} />
         <Animated.Text style={[styles.tag, rise(tag, 8)]}>

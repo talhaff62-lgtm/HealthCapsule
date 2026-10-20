@@ -6,11 +6,11 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative mt-auto bg-brand-navy pt-px">
-      {/* Gold gradient top border */}
-      <div className="gradient-gold-line" />
+    <footer className="relative mx-3 mb-3 overflow-hidden rounded-[1.75rem] bg-brand-navy text-white shadow-soft sm:mx-4 sm:mb-4 sm:rounded-[var(--radius-canvas)]">
+      {/* Sky→teal top ornament line */}
+      <div aria-hidden="true" className="h-px w-full bg-gradient-to-r from-brand-sky to-teal" />
 
-      <div className="mx-auto max-w-7xl px-4 pb-8 pt-14 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 pb-8 pt-14 sm:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand column */}
           <div>
@@ -92,8 +92,16 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6">
           <p className="text-xs text-white/50">
-            © {currentYear} HealthCapsule. All rights reserved.
+            © {currentYear} Capsule. All rights reserved.
           </p>
+          <a
+            href="https://talhadev-portfolio.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-white/50 transition-colors hover:text-brand-sky"
+          >
+            Developed by Talha
+          </a>
           <div className="flex gap-3">
             <span className="rounded-full border border-white/10 px-3 py-1 font-mono text-[0.55rem] uppercase tracking-wider text-white/70">
               HIPAA-Ready

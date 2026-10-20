@@ -1,9 +1,10 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Phone, Globe, Building2, Star } from "lucide-react";
+import { MapPin, Phone, Globe, Star } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import FacilityTypeBadge from "@/components/ui/FacilityTypeBadge";
+import { SectionCanvas } from "@/components/home/SectionCanvas";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion";
 import { VerificationStatus } from "@prisma/client";
 
@@ -52,16 +53,16 @@ export default async function FeaturedHospitals() {
   const displayFacilities = await getFeaturedFacilities();
 
   return (
-    <section id="hospitals" className="bg-brand-cloud py-20 border-t border-brand-gray">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <ScrollReveal className="mx-auto max-w-2xl text-center mb-16">
-          <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-navy">
+    <SectionCanvas tone="white" id="hospitals">
+      <div className="mx-auto max-w-7xl px-6 py-14 sm:px-8 sm:py-20">
+        <ScrollReveal className="mx-auto mb-12 max-w-2xl text-center sm:mb-16">
+          <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
             Verified Network
           </span>
-          <h2 className="mt-2 font-serif text-3xl font-semibold text-brand-navy sm:text-4xl">
-            Featured Hospitals & Diagnostics
+          <h2 className="mt-2 font-serif text-3xl font-medium text-ink sm:text-4xl">
+            Featured Hospitals &amp; Diagnostics
           </h2>
-          <p className="mt-4 text-brand-muted">
+          <p className="mt-3 text-ink-muted">
             Explore trusted medical facilities in Chattogram mapped by departments, ICU capacity, and direct emergency contacts.
           </p>
         </ScrollReveal>
@@ -73,7 +74,7 @@ export default async function FeaturedHospitals() {
             return (
               <StaggerItem
                 key={facility.id}
-                className="premium-card group relative flex flex-col overflow-hidden rounded-2xl border border-brand-gray bg-white shadow-sm"
+                className="group relative flex flex-col overflow-hidden rounded-3xl border border-brand-gray bg-white shadow-card transition duration-300 hover:-translate-y-0.5"
               >
                 {/* Facility Photo */}
                 <div className="relative aspect-[16/10] w-full overflow-hidden bg-brand-cloud">
@@ -98,7 +99,7 @@ export default async function FeaturedHospitals() {
                   )}
 
                   {/* Gradient for depth + badge legibility */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/35 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/25 via-transparent to-transparent" />
 
                   {/* Featured Tier Label */}
                   {(facility.listingTier === "FEATURED" ||
@@ -212,6 +213,6 @@ export default async function FeaturedHospitals() {
           })}
         </StaggerContainer>
       </div>
-    </section>
+    </SectionCanvas>
   );
 }

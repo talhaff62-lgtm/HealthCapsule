@@ -1,10 +1,10 @@
-# HealthCapsule — Agent Guide
+# Capsule — Agent Guide
 
-This document gives every agent working on HealthCapsule the context needed to write code that fits the existing codebase. Read this before making changes.
+This document gives every agent working on Capsule the context needed to write code that fits the existing codebase. Read this before making changes. (repo/package names still healthcapsule-app — do not rename identifiers.)
 
 ## Product Overview
 
-HealthCapsule is a verified doctor directory focused on **Chattogram, Bangladesh**.
+Capsule is a verified doctor directory focused on **Chattogram, Bangladesh**.
 
 - Patients search doctors by specialty, area, or name.
 - Doctors manage their public profile and chambers through a portal.
