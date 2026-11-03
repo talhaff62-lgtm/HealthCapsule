@@ -1,0 +1,2380 @@
+[
+  {
+    "name": "Asperia Healthcare Ltd.",
+    "slug": "asperia-healthcare-ltd",
+    "bnName": null,
+    "type": "DIAGNOSTIC_CENTER",
+    "description": "Asperia Healthcare Ltd. (formerly Treatment Laboratory) is an advanced cancer screening and diagnostic centre in Chattogram.",
+    "longDescription": "Provides molecular, genetic, histopathology, and general lab testing services with advanced cancer screening and superspeciality consultation.",
+    "address": "1486/1672, Al-Noor Badrun Centre (4th Floor), O.R. Nizam Road, Probartak Circle, Chattogram 4203, Bangladesh",
+    "phone": "02333336920",
+    "mobile": "01810004550",
+    "emergencyPhone": null,
+    "email": "info@asperiabd.com",
+    "website": "http://www.asperiabd.com/",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": null,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "hasBloodBank": false,
+    "hasPharmacy": false,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": true,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Molecular Testing",
+      "Genetic Testing",
+      "Histopathology",
+      "Pathology"
+    ],
+    "imagingServices": [],
+    "amenities": [
+      "Pathology Lab",
+      "Genetic Lab"
+    ],
+    "services": [
+      {
+        "name": "Diagnostic Services"
+      },
+      {
+        "name": "Cancer Screening"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Oncology"
+      },
+      {
+        "name": "Pathology"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "O.R. Nizam Road"
+    }
+  },
+  {
+    "name": "Blue Vue Health Care Ltd.",
+    "slug": "blue-vue-health-care-ltd",
+    "bnName": "ব্লু ভিউ হেলথ কেয়ার লিমিটেড",
+    "type": "HOSPITAL",
+    "description": "Blue Vue Health Care Ltd. is a healthcare and diagnostic facility located near GEC More on O.R. Nizam Road, Chattogram.",
+    "longDescription": "Offers medical consultations, diagnostic services, and outpatient/inpatient care.",
+    "address": "1530/A, O.R. Nizam Road, GEC More, Panchlaish, Chattogram, Bangladesh",
+    "phone": null,
+    "mobile": "01861213760",
+    "emergencyPhone": null,
+    "email": null,
+    "website": "https://bluevuehealth.com/",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": null,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": true,
+    "hasAmbulance": false,
+    "hasBloodBank": false,
+    "hasPharmacy": true,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": false,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology"
+    ],
+    "imagingServices": [],
+    "amenities": [
+      "Pathology Lab"
+    ],
+    "services": [
+      {
+        "name": "Consultations"
+      },
+      {
+        "name": "Diagnostic Services"
+      }
+    ],
+    "departments": [
+      {
+        "name": "General Medicine"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "O.R. Nizam Road"
+    }
+  },
+  {
+    "name": "Chevron Clinical Laboratory (Pte.) Ltd.",
+    "slug": "chevron-clinical-laboratory",
+    "bnName": "শেভরন ক্লিনিক্যাল ল্যাবরেটরি",
+    "type": "DIAGNOSTIC_CENTER",
+    "description": "Chevron Clinical Laboratory is a leading private healthcare and diagnostic provider in Chattogram providing superior quality diagnostic testing and pathology services.",
+    "longDescription": "Located at O.R. Nizam Road, Panchlaish, Chattogram, Chevron Clinical Laboratory is renowned for accurate clinical laboratory testing, pathology, and diagnostic imaging services.",
+    "address": "12/12, O. R. Nizam Road, Panchlaish, Chattogram 4203, Bangladesh",
+    "phone": "0241355691",
+    "mobile": "01755666969",
+    "emergencyPhone": null,
+    "email": "info@chevronlab.com",
+    "website": "http://chevronlab.com/",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": 1998,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "hasBloodBank": false,
+    "hasPharmacy": false,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": true,
+    "hasOnlineReport": true,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "Biochemistry",
+      "Hematology",
+      "Histopathology",
+      "Microbiology"
+    ],
+    "imagingServices": [
+      "Digital X-Ray",
+      "Ultrasonography",
+      "CT Scan",
+      "MRI"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Ultrasonography",
+      "CT Scan",
+      "MRI",
+      "ECG"
+    ],
+    "services": [
+      {
+        "name": "Diagnostic Testing"
+      },
+      {
+        "name": "Pathology"
+      },
+      {
+        "name": "Imaging"
+      },
+      {
+        "name": "Online Reports"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Pathology"
+      },
+      {
+        "name": "Radiology"
+      },
+      {
+        "name": "Biochemistry"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "O. R. Nizam Road"
+    }
+  },
+  {
+    "name": "Chittagong Belle Vue Hospital Limited",
+    "slug": "chittagong-belle-vue-hospital-limited",
+    "bnName": "চিটাগাং বেলভিউ লিমিটেড",
+    "type": "HOSPITAL",
+    "description": "Chittagong Belle Vue Hospital Limited is a private healthcare facility located at Prabartak Hill, O.R. Nizam Road, Chattogram.",
+    "longDescription": "Provides inpatient care, diagnostic services, emergency support, and medical consultations.",
+    "address": "12/12, Prabartak Hill, O.R. Nizam Road, Panchlaish, Chattogram 4203, Bangladesh",
+    "phone": "0241355934",
+    "mobile": "01919515030",
+    "emergencyPhone": null,
+    "email": "architectidea.bd@gmail.com",
+    "website": "https://bellevuehospital.com.bd/",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": null,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": true,
+    "hasNicu": false,
+    "hasEmergency": true,
+    "hasAmbulance": true,
+    "hasBloodBank": false,
+    "hasPharmacy": true,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": false,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology"
+    ],
+    "imagingServices": [
+      "X-Ray"
+    ],
+    "amenities": [
+      "Pathology Lab"
+    ],
+    "services": [
+      {
+        "name": "Emergency Care"
+      },
+      {
+        "name": "Inpatient Care"
+      },
+      {
+        "name": "Diagnostic Services"
+      }
+    ],
+    "departments": [
+      {
+        "name": "General Medicine"
+      },
+      {
+        "name": "Surgery"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "Prabartak Hill"
+    }
+  },
+  {
+    "name": "Chittagong Diabetic General Hospital",
+    "slug": "chittagong-diabetic-general-hospital",
+    "bnName": "চট্টগ্রাম ডায়াবেটিক জেনারেল হাসপাতাল",
+    "type": "HOSPITAL",
+    "description": "Specialized diabetic and general hospital founded in 1975 on Zakir Hossain Road, Khulshi, Chattogram.",
+    "longDescription": "Chittagong Diabetic General Hospital, established in 1975 under the Diabetic Association of Bangladesh, provides specialized diabetic care, general medical treatment, and laboratory services on Zakir Hossain Road, Khulshi.",
+    "address": "Zakir Hossain Road, Khulshi, Chattogram 4100, Bangladesh",
+    "phone": "+88031659435",
+    "mobile": null,
+    "emergencyPhone": null,
+    "email": "cgdbatic@gmail.com",
+    "website": null,
+    "openingHours": "Sat-Thu",
+    "ownership": "Trust",
+    "establishedYear": 1975,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "hasBloodBank": false,
+    "hasPharmacy": true,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": false,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Blood Glucose Test",
+      "Pathology",
+      "HbA1c"
+    ],
+    "imagingServices": [
+      "Ultrasonography",
+      "X-Ray"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Ultrasonography",
+      "ECG"
+    ],
+    "services": [
+      {
+        "name": "Diabetic Care"
+      },
+      {
+        "name": "General Consultation"
+      },
+      {
+        "name": "Pathology"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Endocrinology"
+      },
+      {
+        "name": "Diabetology"
+      },
+      {
+        "name": "General Medicine"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Khulshi",
+      "area": "Khulshi"
+    }
+  },
+  {
+    "name": "Chittagong Metropolitan Hospital Ltd.",
+    "slug": "chittagong-metropolitan-hospital-ltd",
+    "bnName": "চট্টগ্রাম মেট্রোপলিটন হাসপাতাল লিমিটেড",
+    "type": "HOSPITAL",
+    "description": "Chittagong Metropolitan Hospital Ltd. is a prominent cardiac and general hospital in Chattogram offering 24/7 emergency care and specialized medical treatments.",
+    "longDescription": "Located at 698/752 O.R. Nizam Road, Panchlaish, Chattogram, the hospital is widely recognized as a leading cardiac center with advanced ICUs, emergency services, and specialist medical departments.",
+    "address": "698/752, O.R. Nizam Road, Panchlaish, Chattogram 4000, Bangladesh",
+    "phone": "01814651077",
+    "mobile": "01810030998",
+    "emergencyPhone": null,
+    "email": null,
+    "website": "https://www.ctgmhpl.com/",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": 1988,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": true,
+    "hasNicu": false,
+    "hasEmergency": true,
+    "hasAmbulance": true,
+    "hasBloodBank": true,
+    "hasPharmacy": true,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": true,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "Biochemistry",
+      "Cardiologic Diagnostics"
+    ],
+    "imagingServices": [
+      "Echocardiography",
+      "ECG",
+      "Digital X-Ray",
+      "Ultrasonography"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Ultrasonography",
+      "ECG",
+      "Dialysis",
+      "Blood Bank"
+    ],
+    "services": [
+      {
+        "name": "Emergency Care"
+      },
+      {
+        "name": "Cardiac Care"
+      },
+      {
+        "name": "Inpatient Care"
+      },
+      {
+        "name": "Surgery"
+      },
+      {
+        "name": "Ambulance"
+      },
+      {
+        "name": "Blood Bank"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Cardiology"
+      },
+      {
+        "name": "Medicine"
+      },
+      {
+        "name": "Surgery"
+      },
+      {
+        "name": "Orthopedics"
+      },
+      {
+        "name": "Critical Care"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "O.R. Nizam Road"
+    }
+  },
+  {
+    "name": "CSCR (Pvt.) Ltd. (Hospital & Diagnostic Centre)",
+    "slug": "cscr-pvt-ltd",
+    "bnName": "সিএসসিআর (প্রাইভেট) লিমিটেড (হসপিটাল অ্যান্ড ডায়াগনস্টিক সেন্টার)",
+    "type": "HOSPITAL",
+    "description": "CSCR (Pvt.) Ltd. Hospital & Diagnostic Centre is a reliable and modern healthcare provider in Chattogram offering 24/7 hospital and diagnostic services.",
+    "longDescription": "Situated at CSCR Bhaban, 1675/A O.R. Nizam Road, Panchlaish, Chattogram, CSCR provides specialized medical care, diagnostic testing, emergency services, and specialist doctor consultation chambers.",
+    "address": "CSCR Bhaban, 1675/A, O.R. Nizam Road, Chattogram 4000, Bangladesh",
+    "phone": "01887656565",
+    "mobile": "01744589950",
+    "emergencyPhone": null,
+    "email": "info@cscrbd.com",
+    "website": "http://www.cscrbd.com/",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": 2007,
+    "beds": 150,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": true,
+    "hasNicu": false,
+    "hasEmergency": true,
+    "hasAmbulance": true,
+    "hasBloodBank": true,
+    "hasPharmacy": true,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": true,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "Biochemistry",
+      "Microbiology"
+    ],
+    "imagingServices": [
+      "Digital X-Ray",
+      "Ultrasonography",
+      "CT Scan",
+      "ECG"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Ultrasonography",
+      "CT Scan",
+      "ECG",
+      "Blood Bank"
+    ],
+    "services": [
+      {
+        "name": "Hospital Care"
+      },
+      {
+        "name": "Diagnostic Services"
+      },
+      {
+        "name": "Emergency Care"
+      },
+      {
+        "name": "Ambulance"
+      },
+      {
+        "name": "Blood Bank"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Medicine"
+      },
+      {
+        "name": "Surgery"
+      },
+      {
+        "name": "Gynecology"
+      },
+      {
+        "name": "Pediatrics"
+      },
+      {
+        "name": "Cardiology"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "O.R. Nizam Road"
+    }
+  },
+  {
+    "name": "Delta Health Care Chattogram Limited",
+    "slug": "delta-health-care-chittagong",
+    "bnName": "ডেল্টা হেলথ কেয়ার চট্টগ্রাম লিমিটেড",
+    "type": "HOSPITAL",
+    "description": "Private 120-bed specialized hospital and diagnostic center located in Katalganj, Chattogram.",
+    "longDescription": "Delta Health Care Chattogram Limited is a leading private healthcare facility in Chattogram offering specialist doctor chambers, diagnostic services, and inpatient care.",
+    "address": "28, Katalganj, Mirzapul Road, Panchlaish, Chattogram 4212, Bangladesh",
+    "phone": "+8801841906010",
+    "mobile": "+8801841906090",
+    "emergencyPhone": null,
+    "email": "deltahc.ctg2012@yahoo.com",
+    "website": "https://deltahcctg.com/",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": null,
+    "beds": 120,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": true,
+    "hasNicu": false,
+    "hasEmergency": true,
+    "hasAmbulance": true,
+    "hasBloodBank": false,
+    "hasPharmacy": true,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": false,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "ECG",
+      "Biochemistry"
+    ],
+    "imagingServices": [
+      "X-Ray",
+      "Ultrasonography"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Ultrasonography",
+      "ECG"
+    ],
+    "services": [
+      {
+        "name": "Emergency"
+      },
+      {
+        "name": "Inpatient Care"
+      },
+      {
+        "name": "Diagnostic Services"
+      },
+      {
+        "name": "Specialist Consultation"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Medicine"
+      },
+      {
+        "name": "Surgery"
+      },
+      {
+        "name": "Gynecology"
+      },
+      {
+        "name": "Orthopedics"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "Katalganj"
+    }
+  },
+  {
+    "name": "Epic Health Care (East Gate Branch)",
+    "slug": "epic-health-care-east-gate-branch",
+    "bnName": "এপিক হেলথ কেয়ার (ইস্ট গেট শাখা)",
+    "type": "DIAGNOSTIC_CENTER",
+    "description": "Epic Health Care East Gate Branch is a specialized diagnostic and consultation branch located near Chittagong Medical College East Gate.",
+    "longDescription": "Situated at 36 K.B. Fazlul Kader Road, Panchlaish, Chattogram (opposite CMCH East Gate), this third branch of Epic Health Care offers specialized diagnostic testing, pathology, and doctor consultation services.",
+    "address": "36, K.B. Fazlul Kader Road, Panchlaish, Chattogram (Opposite to Chittagong Medical College East Gate)",
+    "phone": "09610800111",
+    "mobile": "01313229988",
+    "emergencyPhone": null,
+    "email": "info@epichcl.com",
+    "website": "http://www.epichcl.com/",
+    "openingHours": "7:00 AM – 11:00 PM",
+    "ownership": "Private",
+    "establishedYear": 2024,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "hasBloodBank": false,
+    "hasPharmacy": false,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": true,
+    "hasOnlineReport": true,
+    "hasParkingAvailable": false,
+    "accreditation": "ISO 15189 Accredited",
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "Biochemistry",
+      "Hematology"
+    ],
+    "imagingServices": [
+      "Digital X-Ray",
+      "Ultrasonography",
+      "ECG"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Ultrasonography",
+      "ECG"
+    ],
+    "services": [
+      {
+        "name": "Diagnostic Testing"
+      },
+      {
+        "name": "Doctor Consultation"
+      },
+      {
+        "name": "Online Reports"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Pathology"
+      },
+      {
+        "name": "Radiology"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "Panchlaish"
+    }
+  },
+  {
+    "name": "Epic Health Care (Main Gate Branch)",
+    "slug": "epic-health-care-main-gate-branch",
+    "bnName": "এপিক হেলথ কেয়ার (মেইন গেট শাখা)",
+    "type": "DIAGNOSTIC_CENTER",
+    "description": "Epic Health Care is Chattogram's trusted ISO 15189-accredited diagnostic center and specialist chamber providing advanced lab testing and imaging.",
+    "longDescription": "Located at Epic Centre, 19 K.B. Fazlul Quader Road, Panchlaish, Chattogram (opposite Chittagong Medical College Main Gate), the Main Gate Branch offers state-of-the-art pathology, imaging, and specialist doctor consultation chambers.",
+    "address": "Epic Centre, 19 K.B. Fazlul Quader Road, Panchlaish, Chattogram (Opposite to Chittagong Medical College Main Gate)",
+    "phone": "09610800111",
+    "mobile": "01984499600",
+    "emergencyPhone": null,
+    "email": "info@epichcl.com",
+    "website": "http://www.epichcl.com/",
+    "openingHours": "7:00 AM – 11:00 PM",
+    "ownership": "Private",
+    "establishedYear": 2017,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "hasBloodBank": false,
+    "hasPharmacy": false,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": true,
+    "hasOnlineReport": true,
+    "hasParkingAvailable": true,
+    "accreditation": "ISO 15189 Accredited",
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "Biochemistry",
+      "Hematology",
+      "Microbiology"
+    ],
+    "imagingServices": [
+      "Digital X-Ray",
+      "Ultrasonography",
+      "CT Scan",
+      "MRI",
+      "ECG"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Ultrasonography",
+      "CT Scan",
+      "MRI",
+      "ECG"
+    ],
+    "services": [
+      {
+        "name": "Diagnostic Testing"
+      },
+      {
+        "name": "Doctor Consultation"
+      },
+      {
+        "name": "Online Reports"
+      },
+      {
+        "name": "Sample Collection"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Pathology"
+      },
+      {
+        "name": "Radiology"
+      },
+      {
+        "name": "Cardiology"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "Panchlaish"
+    }
+  },
+  {
+    "name": "Evercare Hospital Chattogram",
+    "slug": "evercare-hospital-chattogram",
+    "bnName": "এভারকেয়ার হসপিটাল চট্টগ্রাম",
+    "type": "HOSPITAL",
+    "description": "Evercare Hospital Chattogram is a multi-specialty tertiary care hospital offering 24/7 world-class treatment, emergency services, and advanced medical technology.",
+    "longDescription": "Situated at Anannya CDA Residential Area, Oxygen-Kuwaish Road, Chattogram, Evercare Hospital Chattogram provides comprehensive international standard healthcare services, advanced surgical suites, ICU/NICU care, and specialized medical departments.",
+    "address": "Plot No. H1, Anannya CDA Residential Area, Oxygen - Kuwaish Road, Chattogram 4337, Bangladesh",
+    "phone": "09612310663",
+    "mobile": "01321155211",
+    "emergencyPhone": "10663",
+    "email": null,
+    "website": "https://www.evercarebd.com/en/chattogram",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": 2021,
+    "beds": 470,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": true,
+    "hasNicu": true,
+    "hasEmergency": true,
+    "hasAmbulance": true,
+    "hasBloodBank": true,
+    "hasPharmacy": true,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": true,
+    "hasParkingAvailable": true,
+    "accreditation": "JCI Accredited",
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Advanced Pathology",
+      "Biochemistry",
+      "Microbiology",
+      "Histopathology"
+    ],
+    "imagingServices": [
+      "MRI",
+      "CT Scan",
+      "Digital X-Ray",
+      "Ultrasonography",
+      "PET-CT"
+    ],
+    "amenities": [
+      "MRI",
+      "CT Scan",
+      "Ultrasonography",
+      "ECG",
+      "Pathology Lab",
+      "Dialysis",
+      "Blood Bank",
+      "Physiotherapy"
+    ],
+    "services": [
+      {
+        "name": "Emergency Care"
+      },
+      {
+        "name": "Inpatient Care"
+      },
+      {
+        "name": "Outpatient Consultation"
+      },
+      {
+        "name": "Surgery"
+      },
+      {
+        "name": "ICU/NICU"
+      },
+      {
+        "name": "Ambulance"
+      },
+      {
+        "name": "Blood Bank"
+      },
+      {
+        "name": "Pharmacy"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Cardiology"
+      },
+      {
+        "name": "Neurology"
+      },
+      {
+        "name": "Oncology"
+      },
+      {
+        "name": "Orthopedics"
+      },
+      {
+        "name": "Pediatrics"
+      },
+      {
+        "name": "Gynecology"
+      },
+      {
+        "name": "Nephrology"
+      },
+      {
+        "name": "Gastroenterology"
+      },
+      {
+        "name": "Critical Care"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Bayazid",
+      "area": "Anannya CDA Residential Area"
+    }
+  },
+  {
+    "name": "Ibn Sina Diagnostic & Consultation Centre",
+    "slug": "ibn-sina-diagnostic-consultation-centre",
+    "bnName": "ইবনে সিনা ডায়াগনস্টিক অ্যান্ড কনসালটেশন সেন্টার",
+    "type": "DIAGNOSTIC_CENTER",
+    "description": "Ibn Sina Diagnostic & Consultation Centre, Chattogram offers reliable diagnostic services, pathology tests, and specialist medical consultations.",
+    "longDescription": "Located at Katalganj R/A, Panchlaish, Chattogram, this branch of The Ibn Sina Trust provides modern laboratory testing, imaging services, and outpatient consultations with expert physicians.",
+    "address": "House # 12/A, Road # 02, Katalganj R/A, Panchlaish, Chattogram - 4203, Bangladesh",
+    "phone": "09610009622",
+    "mobile": null,
+    "emergencyPhone": null,
+    "email": "info@ibnsinatrust.com",
+    "website": "http://www.ibnsinatrust.com/",
+    "openingHours": "24/7",
+    "ownership": "Trust",
+    "establishedYear": 1980,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "hasBloodBank": false,
+    "hasPharmacy": false,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": true,
+    "hasOnlineReport": true,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "Biochemistry",
+      "Microbiology"
+    ],
+    "imagingServices": [
+      "Digital X-Ray",
+      "Ultrasonography",
+      "ECG"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Ultrasonography",
+      "ECG"
+    ],
+    "services": [
+      {
+        "name": "Diagnostic Testing"
+      },
+      {
+        "name": "Consultation"
+      },
+      {
+        "name": "Online Reports"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Pathology"
+      },
+      {
+        "name": "Radiology"
+      },
+      {
+        "name": "Medicine"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "Katalganj"
+    }
+  },
+  {
+    "name": "Islami Bank Hospital, Agrabad, Chattogram",
+    "slug": "islami-bank-hospital",
+    "bnName": "ইসলামী ব্যাংক হাসপাতাল, আগ্রাবাদ, চট্টগ্রাম",
+    "type": "HOSPITAL",
+    "description": "Islami Bank Hospital, Agrabad, Chattogram is a prominent non-profit/private hospital run by Islami Bank Foundation.",
+    "longDescription": "Provides multi-speciality medical care, ICU, NICU, blood bank, pathology, dialysis, cancer treatment, and emergency medical services.",
+    "address": "3, Sheikh Mujib Road, Agrabad, Chattogram (Opposite Banani Complex, Islami Bank Bhaban), Bangladesh",
+    "phone": "02333325850",
+    "mobile": "01810000122",
+    "emergencyPhone": "01810000122",
+    "email": "ibh.agrabad@gmail.com",
+    "website": "https://ibhchattogram.com/",
+    "openingHours": "24/7",
+    "ownership": "Private / Trust (Islami Bank Foundation)",
+    "establishedYear": null,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": true,
+    "hasNicu": true,
+    "hasEmergency": true,
+    "hasAmbulance": true,
+    "hasBloodBank": true,
+    "hasPharmacy": true,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": false,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "Radiology & Imaging",
+      "Sonology"
+    ],
+    "imagingServices": [
+      "X-Ray",
+      "Ultrasonography"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Blood Bank",
+      "Dialysis",
+      "Ultrasonography"
+    ],
+    "services": [
+      {
+        "name": "Emergency Care"
+      },
+      {
+        "name": "ICU"
+      },
+      {
+        "name": "NICU"
+      },
+      {
+        "name": "Blood Bank"
+      },
+      {
+        "name": "Dialysis"
+      },
+      {
+        "name": "Cancer Treatment"
+      },
+      {
+        "name": "Dental"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Cardiology"
+      },
+      {
+        "name": "Medicine"
+      },
+      {
+        "name": "Surgery"
+      },
+      {
+        "name": "Pediatrics"
+      },
+      {
+        "name": "Gynecology & Obstetrics"
+      },
+      {
+        "name": "Urology"
+      },
+      {
+        "name": "Orthopedics"
+      },
+      {
+        "name": "Nephrology"
+      },
+      {
+        "name": "Neurology"
+      },
+      {
+        "name": "ENT"
+      },
+      {
+        "name": "Dermatology"
+      },
+      {
+        "name": "Gastroenterology"
+      },
+      {
+        "name": "Ophthalmology"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Agrabad",
+      "area": "Agrabad"
+    }
+  },
+  {
+    "name": "Labaid Specialized Hospital Chattogram",
+    "slug": "labaid-specialized-hospital-chattogram",
+    "bnName": null,
+    "type": "HOSPITAL",
+    "description": "Labaid Specialized Hospital, Chattogram (LSHC) is a 105-bed tertiary care facility established in 2024 by Labaid Group.",
+    "longDescription": "Equipped with modern machinery, modular OTs, ICU, NICU, CCU, Cath Lab, Dialysis, Blood Bank, and comprehensive specialist departments.",
+    "address": "3046, O.R. Nizam Road, Golpahar, Panchlaish, Chattogram, Bangladesh",
+    "phone": "09666786111",
+    "mobile": "01766662828",
+    "emergencyPhone": "10606",
+    "email": "ctg_it@labaidgroup.com",
+    "website": "https://labaid.com.bd/en/hospital/labaid-specialized-hospital-chattogram",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": 2024,
+    "beds": 105,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": 6,
+    "hasIcu": true,
+    "hasNicu": true,
+    "hasEmergency": true,
+    "hasAmbulance": true,
+    "hasBloodBank": true,
+    "hasPharmacy": true,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": true,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "Radiology & Imaging"
+    ],
+    "imagingServices": [
+      "X-Ray",
+      "Ultrasonography",
+      "CT Scan"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Blood Bank",
+      "Dialysis",
+      "Ultrasonography",
+      "Modular OT"
+    ],
+    "services": [
+      {
+        "name": "Emergency Care"
+      },
+      {
+        "name": "ICU"
+      },
+      {
+        "name": "NICU"
+      },
+      {
+        "name": "Cath Lab"
+      },
+      {
+        "name": "Dialysis"
+      },
+      {
+        "name": "Pharmacy"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Cardiology"
+      },
+      {
+        "name": "Internal Medicine"
+      },
+      {
+        "name": "Surgery"
+      },
+      {
+        "name": "Pediatrics"
+      },
+      {
+        "name": "Gynecology & Obstetrics"
+      },
+      {
+        "name": "Urology"
+      },
+      {
+        "name": "Nephrology"
+      },
+      {
+        "name": "Neurology"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "O.R. Nizam Road"
+    }
+  },
+  {
+    "name": "Marine City Medical College & Hospital",
+    "slug": "marine-city-medical-college-hospital",
+    "bnName": "মেরিন সিটি মেডিকেল কলেজ ও হাসপাতাল",
+    "type": "HOSPITAL",
+    "description": "Marine City Medical College & Hospital is a comprehensive medical teaching hospital located at Bayazid Bostami Road, Chattogram.",
+    "longDescription": "Provides multi-specialty clinical care, emergency services, diagnostic testing, ICU, NICU, blood bank, pharmacy, and academic medical training.",
+    "address": "1101/2127, Bayazid Bostami Road, Chandra Nagar Bazar, East Nasirabad, Chattogram 4000, Bangladesh",
+    "phone": "02333375247",
+    "mobile": "01329647176",
+    "emergencyPhone": "01329647176",
+    "email": "mcmchedu@gmail.com",
+    "website": "https://mcmchedu.com/",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": null,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": true,
+    "hasNicu": true,
+    "hasEmergency": true,
+    "hasAmbulance": true,
+    "hasBloodBank": true,
+    "hasPharmacy": true,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": false,
+    "hasParkingAvailable": false,
+    "accreditation": "DGME / BMDC approved",
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "Radiology & Imaging"
+    ],
+    "imagingServices": [
+      "X-Ray",
+      "Ultrasonography"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Blood Bank",
+      "Ultrasonography"
+    ],
+    "services": [
+      {
+        "name": "Emergency Care"
+      },
+      {
+        "name": "ICU"
+      },
+      {
+        "name": "NICU"
+      },
+      {
+        "name": "Blood Bank"
+      },
+      {
+        "name": "Pharmacy"
+      },
+      {
+        "name": "Inpatient Care"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Medicine"
+      },
+      {
+        "name": "Surgery"
+      },
+      {
+        "name": "Pediatrics"
+      },
+      {
+        "name": "Gynecology & Obstetrics"
+      },
+      {
+        "name": "Orthopedics"
+      },
+      {
+        "name": "ENT"
+      },
+      {
+        "name": "Ophthalmology"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Bayazid Bostami",
+      "area": "Chandra Nagar Bazar"
+    }
+  },
+  {
+    "name": "Max Hospital & Diagnostics Ltd.",
+    "slug": "max-hospital-diagnostics-ltd",
+    "bnName": "ম্যাক্স হাসপাতাল এন্ড ডায়াগনস্টিকস লি:",
+    "type": "HOSPITAL",
+    "description": "MAX Hospital & Diagnostics is a leading provider of multi-purpose medical and diagnostic services in Chattogram, established on 1 July 2014.",
+    "longDescription": "A hospital founded by doctors prioritizing patient care, equipped with modern intensive care units (ICU), NICU & PICU, CATH Lab, Dialysis, Radiology & Imaging, and emergency services.",
+    "address": "35/36, Mehedibag Road, Chawkbazar, Chattogram-4000, Bangladesh",
+    "phone": "0241360682",
+    "mobile": "01713998199",
+    "emergencyPhone": "01713998166",
+    "email": "info@maxhospitalbd.com",
+    "website": "https://maxhospital-bd.com/",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": 2014,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": true,
+    "hasNicu": true,
+    "hasEmergency": true,
+    "hasAmbulance": true,
+    "hasBloodBank": false,
+    "hasPharmacy": true,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": true,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "Radiology & Imaging"
+    ],
+    "imagingServices": [
+      "X-Ray",
+      "Ultrasonography"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Ultrasonography"
+    ],
+    "services": [
+      {
+        "name": "Emergency Care"
+      },
+      {
+        "name": "ICU"
+      },
+      {
+        "name": "NICU"
+      },
+      {
+        "name": "Dialysis"
+      },
+      {
+        "name": "Pharmacy"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Cardiology"
+      },
+      {
+        "name": "Medicine"
+      },
+      {
+        "name": "Surgery"
+      },
+      {
+        "name": "Pediatrics"
+      },
+      {
+        "name": "Gynecology & Obstetrics"
+      },
+      {
+        "name": "Urology"
+      },
+      {
+        "name": "Orthopedics"
+      },
+      {
+        "name": "Nephrology"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Chawkbazar",
+      "area": "Mehedibag Road"
+    }
+  },
+  {
+    "name": "Medical Centre Hospital, Chattagram",
+    "slug": "medical-centre-hospital-chittagong",
+    "bnName": "মেডিকেল সেন্টার হাসপাতাল, চট্টগ্রাম",
+    "type": "HOSPITAL",
+    "description": "Medical Centre Hospital, Chattagram is an established general hospital located at GEC Circle on O.R. Nizam Road.",
+    "longDescription": "Equipped with ICU, CCU, HDU, SDU, NICU, Operation Theatre, Emergency department, Blood Bank, Dialysis, and extensive specialist medical departments.",
+    "address": "953, O.R. Nizam Road, GEC Circle, Panchlaish, Chattogram 4000, Bangladesh",
+    "phone": "0241355611",
+    "mobile": "09610818888",
+    "emergencyPhone": "0241355143",
+    "email": "info@mccht.org",
+    "website": "https://www.medicalcentrebd.com/",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": null,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": true,
+    "hasNicu": true,
+    "hasEmergency": true,
+    "hasAmbulance": true,
+    "hasBloodBank": true,
+    "hasPharmacy": true,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": false,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "Radiology & Imaging"
+    ],
+    "imagingServices": [
+      "X-Ray",
+      "Ultrasonography"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Blood Bank",
+      "Dialysis",
+      "Ultrasonography",
+      "CCU",
+      "HDU",
+      "SDU"
+    ],
+    "services": [
+      {
+        "name": "Emergency Care"
+      },
+      {
+        "name": "ICU"
+      },
+      {
+        "name": "CCU"
+      },
+      {
+        "name": "HDU"
+      },
+      {
+        "name": "NICU"
+      },
+      {
+        "name": "Blood Bank"
+      },
+      {
+        "name": "Dialysis"
+      },
+      {
+        "name": "Operation Theatre"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Cardiology"
+      },
+      {
+        "name": "Medicine"
+      },
+      {
+        "name": "Neurosurgery"
+      },
+      {
+        "name": "Neuro Medicine"
+      },
+      {
+        "name": "Gastroenterology"
+      },
+      {
+        "name": "Hepatology"
+      },
+      {
+        "name": "Hematology"
+      },
+      {
+        "name": "ENT"
+      },
+      {
+        "name": "Gynee & Obs."
+      },
+      {
+        "name": "Nephrology"
+      },
+      {
+        "name": "Orthopedics"
+      },
+      {
+        "name": "Oncology"
+      },
+      {
+        "name": "Psychiatry"
+      },
+      {
+        "name": "Pediatrics"
+      },
+      {
+        "name": "Physical Medicine"
+      },
+      {
+        "name": "Skin & VD"
+      },
+      {
+        "name": "Surgery"
+      },
+      {
+        "name": "Urology"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "GEC Circle"
+    }
+  },
+  {
+    "name": "Metro Diagnostic Center",
+    "slug": "metro-diagnostic-centre",
+    "bnName": "মেট্রো ডায়াগনস্টিক সেন্টার",
+    "type": "DIAGNOSTIC_CENTER",
+    "description": "Diagnostic center located at Metro Tower, Goal Pahar Mor, Mehedibag, Chattogram.",
+    "longDescription": "Metro Diagnostic Center provides general medical testing, pathology, and specialist consultations in the central Mehedibag area of Chattogram.",
+    "address": "Metro Tower, Goal Pahar Mor, Mehedibag, Chattogram, Bangladesh",
+    "phone": "+880312851677",
+    "mobile": "+8801754635455",
+    "emergencyPhone": null,
+    "email": null,
+    "website": null,
+    "openingHours": null,
+    "ownership": "Private",
+    "establishedYear": null,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "hasBloodBank": false,
+    "hasPharmacy": false,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": false,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "ECG"
+    ],
+    "imagingServices": [
+      "Ultrasonography",
+      "X-Ray"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Ultrasonography",
+      "ECG"
+    ],
+    "services": [
+      {
+        "name": "Pathology Testing"
+      },
+      {
+        "name": "Diagnostic Imaging"
+      },
+      {
+        "name": "Doctor Consultations"
+      }
+    ],
+    "departments": [
+      {
+        "name": "General Medicine"
+      },
+      {
+        "name": "Diagnostics"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Kotwali",
+      "area": "Mehedibag"
+    }
+  },
+  {
+    "name": "National Hospital Chattogram",
+    "slug": "national-hospital-chattogram",
+    "bnName": "ন্যাশনাল হাসপাতাল চট্টগ্রাম",
+    "type": "HOSPITAL",
+    "description": "Leading private multi-specialty hospital located at 14/15 Mehedibag, Chattogram, offering 24/7 emergency, ICU, and comprehensive departments.",
+    "longDescription": "National Hospital Chattogram is a prominent private healthcare institution founded by doctors at Mehedibag, featuring advanced life-support, ICU, NICU, CCU, operation theaters, and extensive medical departments.",
+    "address": "14/15 Mehedibag, Chattogram 4000, Bangladesh",
+    "phone": "+09648250250",
+    "mobile": "+01855677500",
+    "emergencyPhone": "+09648250250",
+    "email": "info@nationalhospital.com.bd",
+    "website": "https://nationalhospital.com.bd/",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": null,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": true,
+    "hasNicu": true,
+    "hasEmergency": true,
+    "hasAmbulance": true,
+    "hasBloodBank": false,
+    "hasPharmacy": true,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": false,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "CT-Scan",
+      "EEG",
+      "ETT",
+      "Endoscopy",
+      "X-Ray",
+      "ECG",
+      "Echocardiography"
+    ],
+    "imagingServices": [
+      "CT Scan",
+      "X-Ray",
+      "Ultrasonography"
+    ],
+    "amenities": [
+      "ICU",
+      "NICU",
+      "Dialysis",
+      "Pathology Lab",
+      "CT Scan",
+      "Ultrasonography",
+      "ECG",
+      "Blood Bank",
+      "CCU",
+      "Life-Support"
+    ],
+    "services": [
+      {
+        "name": "24/7 Emergency"
+      },
+      {
+        "name": "Ambulance Service"
+      },
+      {
+        "name": "Inpatient Care"
+      },
+      {
+        "name": "Specialist Consultation"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Gastroenterology"
+      },
+      {
+        "name": "Hepatology"
+      },
+      {
+        "name": "Kidney Specialist"
+      },
+      {
+        "name": "Medicine"
+      },
+      {
+        "name": "Public Health"
+      },
+      {
+        "name": "Physical Medicine"
+      },
+      {
+        "name": "Psychiatric"
+      },
+      {
+        "name": "Hematology"
+      },
+      {
+        "name": "Brain & Spinal"
+      },
+      {
+        "name": "Neuro Medicine"
+      },
+      {
+        "name": "Pediatric"
+      },
+      {
+        "name": "Cardiology"
+      },
+      {
+        "name": "Urology"
+      },
+      {
+        "name": "General Surgery"
+      },
+      {
+        "name": "Orthopedics"
+      },
+      {
+        "name": "Gyne & Obs"
+      },
+      {
+        "name": "ENT"
+      },
+      {
+        "name": "Cancer Specialist"
+      },
+      {
+        "name": "Dermatology"
+      },
+      {
+        "name": "Diabetes & Thyroid"
+      },
+      {
+        "name": "Eye"
+      },
+      {
+        "name": "Chest & Esophageal"
+      },
+      {
+        "name": "Pediatric Surgery"
+      },
+      {
+        "name": "Rheumatology"
+      },
+      {
+        "name": "Plastic Surgery"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Kotwali",
+      "area": "Mehedibag"
+    }
+  },
+  {
+    "name": "Neuro Care",
+    "slug": "neuro-care",
+    "bnName": "নিউরো কেয়ার",
+    "type": "DIAGNOSTIC_CENTER",
+    "description": "Specialized neuro diagnostic center and specialist chamber located at IPL City Centre, O.R. Nizam Road, Chattogram.",
+    "longDescription": "Neuro Care is a super-specialized center for neurology and neuro-diagnostics located in Golpahar Mor, Chattogram, featuring expert neurological consultants and diagnostic support.",
+    "address": "162 O.R. Nizam Road, IPL City Centre (4th/5th Floor), Golpahar Mor, Chattogram 4217, Bangladesh",
+    "phone": null,
+    "mobile": null,
+    "emergencyPhone": null,
+    "email": "info@neurocarebd.com",
+    "website": "https://neurocarebd.com/",
+    "openingHours": null,
+    "ownership": "Private",
+    "establishedYear": null,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "hasBloodBank": false,
+    "hasPharmacy": false,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": true,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "EEG",
+      "NCS",
+      "EMG"
+    ],
+    "imagingServices": [],
+    "amenities": [
+      "Pathology Lab"
+    ],
+    "services": [
+      {
+        "name": "Neurology Consultation"
+      },
+      {
+        "name": "Neuro Diagnostics"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Neurology"
+      },
+      {
+        "name": "Physical Medicine"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "Goalpahar Mor"
+    }
+  },
+  {
+    "name": "Parkview Hospital Limited",
+    "slug": "parkview-hospital-limited",
+    "bnName": "পার্কভিউ হাসপাতাল লিমিটেড",
+    "type": "HOSPITAL",
+    "description": "Parkview Hospital Limited is a modern super specialty hospital in Chattogram offering integrated healthcare services, advanced diagnostics, and specialist consultations.",
+    "longDescription": "Located at Katalganj Road, Panchlaish, Chattogram, Parkview Hospital Limited features 24/7 emergency services, specialized medical departments including cardiology, neurology, pediatrics, and surgery, alongside a two-storied underground parking space and ramp access.",
+    "address": "94/103, Katalganj Road (Road No. 3), Panchlaish, Chattogram 4000, Bangladesh",
+    "phone": "+8809610818888",
+    "mobile": "01894-713301",
+    "emergencyPhone": "10619",
+    "email": "info@phlctg.com",
+    "website": "https://parkview.com.bd/",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": 2017,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": true,
+    "hasNicu": false,
+    "hasEmergency": true,
+    "hasAmbulance": false,
+    "hasBloodBank": false,
+    "hasPharmacy": false,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": true,
+    "hasParkingAvailable": true,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "Biochemistry",
+      "Microbiology"
+    ],
+    "imagingServices": [
+      "X-Ray",
+      "USG",
+      "CT Scan"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "CT Scan",
+      "Ultrasonography"
+    ],
+    "services": [
+      {
+        "name": "Emergency Care"
+      },
+      {
+        "name": "Doctor Consultation"
+      },
+      {
+        "name": "Diagnostic Services"
+      },
+      {
+        "name": "Inpatient Care"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Medicine"
+      },
+      {
+        "name": "Neuro Medicine"
+      },
+      {
+        "name": "Cardiology"
+      },
+      {
+        "name": "Gastroenterology"
+      },
+      {
+        "name": "ENT"
+      },
+      {
+        "name": "Gynee & Obs."
+      },
+      {
+        "name": "Nephrology"
+      },
+      {
+        "name": "Orthopedics"
+      },
+      {
+        "name": "Oncology"
+      },
+      {
+        "name": "Psychiatry"
+      },
+      {
+        "name": "Pediatrics"
+      },
+      {
+        "name": "Physical Medicine"
+      },
+      {
+        "name": "Skin & VD"
+      },
+      {
+        "name": "Surgery"
+      },
+      {
+        "name": "Urology"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "Katalganj"
+    }
+  },
+  {
+    "name": "Parkway Hospital & Diagnostic Centre",
+    "slug": "parkway-hospital-diagnostic-centre",
+    "bnName": null,
+    "type": "HOSPITAL",
+    "description": "Parkway Hospital & Diagnostic Centre is a healthcare facility located at Green Gulbahar Tower, A.K. Khan Circle, Pahartali, Chattogram.",
+    "longDescription": "Offers medical consultations, surgery, diagnostic testing, and healthcare services.",
+    "address": "Green Gulbahar Tower, A.K. Khan Circle, Pahartali, Chattogram, Bangladesh",
+    "phone": null,
+    "mobile": "01818507207",
+    "emergencyPhone": null,
+    "email": "info@parkwayhospitalltd.com",
+    "website": "http://www.parkwayhospitalltd.com/",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": null,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": true,
+    "hasAmbulance": false,
+    "hasBloodBank": false,
+    "hasPharmacy": true,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": false,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology"
+    ],
+    "imagingServices": [
+      "X-Ray"
+    ],
+    "amenities": [
+      "Pathology Lab"
+    ],
+    "services": [
+      {
+        "name": "Diagnostic Services"
+      },
+      {
+        "name": "Surgery"
+      },
+      {
+        "name": "Consultation"
+      }
+    ],
+    "departments": [
+      {
+        "name": "General Surgery"
+      },
+      {
+        "name": "Medicine"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Pahartali",
+      "area": "A.K. Khan Circle"
+    }
+  },
+  {
+    "name": "People's Hospital Limited",
+    "slug": "peoples-hospital-limited",
+    "bnName": "পিপলস হাসপাতাল লিমিটেড",
+    "type": "HOSPITAL",
+    "description": "Private multi-specialty hospital in Panchlaish, Chattogram offering 24/7 emergency, lab, and specialist care.",
+    "longDescription": "People's Hospital Limited is a trusted healthcare destination located at Panchlaish, Chattogram, providing comprehensive medical departments including cardiology, gastroenterology, orthopedics, endocrinology, and general surgery along with modern diagnostics.",
+    "address": "126, K. B. Fazlul Kader Road, Panchlaish, Chattogram 4000, Bangladesh",
+    "phone": "01827-243826",
+    "mobile": "01827-243826",
+    "emergencyPhone": "01827-243826",
+    "email": "info@peopleshospitalltd.com",
+    "website": "https://peopleshospitalltd.com/",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": null,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": true,
+    "hasAmbulance": false,
+    "hasBloodBank": false,
+    "hasPharmacy": false,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": false,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology Test",
+      "ECG",
+      "Echocardiogram",
+      "TMT",
+      "Endoscopy",
+      "Colonoscopy"
+    ],
+    "imagingServices": [
+      "Digital X-Ray",
+      "Ultrasonography",
+      "CT Scan",
+      "MRI"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Ultrasonography",
+      "CT Scan",
+      "MRI",
+      "ECG"
+    ],
+    "services": [
+      {
+        "name": "24/7 Emergency"
+      },
+      {
+        "name": "Inpatient Care"
+      },
+      {
+        "name": "Specialist Consultation"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Medicine"
+      },
+      {
+        "name": "Cardiology"
+      },
+      {
+        "name": "Gastroenterology"
+      },
+      {
+        "name": "Respiratory Medicine"
+      },
+      {
+        "name": "Endocrinology"
+      },
+      {
+        "name": "Orthopedics"
+      },
+      {
+        "name": "ENT-Head-Neck-Surgery"
+      },
+      {
+        "name": "Psychiatry"
+      },
+      {
+        "name": "General & Laparoscopic Surgery"
+      },
+      {
+        "name": "Urology"
+      },
+      {
+        "name": "Pediatrics"
+      },
+      {
+        "name": "Physical Medicine"
+      },
+      {
+        "name": "Gynecology & Obstetrics"
+      },
+      {
+        "name": "Dermatology"
+      },
+      {
+        "name": "Ophthalmology"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "Panchlaish"
+    }
+  },
+  {
+    "name": "Popular Diagnostic Centre Ltd.",
+    "slug": "popular-diagnostic-centre-ltd",
+    "bnName": "পপুলার ডায়াগনস্টিক সেন্টার লিমিটেড",
+    "type": "DIAGNOSTIC_CENTER",
+    "description": "Popular Diagnostic Centre Ltd. (Chattogram Branch) is a leading diagnostic and healthcare network offering advanced lab tests, imaging, and specialist consultations.",
+    "longDescription": "Situated at K.B. Fazlul Kader Road, Panchlaish, Chattogram, Popular Diagnostic Centre provides comprehensive diagnostic services, pathology, imaging, and chambers for senior specialist doctors.",
+    "address": "20/B, K. B. Fazlul Kader Road, Panchlaish, Chattogram",
+    "phone": "09666787810",
+    "mobile": null,
+    "emergencyPhone": null,
+    "email": "info@populardiagnostic.com",
+    "website": "https://www.populardiagnostic.com/",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": 1983,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "hasBloodBank": false,
+    "hasPharmacy": false,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": true,
+    "hasOnlineReport": true,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "Biochemistry",
+      "Hematology",
+      "Hormone Assay"
+    ],
+    "imagingServices": [
+      "Digital X-Ray",
+      "Ultrasonography",
+      "MRI",
+      "CT Scan"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Ultrasonography",
+      "MRI",
+      "CT Scan",
+      "ECG"
+    ],
+    "services": [
+      {
+        "name": "Diagnostic Testing"
+      },
+      {
+        "name": "Doctor Consultation"
+      },
+      {
+        "name": "Online Reports"
+      },
+      {
+        "name": "Sample Collection"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Radiology"
+      },
+      {
+        "name": "Pathology"
+      },
+      {
+        "name": "Cardiology"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "Panchlaish"
+    }
+  },
+  {
+    "name": "Safe Land Diagnostic and Research Centre",
+    "slug": "safe-land-diagnostic-research-centre",
+    "bnName": "সেইফল্যান্ড ডায়াগনষ্টিক এন্ড রিসার্চ সেন্টার",
+    "type": "DIAGNOSTIC_CENTER",
+    "description": "Diagnostic and research center located opposite CEPZ Gate on M.A. Aziz Road, Chattogram.",
+    "longDescription": "Safe Land Diagnostic and Research Centre provides pathology and diagnostic testing services serving the industrial port area of Chattogram.",
+    "address": "Shafi Building, M.A. Aziz Road, CEPZ More, Chattogram, Bangladesh",
+    "phone": null,
+    "mobile": null,
+    "emergencyPhone": null,
+    "email": null,
+    "website": null,
+    "openingHours": null,
+    "ownership": "Private",
+    "establishedYear": null,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "hasBloodBank": false,
+    "hasPharmacy": false,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": false,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology"
+    ],
+    "imagingServices": [
+      "X-Ray",
+      "Ultrasonography"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Ultrasonography"
+    ],
+    "services": [
+      {
+        "name": "Pathology"
+      },
+      {
+        "name": "Diagnostics"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Diagnostics"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Bandar",
+      "area": "Bandar / CEPZ"
+    }
+  },
+  {
+    "name": "Sigma Lab Ltd.",
+    "slug": "sigma-lab-ltd",
+    "bnName": "সিগমা ল্যাব লিঃ",
+    "type": "DIAGNOSTIC_CENTER",
+    "description": "Diagnostic laboratory co-located with National Hospital Chattogram at 14/15 Mehedibag, Chattogram.",
+    "longDescription": "Sigma Lab Ltd. operates within the National Hospital Chattogram building at Mehedibag, providing comprehensive pathology and laboratory diagnostic services.",
+    "address": "14/15 Mehedibag, Chattogram 4000, Bangladesh",
+    "phone": "+09648250250",
+    "mobile": "+01855677500",
+    "emergencyPhone": null,
+    "email": null,
+    "website": "https://nationalhospital.com.bd/",
+    "openingHours": "24/7",
+    "ownership": "Private",
+    "establishedYear": null,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "hasBloodBank": false,
+    "hasPharmacy": false,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": false,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology",
+      "Biochemistry",
+      "Hormone Assays"
+    ],
+    "imagingServices": [],
+    "amenities": [
+      "Pathology Lab"
+    ],
+    "services": [
+      {
+        "name": "Laboratory Testing"
+      },
+      {
+        "name": "Pathology"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Pathology"
+      },
+      {
+        "name": "Diagnostics"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Kotwali",
+      "area": "Mehedibag"
+    }
+  },
+  {
+    "name": "Ultra Assay Diagnostic Centre",
+    "slug": "ultra-assay-diagnostic-centre",
+    "bnName": "উল্ট্রা অ্যসায় ডায়াগনষ্টিক সেন্টার",
+    "type": "DIAGNOSTIC_CENTER",
+    "description": "Diagnostic centre located at 36, K. B. Fazlul Kader Road (Medical Staff Quarters / Chawkbazar area), Chattogram.",
+    "longDescription": "Ultra Assay Diagnostic Centre provides pathology and diagnostic imaging services in the medical hub area of K.B. Fazlul Kader Road, Chattogram.",
+    "address": "36, K. B. Fazlul Kader Road, Chawkbazar, Chattogram 4203, Bangladesh",
+    "phone": null,
+    "mobile": null,
+    "emergencyPhone": null,
+    "email": null,
+    "website": null,
+    "openingHours": null,
+    "ownership": "Private",
+    "establishedYear": null,
+    "beds": null,
+    "icuBeds": null,
+    "nicuBeds": null,
+    "operationTheaters": null,
+    "hasIcu": false,
+    "hasNicu": false,
+    "hasEmergency": false,
+    "hasAmbulance": false,
+    "hasBloodBank": false,
+    "hasPharmacy": false,
+    "hasPathologyLab": true,
+    "hasHomeSampleCollection": false,
+    "hasOnlineReport": false,
+    "hasParkingAvailable": false,
+    "accreditation": null,
+    "insurancePanels": [],
+    "diagnosticTests": [
+      "Pathology"
+    ],
+    "imagingServices": [
+      "Ultrasonography",
+      "X-Ray"
+    ],
+    "amenities": [
+      "Pathology Lab",
+      "Ultrasonography"
+    ],
+    "services": [
+      {
+        "name": "Pathology"
+      },
+      {
+        "name": "Diagnostics"
+      }
+    ],
+    "departments": [
+      {
+        "name": "Diagnostics"
+      }
+    ],
+    "region": {
+      "division": "Chattogram",
+      "district": "Chattogram",
+      "thana": "Panchlaish",
+      "area": "Chawkbazar"
+    }
+  }
+]

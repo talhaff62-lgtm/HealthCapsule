@@ -12,7 +12,8 @@
     "seed:panel": "tsx prisma/seed-panel.ts",
     "seed:demo": "tsx prisma/seed-demo.ts",
     "seed:excel": "tsx prisma/seed-excel.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "seed:real": "tsx prisma/seed-real.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
