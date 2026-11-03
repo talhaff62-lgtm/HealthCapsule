@@ -89,7 +89,10 @@ export default async function HealthcaresPage({
           </div>
         ) : (
           <>
-            <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <StaggerContainer
+              key={`${params.type ?? "all"}-${pageParam}`}
+              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            >
               {facilities.map((facility) => (
                 <FacilityCard key={facility.id} facility={facility} />
               ))}
