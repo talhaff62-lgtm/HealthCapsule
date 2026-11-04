@@ -1748,7 +1748,8 @@
       "district": "Chattogram",
       "thana": "Kotwali",
       "area": "Mehedibag"
-    }
+    },
+    "coverImageUrl": "/facilities/national-hospital-chattogram/cover.jpg"
   },
   {
     "name": "Neuro Care",
@@ -2323,7 +2324,8 @@
       "district": "Chattogram",
       "thana": "Kotwali",
       "area": "Mehedibag"
-    }
+    },
+    "coverImageUrl": "/facilities/sigma-lab-ltd/cover.jpg"
   },
   {
     "name": "Ultra Assay Diagnostic Centre",
