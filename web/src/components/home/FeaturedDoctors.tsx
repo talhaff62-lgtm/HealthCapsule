@@ -108,11 +108,11 @@ export default async function FeaturedDoctors() {
 
   return (
     <SectionCanvas tone="white" id="featured-doctors">
-      <div className="mx-auto max-w-7xl px-6 py-14 sm:px-8 sm:py-20">
+      <div className="mx-auto max-w-7xl px-6 py-10 sm:px-8 sm:py-14">
         {/* Experienced Specialists */}
         {experienced.length > 0 && (
-          <div className="mb-16">
-            <ScrollReveal className="mx-auto mb-12 mt-12 max-w-2xl text-center sm:mt-16">
+          <div className="mb-10">
+            <ScrollReveal className="mx-auto mb-8 mt-8 max-w-2xl text-center sm:mt-10">
               <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
                 <Award className="h-3.5 w-3.5" />
                 Highly Experienced
@@ -138,7 +138,7 @@ export default async function FeaturedDoctors() {
         {/* Emerging Specialists */}
         {emerging.length > 0 && (
           <div>
-            <ScrollReveal className="mx-auto mb-12 max-w-2xl text-center">
+            <ScrollReveal className="mx-auto mb-8 max-w-2xl text-center">
               <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
                 <Sparkles className="h-3.5 w-3.5" />
                 Rising Talent

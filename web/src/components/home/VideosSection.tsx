@@ -34,8 +34,8 @@ export default async function VideosSection() {
 
   return (
     <SectionCanvas tone="tint" id="videos">
-      <div className="mx-auto max-w-7xl px-6 py-14 sm:px-8 sm:py-20">
-        <ScrollReveal className="mx-auto mb-12 max-w-2xl text-center sm:mb-16">
+      <div className="mx-auto max-w-7xl px-6 py-10 sm:px-8 sm:py-14">
+        <ScrollReveal className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
           <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
             <Video className="h-3.5 w-3.5" />
             Health Videos

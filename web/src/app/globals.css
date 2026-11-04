@@ -337,6 +337,44 @@ a {
   }
 }
 
+/* ─── Hero photo crossfade ─── */
+@keyframes heroSlide {
+  0% { opacity: 0; transform: scale(1.02); }
+  4% { opacity: 1; }
+  22% { opacity: 1; transform: scale(1.08); }
+  28% { opacity: 0; transform: scale(1.08); }
+  100% { opacity: 0; transform: scale(1.08); }
+}
+
+/* ─── Hero: compact tiers so it fits short viewports ─── */
+@media (max-height: 960px) {
+  .hero-content {
+    padding-top: 5.5rem;
+    padding-bottom: 2.5rem;
+  }
+  @media (min-width: 640px) {
+    .hero-h1 {
+      font-size: 3rem;
+      line-height: 1.12;
+    }
+  }
+}
+
+@media (max-height: 820px) and (max-width: 1023px) {
+  .hero-chips {
+    display: none;
+  }
+  .hero-sub {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-top: 0.75rem;
+  }
+  .hero-card-head,
+  .hero-card-note {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .animate-hero-float-1 {
     animation: heroFloat1 6s ease-in-out infinite;

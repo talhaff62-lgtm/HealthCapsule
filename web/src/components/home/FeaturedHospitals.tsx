@@ -54,8 +54,8 @@ export default async function FeaturedHospitals() {
 
   return (
     <SectionCanvas tone="white" id="hospitals">
-      <div className="mx-auto max-w-7xl px-6 py-14 sm:px-8 sm:py-20">
-        <ScrollReveal className="mx-auto mb-12 max-w-2xl text-center sm:mb-16">
+      <div className="mx-auto max-w-7xl px-6 py-10 sm:px-8 sm:py-14">
+        <ScrollReveal className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
           <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
             Verified Network
           </span>

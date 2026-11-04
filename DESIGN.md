@@ -21,9 +21,14 @@ Families: Fraunces (font-serif) headings; Inter (font-sans) body/UI; IBM Plex Mo
 Scale: H1 text-4xl→sm:text-5xl→lg:text-6xl, font-serif, font-medium, tracking-tight, leading-[1.05]. H2 section titles text-3xl sm:text-4xl font-serif. Body text-base/relaxed. Stat numbers text-4xl font-serif tabular-nums.
 
 ## Spacing & layout
-- Page gutter: px-3 sm:px-4; canvas stack gap: flex flex-col gap-4 sm:gap-5.
-- Canvas inner container: mx-auto max-w-7xl px-6 py-14 sm:px-8 sm:py-20 (lg:px-8 where used today).
-- Section header block (all sections): centered, max-w-2xl mx-auto; eyebrow (mono) → H2 (serif) → subtext (ink-muted, mt-3); margin-bottom mt-12 sm:mt-16 before content.
+- Gutters unchanged: page px-3 sm:px-4; canvas inner mx-auto max-w-7xl px-4 sm:px-6 lg:px-8.
+- Section vertical rhythm: `py-10 sm:py-14` on every section canvas inner (tightened from py-14 sm:py-20 so sections fit short 768px-height laptops).
+- Section header → content: header block `mb-8`; forbidden: stacked mb-16/mb-12/mt-12 chains between header and grid.
+- Grid gap: `gap-6` standard across homepage grids (HowItWorks and Audiences included).
+- Card padding: standard p-5/p-6; Audiences cards p-6; CtaBanner panes p-8 sm:p-12; StatsBar items py-6 sm:py-8.
+- Canvas stack: flex flex-col gap-4 sm:gap-5 (unchanged).
+- Hero fills `min-h-svh`; the fixed glass navbar overlays it; the homepage spacer div is removed and hero content clears the navbar internally with `pt-24 sm:pt-28`, vertically centered.
+- Homepage root stack starts at `pt-0` — hero media bleeds behind the floating navbar.
 
 ## Shape & shadow
 - Canvas: rounded-[1.75rem] sm:rounded-[var(--radius-canvas)], shadow-soft, relative overflow-hidden.
@@ -41,10 +46,13 @@ Scale: H1 text-4xl→sm:text-5xl→lg:text-6xl, font-serif, font-medium, trackin
 
 ## Image treatment
 Rounded-3xl crops; doctor/facility photos object-cover; illustrations keep existing assets, framed in white rounded-[2rem] cards with shadow-card.
+- Hero media layer: four facility photos as a crossfade backdrop — `/facilities/evercare-hospital-chattogram/gallery-1.webp`, `/facilities/labaid-specialized-hospital-chattogram/gallery-1.jpg`, `/facilities/marine-city-medical-college-hospital/cover.jpg`, `/facilities/delta-health-care-chittagong/gallery-2.jpg` — absolute inset-0 object-cover, aria-hidden with alt="". Overlay: `bg-gradient-to-t from-brand-navy/90 via-brand-navy/45 to-brand-navy/15`. Hero text renders white on this layer.
 
 ## Motion rules
 - Hover/interactive: 200-300ms ease-out. Entrances: existing hero float keyframes kept (they already exist). Aurora: two blurred gradient circles in hero canvas, `motion-safe:animate-[drift_18s_ease-in-out_infinite_alternate]`, new `@keyframes drift` = translate/scale ±4%.
 - prefers-reduced-motion: all decorative animation gated with motion-safe: (existing pattern). Nothing animates layout properties; transform/opacity only.
+- Hero crossfade: `@keyframes heroSlide` — one 28s ease-in-out infinite animation per slide with negative delays 0 / -7s / -14s / -21s; ~1.2s opacity fades, Ken Burns scale 1.02 → 1.08 while visible; opacity/transform only; every animation class gated under `motion-safe:`; under prefers-reduced-motion slides 2–4 keep base `opacity-0` and slide 1 shows static.
+- Scroll cue: single chevron-down, `motion-safe:animate-bounce`, white/70, bottom-center of hero.
 
 ## Do / Don't
 DO: keep every data fetch and prop identical; keep server components server; use the new tokens; keep Bangladesh context strings as-is.

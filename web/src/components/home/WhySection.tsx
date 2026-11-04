@@ -6,8 +6,8 @@ import { ScrollReveal } from "@/components/ui/motion";
 export default function WhySection() {
   return (
     <SectionCanvas tone="tint" id="why">
-      <div className="mx-auto max-w-7xl px-6 py-14 sm:px-8 sm:py-20">
-        <ScrollReveal className="mb-16 max-w-2xl">
+      <div className="mx-auto max-w-7xl px-6 py-10 sm:px-8 sm:py-14">
+        <ScrollReveal className="mb-10 max-w-2xl">
           <span className="inline-flex items-center gap-2.5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-brand-sky-deep">
             <span className="h-px w-4 bg-brand-sky/50" aria-hidden="true" />
             The problem, today

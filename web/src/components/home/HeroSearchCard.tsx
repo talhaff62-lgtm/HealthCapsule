@@ -5,9 +5,6 @@ import {
   Search,
   Stethoscope,
   Building2,
-  Siren,
-  Droplet,
-  Phone,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Select from "@/components/ui/Select";
@@ -22,7 +19,7 @@ type HeroSearchCardProps = {
   areas: Option[];
 };
 
-type TabId = "doctor" | "hospital" | "ambulance" | "blood";
+type TabId = "doctor" | "hospital";
 
 export default function HeroSearchCard({ specialties, areas }: HeroSearchCardProps) {
   const router = useRouter();
@@ -31,8 +28,6 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
   const tabs: { id: TabId; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: "doctor", label: "Doctor", icon: Stethoscope },
     { id: "hospital", label: "Hospital", icon: Building2 },
-    { id: "ambulance", label: "Ambulance", icon: Siren },
-    { id: "blood", label: "Blood", icon: Droplet },
   ];
 
   const handleSearchDoctor = (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,13 +45,12 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
     router.push(`/doctors?${params.toString()}`);
   };
 
-  const fieldLabel = "mb-1.5 block font-mono text-[0.68rem] uppercase tracking-[0.06em] text-brand-muted";
+  const fieldLabel = "mb-1 block font-mono text-[0.68rem] uppercase tracking-[0.06em] text-brand-muted";
   const fieldInput =
-    "w-full rounded-xl border border-brand-gray bg-white px-4 py-3 text-sm text-brand-slate placeholder:text-brand-muted transition focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/15";
+    "w-full rounded-xl border border-brand-gray bg-white px-4 py-2.5 text-sm text-brand-slate placeholder:text-brand-muted transition focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/15";
 
   return (
-    <div className="relative">
-      <div className="relative overflow-hidden rounded-3xl border border-ink/5 bg-white shadow-soft">
+    <div className="relative rounded-3xl bg-white/95 p-3 shadow-card backdrop-blur sm:p-4">
         {/* Verified corner ribbon */}
         <div className="pointer-events-none absolute right-0 top-0 h-16 w-16 overflow-hidden">
           <span
@@ -66,27 +60,24 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
           </span>
         </div>
 
-        <div className="px-5 pt-6 sm:px-7">
+        <div className="hero-card-head px-5 pt-4 sm:px-7">
           <span className="inline-flex items-center gap-2.5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-brand-sky-deep">
             <span className="h-px w-4 bg-brand-sky-deep/50" aria-hidden="true" />
             Find care now
           </span>
 
           {/* Segmented pill tabs */}
-          <div className="mt-4 flex gap-1 overflow-x-auto rounded-full border border-brand-gray bg-brand-mist p-1 scrollbar-none">
+          <div className="mt-3 flex gap-1 rounded-full border border-brand-gray bg-brand-mist p-1">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const active = activeTab === tab.id;
-              const isEmergency = tab.id === "ambulance";
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold transition sm:flex-1 sm:justify-center ${
+                  className={`flex flex-1 items-center justify-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                     active
                       ? "bg-white shadow-sm text-ink"
-                      : isEmergency
-                      ? "text-status-emergency hover:text-status-emergency"
                       : "text-ink-muted hover:text-ink"
                   }`}
                 >
@@ -98,10 +89,10 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
           </div>
         </div>
 
-        <div className="px-5 pb-7 pt-5 sm:px-7">
+        <div className="px-5 pb-5 pt-4 sm:px-7">
           {/* Doctor tab */}
           {activeTab === "doctor" && (
-            <form onSubmit={handleSearchDoctor} className="space-y-4">
+            <form onSubmit={handleSearchDoctor} className="space-y-3">
               <div>
                 <label htmlFor="q" className={fieldLabel}>
                   Name or keyword
@@ -134,13 +125,13 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
                 />
               </div>
 
-              <p className="font-mono text-[0.7rem] leading-relaxed text-brand-muted">
+              <p className="hero-card-note font-mono text-[0.7rem] leading-relaxed text-brand-muted">
                 Verified doctors currently listed across Chattogram — cross-checked, not scraped.
               </p>
 
               <button
                 type="submit"
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-sky to-teal py-3.5 text-sm font-semibold text-white shadow-card transition hover:brightness-105"
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-sky to-teal py-3 text-sm font-semibold text-white shadow-card transition hover:brightness-105"
               >
                 <Search className="h-4 w-4" />
                 Search Doctors
@@ -150,7 +141,7 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
 
           {/* Hospital tab */}
           {activeTab === "hospital" && (
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div>
                 <label htmlFor="hosp-name" className={fieldLabel}>
                   Hospital or department
@@ -171,90 +162,14 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
                 onClick={() => {
                   document.getElementById("hospitals")?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-sky to-teal py-3.5 text-sm font-semibold text-white shadow-card transition hover:brightness-105"
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-sky to-teal py-3 text-sm font-semibold text-white shadow-card transition hover:brightness-105"
               >
                 <Search className="h-4 w-4" />
                 Explore Hospital List
               </button>
             </div>
           )}
-
-          {/* Ambulance tab */}
-          {activeTab === "ambulance" && (
-            <div className="space-y-3">
-              <div className="rounded-xl border border-status-emergency/25 bg-status-emergency-light/40 p-4">
-                <strong className="mb-1 block text-sm font-semibold text-status-emergency">
-                  Direct emergency contacts
-                </strong>
-                <p className="text-xs leading-relaxed text-brand-muted">
-                  Verified for ICU readiness, AC, and prompt response — no hold music.
-                </p>
-              </div>
-
-              {[
-                { name: "Imperial ICU Ambulance", meta: "2.1 km away · Pahartali", tel: "09612247247" },
-                { name: "Evercare Ambulance Service", meta: "Khulshi / Anannya area", tel: "09612310663" },
-              ].map((row) => (
-                <div
-                  key={row.tel}
-                  className="flex items-center justify-between rounded-lg border border-brand-gray bg-white p-3"
-                >
-                  <div className="min-w-0">
-                    <strong className="block truncate text-sm text-brand-navy">{row.name}</strong>
-                    <span className="font-mono text-[0.7rem] uppercase tracking-wide text-brand-muted">
-                      {row.meta}
-                    </span>
-                  </div>
-                  <a
-                    href={`tel:${row.tel}`}
-                    aria-label={`Call ${row.name}`}
-                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-status-emergency-light text-status-emergency transition hover:bg-status-emergency hover:text-white"
-                  >
-                    <Phone className="h-4 w-4" />
-                  </a>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Blood tab */}
-          {activeTab === "blood" && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="blood-group" className={fieldLabel}>
-                    Blood group
-                  </label>
-                  <select id="blood-group" className={fieldInput}>
-                    {["O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"].map((g) => (
-                      <option key={g}>{g}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="blood-area" className={fieldLabel}>
-                    Area
-                  </label>
-                  <input
-                    id="blood-area"
-                    type="text"
-                    placeholder="e.g. Agrabad"
-                    className={fieldInput}
-                  />
-                </div>
-              </div>
-
-              <button className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-sky to-teal py-3.5 text-sm font-semibold text-white shadow-card transition hover:brightness-105">
-                Search Donors
-              </button>
-
-              <p className="text-center font-mono text-[0.66rem] leading-relaxed text-brand-muted">
-                Matched against verified donor networks across the city.
-              </p>
-            </div>
-          )}
         </div>
       </div>
-    </div>
   );
 }

@@ -13,7 +13,7 @@ export default function CtaBanner() {
 
       <div className="relative mx-auto grid max-w-7xl md:grid-cols-2">
         {/* Patient CTA */}
-        <ScrollReveal className="flex flex-col justify-between p-10 sm:p-14 md:border-r border-white/10">
+        <ScrollReveal className="flex flex-col justify-between p-8 sm:p-12 md:border-r border-white/10">
           <div>
             <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-bright">
               For Patients
@@ -37,7 +37,7 @@ export default function CtaBanner() {
         </ScrollReveal>
 
         {/* Doctor CTA */}
-        <ScrollReveal delay={0.1} className="flex flex-col justify-between border-t border-white/10 p-10 sm:p-14 md:border-t-0">
+        <ScrollReveal delay={0.1} className="flex flex-col justify-between border-t border-white/10 p-8 sm:p-12 md:border-t-0">
           <div>
             <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-bright">
               For Doctors &amp; Clinics

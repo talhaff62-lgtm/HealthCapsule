@@ -44,8 +44,8 @@ export default function Audiences() {
 
   return (
     <SectionCanvas tone="white" id="audiences">
-      <div className="mx-auto max-w-7xl px-6 py-14 sm:px-8 sm:py-20">
-        <div className="mx-auto mb-12 max-w-2xl text-center sm:mb-16">
+      <div className="mx-auto max-w-7xl px-6 py-10 sm:px-8 sm:py-14">
+        <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
           <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
             Who it&apos;s for
           </span>
@@ -57,11 +57,11 @@ export default function Audiences() {
           </p>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3">
           {audiences.map((aud) => (
             <div
               key={aud.role}
-              className="flex flex-col justify-between rounded-3xl border border-ink/5 bg-white p-8 shadow-card"
+              className="flex flex-col justify-between rounded-3xl border border-ink/5 bg-white p-6 shadow-card"
             >
               <div>
                 <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-sky-bg text-brand-sky-deep">

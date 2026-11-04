@@ -53,11 +53,11 @@ export default async function StatsBar() {
         aria-hidden="true"
         className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-brand-sky/20 blur-3xl"
       />
-      <StaggerContainer className="relative mx-auto grid max-w-7xl grid-cols-2 border-l border-white/10 px-6 py-12 sm:py-16 lg:grid-cols-4">
+      <StaggerContainer className="relative mx-auto grid max-w-7xl grid-cols-2 border-l border-white/10 px-6 py-8 sm:py-10 lg:grid-cols-4">
         {stats.map((stat) => (
           <StaggerItem
             key={stat.label}
-            className="border-b border-r border-t border-white/10 px-6 py-8 sm:px-8 sm:py-10"
+            className="border-b border-r border-t border-white/10 px-6 py-6 sm:px-8 sm:py-8"
           >
             <p className="font-serif text-3xl font-semibold tabular-nums text-white sm:text-4xl">
               <AnimatedCounter value={stat.value} />

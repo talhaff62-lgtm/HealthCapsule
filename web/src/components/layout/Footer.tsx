@@ -6,11 +6,11 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative mx-3 mb-3 overflow-hidden rounded-[1.75rem] bg-brand-navy text-white shadow-soft sm:mx-4 sm:mb-4 sm:rounded-[var(--radius-canvas)]">
+    <footer className="relative w-full overflow-hidden bg-brand-navy text-white">
       {/* Sky→teal top ornament line */}
       <div aria-hidden="true" className="h-px w-full bg-gradient-to-r from-brand-sky to-teal" />
 
-      <div className="mx-auto max-w-7xl px-6 pb-8 pt-14 sm:px-8">
+      <div className="mx-auto max-w-7xl px-6 pb-12 pt-16 sm:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand column */}
           <div>

@@ -17,7 +17,7 @@ IS: trustworthy, calm, modern-clean. NOT: corporate-stiff, dark-techy, playful-c
 - brand-assets/healthcapsule-2030-v3.html (Talha's reference): light #F2F6FC base, teal accent, glass nav, aurora blobs, gradient text. Take: energy and accents only — do not copy its layout wholesale.
 
 ## Asset inventory
-web/public/images/: logo.png, no_bgLogo.png, hero-doctor.svg, how_it_works.png, problem_today.png. brand-assets/capsule_logo.jpg. Photos of doctors/facilities come from the DB (Supabase bucket).
+web/public/images/: logo.png, no_bgLogo.png, hero-doctor.svg, how_it_works.png, problem_today.png. brand-assets/capsule_logo.jpg. Photos of doctors/facilities come from the DB (Supabase bucket). Hero slides reuse verified facility photos from web/public/facilities/: evercare gallery-1, labaid gallery-1, marine-city cover, delta gallery-2.
 
 ## Pages/sections (homepage)
 Hero(search) → Stats → FeaturedDoctors → Videos → FeaturedHospitals → Blog → HowItWorks → Why → Audiences → Trust → CTA. Navbar + Footer global.
@@ -26,7 +26,7 @@ Hero(search) → Stats → FeaturedDoctors → Videos → FeaturedHospitals → 
 Next.js App Router + Tailwind 4 + Prisma; no new npm dependencies; no new fonts (reuse Fraunces/Inter/IBM Plex Mono); content is plain text; mobile-first (375px must be clean); deploy on Vercel.
 
 ## Motion level
-Subtle: hover transitions, one gentle float in hero, soft aurora drift in hero background. All decorative motion off under prefers-reduced-motion.
+Subtle: hover transitions, one gentle float in hero, soft aurora drift in hero background. All decorative motion off under prefers-reduced-motion. Hero uses a slow four-photo crossfade (28s cycle) with a gentle Ken Burns zoom — ambient, not attention-grabbing.
 
 ## Done means
 Homepage at 375/768/1440 shows the stacked rounded-canvas layout with floating glass navbar; no horizontal overflow; all existing data sections still render; typecheck and lint pass.

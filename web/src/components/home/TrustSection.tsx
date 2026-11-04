@@ -24,7 +24,7 @@ export default function TrustSection() {
 
   return (
     <SectionCanvas tone="tint" id="trust">
-      <div className="mx-auto max-w-7xl px-6 py-14 sm:px-8 sm:py-20">
+      <div className="mx-auto max-w-7xl px-6 py-10 sm:px-8 sm:py-14">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           {/* Left Column: Text & List */}
           <div>

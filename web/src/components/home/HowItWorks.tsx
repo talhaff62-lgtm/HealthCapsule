@@ -29,8 +29,8 @@ export default function HowItWorks() {
 
   return (
     <SectionCanvas tone="white" id="how">
-      <div className="mx-auto max-w-7xl px-6 py-14 sm:px-8 sm:py-20">
-        <ScrollReveal className="mx-auto mb-10 max-w-2xl text-center">
+      <div className="mx-auto max-w-7xl px-6 py-10 sm:px-8 sm:py-14">
+        <ScrollReveal className="mx-auto mb-8 max-w-2xl text-center">
           <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
             How it works
           </span>
@@ -42,7 +42,7 @@ export default function HowItWorks() {
           </p>
         </ScrollReveal>
 
-        <ScrollReveal className="mx-auto mb-14 max-w-4xl">
+        <ScrollReveal className="mx-auto mb-10 max-w-4xl">
           <div className="rounded-[2rem] bg-white p-4 shadow-card">
             <Image
               src="/images/how_it_works.png"
@@ -58,7 +58,7 @@ export default function HowItWorks() {
           {/* Connecting line for desktop */}
           <div className="hidden lg:block step-connector" />
 
-          <StaggerContainer className="relative z-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <StaggerContainer className="relative z-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step) => (
               <StaggerItem key={step.num} className="flex flex-col items-center px-4 text-center">
                 <div className="flex h-14 w-14 items-center justify-center rounded-full border border-brand-sky/30 bg-white text-lg font-semibold text-brand-sky-dark shadow-card">

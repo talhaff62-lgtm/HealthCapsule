@@ -67,14 +67,17 @@ export default function Navbar() {
     ? [...publicLinks, portalLink]
     : publicLinks;
 
+  const isHome = pathname === "/";
+  const isTransparent = isHome && !scrolled;
+
   return (
     <>
-      <div className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
+      <div className="fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-all duration-500 sm:px-4 sm:pt-4">
         <nav
-          className={`mx-auto flex h-16 max-w-7xl items-center justify-between rounded-2xl border px-4 shadow-soft backdrop-blur-xl [backdrop-saturate:1.4] transition-all duration-300 sm:px-6 ${
-            scrolled
-              ? "border-ink/10 bg-white/90 shadow-[0_16px_48px_-16px_rgba(11,31,58,0.28)]"
-              : "border-ink/8 bg-white/75"
+          className={`mx-auto flex h-16 max-w-7xl items-center justify-between rounded-2xl border px-4 transition-all duration-500 ease-out sm:px-6 ${
+            isTransparent
+              ? "border-transparent bg-transparent shadow-none"
+              : "border-ink/10 bg-white/90 shadow-soft backdrop-blur-xl [backdrop-saturate:1.4] shadow-[0_16px_48px_-16px_rgba(11,31,58,0.28)]"
           }`}
         >
           <Logo size="xs" showTagline={false} />
@@ -86,9 +89,13 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`py-1 transition ${
-                    active
-                      ? "text-brand-sky-dark"
+                  className={`py-1 transition-colors duration-300 font-medium ${
+                    isTransparent
+                      ? active
+                        ? "text-brand-sky-light font-semibold drop-shadow-sm"
+                        : "text-white drop-shadow-sm hover:text-brand-sky-light"
+                      : active
+                      ? "text-brand-sky-dark font-semibold"
                       : "text-ink-muted hover:text-ink"
                   }`}
                 >
@@ -97,12 +104,14 @@ export default function Navbar() {
               );
             })}
             <AuthStatus />
-            <LanguageSwitcher />
+            <LanguageSwitcher dark={isTransparent} />
           </div>
 
           <div className="relative z-[80] md:hidden">
             <button
-              className="text-ink"
+              className={`transition-colors duration-300 ${
+                menuOpen ? "text-ink" : isTransparent ? "text-white drop-shadow-sm" : "text-ink"
+              }`}
               onClick={() => setMenuOpen((v) => !v)}
               aria-label="Toggle menu"
             >
