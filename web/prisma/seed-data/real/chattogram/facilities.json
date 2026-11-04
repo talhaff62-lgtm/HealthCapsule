@@ -206,7 +206,8 @@
       "district": "Chattogram",
       "thana": "Panchlaish",
       "area": "O. R. Nizam Road"
-    }
+    },
+    "coverImageUrl": "/facilities/chevron-clinical-laboratory/cover.jpg"
   },
   {
     "name": "Chittagong Belle Vue Hospital Limited",
@@ -442,7 +443,8 @@
       "district": "Chattogram",
       "thana": "Panchlaish",
       "area": "O.R. Nizam Road"
-    }
+    },
+    "coverImageUrl": "/facilities/chittagong-metropolitan-hospital-ltd/cover.png"
   },
   {
     "name": "CSCR (Pvt.) Ltd. (Hospital & Diagnostic Centre)",
@@ -614,7 +616,8 @@
       "district": "Chattogram",
       "thana": "Panchlaish",
       "area": "Katalganj"
-    }
+    },
+    "coverImageUrl": "/facilities/delta-health-care-chittagong/cover.jpg"
   },
   {
     "name": "Epic Health Care (East Gate Branch)",
@@ -888,7 +891,8 @@
       "district": "Chattogram",
       "thana": "Bayazid",
       "area": "Anannya CDA Residential Area"
-    }
+    },
+    "coverImageUrl": "/facilities/evercare-hospital-chattogram/cover.webp"
   },
   {
     "name": "Ibn Sina Diagnostic & Consultation Centre",
@@ -964,7 +968,8 @@
       "district": "Chattogram",
       "thana": "Panchlaish",
       "area": "Katalganj"
-    }
+    },
+    "coverImageUrl": "/facilities/ibn-sina-diagnostic-consultation-centre/cover.jpg"
   },
   {
     "name": "Islami Bank Hospital, Agrabad, Chattogram",
@@ -1372,7 +1377,8 @@
       "district": "Chattogram",
       "thana": "Chawkbazar",
       "area": "Mehedibag Road"
-    }
+    },
+    "coverImageUrl": "/facilities/max-hospital-diagnostics-ltd/cover.jpg"
   },
   {
     "name": "Medical Centre Hospital, Chattagram",
