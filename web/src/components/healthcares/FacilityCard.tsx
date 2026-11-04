@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Phone, Building2, Star, Activity, Siren, Ambulance } from "lucide-react";
+import { MapPin, Phone, Building2, Microscope, Star, Activity, Siren, Ambulance } from "lucide-react";
 import type { FacilityListItem } from "@/lib/facilities";
 import FacilityTypeBadge from "@/components/ui/FacilityTypeBadge";
 import { StaggerItem } from "@/components/ui/motion";
@@ -25,15 +25,15 @@ export default function FacilityCard({ facility }: FacilityCardProps) {
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
           />
         ) : (
-          <img
-            src={
-              facility.type === "DIAGNOSTIC_CENTER"
-                ? "/images/placeholders/facility-cover-diagnostic.svg"
-                : "/images/placeholders/facility-cover.svg"
-            }
-            alt=""
-            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-          />
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand-sky-bg via-white to-brand-cloud">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-sky/10 ring-1 ring-brand-sky/20">
+              {facility.type === "DIAGNOSTIC_CENTER" ? (
+                <Microscope className="h-7 w-7 text-brand-sky" strokeWidth={1.5} />
+              ) : (
+                <Building2 className="h-7 w-7 text-brand-sky" strokeWidth={1.5} />
+              )}
+            </div>
+          </div>
         )}
 
         {/* Gradient for depth + badge legibility */}
@@ -130,7 +130,7 @@ export default function FacilityCard({ facility }: FacilityCardProps) {
           {facility.phone ? (
             <a
               href={`tel:${facility.phone}`}
-              className="inline-flex items-center gap-1.5 font-semibold text-brand-navy hover:text-brand-sky transition"
+              className="relative z-20 inline-flex items-center gap-1.5 font-semibold text-brand-navy hover:text-brand-sky transition"
             >
               <Phone className="h-3.5 w-3.5 text-brand-sky" />
               {facility.phone}
@@ -139,14 +139,13 @@ export default function FacilityCard({ facility }: FacilityCardProps) {
             <span className="text-brand-muted italic">Call info unavailable</span>
           )}
 
-          <Link
-            href={`/healthcares/${facility.slug}`}
-            className="inline-flex items-center font-semibold text-brand-navy hover:text-brand-sky transition"
-          >
-            View details
-          </Link>
         </div>
       </div>
+      <Link
+        href={`/healthcares/${facility.slug}`}
+        aria-label={`View details: ${facility.name}`}
+        className="absolute inset-0 z-10 rounded-[inherit]"
+      />
     </StaggerItem>
   );
 }
