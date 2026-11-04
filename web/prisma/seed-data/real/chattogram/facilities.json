@@ -207,7 +207,8 @@
       "thana": "Panchlaish",
       "area": "O. R. Nizam Road"
     },
-    "coverImageUrl": "/facilities/chevron-clinical-laboratory/cover.jpg"
+    "coverImageUrl": "/facilities/chevron-clinical-laboratory/cover.jpg",
+    "logoUrl": "/facilities/chevron-clinical-laboratory/logo.png"
   },
   {
     "name": "Chittagong Belle Vue Hospital Limited",
@@ -444,7 +445,8 @@
       "thana": "Panchlaish",
       "area": "O.R. Nizam Road"
     },
-    "coverImageUrl": "/facilities/chittagong-metropolitan-hospital-ltd/cover.png"
+    "coverImageUrl": "/facilities/chittagong-metropolitan-hospital-ltd/cover.png",
+    "logoUrl": "/facilities/chittagong-metropolitan-hospital-ltd/logo.png"
   },
   {
     "name": "CSCR (Pvt.) Ltd. (Hospital & Diagnostic Centre)",
@@ -969,7 +971,8 @@
       "thana": "Panchlaish",
       "area": "Katalganj"
     },
-    "coverImageUrl": "/facilities/ibn-sina-diagnostic-consultation-centre/cover.jpg"
+    "coverImageUrl": "/facilities/ibn-sina-diagnostic-consultation-centre/cover.jpg",
+    "logoUrl": "/facilities/ibn-sina-diagnostic-consultation-centre/logo.png"
   },
   {
     "name": "Islami Bank Hospital, Agrabad, Chattogram",
@@ -1587,7 +1590,8 @@
       "district": "Chattogram",
       "thana": "Kotwali",
       "area": "Mehedibag"
-    }
+    },
+    "logoUrl": "/facilities/metro-diagnostic-centre/logo.jpg"
   },
   {
     "name": "National Hospital Chattogram",
@@ -2254,7 +2258,8 @@
       "district": "Chattogram",
       "thana": "Bandar",
       "area": "Bandar / CEPZ"
-    }
+    },
+    "logoUrl": "/facilities/safe-land-diagnostic-research-centre/logo.jpg"
   },
   {
     "name": "Sigma Lab Ltd.",
