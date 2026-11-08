@@ -1,6 +1,12 @@
 # Capsule Agent Instructions
 
-Project-specific conventions for coding agents. For agent orchestration rules, see ~/.zcode/AGENTS.md. (repo/package names still healthcapsule-app — do not rename identifiers.)
+**What this project is:** HealthCapsule ("Capsule") is a healthcare directory for Bangladesh — verified doctors, hospitals and diagnostic centers that patients browse on the web, with staff/admin panels for data collection and review, and an Expo app for staff on the go. Monorepo: `web/` (Next.js App Router + TypeScript + Tailwind + Prisma on Neon Postgres, Supabase storage, deployed on Vercel) and `mobile/` (Expo). Most work happens in `web/`.
+
+## Docs map — read what you need, keep it current
+- **What this project is + coding conventions** → this file
+- **Intent, audience, goals, assets** → `BRIEF.md`
+- **Design decisions, tokens, motion rules** → `DESIGN.md`
+- **Current plan, in-flight work, progress & shipped log** → `PROGRESS.md` — update it after every accepted task (orchestration protocol: `~/.zcode/AGENTS.md`; repo/package names still healthcapsule-app — do not rename identifiers.)
 
 ## Structure & Deployment
 
