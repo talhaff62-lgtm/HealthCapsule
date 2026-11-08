@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { AdminShell } from "@/components/panel/admin-shell";
 import { useMe } from "@/components/panel/use-me";
+import { useLanguage } from "@/components/language-provider";
 import { api } from "@/lib/client-fetch";
 import { Eyebrow } from "@/components/panel/ui";
 import {
@@ -12,10 +13,65 @@ import {
   FacilityFormInitialValues,
 } from "@/components/panel/facility-form";
 
+type FacilityApiResponse = {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  longDescription: string | null;
+  address: string;
+  type: "HOSPITAL" | "DIAGNOSTIC_CENTER" | string;
+  listingTier: string;
+  logoUrl: string | null;
+  coverImageUrl: string | null;
+  phone: string | null;
+  email: string | null;
+  website: string | null;
+  beds: number | null;
+  icuBeds: number | null;
+  nicuBeds: number | null;
+  operationTheaters: number | null;
+  establishedYear: number | null;
+  hasEmergency: boolean;
+  hasAmbulance: boolean;
+  hasIcu: boolean;
+  hasNicu: boolean;
+  hasBloodBank: boolean;
+  hasPharmacy: boolean;
+  hasPathologyLab: boolean;
+  hasHomeSampleCollection: boolean;
+  hasOnlineReport: boolean;
+  hasParkingAvailable: boolean;
+  emergencyPhone: string | null;
+  mobile: string | null;
+  ownership: string | null;
+  openingHours: string | null;
+  accreditation: string | null;
+  dghsLicenceNo: string | null;
+  insurancePanels: string[];
+  diagnosticTests: string[];
+  imagingServices: string[];
+  rating: number | null;
+  totalReviews: number | null;
+  doctorsOnPanel: number | null;
+  areaId: string | null;
+  area: { id: string; name: string; thana: { name: string } | null } | null;
+  amenities: Array<{ amenityId: string; amenity: { id: string; name: string } }>;
+  collectedBy: { name: string } | null;
+  featuredUntil: string | null;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  isActive: boolean;
+  verificationStatus: string;
+  discountInfo: string | null;
+};
+
 export default function AdminEditFacilityPage() {
   const { me, loading: meLoading } = useMe();
   const params = useParams();
   const router = useRouter();
+  const { t } = useLanguage();
   const id = params.id as string;
 
   const [fetching, setFetching] = useState(true);
@@ -34,17 +90,17 @@ export default function AdminEditFacilityPage() {
 
     (async () => {
       try {
-        const f = await api<any>(`/api/v1/facilities/${id}`);
+        const f = await api<FacilityApiResponse>(`/api/v1/facilities/${id}`);
         if (!alive) return;
 
         const mapped: FacilityFormInitialValues = {
           name: f.name,
           address: f.address ?? "",
-          type: f.type,
-          areaId: f.areaId,
+          type: f.type as "HOSPITAL" | "DIAGNOSTIC_CENTER" | undefined,
+          areaId: f.areaId ?? undefined,
           areaName: f.area?.name,
           thanaName: f.area?.thana?.name,
-          amenityIds: f.amenities?.map((a: any) => a.amenityId ?? a.amenity?.id) ?? [],
+          amenityIds: f.amenities?.map((a) => a.amenityId ?? a.amenity?.id) ?? [],
           discountInfo: f.discountInfo ?? "",
           logoUrl: f.logoUrl ?? "",
           coverImageUrl: f.coverImageUrl ?? "",
@@ -99,7 +155,7 @@ export default function AdminEditFacilityPage() {
   if (meLoading) {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-brand-muted">Loading...</div>
+        <div className="text-brand-muted">{t("common.ui.loading")}</div>
       </div>
     );
   }
@@ -107,7 +163,7 @@ export default function AdminEditFacilityPage() {
   if (!me || me.role !== "ADMIN") {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">Not authorized</div>
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
       </div>
     );
   }
@@ -133,8 +189,8 @@ export default function AdminEditFacilityPage() {
   };
 
   return (
-    <AdminShell title="Edit facility" userName={me.name}>
-      <Eyebrow className="mb-4 block">EDIT FACILITY</Eyebrow>
+    <AdminShell title={t("admin.facilities.editTitle")} userName={me.name}>
+      <Eyebrow className="mb-4 block">{t("admin.facilities.editEyebrow")}</Eyebrow>
       {fetching ? (
         <div className="py-12 text-center text-brand-muted">Loading facility...</div>
       ) : fetchError ? (
@@ -146,7 +202,7 @@ export default function AdminEditFacilityPage() {
           onSubmit={handleSubmit}
           submitting={submitting}
           error={submitError}
-          submitLabel="Save changes"
+          submitLabel={t("common.form.saveChanges")}
           showListingSection
           initialListingTier={tier}
           initialFeaturedUntil={featuredUntil}
