@@ -7,11 +7,14 @@ import Link from "next/link";
 import { ExternalLink, LogOut, Menu, X } from "lucide-react";
 import { Eyebrow } from "./ui";
 import { signOut } from "next-auth/react";
+import { useLanguage } from "@/components/language-provider";
+
+type NavLink = { href: string; labelKey: string };
 
 type PanelShellProps = {
   panelLabel: string;
   homeHref: string;
-  navLinks: { href: string; label: string }[];
+  navLinks: NavLink[];
   title?: string;
   userName?: string;
   contentClassName?: string;
@@ -27,6 +30,7 @@ export function PanelShell({
   contentClassName,
   children,
 }: PanelShellProps) {
+  const { t } = useLanguage();
   const pathname = usePathname();
   const router = useRouter();
   const [signingOut, setSigningOut] = useState(false);
@@ -99,7 +103,7 @@ export function PanelShell({
         className="flex w-full items-center gap-2 px-3 py-2 text-sm font-medium text-white/70 transition-colors hover:text-white"
       >
         <ExternalLink className="h-4 w-4" />
-        <span>View site</span>
+        <span>{t("shell.panel.viewSite")}</span>
       </Link>
       <button
         onClick={handleSignOut}
@@ -107,7 +111,7 @@ export function PanelShell({
         className="flex w-full items-center gap-2 px-3 py-2 text-sm font-medium text-white/70 transition-colors hover:text-white disabled:opacity-50"
       >
         <LogOut className="h-4 w-4" />
-        <span>{signingOut ? "Signing out..." : "Sign out"}</span>
+        <span>{signingOut ? t("shell.panel.signingOut") : t("shell.panel.signOut")}</span>
       </button>
     </>
   );
@@ -120,13 +124,13 @@ export function PanelShell({
           href={homeHref}
           className="font-serif text-lg font-semibold text-white"
         >
-          Capsule
+          {t("shell.panel.capsule")}
         </Link>
         <button
           type="button"
           onClick={() => setOpen(true)}
           className="h-10 w-10 grid place-items-center rounded-lg hover:bg-brand-navy-light text-white transition-colors"
-          aria-label="Open menu"
+          aria-label={t("shell.panel.openMenu")}
           aria-expanded={open}
         >
           <Menu className="h-5 w-5" />
@@ -151,13 +155,13 @@ export function PanelShell({
             href={homeHref}
             className="font-serif text-lg font-semibold text-white"
           >
-            Capsule
+            {t("shell.panel.capsule")}
           </Link>
           <button
             type="button"
             onClick={() => setOpen(false)}
             className="h-10 w-10 grid place-items-center rounded-lg hover:bg-brand-navy-light text-white transition-colors"
-            aria-label="Close menu"
+            aria-label={t("shell.panel.closeMenu")}
           >
             <X className="h-5 w-5" />
           </button>
@@ -176,7 +180,7 @@ export function PanelShell({
                     : "text-white/70 hover:text-white hover:bg-white/5"
                 }`}
               >
-                {link.label}
+                {t(link.labelKey)}
               </Link>
             );
           })}
@@ -192,7 +196,7 @@ export function PanelShell({
         <div className="p-6 border-b border-white/10">
           <Eyebrow className="text-white/50 block">{panelLabel}</Eyebrow>
           <div className="mt-1 font-serif text-xl font-semibold text-white">
-            Capsule
+            {t("shell.panel.capsule")}
           </div>
         </div>
         <nav className="flex-1 py-4 space-y-1">
@@ -208,7 +212,7 @@ export function PanelShell({
                     : "text-white/70 hover:text-white hover:bg-white/5"
                 }`}
               >
-                {link.label}
+                {t(link.labelKey)}
               </Link>
             );
           })}

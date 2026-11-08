@@ -1,4 +1,5 @@
-import React from "react";
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
 import Link from "next/link";
 import { Award, Sparkles } from "lucide-react";
 import { prisma } from "@/lib/prisma";
@@ -91,6 +92,8 @@ async function getNewlyListedDoctors(excludeIds: string[]): Promise<DoctorListIt
 }
 
 export default async function FeaturedDoctors() {
+  const locale = await getServerLocale();
+  const t = getT(locale);
   const experienced = await getExperiencedDoctors();
   const emerging = await getNewlyListedDoctors(experienced.map((d) => d.id));
 
@@ -105,13 +108,13 @@ export default async function FeaturedDoctors() {
             <ScrollReveal className="mx-auto mb-8 mt-8 max-w-2xl text-center sm:mt-10">
               <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
                 <Award className="h-3.5 w-3.5" />
-                Featured
+                {t("home.featuredDoctors.featuredBadge")}
               </span>
               <h2 className="mt-2 font-serif text-3xl font-medium text-ink sm:text-4xl">
-                Featured Specialists
+                {t("home.featuredDoctors.featuredTitle")}
               </h2>
               <p className="mt-3 text-ink-muted">
-                Book consultations with BMDC-verified specialists with confirmed chambers across Chattogram.
+                {t("home.featuredDoctors.featuredDesc")}
               </p>
             </ScrollReveal>
 
@@ -131,13 +134,13 @@ export default async function FeaturedDoctors() {
             <ScrollReveal className="mx-auto mb-8 max-w-2xl text-center">
               <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
                 <Sparkles className="h-3.5 w-3.5" />
-                Rising Talent
+                {t("home.featuredDoctors.risingBadge")}
               </span>
               <h2 className="mt-2 font-serif text-3xl font-medium text-ink sm:text-4xl">
-                Emerging Specialists
+                {t("home.featuredDoctors.emergingTitle")}
               </h2>
               <p className="mt-3 text-ink-muted">
-                Newly listed BMDC-verified doctors accepting patients — discover them early and book direct.
+                {t("home.featuredDoctors.emergingDesc")}
               </p>
             </ScrollReveal>
 
@@ -156,7 +159,7 @@ export default async function FeaturedDoctors() {
             href="/doctors"
             className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-6 py-3 text-sm font-medium text-ink transition hover:border-brand-sky hover:text-brand-sky-dark"
           >
-            View All Doctors
+            {t("home.featuredDoctors.viewAll")}
           </Link>
         </div>
       </div>

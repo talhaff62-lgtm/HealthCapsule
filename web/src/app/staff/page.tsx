@@ -9,6 +9,7 @@ import { StatusBadge } from "@/components/status-badge";
 import { useMe } from "@/components/panel/use-me";
 import { api } from "@/lib/client-fetch";
 import { Card, SectionTitle, Button } from "@/components/panel/ui";
+import { useLanguage } from "@/components/language-provider";
 
 type Submission = {
   id: string;
@@ -21,6 +22,7 @@ type Submission = {
 export default function StaffHubPage() {
   const { me, loading, error } = useMe();
   const router = useRouter();
+  const { t } = useLanguage();
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loadingData, setLoadingData] = useState(true);
 
@@ -71,18 +73,10 @@ export default function StaffHubPage() {
     };
   }, [me, router]);
 
-  if (loading) {
+if (loading) {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-brand-muted">Loading...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">{error}</div>
+        <div className="text-brand-muted">{t("common.ui.loading")}</div>
       </div>
     );
   }
@@ -90,7 +84,15 @@ export default function StaffHubPage() {
   if (!me || me.role !== "STAFF") {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">Not authorized</div>
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
+      </div>
+    );
+  }
+
+  if (!me || me.role !== "STAFF") {
+    return (
+      <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
       </div>
     );
   }

@@ -2,17 +2,19 @@
 
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
+import { useLanguage } from "@/components/language-provider";
 
 export default function FooterPortals() {
+  const { t } = useLanguage();
   const { data: session, status } = useSession();
 
   if (status === "loading") {
     return (
       <div>
         <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-white/70">
-          Portals
+          {t("footer.portals")}
         </h4>
-        <p className="mt-4 text-sm text-white/50">Loading...</p>
+        <p className="mt-4 text-sm text-white/50">{t("footer.loading")}</p>
       </div>
     );
   }
@@ -20,7 +22,7 @@ export default function FooterPortals() {
   const isAuthenticated = status === "authenticated" && session?.user;
   const role = session?.user?.role;
 
-  const heading = isAuthenticated ? "Portals" : "Join";
+  const heading = isAuthenticated ? t("footer.portals") : t("footer.join");
 
   return (
     <div>
@@ -35,7 +37,7 @@ export default function FooterPortals() {
                 href="/login"
                 className="transition hover:text-brand-sky-bright"
               >
-                Sign In
+                {t("footer.signIn")}
               </Link>
             </li>
             <li>
@@ -43,7 +45,7 @@ export default function FooterPortals() {
                 href="/register?type=doctor"
                 className="transition hover:text-brand-sky-bright"
               >
-                Register as Doctor
+                {t("footer.registerAsDoctor")}
               </Link>
             </li>
             <li>
@@ -51,7 +53,7 @@ export default function FooterPortals() {
                 href="/register?type=facility"
                 className="transition hover:text-brand-sky-bright"
               >
-                Register Hospital / Diagnostic
+                {t("footer.registerHospital")}
               </Link>
             </li>
           </>
@@ -64,7 +66,7 @@ export default function FooterPortals() {
                     href="/admin"
                     className="transition hover:text-brand-sky-bright"
                   >
-                    Admin Portal
+                    {t("footer.adminPortal")}
                   </Link>
                 </li>
                 <li>
@@ -72,7 +74,7 @@ export default function FooterPortals() {
                     href="/portal/doctor"
                     className="transition hover:text-brand-sky-bright"
                   >
-                    Doctor Portal
+                    {t("footer.doctorPortal")}
                   </Link>
                 </li>
                 <li>
@@ -80,7 +82,7 @@ export default function FooterPortals() {
                     href="/portal/facility"
                     className="transition hover:text-brand-sky-bright"
                   >
-                    Facility Portal
+                    {t("footer.facilityPortal")}
                   </Link>
                 </li>
               </>
@@ -91,7 +93,7 @@ export default function FooterPortals() {
                   href="/portal/doctor"
                   className="transition hover:text-brand-sky-bright"
                 >
-                  Doctor Portal
+                  {t("footer.doctorPortal")}
                 </Link>
               </li>
             )}
@@ -101,7 +103,7 @@ export default function FooterPortals() {
                   href="/portal/facility"
                   className="transition hover:text-brand-sky-bright"
                 >
-                  Facility Portal
+                  {t("footer.facilityPortal")}
                 </Link>
               </li>
             )}
@@ -111,7 +113,7 @@ export default function FooterPortals() {
                 onClick={() => signOut({ callbackUrl: "/" })}
                 className="transition hover:text-brand-sky-bright"
               >
-                Sign Out
+                {t("footer.signOut")}
               </button>
             </li>
           </>

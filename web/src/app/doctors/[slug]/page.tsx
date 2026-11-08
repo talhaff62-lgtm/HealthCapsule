@@ -22,6 +22,8 @@ import { VerificationStatus } from "@prisma/client";
 import { getNextAvailableSlot, formatScheduleSummary } from "@/lib/doctors";
 import VerifiedBadge from "@/components/ui/VerifiedBadge";
 import BackButton from "@/components/ui/BackButton";
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
 
 export const dynamic = "force-dynamic";
 
@@ -100,7 +102,7 @@ export async function generateMetadata({
   };
 }
 
-const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+// DAY_LABELS moved to common.dayLabels in i18n
 
 export default async function DoctorProfilePage({
   params,
@@ -121,6 +123,19 @@ export default async function DoctorProfilePage({
     Boolean(doctor.bmdcRegNo) ||
     Boolean(doctor.currentPosition) ||
     doctor.degrees.length > 0;
+
+  const locale = await getServerLocale();
+  const t = getT(locale);
+
+  const DAY_LABEL_KEYS = [
+    "common.dayLabels.sun",
+    "common.dayLabels.mon",
+    "common.dayLabels.tue",
+    "common.dayLabels.wed",
+    "common.dayLabels.thu",
+    "common.dayLabels.fri",
+    "common.dayLabels.sat",
+  ];
 
   return (
     <section className="min-h-screen bg-brand-cream py-10">
@@ -155,7 +170,7 @@ export default async function DoctorProfilePage({
             {/* Right Column */}
             <div className="min-w-0 flex-1 p-6 sm:p-8">
               <span className="font-mono text-xs uppercase tracking-wider text-brand-muted font-semibold block">
-                MEET THE DOCTOR
+                {t("doctors.detail.meetTheDoctor")}
               </span>
               <div className="mt-1 flex flex-wrap items-center gap-2">
                 <h1 className="font-serif text-4xl sm:text-5xl text-brand-navy font-bold">
@@ -179,7 +194,7 @@ export default async function DoctorProfilePage({
 
               {doctor.expertise && (
                 <p className="mt-2 text-xs sm:text-sm italic text-brand-slate">
-                  Expertise in {doctor.expertise}
+                  {t("doctors.detail.expertiseIn", { expertise: doctor.expertise })}
                 </p>
               )}
 
@@ -194,7 +209,7 @@ export default async function DoctorProfilePage({
                         {doctor.yearsExperience}+
                       </span>
                       <span className="text-[0.65rem] font-mono uppercase tracking-wider text-brand-muted block">
-                        Years Experience
+                        {t("common.yearsExperience")}
                       </span>
                     </div>
                   ) : null}
@@ -213,7 +228,7 @@ export default async function DoctorProfilePage({
                         ) : null}
                       </div>
                       <span className="text-[0.65rem] font-mono uppercase tracking-wider text-brand-muted block">
-                        Rating & Reviews
+                        {t("common.ratingAndReviews")}
                       </span>
                     </div>
                   )}
@@ -224,7 +239,7 @@ export default async function DoctorProfilePage({
                         {doctor.patientsTreated.toLocaleString()}+
                       </span>
                       <span className="text-[0.65rem] font-mono uppercase tracking-wider text-brand-muted block">
-                        Patients Treated
+                        {t("common.patientsTreated")}
                       </span>
                     </div>
                   ) : null}
@@ -236,14 +251,14 @@ export default async function DoctorProfilePage({
                 {doctor.bmdcRegNo && (
                   <span className="inline-flex items-center gap-1 rounded-full bg-brand-cream border border-brand-gray px-3 py-1 font-medium">
                     <ShieldCheck className="h-3.5 w-3.5 text-brand-sky-deep" />
-                    BMDC Reg: {doctor.bmdcRegNo}
+                    {t("doctors.detail.bmdcReg", { regNo: doctor.bmdcRegNo })}
                   </span>
                 )}
 
                 {doctor.hasOnlineConsultation && (
                   <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 font-medium">
                     <Video className="h-3.5 w-3.5 text-emerald-600" />
-                    Online consultation available
+                    {t("doctors.detail.onlineConsultationAvailable")}
                   </span>
                 )}
 
@@ -268,10 +283,10 @@ export default async function DoctorProfilePage({
           <div className="flex flex-wrap items-center justify-between gap-4 border-t border-brand-gray px-6 sm:px-8 py-4">
             <div>
               <p className="text-[0.65rem] font-mono font-medium uppercase tracking-wider text-brand-muted">
-                Consultation Fee
+                {t("common.consultationFee")}
               </p>
               <p className="text-2xl font-bold text-brand-navy">
-                {formatFee(baseFee) ?? "Contact for fee"}
+                {formatFee(baseFee) ?? t("common.contactForFee")}
               </p>
             </div>
 
@@ -291,7 +306,7 @@ export default async function DoctorProfilePage({
                   className="bg-brand-sky text-white rounded-xl px-5 py-2.5 font-semibold text-sm inline-flex items-center gap-2 hover:bg-brand-sky-deep transition"
                 >
                   <Phone className="h-4 w-4" />
-                  Call Doctor
+                  {t("doctors.detail.callDoctor")}
                 </a>
               )}
             </div>
@@ -302,7 +317,7 @@ export default async function DoctorProfilePage({
         {hasCredentials && (
           <div className="rounded-2xl border border-brand-gray bg-white p-6 sm:p-8 shadow-sm">
             <h2 className="font-serif text-lg font-semibold text-brand-navy mb-5">
-              Education & Credentials
+              {t("doctors.detail.educationAndCredentials")}
             </h2>
             <div className="grid gap-4 sm:grid-cols-2">
               {doctor.medicalCollege && (
@@ -312,7 +327,7 @@ export default async function DoctorProfilePage({
                   </div>
                   <div>
                     <span className="text-[0.65rem] font-mono uppercase tracking-wider text-brand-muted block">
-                      MBBS
+                      {t("doctors.detail.mbbs")}
                     </span>
                     <span className="text-sm font-semibold text-brand-navy">
                       {doctor.medicalCollege}
@@ -328,7 +343,7 @@ export default async function DoctorProfilePage({
                   </div>
                   <div>
                     <span className="text-[0.65rem] font-mono uppercase tracking-wider text-brand-muted block">
-                      Postgraduate
+                      {t("doctors.detail.postgraduate")}
                     </span>
                     <span className="text-sm font-semibold text-brand-navy">
                       {doctor.pgInstitution}
@@ -344,7 +359,7 @@ export default async function DoctorProfilePage({
                   </div>
                   <div>
                     <span className="text-[0.65rem] font-mono uppercase tracking-wider text-brand-muted block">
-                      Registration
+                      {t("doctors.detail.registration")}
                     </span>
                     <span className="text-sm font-semibold text-brand-navy">
                       BMDC {doctor.bmdcRegNo}
@@ -360,7 +375,7 @@ export default async function DoctorProfilePage({
                   </div>
                   <div>
                     <span className="text-[0.65rem] font-mono uppercase tracking-wider text-brand-muted block">
-                      Designation
+                      {t("doctors.detail.designation")}
                     </span>
                     <span className="text-sm font-semibold text-brand-navy">
                       {doctor.currentPosition}
@@ -376,7 +391,7 @@ export default async function DoctorProfilePage({
                   </div>
                   <div>
                     <span className="text-[0.65rem] font-mono uppercase tracking-wider text-brand-muted block">
-                      Degrees
+                      {t("doctors.detail.degrees")}
                     </span>
                     <span className="text-sm font-semibold text-brand-navy">
                       {doctor.degrees.join(", ")}
@@ -392,10 +407,10 @@ export default async function DoctorProfilePage({
         {doctor.bio && (
           <div className="rounded-2xl border border-brand-gray bg-white p-6 sm:p-8 shadow-sm">
             <span className="text-xs font-mono uppercase tracking-wider text-brand-muted font-semibold block">
-              ABOUT
+              {t("common.aboutLabel")}
             </span>
             <h2 className="font-serif text-xl font-semibold text-brand-navy mt-1">
-              About Dr. {lastName}
+              {t("doctors.detail.about", { name: lastName })}
             </h2>
             <div className="border-l-2 border-brand-sky pl-4 mt-3">
               <p className="whitespace-pre-line text-[15px] leading-relaxed text-brand-slate">
@@ -409,16 +424,16 @@ export default async function DoctorProfilePage({
         <div className="space-y-4">
           <div>
             <span className="text-xs font-mono uppercase tracking-wider text-brand-muted font-semibold block">
-              APPOINTMENTS
+              {t("doctors.detail.appointmentsLabel")}
             </span>
             <h2 className="font-serif text-xl sm:text-2xl font-bold text-brand-navy mt-0.5">
-              Chambers & Schedules
+              {t("doctors.detail.chambersAndSchedules")}
             </h2>
           </div>
 
           {doctor.chambers.length === 0 ? (
             <div className="rounded-2xl border border-brand-gray bg-white p-8 text-center text-brand-muted">
-              No chambers listed for this doctor.
+              {t("doctors.detail.noChambers")}
             </div>
           ) : (
             <div className="grid gap-4">
@@ -457,7 +472,7 @@ export default async function DoctorProfilePage({
                         </div>
 
                         <p className="mt-2 text-sm text-brand-muted">
-                          {chamber.address ?? "Address not available"}
+                          {chamber.address ?? t("common.addressNotAvailable")}
                         </p>
 
                         {/* Schedule Block */}
@@ -465,18 +480,18 @@ export default async function DoctorProfilePage({
                           {chamber.schedules.length > 0 ? (
                             <>
                               <div className="flex flex-wrap items-center gap-1.5">
-                                {DAY_LABELS.map((dayLabel, index) => {
+                                {DAY_LABEL_KEYS.map((dayKey, index) => {
                                   const isScheduled = scheduledDaySet.has(index);
                                   return (
                                     <span
-                                      key={dayLabel}
+                                      key={dayKey}
                                       className={`h-7 w-9 text-[0.6rem] font-semibold rounded-full inline-flex items-center justify-center ${
                                         isScheduled
                                           ? "bg-brand-navy text-white"
                                           : "bg-brand-cloud text-brand-muted"
                                       }`}
                                     >
-                                      {dayLabel}
+                                      {t(dayKey)}
                                     </span>
                                   );
                                 })}
@@ -491,7 +506,7 @@ export default async function DoctorProfilePage({
                             </>
                           ) : (
                             <p className="text-sm text-brand-muted italic">
-                              No schedule available currently
+                              {t("doctors.detail.noScheduleAvailable")}
                             </p>
                           )}
                         </div>
@@ -501,7 +516,7 @@ export default async function DoctorProfilePage({
                           <div className="mt-3">
                             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-700">
                               <Clock className="h-3.5 w-3.5 text-emerald-600" />
-                              Next slot: {nextSlot.label}
+                              {t("doctors.detail.nextSlot", { label: nextSlot.label })}
                             </span>
                           </div>
                         )}
@@ -509,10 +524,10 @@ export default async function DoctorProfilePage({
 
                       <div className="shrink-0 text-left sm:text-right">
                         <span className="text-[0.65rem] font-mono font-medium uppercase tracking-wider text-brand-muted block">
-                          Chamber Fee
+                          {t("common.chamberFee")}
                         </span>
                         <span className="text-lg font-bold text-brand-navy mt-0.5 block">
-                          {formatFee(chamberFee) ?? "Contact for fee"}
+                          {formatFee(chamberFee) ?? t("common.contactForFee")}
                         </span>
                       </div>
                     </div>
@@ -528,10 +543,10 @@ export default async function DoctorProfilePage({
           <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm flex flex-wrap items-center justify-between gap-4">
             <div>
               <span className="text-xs font-mono uppercase tracking-wider text-brand-muted font-semibold block">
-                CONTACT
+                {t("common.contact")}
               </span>
               <h3 className="font-serif text-lg font-semibold text-brand-navy mt-0.5">
-                Get in Touch
+                {t("common.getInTouch")}
               </h3>
             </div>
             <div className="flex flex-wrap items-center gap-4 text-sm font-mono">

@@ -9,21 +9,22 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useLanguage } from "@/components/language-provider";
 
-type NavLink = { href: string; label: string };
+type NavLink = { href: string; labelKey: string };
 
 const publicLinks: NavLink[] = [
-  { href: "/", label: "Home" },
-  { href: "/healthcares", label: "Healthcares" },
-  { href: "/doctors", label: "Doctors" },
-  { href: "/blog", label: "Blog" },
-  { href: "/videos", label: "Videos" },
+  { href: "/", labelKey: "nav.home" },
+  { href: "/healthcares", labelKey: "nav.healthcares" },
+  { href: "/doctors", labelKey: "nav.doctors" },
+  { href: "/blog", labelKey: "nav.blog" },
+  { href: "/videos", labelKey: "nav.videos" },
 ];
 
 const portalLinksByRole: Record<string, NavLink> = {
-  ADMIN: { href: "/admin", label: "Admin Panel" },
-  DOCTOR: { href: "/portal/doctor", label: "Doctor Panel" },
-  FACILITY_ADMIN: { href: "/portal/facility", label: "Hospital Panel" },
+  ADMIN: { href: "/admin", labelKey: "nav.adminPanel" },
+  DOCTOR: { href: "/portal/doctor", labelKey: "nav.doctorPanel" },
+  FACILITY_ADMIN: { href: "/portal/facility", labelKey: "nav.facilityPanel" },
 };
 
 function isActive(href: string, pathname: string): boolean {
@@ -34,6 +35,7 @@ function isActive(href: string, pathname: string): boolean {
 export default function Navbar() {
   const pathname = usePathname();
   const { data: session } = useSession();
+  const { t } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -99,7 +101,7 @@ export default function Navbar() {
                       : "text-ink-muted hover:text-ink"
                   }`}
                 >
-                  {link.label}
+                  {t(link.labelKey)}
                 </Link>
               );
             })}
@@ -113,7 +115,7 @@ export default function Navbar() {
                 menuOpen ? "text-ink" : isTransparent ? "text-white drop-shadow-sm" : "text-ink"
               }`}
               onClick={() => setMenuOpen((v) => !v)}
-              aria-label="Toggle menu"
+              aria-label={t("nav.toggleMenu")}
             >
               {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -146,7 +148,7 @@ export default function Navbar() {
                           : "text-ink-muted hover:text-ink"
                       }`}
                     >
-                      {link.label}
+                      {t(link.labelKey)}
                     </Link>
                   );
                 })}

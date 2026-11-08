@@ -1,4 +1,10 @@
-export default function HeroIllustration() {
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
+
+export default async function HeroIllustration() {
+  const locale = await getServerLocale();
+  const t = getT(locale);
+
   return (
     <div className="relative flex items-center justify-center">
       {/* Soft backdrop */}
@@ -15,7 +21,7 @@ export default function HeroIllustration() {
           <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-status-verified">
             <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
           </span>
-          <span className="text-xs font-semibold text-brand-slate">Verified by Capsule</span>
+          <span className="text-xs font-semibold text-brand-slate">{t("home.heroIllustration.badgeVerified")}</span>
         </div>
       </div>
 
@@ -25,14 +31,14 @@ export default function HeroIllustration() {
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-brand-navy-light to-brand-navy text-sm font-semibold text-brand-sky-bright">SA</div>
             <div>
-              <p className="font-serif text-sm font-semibold text-brand-navy">Dr. Sadia Ahmed</p>
-              <p className="text-[0.7rem] font-semibold text-brand-sky">Cardiology</p>
+              <p className="font-serif text-sm font-semibold text-brand-navy">{t("home.heroIllustration.doctorName")}</p>
+              <p className="text-[0.7rem] font-semibold text-brand-sky">{t("home.heroIllustration.doctorSpecialty")}</p>
             </div>
           </div>
           <div className="mt-3 flex items-center justify-between border-t border-brand-gray pt-2.5">
-            <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-wider text-brand-navy">View schedule</span>
+            <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-wider text-brand-navy">{t("home.heroIllustration.labelViewSchedule")}</span>
             <div className="text-sm font-semibold text-brand-navy">
-              <span className="text-[0.62rem] font-normal text-brand-muted">From</span> ৳600
+              <span className="text-[0.62rem] font-normal text-brand-muted">{t("home.heroIllustration.labelFrom")}</span> {t("home.heroIllustration.priceFrom")}
             </div>
           </div>
         </div>

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Star, Trash2 } from "lucide-react";
 import { AdminShell } from "@/components/panel/admin-shell";
 import { useMe } from "@/components/panel/use-me";
+import { useLanguage } from "@/components/language-provider";
 import { StatusBadge } from "@/components/status-badge";
 import { api } from "@/lib/client-fetch";
 import { Button, Card, Eyebrow } from "@/components/panel/ui";
@@ -22,6 +23,7 @@ type BlogPostItem = {
 };
 
 export default function AdminBlogPage() {
+  const { t } = useLanguage();
   const { me, loading: meLoading } = useMe();
   const router = useRouter();
 
@@ -44,7 +46,7 @@ export default function AdminBlogPage() {
         if (alive) setPosts(data);
       } catch (err) {
         if (alive)
-          setError(err instanceof Error ? err.message : "Failed to load posts");
+          setError(err instanceof Error ? err.message : t("admin.blog.errorLoadPostsFailed"));
       } finally {
         if (alive) setLoading(false);
       }
@@ -57,7 +59,7 @@ export default function AdminBlogPage() {
   if (meLoading || (loading && me)) {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-brand-muted">Loading...</div>
+        <div className="text-brand-muted">{t("common.ui.loading")}</div>
       </div>
     );
   }
@@ -65,19 +67,19 @@ export default function AdminBlogPage() {
   if (!me || me.role !== "ADMIN") {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">Not authorized</div>
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
       </div>
     );
   }
 
   const handleDelete = async (post: BlogPostItem) => {
-    if (!window.confirm(`Delete "${post.title}"?`)) return;
+    if (!window.confirm(t("admin.blog.confirmDelete", { title: post.title }))) return;
     setDeletingId(post.id);
     try {
       await api(`/api/v1/admin/blog/${post.id}`, { method: "DELETE" });
       setPosts((prev) => prev.filter((p) => p.id !== post.id));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Delete failed");
+      setError(err instanceof Error ? err.message : t("admin.blog.errorDeleteFailed"));
     } finally {
       setDeletingId(null);
     }
@@ -85,14 +87,14 @@ export default function AdminBlogPage() {
 
   return (
     <AdminShell>
-      <Eyebrow className="mb-1 block">BLOG</Eyebrow>
+      <Eyebrow className="mb-1 block">{t("admin.blog.eyebrow")}</Eyebrow>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <h1 className="font-serif text-3xl font-semibold text-brand-navy">
-          Blog posts
+          {t("admin.blog.headingBlogPosts")}
         </h1>
         <Link href="/admin/blog/new">
           <Button variant="primary" size="sm">
-            Add post
+            {t("admin.blog.buttonAddPost")}
           </Button>
         </Link>
       </div>
@@ -105,18 +107,18 @@ export default function AdminBlogPage() {
 
       {posts.length === 0 ? (
         <Card className="p-8 text-center">
-          <p className="text-sm text-brand-muted">No blog posts yet.</p>
+          <p className="text-sm text-brand-muted">{t("admin.blog.emptyNoPosts")}</p>
         </Card>
       ) : (
         <div className="overflow-x-auto rounded-2xl border border-brand-gray bg-white">
           <table className="w-full min-w-[640px] text-sm">
             <thead className="bg-brand-mist font-mono text-[11px] font-semibold uppercase tracking-wider text-brand-muted">
               <tr>
-                <th className="px-4 py-3 text-left">Title</th>
-                <th className="px-4 py-3 text-left">Author</th>
-                <th className="px-4 py-3 text-left">Status</th>
-                <th className="px-4 py-3 text-left">Date</th>
-                <th className="px-4 py-3 text-right">Actions</th>
+                <th className="px-4 py-3 text-left">{t("admin.blog.tableHeaderTitle")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.blog.tableHeaderAuthor")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.blog.tableHeaderStatus")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.blog.tableHeaderDate")}</th>
+                <th className="px-4 py-3 text-right">{t("admin.blog.tableHeaderActions")}</th>
               </tr>
             </thead>
             <tbody>
@@ -134,7 +136,7 @@ export default function AdminBlogPage() {
                     </span>
                   </td>
                   <td className="px-4 py-3.5 text-brand-slate">
-                    {post.doctor?.name || post.authorName || post.createdBy?.name || "—"}
+                    {post.doctor?.name || post.authorName || post.createdBy?.name || t("common.ui.fallbackDash")}
                   </td>
                   <td className="px-4 py-3.5">
                     <StatusBadge status={post.status} />
@@ -149,14 +151,14 @@ export default function AdminBlogPage() {
                         size="sm"
                         onClick={() => router.push(`/admin/blog/${post.id}/edit`)}
                       >
-                        Edit
+                        {t("admin.blog.buttonEdit")}
                       </Button>
                       <Button
                         variant="outlineDanger"
                         size="sm"
                         onClick={() => handleDelete(post)}
                         loading={deletingId === post.id}
-                        aria-label={`Delete ${post.title}`}
+                        aria-label={t("admin.blog.ariaLabelDelete", { title: post.title })}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

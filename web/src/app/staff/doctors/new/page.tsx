@@ -8,10 +8,12 @@ import { useMe } from "@/components/panel/use-me";
 import { api } from "@/lib/client-fetch";
 import { DoctorForm, DoctorFormPayload } from "@/components/panel/doctor-form";
 import { Card, Button, Eyebrow } from "@/components/panel/ui";
+import { useLanguage } from "@/components/language-provider";
 
 export default function NewDoctorPage() {
   const { me, loading } = useMe();
   const router = useRouter();
+  const { t } = useLanguage();
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -21,7 +23,7 @@ export default function NewDoctorPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-brand-muted">Loading...</div>
+        <div className="text-brand-muted">{t("common.ui.loading")}</div>
       </div>
     );
   }
@@ -29,7 +31,7 @@ export default function NewDoctorPage() {
   if (!me || me.role !== "STAFF") {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">Not authorized</div>
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
       </div>
     );
   }
@@ -46,7 +48,7 @@ export default function NewDoctorPage() {
       setSubmittedName(res.name);
       setSuccess(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Submit failed");
+      setError(err instanceof Error ? err.message : t("common.form.submitFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -97,13 +99,13 @@ export default function NewDoctorPage() {
 
   return (
     <StaffShell title="New doctor" userName={me.name}>
-      <Eyebrow className="mb-4 block">NEW ENTRY</Eyebrow>
+      <Eyebrow className="mb-4 block">{t("staff.newEntryEyebrow")}</Eyebrow>
       <DoctorForm
         mode="create"
         onSubmit={handleSubmit}
         submitting={submitting}
         error={error}
-        submitLabel="Submit for review"
+        submitLabel={t("common.form.submitForReview")}
       />
     </StaffShell>
   );

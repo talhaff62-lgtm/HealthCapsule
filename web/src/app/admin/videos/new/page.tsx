@@ -7,10 +7,12 @@ import { useMe } from "@/components/panel/use-me";
 import { api } from "@/lib/client-fetch";
 import { VideoForm, VideoFormPayload } from "@/components/admin/VideoForm";
 import { Eyebrow } from "@/components/panel/ui";
+import { useLanguage } from "@/components/language-provider";
 
 export default function AdminNewVideoPage() {
   const { me, loading } = useMe();
   const router = useRouter();
+  const { t } = useLanguage();
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -18,7 +20,7 @@ export default function AdminNewVideoPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-brand-muted">Loading...</div>
+        <div className="text-brand-muted">{t("common.ui.loading")}</div>
       </div>
     );
   }
@@ -26,7 +28,7 @@ export default function AdminNewVideoPage() {
   if (!me || me.role !== "ADMIN") {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">Not authorized</div>
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
       </div>
     );
   }
@@ -48,14 +50,14 @@ export default function AdminNewVideoPage() {
   };
 
   return (
-    <AdminShell title="Add video" userName={me.name}>
-      <Eyebrow className="mb-4 block">NEW VIDEO</Eyebrow>
+    <AdminShell title={t("admin.videos.newTitle")} userName={me.name}>
+      <Eyebrow className="mb-4 block">{t("admin.videos.newEyebrow")}</Eyebrow>
       <VideoForm
         mode="create"
         onSubmit={handleSubmit}
         submitting={submitting}
         error={error}
-        submitLabel="Create video"
+        submitLabel={t("common.form.submitForReview")}
       />
     </AdminShell>
   );

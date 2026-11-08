@@ -6,6 +6,7 @@ import { Hospital, ScanLine, Stethoscope } from "lucide-react";
 import { StaffShell } from "@/components/panel/staff-shell";
 import { StatusBadge } from "@/components/status-badge";
 import { useMe } from "@/components/panel/use-me";
+import { useLanguage } from "@/components/language-provider";
 import { api } from "@/lib/client-fetch";
 import { Card, Eyebrow, Button } from "@/components/panel/ui";
 
@@ -43,6 +44,7 @@ type SubmissionItem =
 
 export default function MySubmissionsPage() {
   const { me, loading: meLoading } = useMe();
+  const { t } = useLanguage();
   const [items, setItems] = useState<SubmissionItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -90,7 +92,7 @@ export default function MySubmissionsPage() {
   if (meLoading) {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-brand-muted">Loading...</div>
+        <div className="text-brand-muted">{t("common.ui.loading")}</div>
       </div>
     );
   }
@@ -98,7 +100,7 @@ export default function MySubmissionsPage() {
   if (!me || me.role !== "STAFF") {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">Not authorized</div>
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
       </div>
     );
   }
@@ -238,7 +240,7 @@ export default function MySubmissionsPage() {
                       <>
                         <div className="flex justify-between gap-2">
                           <span className="text-brand-muted font-medium">Specialties</span>
-                          <span className="font-medium text-brand-slate text-right">{specNames || "N/A"}</span>
+                          <span className="font-medium text-brand-slate text-right">{specNames || t("common.ui.fallbackNA")}</span>
                         </div>
                         <div className="flex justify-between gap-2">
                           <span className="text-brand-muted font-medium">Degrees</span>

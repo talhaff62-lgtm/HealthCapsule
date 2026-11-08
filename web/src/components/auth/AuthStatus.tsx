@@ -2,13 +2,15 @@
 
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useLanguage } from "@/components/language-provider";
 
 export function AuthStatus() {
   const { data: session, status } = useSession();
+  const { t } = useLanguage();
 
   if (status === "loading") {
     return (
-      <span className="text-sm text-white/70 animate-pulse">Loading...</span>
+      <span className="text-sm text-white/70 animate-pulse">{t("common.ui.loading")}</span>
     );
   }
 
@@ -29,7 +31,7 @@ export function AuthStatus() {
           onClick={() => signOut({ callbackUrl: "/" })}
           className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-white/20"
         >
-          Sign out
+          {t("shell.panel.signOut")}
         </button>
       </div>
     );
@@ -40,7 +42,7 @@ export function AuthStatus() {
       href="/login"
       className="rounded-full bg-brand-sky px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-sky-dark"
     >
-      Sign in
+      {t("login.signIn")}
     </Link>
   );
 }

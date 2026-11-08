@@ -1,43 +1,47 @@
-import React from "react";
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
 import { User, ShieldAlert, Building2 } from "lucide-react";
 import { SectionCanvas } from "@/components/home/SectionCanvas";
 
-export default function Audiences() {
+export default async function Audiences() {
+  const locale = await getServerLocale();
+  const t = getT(locale);
+
   const audiences = [
     {
-      role: "Patients",
-      title: "Ages 18–65, anywhere in Chattogram",
+      role: t("home.audiences.patientRole"),
+      title: t("home.audiences.patientTitle"),
       icon: User,
       bullets: [
-        "Search verified doctors by specialty and area",
-        "Book appointments online with SMS alerts",
-        "Keep every prescription safe in the Vault",
-        "Reach nearest ambulance in one tap",
-        "Find verified blood donors immediately",
+        t("home.audiences.patientBullet1"),
+        t("home.audiences.patientBullet2"),
+        t("home.audiences.patientBullet3"),
+        t("home.audiences.patientBullet4"),
+        t("home.audiences.patientBullet5"),
       ],
     },
     {
-      role: "Doctors",
-      title: "Independent & affiliated chambers",
+      role: t("home.audiences.doctorRole"),
+      title: t("home.audiences.doctorTitle"),
       icon: ShieldAlert,
       bullets: [
-        "A verified profile patients can trust",
-        "Self-managed booking slots and chambers",
-        "Reputation built on authentic patient reviews",
-        "Featured placements in specialties",
-        "Analytics on booking trends and counts",
+        t("home.audiences.doctorBullet1"),
+        t("home.audiences.doctorBullet2"),
+        t("home.audiences.doctorBullet3"),
+        t("home.audiences.doctorBullet4"),
+        t("home.audiences.doctorBullet5"),
       ],
     },
     {
-      role: "Hospitals & Clinics",
-      title: "Private & public medical facilities",
+      role: t("home.audiences.hospitalRole"),
+      title: t("home.audiences.hospitalTitle"),
       icon: Building2,
       bullets: [
-        "Digital storefront for departmental grids",
-        "Reduced call-center load via web channels",
-        "Lower no-shows through automated reminders",
-        "Partnership portals for laboratory routing",
-        "Integrated ambulance dispatch coordinates",
+        t("home.audiences.hospitalBullet1"),
+        t("home.audiences.hospitalBullet2"),
+        t("home.audiences.hospitalBullet3"),
+        t("home.audiences.hospitalBullet4"),
+        t("home.audiences.hospitalBullet5"),
       ],
     },
   ];
@@ -47,13 +51,13 @@ export default function Audiences() {
       <div className="mx-auto max-w-7xl px-6 py-10 sm:px-8 sm:py-14">
         <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
           <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
-            Who it&apos;s for
+            {t("home.audiences.badge")}
           </span>
           <h2 className="mt-2 font-serif text-3xl font-medium text-ink sm:text-4xl">
-            Three roles, one trusted workspace.
+            {t("home.audiences.title")}
           </h2>
           <p className="mt-3 text-ink-muted">
-            Patients, doctors, and hospitals all coordinate on the same verified registry — avoiding duplicated, broken directories.
+            {t("home.audiences.desc")}
           </p>
         </div>
 

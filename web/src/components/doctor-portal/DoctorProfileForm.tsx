@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateDoctorProfile, UpdateProfileResult } from "@/app/portal/doctor/actions";
+import { useLanguage } from "@/components/language-provider";
 
 type DoctorProfileFormProps = {
   doctor: {
@@ -20,6 +21,7 @@ type DoctorProfileFormProps = {
 
 export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
   const router = useRouter();
+  const { t } = useLanguage();
   const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -31,7 +33,7 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
 
     setPending(false);
     if (result.ok) {
-      setStatus({ type: "success", message: "Profile updated successfully." });
+      setStatus({ type: "success", message: t("doctorPortal.profileForm.updatedSuccess") });
       router.refresh();
       router.push(`/doctors/${result.slug}`);
     } else {
@@ -56,7 +58,7 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">
-            Full name
+            {t("form.doctor.labels.doctorName")}
           </label>
           <input
             id="name"
@@ -66,12 +68,12 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
             disabled
             className="w-full rounded-lg border border-brand-gray bg-brand-cream/50 px-4 py-2.5 text-sm text-brand-slate outline-none transition focus:border-brand-gold disabled:cursor-not-allowed disabled:opacity-70"
           />
-          <p className="mt-1 text-xs text-brand-muted">Name can only be changed by an admin.</p>
+          <p className="mt-1 text-xs text-brand-muted">{t("doctorPortal.profileForm.nameAdminOnly")}</p>
         </div>
 
         <div>
           <label htmlFor="bmdcRegNo" className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">
-            BMDC registration number
+            {t("form.doctor.labels.bmdcRegNo")}
           </label>
           <input
             id="bmdcRegNo"
@@ -81,13 +83,13 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
             disabled
             className="w-full rounded-lg border border-brand-gray bg-brand-cream/50 px-4 py-2.5 text-sm text-brand-slate outline-none transition focus:border-brand-gold disabled:cursor-not-allowed disabled:opacity-70"
           />
-          <p className="mt-1 text-xs text-brand-muted">BMDC number can only be changed by an admin.</p>
+          <p className="mt-1 text-xs text-brand-muted">{t("doctorPortal.profileForm.bmdcAdminOnly")}</p>
         </div>
       </div>
 
       <div>
         <label htmlFor="photoUrl" className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">
-          Photo URL
+          {t("form.doctor.labels.doctorPhoto")}
         </label>
         <input
           id="photoUrl"
@@ -101,21 +103,21 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
 
       <div>
         <label htmlFor="bio" className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">
-          Bio
+          {t("form.doctor.labels.bio")}
         </label>
         <textarea
           id="bio"
           name="bio"
           rows={4}
           defaultValue={doctor.bio ?? ""}
-          placeholder="Tell patients about your practice, expertise, and approach."
+          placeholder={t("form.doctor.placeholders.bioExample")}
           className="w-full rounded-lg border border-brand-gray bg-white px-4 py-2.5 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
         />
       </div>
 
       <div>
         <label htmlFor="consultationFee" className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">
-          Consultation fee (৳)
+          {t("form.doctor.labels.consultationFee")}
         </label>
         <input
           id="consultationFee"
@@ -124,35 +126,35 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
           step="0.01"
           min="0"
           defaultValue={doctor.consultationFee ?? ""}
-          placeholder="500"
+          placeholder={t("form.doctor.placeholders.consultationFeeExample")}
           className="w-full rounded-lg border border-brand-gray bg-white px-4 py-2.5 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
         />
       </div>
 
       <div>
         <label htmlFor="degrees" className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">
-          Degrees
+          {t("form.doctor.labels.degrees")}
         </label>
         <textarea
           id="degrees"
           name="degrees"
           rows={3}
           defaultValue={doctor.degrees.join(", ")}
-          placeholder="MBBS, FCPS, MD (separate with commas)"
+          placeholder={t("form.doctor.placeholders.degreesExample")}
           className="w-full rounded-lg border border-brand-gray bg-white px-4 py-2.5 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
         />
       </div>
 
       <div>
         <label htmlFor="languages" className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">
-          Languages
+          {t("form.doctor.labels.languages")}
         </label>
         <input
           id="languages"
           name="languages"
           type="text"
           defaultValue={doctor.languages.join(", ")}
-          placeholder="English, Bangla, Hindi"
+          placeholder={t("form.doctor.placeholders.languagesExample")}
           className="w-full rounded-lg border border-brand-gray bg-white px-4 py-2.5 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
         />
       </div>
@@ -163,13 +165,13 @@ export default function DoctorProfileForm({ doctor }: DoctorProfileFormProps) {
           disabled={pending}
           className="rounded-lg bg-brand-navy px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-navy-light disabled:opacity-60"
         >
-          {pending ? "Saving..." : "Save profile"}
+          {pending ? t("doctorPortal.profileForm.saving") : t("doctorPortal.profileForm.saveProfile")}
         </button>
         <a
           href="/portal/doctor/chambers"
           className="rounded-lg border border-brand-gray bg-white px-6 py-2.5 text-sm font-medium text-brand-slate transition hover:bg-brand-cream"
         >
-          Manage chambers
+          {t("doctorPortal.profileForm.manageChambers")}
         </a>
       </div>
     </form>

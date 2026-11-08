@@ -7,10 +7,12 @@ import { useMe } from "@/components/panel/use-me";
 import { api } from "@/lib/client-fetch";
 import { DoctorForm, DoctorFormPayload } from "@/components/panel/doctor-form";
 import { Eyebrow } from "@/components/panel/ui";
+import { useLanguage } from "@/components/language-provider";
 
 export default function AdminNewDoctorPage() {
   const { me, loading } = useMe();
   const router = useRouter();
+  const { t } = useLanguage();
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -18,7 +20,7 @@ export default function AdminNewDoctorPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-brand-muted">Loading...</div>
+        <div className="text-brand-muted">{t("common.ui.loading")}</div>
       </div>
     );
   }
@@ -26,7 +28,7 @@ export default function AdminNewDoctorPage() {
   if (!me || me.role !== "ADMIN") {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">Not authorized</div>
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
       </div>
     );
   }
@@ -48,14 +50,14 @@ export default function AdminNewDoctorPage() {
   };
 
   return (
-    <AdminShell title="Add doctor" userName={me.name}>
-      <Eyebrow className="mb-4 block">NEW DOCTOR</Eyebrow>
+    <AdminShell title={t("admin.doctors.newTitle")} userName={me.name}>
+      <Eyebrow className="mb-4 block">{t("admin.doctors.newEyebrow")}</Eyebrow>
       <DoctorForm
         mode="create"
         onSubmit={handleSubmit}
         submitting={submitting}
         error={error}
-        submitLabel="Create doctor"
+        submitLabel={t("common.form.submitForReview")}
       />
     </AdminShell>
   );

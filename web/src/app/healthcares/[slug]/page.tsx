@@ -34,6 +34,8 @@ import { VerificationStatus } from "@prisma/client";
 import { getFacilityTypeLabel } from "@/lib/facility-helpers";
 import TierBadge from "@/components/ui/TierBadge";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion";
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
 
 export const dynamic = "force-dynamic";
 
@@ -98,13 +100,16 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
     notFound();
   }
 
+  const locale = await getServerLocale();
+  const t = getT(locale);
+
   // Stats array computation
   const statsList = [
-    facility.beds != null && facility.beds > 0 && { label: "BEDS", value: facility.beds },
-    facility.icuBeds != null && facility.icuBeds > 0 && { label: "ICU BEDS", value: facility.icuBeds },
-    facility.operationTheaters != null && facility.operationTheaters > 0 && { label: "OPERATION THEATERS", value: facility.operationTheaters },
-    facility.doctorsOnPanel != null && facility.doctorsOnPanel > 0 && { label: "DOCTORS", value: facility.doctorsOnPanel },
-    facility.establishedYear != null && { label: "ESTABLISHED", value: facility.establishedYear },
+    facility.beds != null && facility.beds > 0 && { label: t("facilities.detail.stats.beds"), value: facility.beds },
+    facility.icuBeds != null && facility.icuBeds > 0 && { label: t("facilities.detail.stats.icuBeds"), value: facility.icuBeds },
+    facility.operationTheaters != null && facility.operationTheaters > 0 && { label: t("facilities.detail.stats.operationTheaters"), value: facility.operationTheaters },
+    facility.doctorsOnPanel != null && facility.doctorsOnPanel > 0 && { label: t("facilities.detail.stats.doctors"), value: facility.doctorsOnPanel },
+    facility.establishedYear != null && { label: t("facilities.detail.stats.established"), value: facility.establishedYear },
   ].filter(Boolean) as { label: string; value: number | string }[];
 
   const statsGridColsClass =
@@ -122,53 +127,53 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
   const capabilities = [
     facility.hasEmergency && {
       key: "emergency",
-      label: "24/7 Emergency",
+      label: t("facilities.detail.capabilities.emergency"),
       icon: Siren,
       isEmergency: true,
     },
     facility.hasAmbulance && {
       key: "ambulance",
-      label: "Ambulance",
+      label: t("facilities.detail.capabilities.ambulance"),
       icon: Ambulance,
     },
     facility.hasIcu && {
       key: "icu",
-      label: "ICU",
+      label: t("facilities.detail.capabilities.icu"),
       icon: Stethoscope,
     },
     facility.hasNicu && {
       key: "nicu",
-      label: "NICU",
+      label: t("facilities.detail.capabilities.nicu"),
       icon: Baby,
     },
     facility.hasBloodBank && {
       key: "bloodbank",
-      label: "Blood Bank",
+      label: t("facilities.detail.capabilities.bloodBank"),
       icon: Droplets,
     },
     facility.hasPharmacy && {
       key: "pharmacy",
-      label: "Pharmacy",
+      label: t("facilities.detail.capabilities.pharmacy"),
       icon: Pill,
     },
     facility.hasPathologyLab && {
       key: "pathlab",
-      label: "Pathology Lab",
+      label: t("facilities.detail.capabilities.pathologyLab"),
       icon: Microscope,
     },
     facility.hasParkingAvailable && {
       key: "parking",
-      label: "Parking",
+      label: t("facilities.detail.capabilities.parking"),
       icon: ParkingCircle,
     },
     facility.hasHomeSampleCollection && {
       key: "homesample",
-      label: "Home Sample",
+      label: t("facilities.detail.capabilities.homeSample"),
       icon: Home,
     },
     facility.hasOnlineReport && {
       key: "onlinereport",
-      label: "Online Reports",
+      label: t("facilities.detail.capabilities.onlineReports"),
       icon: FileCheck,
     },
   ].filter(Boolean) as {
@@ -186,7 +191,7 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
           className="mb-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-sky hover:text-brand-sky-dark transition"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to healthcare providers
+          {t("facilities.detail.backToList")}
         </Link>
 
         {/* Hero */}
@@ -248,7 +253,7 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
                   {facility.establishedYear ? (
                     <span className="inline-flex items-center gap-1">
                       <Calendar className="h-3.5 w-3.5 text-white/70" />
-                      Est. {facility.establishedYear}
+                      {t("facilities.detail.established", { year: facility.establishedYear })}
                     </span>
                   ) : null}
                   {(facility.area || facility.establishedYear || facility.rating != null) && facility.openingHours ? <span>•</span> : null}
@@ -337,10 +342,10 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
               <ScrollReveal>
                 <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
                   <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted">
-                    OVERVIEW
+                    {t("facilities.detail.overviewLabel")}
                   </span>
                   <h2 className="font-serif text-xl font-semibold text-brand-navy border-b border-brand-gray pb-3 mt-0.5">
-                    About
+                    {t("facilities.detail.about")}
                   </h2>
                   <p className="mt-4 text-[15px] leading-relaxed text-brand-slate whitespace-pre-line">
                     {facility.longDescription || facility.description}
@@ -354,10 +359,10 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
               <ScrollReveal>
                 <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
                   <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted">
-                    SPECIALTIES
+                    {t("facilities.detail.specialtiesLabel")}
                   </span>
                   <h2 className="font-serif text-xl font-semibold text-brand-navy border-b border-brand-gray pb-3 mt-0.5">
-                    Departments
+                    {t("facilities.detail.departments")}
                   </h2>
                   <StaggerContainer className="mt-4 grid gap-3 sm:grid-cols-2">
                     {facility.departments.map((dept) => (
@@ -385,10 +390,10 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
               <ScrollReveal>
                 <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
                   <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted">
-                    PRICING & OFFERS
+                    {t("facilities.detail.pricingAndOffersLabel")}
                   </span>
                   <h2 className="font-serif text-xl font-semibold text-brand-navy border-b border-brand-gray pb-3 mt-0.5">
-                    Services
+                    {t("facilities.detail.services")}
                   </h2>
                   <div className="mt-4 divide-y divide-brand-gray border-t border-b border-brand-gray">
                     {facility.services.map((service) => (
@@ -402,7 +407,7 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
                             ৳{service.price.toString()}
                           </span>
                         ) : (
-                          <span className="text-xs text-brand-muted">—</span>
+                          <span className="text-xs text-brand-muted">{t("common.notAvailable")}</span>
                         )}
                       </div>
                     ))}
@@ -416,16 +421,16 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
               <ScrollReveal>
                 <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
                   <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted">
-                    LABORATORY & RADIOLOGY
+                    {t("facilities.detail.laboratoryAndRadiologyLabel")}
                   </span>
                   <h2 className="font-serif text-xl font-semibold text-brand-navy border-b border-brand-gray pb-3 mt-0.5">
-                    Diagnostics & Imaging
+                    {t("facilities.detail.diagnosticsAndImaging")}
                   </h2>
                   <div className="mt-4 space-y-6">
                     {facility.diagnosticTests.length > 0 && (
                       <div>
                         <h3 className="text-xs font-semibold uppercase tracking-wider text-brand-slate mb-3">
-                          Diagnostic Tests
+                          {t("facilities.detail.diagnosticTests")}
                         </h3>
                         <div className="flex flex-wrap gap-2">
                           {facility.diagnosticTests.map((test) => (
@@ -443,7 +448,7 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
                     {facility.imagingServices.length > 0 && (
                       <div>
                         <h3 className="text-xs font-semibold uppercase tracking-wider text-brand-slate mb-3">
-                          Imaging & Procedures
+                          {t("facilities.detail.imagingAndProcedures")}
                         </h3>
                         <div className="flex flex-wrap gap-2">
                           {facility.imagingServices.map((service) => (
@@ -467,17 +472,17 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
               <ScrollReveal>
                 <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
                   <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted">
-                    CREDENTIALS
+                    {t("facilities.detail.credentialsLabel")}
                   </span>
                   <h2 className="font-serif text-xl font-semibold text-brand-navy border-b border-brand-gray pb-3 mt-0.5">
-                    Accreditation & Insurance
+                    {t("facilities.detail.accreditationAndInsurance")}
                   </h2>
                   <div className="mt-4 space-y-4">
                     {facility.accreditation && (
                       <div className="flex items-center gap-2.5 text-sm text-brand-slate">
                         <Shield className="h-4 w-4 shrink-0 text-brand-sky" />
                         <span>
-                          <strong className="font-medium text-brand-navy">Accreditation:</strong>{" "}
+                          <strong className="font-medium text-brand-navy">{t("facilities.detail.accreditation")}</strong>{" "}
                           {facility.accreditation}
                         </span>
                       </div>
@@ -486,7 +491,7 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
                       <div className="flex items-center gap-2.5 text-sm text-brand-slate">
                         <ShieldCheck className="h-4 w-4 shrink-0 text-brand-sky" />
                         <span>
-                          <strong className="font-medium text-brand-navy">DGHS Licence:</strong>{" "}
+                          <strong className="font-medium text-brand-navy">{t("facilities.detail.dghsLicence")}</strong>{" "}
                           {facility.dghsLicenceNo}
                         </span>
                       </div>
@@ -494,7 +499,7 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
                     {facility.insurancePanels.length > 0 && (
                       <div className="pt-2">
                         <p className="text-xs font-semibold uppercase tracking-wider text-brand-slate mb-3">
-                          Insurance Panels
+                          {t("facilities.detail.insurancePanels")}
                         </p>
                         <div className="flex flex-wrap gap-2">
                           {facility.insurancePanels.map((panel) => (
@@ -518,10 +523,10 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
               <ScrollReveal>
                 <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm sm:p-8">
                   <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted">
-                    MEDIA
+                    {t("facilities.detail.mediaLabel")}
                   </span>
                   <h2 className="font-serif text-xl font-semibold text-brand-navy border-b border-brand-gray pb-3 mt-0.5">
-                    Gallery
+                    {t("facilities.detail.gallery")}
                   </h2>
                   <StaggerContainer className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                     {facility.gallery.map((image) => (
@@ -551,10 +556,10 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
               <ScrollReveal>
                 <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm">
                   <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted">
-                    GET IN TOUCH
+                    {t("facilities.detail.getInTouchLabel")}
                   </span>
                   <h2 className="font-serif text-xl font-semibold text-brand-navy border-b border-brand-gray pb-3 mt-0.5">
-                    Contact
+                    {t("common.contact")}
                   </h2>
 
                   <div className="mt-4 flex flex-col gap-2">
@@ -564,7 +569,7 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
                         className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand-sky px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-sky-dark shadow-sm"
                       >
                         <Phone className="h-4 w-4" />
-                        Call now
+                        {t("facilities.detail.callNow")}
                       </a>
                     )}
                     {facility.emergencyPhone && (
@@ -573,7 +578,7 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
                         className="flex w-full items-center justify-center gap-2 rounded-xl bg-status-emergency px-4 py-3 text-sm font-semibold text-white transition hover:bg-red-700 shadow-sm"
                       >
                         <PhoneCall className="h-4 w-4" />
-                        Emergency
+                        {t("facilities.detail.emergencyButton")}
                       </a>
                     )}
                   </div>
@@ -596,7 +601,7 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
                         <PhoneCall className="h-4 w-4 shrink-0 text-status-emergency" />
                         <span className="font-mono font-medium">{facility.emergencyPhone}</span>
                         <span className="ml-auto text-[0.6rem] font-bold uppercase tracking-wide">
-                          Emergency
+                          {t("facilities.detail.emergencyLabel")}
                         </span>
                       </a>
                     )}
@@ -626,7 +631,7 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
                         className="flex items-center gap-2.5 break-all text-brand-slate hover:text-brand-sky transition"
                       >
                         <Globe className="h-4 w-4 shrink-0 text-brand-sky" />
-                        <span>Visit website ↗</span>
+                        <span>{t("facilities.detail.visitWebsite")}</span>
                       </a>
                     )}
                     {facility.address && (
@@ -645,52 +650,52 @@ export default async function FacilityProfilePage({ params }: FacilityProfilePag
               <ScrollReveal delay={0.05}>
                 <div className="rounded-2xl border border-brand-gray bg-white p-6 shadow-sm">
                   <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-brand-muted">
-                    AT A GLANCE
+                    {t("facilities.detail.atAGlanceLabel")}
                   </span>
                   <h2 className="font-serif text-xl font-semibold text-brand-navy border-b border-brand-gray pb-3 mt-0.5">
-                    Quick facts
+                    {t("facilities.detail.quickFacts")}
                   </h2>
 
                   <dl className="mt-4 divide-y divide-brand-gray text-sm">
                     <div className="flex items-center justify-between py-2.5">
-                      <dt className="text-xs text-brand-muted">Type</dt>
+                      <dt className="text-xs text-brand-muted">{t("facilities.detail.type")}</dt>
                       <dd className="font-semibold text-brand-navy">
                         {getFacilityTypeLabel(facility.type)}
                       </dd>
                     </div>
 
                     <div className="flex items-center justify-between py-2.5">
-                      <dt className="text-xs text-brand-muted">Ownership</dt>
+                      <dt className="text-xs text-brand-muted">{t("facilities.detail.ownership")}</dt>
                       <dd className="font-semibold text-brand-navy">
-                        {facility.ownership || "—"}
+                        {facility.ownership || t("common.notAvailable")}
                       </dd>
                     </div>
 
                     <div className="flex items-center justify-between py-2.5">
-                      <dt className="text-xs text-brand-muted">Opening Hours</dt>
+                      <dt className="text-xs text-brand-muted">{t("facilities.detail.openingHours")}</dt>
                       <dd className="font-semibold text-brand-navy text-right">
-                        {facility.openingHours || "—"}
+                        {facility.openingHours || t("common.notAvailable")}
                       </dd>
                     </div>
 
                     <div className="flex items-center justify-between py-2.5">
-                      <dt className="text-xs text-brand-muted">Emergency</dt>
+                      <dt className="text-xs text-brand-muted">{t("facilities.detail.emergencyQuickFact")}</dt>
                       <dd className="font-semibold text-brand-navy">
-                        {facility.hasEmergency ? "24/7" : "—"}
+                        {facility.hasEmergency ? "24/7" : t("common.notAvailable")}
                       </dd>
                     </div>
 
                     <div className="flex items-center justify-between py-2.5">
-                      <dt className="text-xs text-brand-muted">Parking</dt>
+                      <dt className="text-xs text-brand-muted">{t("facilities.detail.parking")}</dt>
                       <dd className="font-semibold text-brand-navy">
-                        {facility.hasParkingAvailable ? "Yes" : "No"}
+                        {facility.hasParkingAvailable ? t("common.yes") : t("common.no")}
                       </dd>
                     </div>
                   </dl>
 
                   <div className="mt-5 flex items-center gap-1.5 border-t border-brand-gray pt-4 text-[0.65rem] font-mono font-bold uppercase tracking-wider text-status-verified">
                     <ShieldCheck className="h-3.5 w-3.5" />
-                    Verified Provider
+                    {t("common.verifiedProvider")}
                   </div>
                 </div>
               </ScrollReveal>

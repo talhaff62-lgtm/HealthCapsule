@@ -6,6 +6,8 @@ import { parseFacilityType } from "@/lib/facility-helpers";
 import FacilityCard from "@/components/healthcares/FacilityCard";
 import Pagination from "@/components/ui/Pagination";
 import { ScrollReveal, StaggerContainer } from "@/components/ui/motion";
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
 
 export const metadata = {
   title: "Healthcare Providers — Capsule",
@@ -13,11 +15,11 @@ export const metadata = {
     "Browse verified hospitals, diagnostic centers, and clinics in Chattogram.",
 };
 
-const TABS: { value: FacilityType | "ALL"; label: string }[] = [
-  { value: "ALL", label: "All" },
-  { value: "HOSPITAL", label: "Hospitals" },
-  { value: "DIAGNOSTIC_CENTER", label: "Diagnostic Centers" },
-  { value: "CLINIC", label: "Clinics" },
+const TABS: { value: FacilityType | "ALL"; labelKey: string }[] = [
+  { value: "ALL", labelKey: "facilities.listing.tabAll" },
+  { value: "HOSPITAL", labelKey: "facilities.listing.tabHospitals" },
+  { value: "DIAGNOSTIC_CENTER", labelKey: "facilities.listing.tabDiagnosticCenters" },
+  { value: "CLINIC", labelKey: "facilities.listing.tabClinics" },
 ];
 
 type SearchParams = Promise<{ type?: string; page?: string }>;
@@ -27,6 +29,9 @@ export default async function HealthcaresPage({
 }: {
   searchParams: SearchParams;
 }) {
+  const locale = await getServerLocale();
+  const t = getT(locale);
+
   const params = await searchParams;
   const pageParam = parseInt(params.page ?? "1", 10) || 1;
   const selectedType = parseFacilityType(params.type);
@@ -44,13 +49,13 @@ export default async function HealthcaresPage({
         <ScrollReveal>
           <span className="inline-flex items-center gap-1 text-[0.65rem] font-mono font-semibold uppercase tracking-wider text-brand-sky-bright">
             <Building2 className="h-3.5 w-3.5" />
-            Registry Listings
+            {t("facilities.listing.registryListings")}
           </span>
           <h1 className="mt-2 font-serif text-3xl font-semibold text-brand-navy sm:text-4xl">
-            Healthcare Providers
+            {t("facilities.listing.healthcareProviders")}
           </h1>
           <p className="mt-2 text-sm text-brand-muted max-w-xl">
-            Verified hospitals and diagnostic centers in Chattogram.
+            {t("facilities.listing.verifiedHospitalsDescription")}
           </p>
 
           <div className="mt-6 flex flex-wrap gap-2">
@@ -68,7 +73,7 @@ export default async function HealthcaresPage({
                       : "border border-brand-gray bg-white text-brand-navy hover:border-brand-navy"
                   }`}
                 >
-                  {tab.label}
+                  {t(tab.labelKey)}
                 </Link>
               );
             })}
@@ -79,13 +84,13 @@ export default async function HealthcaresPage({
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
         {total > 0 && (
           <p className="mb-4 text-sm text-brand-muted">
-            Showing <span className="font-semibold text-brand-navy">{facilities.length}</span> of {total} verified facilities
+            {t("facilities.listing.showingRange", { count: facilities.length, total })}
           </p>
         )}
 
         {facilities.length === 0 ? (
           <div className="rounded-2xl border border-brand-gray bg-white p-12 text-center text-brand-muted">
-            No verified facilities found.
+            {t("facilities.listing.noFacilitiesFound")}
           </div>
         ) : (
           <>

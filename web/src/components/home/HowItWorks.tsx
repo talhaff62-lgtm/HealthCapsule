@@ -1,29 +1,34 @@
-import React from "react";
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
 import Image from "next/image";
+import React from "react";
 import { SectionCanvas } from "@/components/home/SectionCanvas";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion";
 
-export default function HowItWorks() {
+export default async function HowItWorks() {
+  const locale = await getServerLocale();
+  const t = getT(locale);
+
   const steps = [
     {
       num: "01",
-      title: "Search & filter",
-      desc: "Enter your specialty, area, and preferred date. Every result is a verified provider with real availability.",
+      title: t("home.howItWorks.step1Title"),
+      desc: t("home.howItWorks.step1Desc"),
     },
     {
       num: "02",
-      title: "View verified profile",
-      desc: "See credentials, hospital affiliations, patient reviews, and live schedule — no guesswork.",
+      title: t("home.howItWorks.step2Title"),
+      desc: t("home.howItWorks.step2Desc"),
     },
     {
       num: "03",
-      title: "Book in two taps",
-      desc: "Confirm your slot instantly. An SMS reminder goes out 24 hours before your appointment.",
+      title: t("home.howItWorks.step3Title"),
+      desc: t("home.howItWorks.step3Desc"),
     },
     {
       num: "04",
-      title: "Store & share records",
-      desc: "Prescriptions and lab reports are saved to your Prescription Vault, accessible any time.",
+      title: t("home.howItWorks.step4Title"),
+      desc: t("home.howItWorks.step4Desc"),
     },
   ];
 
@@ -32,13 +37,13 @@ export default function HowItWorks() {
       <div className="mx-auto max-w-7xl px-6 py-10 sm:px-8 sm:py-14">
         <ScrollReveal className="mx-auto mb-8 max-w-2xl text-center">
           <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
-            How it works
+            {t("home.howItWorks.badge")}
           </span>
           <h2 className="mt-2 font-serif text-3xl font-medium text-ink sm:text-4xl">
-            From search to appointment in two minutes.
+            {t("home.howItWorks.title")}
           </h2>
           <p className="mt-3 text-ink-muted">
-            Capsule cuts through the noise of group chats, outdated Facebook pages, and unreachable phone numbers.
+            {t("home.howItWorks.desc")}
           </p>
         </ScrollReveal>
 
@@ -46,7 +51,7 @@ export default function HowItWorks() {
           <div className="rounded-[2rem] bg-white p-4 shadow-card">
             <Image
               src="/images/how_it_works.png"
-              alt="How Capsule works: search and filter doctors, view verified profiles, book in two taps, and store your records"
+              alt={t("home.howItWorks.imageAlt")}
               width={1600}
               height={900}
               className="h-auto w-full rounded-3xl"

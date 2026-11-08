@@ -3,6 +3,7 @@
 import { useState, useEffect, FormEvent } from "react";
 import { Hospital, ScanLine, Check, AlertTriangle } from "lucide-react";
 import { api } from "@/lib/client-fetch";
+import { useLanguage } from "@/components/language-provider";
 import {
   TextField,
   TextAreaField,
@@ -125,12 +126,14 @@ export function FacilityForm({
   onSubmit,
   submitting,
   error,
-  submitLabel = "Submit for review",
+  submitLabel,
   showListingSection = false,
   initialListingTier = "FREE",
   initialFeaturedUntil = "",
   onListingChange,
 }: FacilityFormProps) {
+  const { t } = useLanguage();
+  const effectiveSubmitLabel = submitLabel ?? t("common.form.submitForReview");
   const [type, setType] = useState<FacilityType>(
     initialValues?.type ?? "HOSPITAL"
   );
@@ -356,7 +359,7 @@ export function FacilityForm({
   ) => {
     setUploadError("");
     if (!file.type.startsWith("image/")) {
-      setUploadError("File must be an image");
+      setUploadError(t("common.form.fileMustBeImage"));
       return;
     }
     setPreview(URL.createObjectURL(file));
@@ -375,12 +378,12 @@ export function FacilityForm({
         error?: string;
       } | null;
       if (!res.ok || !data?.success || !data.image?.url) {
-        throw new Error(data?.error ?? `Upload failed (${res.status})`);
+        throw new Error(data?.error ?? t("common.form.uploadFailedWithStatus", { status: res.status }));
       }
       setUrl(data.image.url);
     } catch (err) {
       setUrl("");
-      setUploadError(err instanceof Error ? err.message : "Upload failed");
+      setUploadError(err instanceof Error ? err.message : t("common.form.uploadFailed"));
     } finally {
       setUploading(false);
     }
@@ -411,7 +414,7 @@ export function FacilityForm({
     setAreaError("");
 
     if (!selectedArea) {
-      setAreaError("Area is required");
+      setAreaError(t("common.form.areaRequired"));
       return;
     }
 
@@ -462,32 +465,32 @@ export function FacilityForm({
     <form onSubmit={handleSubmit} className="space-y-4">
       {showListingSection && (
         <div className="mb-6 rounded-2xl border border-brand-gray bg-white p-4 space-y-4">
-          <SectionTitle className="mb-2">Listing Tier & Visibility</SectionTitle>
+          <SectionTitle className="mb-2">{t("form.facility.sections.listingTierVisibility")}</SectionTitle>
           <div>
             <span className="text-sm font-semibold text-brand-slate mb-2 block">
-              Listing Tier
+              {t("form.facility.labels.listingTier")}
             </span>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {(["FREE", "VERIFIED", "FEATURED", "PREMIUM"] as const).map((t) => (
+              {(["FREE", "VERIFIED", "FEATURED", "PREMIUM"] as const).map((tier) => (
                 <button
-                  key={t}
+                  key={tier}
                   type="button"
-                  aria-pressed={listingTier === t}
-                  onClick={() => handleTierChange(t)}
+                  aria-pressed={listingTier === tier}
+                  onClick={() => handleTierChange(tier)}
                   className={`h-12 rounded-xl border-2 font-semibold flex items-center justify-center text-sm transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-sky ${
-                    listingTier === t
+                    listingTier === tier
                       ? "border-brand-navy bg-brand-navy text-white"
                       : "border-brand-gray bg-white text-brand-muted hover:border-brand-sky"
                   }`}
                 >
-                  {t}
+                  {t(`form.facility.options.listingTier.${tier.toLowerCase()}`)}
                 </button>
               ))}
             </div>
           </div>
           <TextField
             id="featuredUntil"
-            label="Featured Until Date"
+            label={t("form.facility.labels.featuredUntilDate")}
             type="date"
             value={featuredUntil}
             onChange={(e) => handleFeaturedUntilChange(e.target.value)}
@@ -498,7 +501,7 @@ export function FacilityForm({
       {/* TYPE TOGGLE */}
       <div>
         <span className="text-sm font-semibold text-brand-slate mb-2 block">
-          Facility Type
+          {t("form.facility.labels.facilityType")}
         </span>
         <div className="grid grid-cols-2 gap-3">
           <button
@@ -516,7 +519,7 @@ export function FacilityForm({
                 type === "HOSPITAL" ? "text-brand-sky-bright" : "text-brand-muted"
               }`}
             />
-            <span className="text-sm">Hospital</span>
+            <span className="text-sm">{t("form.facility.options.facilityType.hospital")}</span>
           </button>
           <button
             type="button"
@@ -533,7 +536,7 @@ export function FacilityForm({
                 type === "DIAGNOSTIC_CENTER" ? "text-brand-sky-bright" : "text-brand-muted"
               }`}
             />
-            <span className="text-sm">Diagnostic Center</span>
+            <span className="text-sm">{t("form.facility.options.facilityType.diagnosticCenter")}</span>
           </button>
         </div>
       </div>
@@ -541,7 +544,7 @@ export function FacilityForm({
       {/* Name */}
       <TextField
         id="name"
-        label="Name"
+        label={t("form.facility.labels.name")}
         required
         type="text"
         value={name}
@@ -551,12 +554,12 @@ export function FacilityForm({
         <div className="rounded-xl border border-status-warning/50 bg-status-warning-light/60 px-4 py-3 space-y-2">
           <div className="flex items-center gap-2 text-status-warning font-semibold text-sm">
             <AlertTriangle className="h-4 w-4 shrink-0" />
-            <span>Already in the system?</span>
+            <span>{t("common.form.alreadyInSystem")}</span>
           </div>
           <ul className="space-y-1 text-sm text-brand-slate">
             {dupMatches.slice(0, 3).map((match) => (
               <li key={match.id} className="truncate">
-                {match.name} — {match.type === "DIAGNOSTIC_CENTER" ? "Diagnostic Center" : "Hospital"}
+                {match.name} — {match.type === "DIAGNOSTIC_CENTER" ? t("form.facility.options.facilityType.diagnosticCenter") : t("form.facility.options.facilityType.hospital")}
                 {match.area?.name ? `, ${match.area.name}` : ""}
               </li>
             ))}
@@ -567,7 +570,7 @@ export function FacilityForm({
       {/* Address */}
       <TextAreaField
         id="address"
-        label="Address"
+        label={t("form.facility.labels.address")}
         required
         rows={3}
         value={address}
@@ -577,7 +580,7 @@ export function FacilityForm({
       {/* Area Picker */}
       <div className="relative">
         <label htmlFor="area-input" className="block mb-1.5 text-sm font-semibold text-brand-slate">
-          Area <span className="text-status-emergency">*</span>
+          {t("form.facility.labels.area")} <span className="text-status-emergency">*</span>
         </label>
         {selectedArea ? (
           <div className="flex items-center justify-between h-12 rounded-xl border border-brand-navy bg-brand-mist px-4 text-sm font-medium text-brand-navy">
@@ -593,7 +596,7 @@ export function FacilityForm({
               }}
               className="text-xs font-semibold text-brand-sky-deep hover:underline"
             >
-              Change
+              {t("common.form.change")}
             </button>
           </div>
         ) : (
@@ -607,7 +610,7 @@ export function FacilityForm({
                 setAreaQuery(e.target.value);
                 setAreaDropdownOpen(true);
               }}
-              placeholder="Search area (min 1 char)..."
+              placeholder={t("form.facility.placeholders.searchArea")}
               className={`h-12 w-full rounded-xl border bg-white px-4 text-base text-brand-slate placeholder:text-brand-navy-muted/70 transition-colors focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/25 ${
                 areaError ? "border-status-emergency" : "border-brand-gray"
               }`}
@@ -640,39 +643,39 @@ export function FacilityForm({
 
       {/* Contact Info */}
       <div>
-        <SectionTitle className="mt-6 mb-3">Contact Info</SectionTitle>
+        <SectionTitle className="mt-6 mb-3">{t("form.facility.sections.contactInfo")}</SectionTitle>
         <div className="space-y-4">
           <TextField
             id="phone"
-            label="Phone"
+            label={t("form.facility.labels.phone")}
             type="text"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
           <TextField
             id="emergencyPhone"
-            label="Emergency Phone"
+            label={t("form.facility.labels.emergencyPhone")}
             type="text"
             value={emergencyPhone}
             onChange={(e) => setEmergencyPhone(e.target.value)}
           />
           <TextField
             id="mobile"
-            label="Mobile"
+            label={t("form.facility.labels.mobile")}
             type="text"
             value={mobile}
             onChange={(e) => setMobile(e.target.value)}
           />
           <TextField
             id="email"
-            label="Email"
+            label={t("form.facility.labels.email")}
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
             id="website"
-            label="Website"
+            label={t("form.facility.labels.website")}
             type="url"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
@@ -682,41 +685,41 @@ export function FacilityForm({
 
       {/* Capacity & Infrastructure */}
       <div>
-        <SectionTitle className="mt-6 mb-3">Capacity & Infrastructure</SectionTitle>
+        <SectionTitle className="mt-6 mb-3">{t("form.facility.sections.capacityInfrastructure")}</SectionTitle>
         <div className="space-y-4">
           <TextField
             id="beds"
-            label="Total Beds"
+            label={t("form.facility.labels.totalBeds")}
             type="number"
             value={beds}
             onChange={(e) => setBeds(e.target.value)}
           />
           <TextField
             id="icuBeds"
-            label="ICU Beds"
+            label={t("form.facility.labels.icuBeds")}
             type="number"
             value={icuBeds}
             onChange={(e) => setIcuBeds(e.target.value)}
           />
           <TextField
             id="nicuBeds"
-            label="NICU Beds"
+            label={t("form.facility.labels.nicuBeds")}
             type="number"
             value={nicuBeds}
             onChange={(e) => setNicuBeds(e.target.value)}
           />
           <TextField
             id="operationTheaters"
-            label="Operation Theaters"
+            label={t("form.facility.labels.operationTheaters")}
             type="number"
             value={operationTheaters}
             onChange={(e) => setOperationTheaters(e.target.value)}
           />
           <TextField
             id="establishedYear"
-            label="Established Year"
+            label={t("form.facility.labels.establishedYear")}
             type="number"
-            placeholder="e.g. 1995"
+            placeholder={t("form.facility.placeholders.establishedYearExample")}
             value={establishedYear}
             onChange={(e) => setEstablishedYear(e.target.value)}
           />
@@ -725,24 +728,24 @@ export function FacilityForm({
 
       {/* Capabilities */}
       <div>
-        <SectionTitle className="mt-6 mb-3">Capabilities</SectionTitle>
+        <SectionTitle className="mt-6 mb-3">{t("form.facility.sections.capabilities")}</SectionTitle>
         <div className="space-y-4">
           <div>
             <span className="text-sm font-semibold text-brand-slate mb-2 block">
-              Services & Facilities
+              {t("form.facility.labels.servicesFacilities")}
             </span>
             <div className="flex flex-wrap gap-2.5">
               {[
-                { key: "hasEmergency", label: "Emergency (24/7)", value: hasEmergency, setter: setHasEmergency },
-                { key: "hasAmbulance", label: "Ambulance", value: hasAmbulance, setter: setHasAmbulance },
-                { key: "hasIcu", label: "ICU", value: hasIcu, setter: setHasIcu },
-                { key: "hasNicu", label: "NICU", value: hasNicu, setter: setHasNicu },
-                { key: "hasBloodBank", label: "Blood Bank", value: hasBloodBank, setter: setHasBloodBank },
-                { key: "hasPharmacy", label: "Pharmacy", value: hasPharmacy, setter: setHasPharmacy },
-                { key: "hasPathologyLab", label: "Pathology Lab", value: hasPathologyLab, setter: setHasPathologyLab },
-                { key: "hasHomeSampleCollection", label: "Home Sample Collection", value: hasHomeSampleCollection, setter: setHasHomeSampleCollection },
-                { key: "hasOnlineReport", label: "Online Report Access", value: hasOnlineReport, setter: setHasOnlineReport },
-                { key: "hasParkingAvailable", label: "Parking", value: hasParkingAvailable, setter: setHasParkingAvailable },
+                { key: "hasEmergency", labelKey: "emergency247", value: hasEmergency, setter: setHasEmergency },
+                { key: "hasAmbulance", labelKey: "ambulance", value: hasAmbulance, setter: setHasAmbulance },
+                { key: "hasIcu", labelKey: "icu", value: hasIcu, setter: setHasIcu },
+                { key: "hasNicu", labelKey: "nicu", value: hasNicu, setter: setHasNicu },
+                { key: "hasBloodBank", labelKey: "bloodBank", value: hasBloodBank, setter: setHasBloodBank },
+                { key: "hasPharmacy", labelKey: "pharmacy", value: hasPharmacy, setter: setHasPharmacy },
+                { key: "hasPathologyLab", labelKey: "pathologyLab", value: hasPathologyLab, setter: setHasPathologyLab },
+                { key: "hasHomeSampleCollection", labelKey: "homeSampleCollection", value: hasHomeSampleCollection, setter: setHasHomeSampleCollection },
+                { key: "hasOnlineReport", labelKey: "onlineReportAccess", value: hasOnlineReport, setter: setHasOnlineReport },
+                { key: "hasParkingAvailable", labelKey: "parking", value: hasParkingAvailable, setter: setHasParkingAvailable },
               ].map((cap) => (
                 <button
                   key={cap.key}
@@ -756,7 +759,7 @@ export function FacilityForm({
                   }`}
                 >
                   {cap.value && <Check className="h-4 w-4 text-white" />}
-                  <span>{cap.label}</span>
+                  <span>{t(`form.facility.options.capabilities.${cap.labelKey}`)}</span>
                 </button>
               ))}
             </div>
@@ -764,7 +767,7 @@ export function FacilityForm({
 
           <div>
             <span className="text-sm font-semibold text-brand-slate mb-2 block">
-              Amenities
+              {t("form.facility.labels.amenities")}
             </span>
             <div className="flex flex-wrap gap-2.5">
               {amenities.map((amenity) => {
@@ -793,26 +796,26 @@ export function FacilityForm({
 
       {/* Services & Diagnostics */}
       <div>
-        <SectionTitle className="mt-6 mb-3">Services & Diagnostics</SectionTitle>
+        <SectionTitle className="mt-6 mb-3">{t("form.facility.sections.servicesDiagnostics")}</SectionTitle>
         <div className="space-y-4">
           <TextField
             id="diagnosticTests"
-            label="Diagnostic Tests"
-            placeholder="e.g. CBC, Urine R/E, Blood Sugar — comma separated"
+            label={t("form.facility.labels.diagnosticTests")}
+            placeholder={t("form.facility.placeholders.diagnosticTestsExample")}
             value={diagnosticTests}
             onChange={(e) => setDiagnosticTests(e.target.value)}
           />
           <TextField
             id="imagingServices"
-            label="Imaging / Procedures"
-            placeholder="e.g. X-Ray, CT Scan, MRI — comma separated"
+            label={t("form.facility.labels.imagingServices")}
+            placeholder={t("form.facility.placeholders.imagingServicesExample")}
             value={imagingServices}
             onChange={(e) => setImagingServices(e.target.value)}
           />
           <TextField
             id="openingHours"
-            label="Opening Hours"
-            placeholder="e.g. 24 Hours or 08:00 AM - 09:00 PM"
+            label={t("form.facility.labels.openingHours")}
+            placeholder={t("form.facility.placeholders.openingHoursExample")}
             value={openingHours}
             onChange={(e) => setOpeningHours(e.target.value)}
           />
@@ -821,31 +824,31 @@ export function FacilityForm({
 
       {/* Administrative */}
       <div>
-        <SectionTitle className="mt-6 mb-3">Administrative</SectionTitle>
+        <SectionTitle className="mt-6 mb-3">{t("form.facility.sections.administrative")}</SectionTitle>
         <div className="space-y-4">
           <TextField
             id="ownership"
-            label="Ownership"
-            placeholder="e.g. Private, Government"
+            label={t("form.facility.labels.ownership")}
+            placeholder={t("form.facility.placeholders.ownershipExample")}
             value={ownership}
             onChange={(e) => setOwnership(e.target.value)}
           />
           <TextField
             id="accreditation"
-            label="Accreditation"
+            label={t("form.facility.labels.accreditation")}
             value={accreditation}
             onChange={(e) => setAccreditation(e.target.value)}
           />
           <TextField
             id="dghsLicenceNo"
-            label="DGHS Licence No."
+            label={t("form.facility.labels.dghsLicenceNo")}
             value={dghsLicenceNo}
             onChange={(e) => setDghsLicenceNo(e.target.value)}
           />
           <TextField
             id="insurancePanels"
-            label="Insurance Panels"
-            placeholder="comma separated"
+            label={t("form.facility.labels.insurancePanels")}
+            placeholder={t("common.form.commaSeparated")}
             value={insurancePanels}
             onChange={(e) => setInsurancePanels(e.target.value)}
           />
@@ -854,18 +857,18 @@ export function FacilityForm({
 
       {/* Description */}
       <div>
-        <SectionTitle className="mt-6 mb-3">Description</SectionTitle>
+        <SectionTitle className="mt-6 mb-3">{t("form.facility.sections.description")}</SectionTitle>
         <div className="space-y-4">
           <TextAreaField
             id="description"
-            label="Short Description"
+            label={t("form.facility.labels.shortDescription")}
             rows={3}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
           <TextAreaField
             id="longDescription"
-            label="Detailed Description"
+            label={t("form.facility.labels.detailedDescription")}
             rows={5}
             value={longDescription}
             onChange={(e) => setLongDescription(e.target.value)}
@@ -876,7 +879,7 @@ export function FacilityForm({
       {/* Special discount / offer */}
       <TextField
         id="discountInfo"
-        label="Special discount / offer (optional)"
+        label={t("form.facility.labels.discountInfo")}
         type="text"
         value={discountInfo}
         onChange={(e) => setDiscountInfo(e.target.value)}
@@ -891,7 +894,7 @@ export function FacilityForm({
       {/* Facility Logo */}
       <div>
         <label htmlFor="logo" className="block mb-1.5 text-sm font-semibold text-brand-slate">
-          Facility Logo (optional)
+          {t("form.facility.labels.facilityLogo")}
         </label>
         <input
           id="logo"
@@ -904,16 +907,16 @@ export function FacilityForm({
           className="block w-full text-sm text-brand-slate file:mr-4 file:rounded-full file:border-0 file:bg-brand-navy file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-brand-navy/90"
         />
         {logoPreview && (
-          <img src={logoPreview} alt="Logo preview" className="mt-2 h-20 w-20 rounded-xl object-cover" />
+          <img src={logoPreview} alt={t("form.facility.labels.facilityLogo") + " preview"} className="mt-2 h-20 w-20 rounded-xl object-cover" />
         )}
-        {logoUploading && <p className="mt-1.5 text-sm text-brand-muted">Uploading logo...</p>}
+        {logoUploading && <p className="mt-1.5 text-sm text-brand-muted">{t("form.facility.messages.uploadingLogo")}</p>}
         {logoError && <p className="mt-1.5 text-sm text-status-emergency">{logoError}</p>}
       </div>
 
       {/* Cover Image */}
       <div>
         <label htmlFor="cover" className="block mb-1.5 text-sm font-semibold text-brand-slate">
-          Cover Image (optional)
+          {t("form.facility.labels.coverImage")}
         </label>
         <input
           id="cover"
@@ -926,9 +929,9 @@ export function FacilityForm({
           className="block w-full text-sm text-brand-slate file:mr-4 file:rounded-full file:border-0 file:bg-brand-navy file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-brand-navy/90"
         />
         {coverPreview && (
-          <img src={coverPreview} alt="Cover preview" className="mt-2 h-32 w-full rounded-xl object-cover" />
+          <img src={coverPreview} alt={t("form.facility.labels.coverImage") + " preview"} className="mt-2 h-32 w-full rounded-xl object-cover" />
         )}
-        {coverUploading && <p className="mt-1.5 text-sm text-brand-muted">Uploading cover...</p>}
+        {coverUploading && <p className="mt-1.5 text-sm text-brand-muted">{t("form.facility.messages.uploadingCover")}</p>}
         {coverError && <p className="mt-1.5 text-sm text-status-emergency">{coverError}</p>}
       </div>
 
@@ -941,7 +944,7 @@ export function FacilityForm({
           fullWidth
           loading={submitting}
         >
-          {submitLabel}
+          {effectiveSubmitLabel}
         </Button>
       </div>
     </form>

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Star, Trash2 } from "lucide-react";
 import { AdminShell } from "@/components/panel/admin-shell";
 import { useMe } from "@/components/panel/use-me";
+import { useLanguage } from "@/components/language-provider";
 import { api } from "@/lib/client-fetch";
 import { Button, Card, Eyebrow } from "@/components/panel/ui";
 
@@ -21,6 +22,7 @@ type VideoItem = {
 };
 
 export default function AdminVideosPage() {
+  const { t } = useLanguage();
   const { me, loading: meLoading } = useMe();
   const router = useRouter();
 
@@ -43,7 +45,7 @@ export default function AdminVideosPage() {
         if (alive) setVideos(data);
       } catch (err) {
         if (alive)
-          setError(err instanceof Error ? err.message : "Failed to load videos");
+          setError(err instanceof Error ? err.message : t("admin.videos.errorLoadVideosFailed"));
       } finally {
         if (alive) setLoading(false);
       }
@@ -56,7 +58,7 @@ export default function AdminVideosPage() {
   if (meLoading || (loading && me)) {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-brand-muted">Loading...</div>
+        <div className="text-brand-muted">{t("common.ui.loading")}</div>
       </div>
     );
   }
@@ -64,19 +66,19 @@ export default function AdminVideosPage() {
   if (!me || me.role !== "ADMIN") {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">Not authorized</div>
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
       </div>
     );
   }
 
   const handleDelete = async (video: VideoItem) => {
-    if (!window.confirm(`Delete "${video.title}"?`)) return;
+    if (!window.confirm(t("admin.videos.confirmDelete", { title: video.title }))) return;
     setDeletingId(video.id);
     try {
       await api(`/api/v1/admin/videos/${video.id}`, { method: "DELETE" });
       setVideos((prev) => prev.filter((v) => v.id !== video.id));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Delete failed");
+      setError(err instanceof Error ? err.message : t("admin.videos.errorDeleteFailed"));
     } finally {
       setDeletingId(null);
     }
@@ -84,14 +86,14 @@ export default function AdminVideosPage() {
 
   return (
     <AdminShell>
-      <Eyebrow className="mb-1 block">VIDEOS</Eyebrow>
+      <Eyebrow className="mb-1 block">{t("admin.videos.eyebrow")}</Eyebrow>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <h1 className="font-serif text-3xl font-semibold text-brand-navy">
-          Videos
+          {t("admin.videos.headingVideos")}
         </h1>
         <Link href="/admin/videos/new">
           <Button variant="primary" size="sm">
-            Add video
+            {t("admin.videos.buttonAddVideo")}
           </Button>
         </Link>
       </div>
@@ -104,18 +106,18 @@ export default function AdminVideosPage() {
 
       {videos.length === 0 ? (
         <Card className="p-8 text-center">
-          <p className="text-sm text-brand-muted">No videos yet.</p>
+          <p className="text-sm text-brand-muted">{t("admin.videos.emptyNoVideos")}</p>
         </Card>
       ) : (
         <div className="overflow-x-auto rounded-2xl border border-brand-gray bg-white">
           <table className="w-full min-w-[640px] text-sm">
             <thead className="bg-brand-mist font-mono text-[11px] font-semibold uppercase tracking-wider text-brand-muted">
               <tr>
-                <th className="px-4 py-3 text-left">Title</th>
-                <th className="px-4 py-3 text-left">Author</th>
-                <th className="px-4 py-3 text-left">Order</th>
-                <th className="px-4 py-3 text-left">Date</th>
-                <th className="px-4 py-3 text-right">Actions</th>
+                <th className="px-4 py-3 text-left">{t("admin.videos.tableHeaderTitle")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.videos.tableHeaderAuthor")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.videos.tableHeaderOrder")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.videos.tableHeaderDate")}</th>
+                <th className="px-4 py-3 text-right">{t("admin.videos.tableHeaderActions")}</th>
               </tr>
             </thead>
             <tbody>
@@ -133,7 +135,7 @@ export default function AdminVideosPage() {
                     </span>
                   </td>
                   <td className="px-4 py-3.5 text-brand-slate">
-                    {video.doctor?.name || video.authorName || video.createdBy?.name || "—"}
+                    {video.doctor?.name || video.authorName || video.createdBy?.name || t("common.ui.fallbackDash")}
                   </td>
                   <td className="px-4 py-3.5 text-brand-slate tabular-nums">
                     {video.displayOrder}
@@ -148,14 +150,14 @@ export default function AdminVideosPage() {
                         size="sm"
                         onClick={() => router.push(`/admin/videos/${video.id}/edit`)}
                       >
-                        Edit
+                        {t("admin.videos.buttonEdit")}
                       </Button>
                       <Button
                         variant="outlineDanger"
                         size="sm"
                         onClick={() => handleDelete(video)}
                         loading={deletingId === video.id}
-                        aria-label={`Delete ${video.title}`}
+                        aria-label={t("admin.videos.ariaLabelDelete", { title: video.title })}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

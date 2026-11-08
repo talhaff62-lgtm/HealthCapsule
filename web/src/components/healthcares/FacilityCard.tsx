@@ -6,12 +6,15 @@ import { MapPin, Phone, Building2, Microscope, Star, Activity, Siren, Ambulance 
 import type { FacilityListItem } from "@/lib/facilities";
 import FacilityTypeBadge from "@/components/ui/FacilityTypeBadge";
 import { StaggerItem } from "@/components/ui/motion";
+import { useLanguage } from "@/components/language-provider";
 
 type FacilityCardProps = {
   facility: FacilityListItem;
 };
 
 export default function FacilityCard({ facility }: FacilityCardProps) {
+  const { t } = useLanguage();
+
   return (
     <StaggerItem className="premium-card group relative flex flex-col overflow-hidden rounded-3xl border border-brand-gray bg-white shadow-card">
       {/* Cover photo */}
@@ -43,7 +46,7 @@ export default function FacilityCard({ facility }: FacilityCardProps) {
         {facility.listingTier === "FEATURED" && (
           <span className="absolute right-3 top-3 z-10 inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 font-mono text-[0.6rem] font-bold uppercase tracking-wider text-brand-sky shadow-sm backdrop-blur-sm">
             <Star className="h-3 w-3 fill-brand-sky text-brand-sky" />
-            Featured
+            {t("card.facility.featured")}
           </span>
         )}
       </div>
@@ -57,7 +60,7 @@ export default function FacilityCard({ facility }: FacilityCardProps) {
             </h2>
             <span className="mt-1 inline-flex flex-wrap items-center gap-1 text-xs font-medium text-brand-muted">
               <MapPin className="h-3.5 w-3.5 text-brand-muted" />
-              {facility.area?.name || "Chattogram"}
+              {facility.area?.name || t("card.facility.defaultArea")}
               {facility.rating != null ? (
                 <>
                   <span className="text-brand-muted/40">•</span>
@@ -88,7 +91,7 @@ export default function FacilityCard({ facility }: FacilityCardProps) {
           {facility.beds ? (
             <div>
               <span className="uppercase text-[0.65rem] block tracking-wider text-brand-muted">
-                Beds
+                {t("card.facility.beds")}
               </span>
               <span className="text-brand-navy font-semibold">{facility.beds}</span>
             </div>
@@ -96,7 +99,7 @@ export default function FacilityCard({ facility }: FacilityCardProps) {
           {facility.establishedYear ? (
             <div>
               <span className="uppercase text-[0.65rem] block tracking-wider text-brand-muted">
-                Est.
+                {t("card.facility.established")}
               </span>
               <span className="text-brand-navy font-semibold">
                 {facility.establishedYear}
@@ -107,19 +110,19 @@ export default function FacilityCard({ facility }: FacilityCardProps) {
             {facility.hasIcu && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-brand-navy-light text-white font-semibold text-[0.65rem]">
                 <Activity className="h-3 w-3" />
-                <span className="hidden sm:inline">ICU</span>
+                <span className="hidden sm:inline">{t("card.facility.icu")}</span>
               </span>
             )}
             {facility.hasEmergency && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-status-emergency-light text-status-emergency font-semibold text-[0.65rem]">
                 <Siren className="h-3 w-3" />
-                <span className="hidden sm:inline">EMERGENCY</span>
+                <span className="hidden sm:inline">{t("card.facility.emergency")}</span>
               </span>
             )}
             {facility.hasAmbulance && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-brand-sky-bg text-brand-sky-deep font-semibold text-[0.65rem]">
                 <Ambulance className="h-3 w-3" />
-                <span className="hidden sm:inline">AMBULANCE</span>
+                <span className="hidden sm:inline">{t("card.facility.ambulance")}</span>
               </span>
             )}
           </div>
@@ -136,14 +139,14 @@ export default function FacilityCard({ facility }: FacilityCardProps) {
               {facility.phone}
             </a>
           ) : (
-            <span className="text-brand-muted italic">Call info unavailable</span>
+            <span className="text-brand-muted italic">{t("card.facility.callInfoUnavailable")}</span>
           )}
 
         </div>
       </div>
       <Link
         href={`/healthcares/${facility.slug}`}
-        aria-label={`View details: ${facility.name}`}
+        aria-label={t("card.facility.viewDetails", { name: facility.name })}
         className="absolute inset-0 z-10 rounded-[inherit]"
       />
     </StaggerItem>

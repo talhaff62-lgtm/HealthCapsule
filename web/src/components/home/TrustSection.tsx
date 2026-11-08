@@ -1,24 +1,28 @@
-import React from "react";
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
 import { SectionCanvas } from "@/components/home/SectionCanvas";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion";
 import { ShieldCheck, Heart, Lock, Award } from "lucide-react";
 
-export default function TrustSection() {
+export default async function TrustSection() {
+  const locale = await getServerLocale();
+  const t = getT(locale);
+
   const points = [
     {
       icon: ShieldCheck,
-      title: "Verified BMDC Credentials",
-      desc: "We manually verify every doctor's registration against the Bangladesh Medical & Dental Council database. No scraped records, no duplicates, no false listings.",
+      title: t("home.trust.point1Title"),
+      desc: t("home.trust.point1Desc"),
     },
     {
       icon: Award,
-      title: "Official Hospital Affiliations",
-      desc: "Our hospital department lists and schedules are coordinated directly with facility administrators to ensure high-fidelity chamber timings and fees.",
+      title: t("home.trust.point2Title"),
+      desc: t("home.trust.point2Desc"),
     },
     {
       icon: Lock,
-      title: "HIPAA-Ready Records Vault",
-      desc: "Your uploaded prescriptions, test reports, and treatment history are fully encrypted at rest and in transit. Share only with doctors you choose.",
+      title: t("home.trust.point3Title"),
+      desc: t("home.trust.point3Desc"),
     },
   ];
 
@@ -30,13 +34,13 @@ export default function TrustSection() {
           <div>
             <ScrollReveal>
               <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
-                Trust &amp; Verification
+                {t("home.trust.badge")}
               </span>
               <h2 className="mt-2 font-serif text-3xl font-medium text-ink sm:text-4xl">
-                Patient safety starts with data integrity.
+                {t("home.trust.title")}
               </h2>
               <p className="mt-3 leading-relaxed text-ink-muted">
-                In a landscape filled with outdated medical phone numbers, broken links, and unverified social media profiles, Capsule serves as Chattogram&apos;s single source of truth for doctor coordinates.
+                {t("home.trust.desc")}
               </p>
             </ScrollReveal>
 
@@ -62,13 +66,13 @@ export default function TrustSection() {
                 <Heart className="h-7 w-7 text-brand-sky stroke-[1.5]" />
               </div>
               <span className="block font-serif text-3xl font-semibold tracking-tight text-brand-navy sm:text-4xl">
-                100%
+                {t("home.trust.sealPercent")}
               </span>
               <span className="mt-1 block font-mono text-[0.7rem] font-bold uppercase tracking-widest text-brand-sky-deep">
-                Verified Only
+                {t("home.trust.sealLabel")}
               </span>
               <span className="mx-auto mt-3 block max-w-[180px] text-[0.7rem] leading-relaxed text-ink-muted">
-                Bangladesh Medical &amp; Dental Council Checked
+                {t("home.trust.sealDesc")}
               </span>
             </div>
           </div>

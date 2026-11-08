@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AdminShell } from "@/components/panel/admin-shell";
 import { useMe } from "@/components/panel/use-me";
+import { useLanguage } from "@/components/language-provider";
 import { StatusBadge } from "@/components/status-badge";
 import { api } from "@/lib/client-fetch";
 import { Card, Eyebrow, StatCard, Button } from "@/components/panel/ui";
@@ -44,6 +45,7 @@ type Item =
 export default function AdminDashboardPage() {
   const { me, loading: meLoading } = useMe();
   const router = useRouter();
+  const { t } = useLanguage();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -116,7 +118,7 @@ export default function AdminDashboardPage() {
           setError(
             err instanceof Error
               ? err.message
-              : "Failed to load dashboard data"
+              : t("admin.dashboard.failedToLoadDashboardData")
           );
           setLoading(false);
         }
@@ -130,7 +132,7 @@ export default function AdminDashboardPage() {
   if (meLoading) {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-brand-muted">Loading...</div>
+        <div className="text-brand-muted">{t("common.ui.loading")}</div>
       </div>
     );
   }
@@ -138,7 +140,7 @@ export default function AdminDashboardPage() {
   if (!me || me.role !== "ADMIN") {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">Not authorized</div>
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
       </div>
     );
   }
@@ -153,14 +155,14 @@ export default function AdminDashboardPage() {
     <AdminShell>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <Eyebrow className="mb-1 block">DASHBOARD</Eyebrow>
+          <Eyebrow className="mb-1 block">{t("admin.dashboard.eyebrow")}</Eyebrow>
           <h1 className="font-serif text-3xl font-semibold text-brand-navy">
-            Review at a glance
+            {t("admin.dashboard.reviewAtAGlance")}
           </h1>
         </div>
         <Link href="/admin/entries">
           <Button variant="outline" size="sm">
-            Manage visibility →
+            {t("admin.dashboard.manageVisibility")}
           </Button>
         </Link>
       </div>
@@ -175,35 +177,35 @@ export default function AdminDashboardPage() {
         <Card className="p-6 mb-8">
           <p className="text-sm text-status-emergency mb-3">{error}</p>
           <Button onClick={handleRetry} variant="outline" size="sm">
-            Retry
+            {t("common.ui.retry")}
           </Button>
         </Card>
       ) : (
         <div className="mb-8">
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
             <StatCard
-              label="HOSPITALS ON SITE"
+              label={t("admin.dashboard.hospitalsOnSite")}
               value={hospitalsOnSiteCount}
               href="/admin/entries?status=VERIFIED"
             />
             <StatCard
-              label="DOCTORS ON SITE"
+              label={t("admin.dashboard.doctorsOnSite")}
               value={doctorsOnSiteCount}
               href="/admin/entries?status=VERIFIED"
             />
             <StatCard
-              label="PENDING REVIEW"
+              label={t("admin.dashboard.pendingReview")}
               value={pendingCount}
               href="/admin/review"
             />
             <StatCard
-              label="ACTIVE STAFF"
+              label={t("admin.dashboard.activeStaff")}
               value={activeStaffCount}
               href="/admin/staff"
             />
           </div>
           <div className="mt-4 text-sm text-brand-muted font-mono">
-            Verified this week: <span className="font-semibold text-brand-navy">{verifiedThisWeekCount}</span>
+            {t("admin.dashboard.verifiedThisWeek")} <span className="font-semibold text-brand-navy">{verifiedThisWeekCount}</span>
           </div>
         </div>
       )}
@@ -211,11 +213,11 @@ export default function AdminDashboardPage() {
       <Card className="p-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
           <h2 className="font-serif text-xl font-semibold text-brand-navy">
-            Latest pending
+            {t("admin.dashboard.latestPending")}
           </h2>
           <Link href="/admin/review">
             <Button variant="outline" size="sm">
-              Open review queue
+              {t("admin.dashboard.openReviewQueue")}
             </Button>
           </Link>
         </div>
@@ -227,7 +229,7 @@ export default function AdminDashboardPage() {
             ))}
           </div>
         ) : latestPending.length === 0 ? (
-          <p className="text-sm text-brand-muted py-4">No pending entries to review.</p>
+          <p className="text-sm text-brand-muted py-4">{t("admin.dashboard.noPendingEntries")}</p>
         ) : (
           <div className="rounded-2xl border border-brand-gray bg-white divide-y divide-brand-gray/70 overflow-hidden">
             {latestPending.map((item) => (
@@ -236,15 +238,15 @@ export default function AdminDashboardPage() {
                   <span className="font-semibold text-brand-navy">{item.name}</span>
                   <span className="text-xs text-brand-muted">
                     {item.kind === "DOCTOR"
-                      ? "Doctor"
+                      ? t("admin.dashboard.kindDoctor")
                       : item.type === "DIAGNOSTIC_CENTER"
-                      ? "Diagnostic Center"
-                      : "Hospital"}
+                      ? t("admin.dashboard.kindDiagnosticCenter")
+                      : t("admin.dashboard.kindHospital")}
                   </span>
                 </div>
                 <div className="flex items-center gap-4">
                   <span className="text-xs font-mono text-brand-muted hidden sm:inline">
-                    By {item.collectedBy?.name ?? "Unknown"}
+                    {t("admin.dashboard.byUnknown", { name: item.collectedBy?.name ?? t("common.ui.unknown") })}
                   </span>
                   <StatusBadge status={item.verificationStatus} />
                 </div>

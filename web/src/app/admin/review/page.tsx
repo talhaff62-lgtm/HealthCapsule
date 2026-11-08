@@ -6,6 +6,7 @@ import { X, CheckCircle2 } from "lucide-react";
 import { AdminShell } from "@/components/panel/admin-shell";
 import { useMe } from "@/components/panel/use-me";
 import { StatusBadge } from "@/components/status-badge";
+import { useLanguage } from "@/components/language-provider";
 import { api } from "@/lib/client-fetch";
 import {
   Card,
@@ -61,6 +62,7 @@ type Entry =
   | (DoctorItem & { kind: "DOCTOR" });
 
 export default function AdminReviewPage() {
+  const { t } = useLanguage();
   const { me, loading: meLoading } = useMe();
   const router = useRouter();
 
@@ -130,7 +132,7 @@ export default function AdminReviewPage() {
       } catch (err) {
         if (alive) {
           setError(
-            err instanceof Error ? err.message : "Failed to load review queue"
+            err instanceof Error ? err.message : t("admin.review.errorLoadFailed")
           );
           setLoading(false);
         }
@@ -144,7 +146,7 @@ export default function AdminReviewPage() {
   if (meLoading) {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-brand-muted">Loading...</div>
+        <div className="text-brand-muted">{t("common.ui.loading")}</div>
       </div>
     );
   }
@@ -152,7 +154,7 @@ export default function AdminReviewPage() {
   if (!me || me.role !== "ADMIN") {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">Not authorized</div>
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
       </div>
     );
   }
@@ -205,9 +207,9 @@ export default function AdminReviewPage() {
       if (selectedEntry?.id === entry.id) {
         setSelectedEntry(null);
       }
-      showToast("Verified");
+      showToast(t("admin.review.toastVerified"));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Verification failed");
+      setError(err instanceof Error ? err.message : t("admin.review.errorVerificationFailed"));
     } finally {
       setActionLoading(false);
     }
@@ -216,7 +218,7 @@ export default function AdminReviewPage() {
   const handleRejectConfirm = async () => {
     if (!rejectingEntry) return;
     if (!rejectReason.trim()) {
-      setRejectError("Reason is required");
+      setRejectError(t("admin.review.errorReasonRequired"));
       return;
     }
 
@@ -238,9 +240,9 @@ export default function AdminReviewPage() {
       }
       setRejectingEntry(null);
       setRejectReason("");
-      showToast("Rejected");
+      showToast(t("admin.review.toastRejected"));
     } catch (err) {
-      setRejectError(err instanceof Error ? err.message : "Reject failed");
+      setRejectError(err instanceof Error ? err.message : t("admin.review.errorRejectFailed"));
     } finally {
       setActionLoading(false);
     }
@@ -267,9 +269,9 @@ export default function AdminReviewPage() {
         setSelectedEntry(null);
       }
       setDeletingEntry(null);
-      showToast("Deleted");
+      showToast(t("admin.review.toastDeleted"));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Delete failed");
+      setError(err instanceof Error ? err.message : t("common.ui.deleteFailed"));
     } finally {
       setActionLoading(false);
     }
@@ -277,9 +279,9 @@ export default function AdminReviewPage() {
 
   return (
     <AdminShell>
-      <Eyebrow className="mb-1 block">REVIEW QUEUE</Eyebrow>
+      <Eyebrow className="mb-1 block">{t("admin.review.eyebrow")}</Eyebrow>
       <h1 className="font-serif text-3xl font-semibold text-brand-navy mb-6">
-        Pending entries
+        {t("admin.review.headingPendingEntries")}
       </h1>
 
       {/* Toolbar filters */}
@@ -289,7 +291,7 @@ export default function AdminReviewPage() {
             htmlFor="staff-filter"
             className="mb-1 block text-xs font-semibold text-brand-muted"
           >
-            Staff member
+            {t("admin.review.filterStaffMemberLabel")}
           </label>
           <select
             id="staff-filter"
@@ -297,7 +299,7 @@ export default function AdminReviewPage() {
             onChange={(e) => setStaffFilter(e.target.value)}
             className="h-10 rounded-xl border border-brand-gray bg-white px-3 text-sm focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/25"
           >
-            <option value="">All staff</option>
+            <option value="">{t("admin.review.filterStaffMemberAll")}</option>
             {users.map((u) => (
               <option key={u.id} value={u.id}>
                 {u.name}
@@ -311,7 +313,7 @@ export default function AdminReviewPage() {
             htmlFor="type-filter"
             className="mb-1 block text-xs font-semibold text-brand-muted"
           >
-            Type
+            {t("admin.review.filterTypeLabel")}
           </label>
           <select
             id="type-filter"
@@ -319,10 +321,10 @@ export default function AdminReviewPage() {
             onChange={(e) => setTypeFilter(e.target.value)}
             className="h-10 rounded-xl border border-brand-gray bg-white px-3 text-sm focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/25"
           >
-            <option value="">All types</option>
-            <option value="HOSPITAL">Hospital</option>
-            <option value="DIAGNOSTIC_CENTER">Diagnostic Center</option>
-            <option value="DOCTOR">Doctor</option>
+            <option value="">{t("admin.review.filterTypeAll")}</option>
+            <option value="HOSPITAL">{t("admin.review.filterTypeHospital")}</option>
+            <option value="DIAGNOSTIC_CENTER">{t("admin.review.filterTypeDiagnosticCenter")}</option>
+            <option value="DOCTOR">{t("admin.review.filterTypeDoctor")}</option>
           </select>
         </div>
 
@@ -331,7 +333,7 @@ export default function AdminReviewPage() {
             htmlFor="date-from"
             className="mb-1 block text-xs font-semibold text-brand-muted"
           >
-            From date
+            {t("admin.review.filterFromDateLabel")}
           </label>
           <input
             id="date-from"
@@ -347,7 +349,7 @@ export default function AdminReviewPage() {
             htmlFor="date-to"
             className="mb-1 block text-xs font-semibold text-brand-muted"
           >
-            To date
+            {t("admin.review.filterToDateLabel")}
           </label>
           <input
             id="date-to"
@@ -368,7 +370,7 @@ export default function AdminReviewPage() {
             }}
             className="mt-auto h-10 px-2 text-xs font-semibold text-brand-sky-deep hover:underline"
           >
-            Reset filters
+            {t("admin.review.filterReset")}
           </button>
         )}
       </div>
@@ -383,13 +385,13 @@ export default function AdminReviewPage() {
         <Card className="p-6">
           <p className="text-sm text-status-emergency mb-3">{error}</p>
           <Button onClick={handleRetry} variant="outline" size="sm">
-            Retry
+            {t("common.ui.retry")}
           </Button>
         </Card>
       ) : filteredEntries.length === 0 ? (
         <Card className="p-8 text-center">
           <p className="text-sm text-brand-muted">
-            No pending entries match your criteria.
+            {t("admin.review.emptyNoPendingEntries")}
           </p>
         </Card>
       ) : (
@@ -397,11 +399,11 @@ export default function AdminReviewPage() {
           <table className="w-full min-w-[640px] text-sm">
             <thead className="bg-brand-mist font-mono text-[11px] font-semibold uppercase tracking-wider text-brand-muted">
               <tr>
-                <th className="px-4 py-3 text-left">Name</th>
-                <th className="px-4 py-3 text-left">Type</th>
-                <th className="px-4 py-3 text-left">Submitted By</th>
-                <th className="px-4 py-3 text-left">Date</th>
-                <th className="px-4 py-3 text-left">Actions</th>
+                <th className="px-4 py-3 text-left">{t("admin.review.tableHeaderName")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.review.tableHeaderType")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.review.tableHeaderSubmittedBy")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.review.tableHeaderDate")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.review.tableHeaderActions")}</th>
               </tr>
             </thead>
             <tbody>
@@ -409,7 +411,7 @@ export default function AdminReviewPage() {
                 const collectorName =
                   entry.collectedBy?.name ||
                   userMap.get(entry.collectedById || "") ||
-                  "Unknown";
+                  t("admin.review.fallbackUnknown");
                 return (
                   <tr
                     key={entry.id}
@@ -421,10 +423,10 @@ export default function AdminReviewPage() {
                     </td>
                     <td className="px-4 py-3.5 text-brand-slate">
                       {entry.kind === "DOCTOR"
-                        ? "Doctor"
+                        ? t("admin.review.panelTypeDoctor")
                         : entry.type === "DIAGNOSTIC_CENTER"
-                        ? "Diagnostic Center"
-                        : "Hospital"}
+                        ? t("admin.review.panelTypeDiagnosticCenter")
+                        : t("admin.review.panelTypeHospital")}
                     </td>
                     <td className="px-4 py-3.5 text-brand-slate">
                       {collectorName}
@@ -446,7 +448,7 @@ export default function AdminReviewPage() {
                         }
                         className="text-xs font-semibold text-brand-sky-deep hover:underline"
                       >
-                        Edit
+                        {t("admin.review.buttonEdit")}
                       </button>
                     </td>
                   </tr>
@@ -467,7 +469,7 @@ export default function AdminReviewPage() {
           <div className="fixed inset-y-0 right-0 z-40 flex w-full max-w-[480px] flex-col overflow-y-auto bg-white p-6 shadow-2xl">
             <div className="sticky top-0 z-10 flex items-center justify-between border-b border-brand-gray/70 bg-white pb-4">
               <div>
-                <Eyebrow className="block mb-1">FULL ENTRY</Eyebrow>
+                <Eyebrow className="block mb-1">{t("admin.review.panelEyebrowFullEntry")}</Eyebrow>
                 <h2 className="font-serif text-xl font-semibold text-brand-navy">
                   {selectedEntry.name}
                 </h2>
@@ -479,7 +481,7 @@ export default function AdminReviewPage() {
                   size="sm"
                   className="h-9 w-9 p-0"
                   onClick={() => setSelectedEntry(null)}
-                  aria-label="Close panel"
+                  aria-label={t("admin.review.panelCloseAriaLabel")}
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -489,14 +491,14 @@ export default function AdminReviewPage() {
             <div className="my-6 space-y-4 text-sm flex-1">
               <div>
                 <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                  Type
+                  {t("admin.review.panelLabelType")}
                 </span>
                 <span className="text-sm text-brand-slate font-medium">
                   {selectedEntry.kind === "DOCTOR"
-                    ? "Doctor"
+                    ? t("admin.review.panelTypeDoctor")
                     : selectedEntry.type === "DIAGNOSTIC_CENTER"
-                    ? "Diagnostic Center"
-                    : "Hospital"}
+                    ? t("admin.review.panelTypeDiagnosticCenter")
+                    : t("admin.review.panelTypeHospital")}
                 </span>
               </div>
 
@@ -504,14 +506,14 @@ export default function AdminReviewPage() {
                 <>
                   <div>
                     <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                      Address
+                      {t("admin.review.panelLabelAddress")}
                     </span>
                     <span className="text-sm text-brand-slate">{selectedEntry.address}</span>
                   </div>
                   {selectedEntry.area && (
                     <div>
                       <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                        Area
+                        {t("admin.review.panelLabelArea")}
                       </span>
                       <span className="text-sm text-brand-slate">{selectedEntry.area.name}</span>
                     </div>
@@ -519,7 +521,7 @@ export default function AdminReviewPage() {
                   {selectedEntry.amenities && selectedEntry.amenities.length > 0 && (
                     <div>
                       <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                        Amenities
+                        {t("admin.review.panelLabelAmenities")}
                       </span>
                       <div className="flex flex-wrap gap-1.5 mt-1">
                         {selectedEntry.amenities.map(({ amenity }) => (
@@ -536,7 +538,7 @@ export default function AdminReviewPage() {
                   {selectedEntry.discountInfo && (
                     <div>
                       <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                        Discount / Offer
+                        {t("admin.review.panelLabelDiscountOffer")}
                       </span>
                       <span className="text-sm text-brand-slate">
                         {selectedEntry.discountInfo}
@@ -548,17 +550,17 @@ export default function AdminReviewPage() {
                 <>
                   <div>
                     <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                      Specialties
+                      {t("admin.review.panelLabelSpecialties")}
                     </span>
                     <span className="text-sm text-brand-slate">
                       {selectedEntry.specialties
                         .map((s) => s.specialty.name)
-                        .join(", ") || "N/A"}
+                        .join(", ") || t("admin.review.fallbackNA")}
                     </span>
                   </div>
                   <div>
                     <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                      Degrees
+                      {t("admin.review.panelLabelDegrees")}
                     </span>
                     <span className="text-sm text-brand-slate">
                       {selectedEntry.degrees.join(", ")}
@@ -567,7 +569,7 @@ export default function AdminReviewPage() {
                   {selectedEntry.currentPosition && (
                     <div>
                       <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                        Current Position
+                        {t("admin.review.panelLabelCurrentPosition")}
                       </span>
                       <span className="text-sm text-brand-slate">
                         {selectedEntry.currentPosition}
@@ -577,7 +579,7 @@ export default function AdminReviewPage() {
                   {selectedEntry.achievements && (
                     <div>
                       <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                        Achievements
+                        {t("admin.review.panelLabelAchievements")}
                       </span>
                       <span className="text-sm text-brand-slate">
                         {selectedEntry.achievements}
@@ -587,7 +589,7 @@ export default function AdminReviewPage() {
                   {selectedEntry.chambers && selectedEntry.chambers[0]?.facility && (
                     <div>
                       <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                        Linked Facility
+                        {t("admin.review.panelLabelLinkedFacility")}
                       </span>
                       <span className="text-sm text-brand-slate">
                         {selectedEntry.chambers[0].facility.name}
@@ -599,18 +601,18 @@ export default function AdminReviewPage() {
 
               <div>
                 <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                  Submitted By
+                  {t("admin.review.panelLabelSubmittedBy")}
                 </span>
                 <span className="text-sm text-brand-slate">
                   {selectedEntry.collectedBy?.name ||
                     userMap.get(selectedEntry.collectedById || "") ||
-                    "Unknown"}
+                    t("admin.review.fallbackUnknown")}
                 </span>
               </div>
 
               <div>
                 <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                  Submitted Date
+                  {t("admin.review.panelLabelSubmittedDate")}
                 </span>
                 <span className="text-sm text-brand-slate tabular-nums">
                   {new Date(selectedEntry.collectedAt).toLocaleString()}
@@ -626,7 +628,7 @@ export default function AdminReviewPage() {
                 onClick={() => handleVerify(selectedEntry)}
                 loading={actionLoading}
               >
-                Verify entry
+                {t("admin.review.buttonVerifyEntry")}
               </Button>
               <Button
                 variant="outline"
@@ -640,7 +642,7 @@ export default function AdminReviewPage() {
                   )
                 }
               >
-                Edit entry
+                {t("admin.review.buttonEditEntry")}
               </Button>
               <Button
                 variant="outlineDanger"
@@ -653,7 +655,7 @@ export default function AdminReviewPage() {
                 }}
                 disabled={actionLoading}
               >
-                Reject entry
+                {t("admin.review.buttonRejectEntry")}
               </Button>
               <Button
                 variant="outlineDanger"
@@ -662,7 +664,7 @@ export default function AdminReviewPage() {
                 onClick={() => setDeletingEntry(selectedEntry)}
                 disabled={actionLoading}
               >
-                Delete entry
+                {t("admin.review.buttonDeleteEntry")}
               </Button>
             </div>
           </div>
@@ -674,15 +676,15 @@ export default function AdminReviewPage() {
         <div className="fixed inset-0 z-50 grid place-items-center p-4 bg-brand-navy/40 backdrop-blur-[2px]">
           <Card className="w-full max-w-md p-6">
             <h3 className="font-serif text-xl font-semibold text-brand-navy">
-              Reject entry
+              {t("admin.review.modalRejectTitle")}
             </h3>
             <p className="mt-1 text-sm text-brand-muted">
-              The staff member will see this reason.
+              {t("admin.review.modalRejectDescription")}
             </p>
             <div className="mt-4">
               <TextAreaField
                 id="reject-reason"
-                label="Reason"
+                label={t("admin.review.modalRejectReasonLabel")}
                 required
                 value={rejectReason}
                 onChange={(e) => setRejectReason(e.target.value)}
@@ -697,7 +699,7 @@ export default function AdminReviewPage() {
                 onClick={() => setRejectingEntry(null)}
                 disabled={actionLoading}
               >
-                Cancel
+                {t("common.ui.cancel")}
               </Button>
               <Button
                 variant="danger"
@@ -706,7 +708,7 @@ export default function AdminReviewPage() {
                 loading={actionLoading}
                 disabled={!rejectReason.trim()}
               >
-                Reject
+                {t("admin.review.modalRejectConfirm")}
               </Button>
             </div>
           </Card>
@@ -718,12 +720,10 @@ export default function AdminReviewPage() {
         <div className="fixed inset-0 z-50 grid place-items-center p-4 bg-brand-navy/40 backdrop-blur-[2px]">
           <Card className="w-full max-w-md p-6">
             <h3 className="font-serif text-xl font-semibold text-brand-navy">
-              Delete entry
+              {t("admin.review.modalDeleteTitle")}
             </h3>
             <p className="mt-1 text-sm text-brand-muted">
-              Permanently delete{" "}
-              <span className="font-semibold text-brand-slate">{deletingEntry.name}</span>{" "}
-              and its linked schedules and appointments. This cannot be undone.
+              {t("admin.review.modalDeleteDescription", { name: deletingEntry.name })}
             </p>
             <div className="flex gap-3 justify-end mt-5">
               <Button
@@ -732,7 +732,7 @@ export default function AdminReviewPage() {
                 onClick={() => setDeletingEntry(null)}
                 disabled={actionLoading}
               >
-                Cancel
+                {t("common.ui.cancel")}
               </Button>
               <Button
                 variant="danger"
@@ -740,7 +740,7 @@ export default function AdminReviewPage() {
                 onClick={handleDeleteConfirm}
                 loading={actionLoading}
               >
-                Delete
+                {t("admin.review.modalDeleteConfirm")}
               </Button>
             </div>
           </Card>

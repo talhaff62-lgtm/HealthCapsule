@@ -1,8 +1,7 @@
 "use client";
 
-"use client";
-
 import { PanelShell } from "./panel-shell";
+import { useLanguage } from "@/components/language-provider";
 
 type StaffShellProps = {
   title: string;
@@ -11,16 +10,18 @@ type StaffShellProps = {
 };
 
 export function StaffShell({ title, userName, children }: StaffShellProps) {
+  const { t } = useLanguage();
+
   return (
     <PanelShell
-      panelLabel="STAFF PANEL"
+      panelLabel={t("shell.staff.panelLabel")}
       homeHref="/staff"
       navLinks={[
-        { href: "/staff", label: "Your work" },
-        { href: "/staff/hospitals/new", label: "Add hospital" },
-        { href: "/staff/doctors/new", label: "Add doctor" },
-        { href: "/staff/directory", label: "Check entries" },
-        { href: "/staff/my-submissions", label: "My submissions" },
+        { href: "/staff", labelKey: "shell.staff.nav.yourWork" },
+        { href: "/staff/hospitals/new", labelKey: "shell.staff.nav.addHospital" },
+        { href: "/staff/doctors/new", labelKey: "shell.staff.nav.addDoctor" },
+        { href: "/staff/directory", labelKey: "shell.staff.nav.checkEntries" },
+        { href: "/staff/my-submissions", labelKey: "shell.staff.nav.mySubmissions" },
       ]}
       title={title}
       userName={userName}

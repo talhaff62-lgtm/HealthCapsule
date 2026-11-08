@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createChamber, updateChamber, ScheduleInput } from "@/app/portal/doctor/chambers/actions";
+import { useLanguage } from "@/components/language-provider";
 
 type ChamberFormProps = {
   doctorId: string;
@@ -18,13 +19,13 @@ type ChamberFormProps = {
 };
 
 const days = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
+  { key: 0, label: "common.dayLabels.sun" },
+  { key: 1, label: "common.dayLabels.mon" },
+  { key: 2, label: "common.dayLabels.tue" },
+  { key: 3, label: "common.dayLabels.wed" },
+  { key: 4, label: "common.dayLabels.thu" },
+  { key: 5, label: "common.dayLabels.fri" },
+  { key: 6, label: "common.dayLabels.sat" },
 ];
 
 function emptySchedule(): ScheduleInput {
@@ -38,6 +39,7 @@ export default function ChamberForm({
   onCancel,
 }: ChamberFormProps) {
   const router = useRouter();
+  const { t } = useLanguage();
   const [address, setAddress] = useState(initial?.address ?? "");
   const [areaId, setAreaId] = useState(initial?.areaId ?? "");
   const [fee, setFee] = useState(initial?.consultationFee ?? "");
@@ -99,26 +101,26 @@ export default function ChamberForm({
       )}
 
       <div>
-        <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">Address</label>
+        <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">{t("form.facility.labels.address")}</label>
         <input
           type="text"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           required
-          placeholder="Chamber address"
+          placeholder={t("doctorPortal.chamberForm.addressPlaceholder")}
           className="w-full rounded-lg border border-brand-gray bg-white px-4 py-2 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
         />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">Area</label>
+          <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">{t("form.facility.labels.area")}</label>
           <select
             value={areaId}
             onChange={(e) => setAreaId(e.target.value)}
             className="w-full rounded-lg border border-brand-gray bg-white px-4 py-2 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
           >
-            <option value="">Select area</option>
+            <option value="">{t("doctorPortal.chamberForm.selectAreaPlaceholder")}</option>
             {areas.map((area) => (
               <option key={area.id} value={area.id}>
                 {area.name}
@@ -128,21 +130,21 @@ export default function ChamberForm({
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">Consultation fee (৳)</label>
+          <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-muted">{t("form.doctor.labels.consultationFee")}</label>
           <input
             type="number"
             step="0.01"
             min="0"
             value={fee}
             onChange={(e) => setFee(e.target.value)}
-            placeholder="500"
+            placeholder={t("doctorPortal.chamberForm.feePlaceholder")}
             className="w-full rounded-lg border border-brand-gray bg-white px-4 py-2 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
           />
         </div>
       </div>
 
       <div>
-        <label className="mb-2 block text-xs font-medium uppercase tracking-wider text-brand-muted">Weekly schedule</label>
+        <label className="mb-2 block text-xs font-medium uppercase tracking-wider text-brand-muted">{t("doctorPortal.chamberForm.weeklyScheduleLabel")}</label>
         <div className="space-y-2">
           {schedules.map((schedule, index) => (
             <div key={index} className="flex flex-wrap items-center gap-2">
@@ -153,9 +155,9 @@ export default function ChamberForm({
                 }
                 className="rounded-lg border border-brand-gray bg-white px-3 py-2 text-sm text-brand-slate outline-none transition focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
               >
-                {days.map((day, i) => (
-                  <option key={day} value={i}>
-                    {day}
+                {days.map((day) => (
+                  <option key={day.key} value={day.key}>
+                    {t(day.label)}
                   </option>
                 ))}
               </select>
@@ -177,7 +179,7 @@ export default function ChamberForm({
                 onClick={() => setSchedules((prev) => prev.filter((_, i) => i !== index))}
                 className="text-sm font-medium text-status-emergency hover:underline"
               >
-                Remove
+                {t("doctorPortal.chamberForm.removeSchedule")}
               </button>
             </div>
           ))}
@@ -187,7 +189,7 @@ export default function ChamberForm({
           onClick={() => setSchedules((prev) => [...prev, emptySchedule()])}
           className="mt-2 text-sm font-semibold text-brand-navy hover:text-brand-gold"
         >
-          + Add schedule slot
+          {t("doctorPortal.chamberForm.addScheduleSlot")}
         </button>
       </div>
 
@@ -197,7 +199,11 @@ export default function ChamberForm({
           disabled={pending}
           className="rounded-lg bg-brand-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-brand-navy-light disabled:opacity-60"
         >
-          {pending ? "Saving..." : initial ? "Update chamber" : "Add chamber"}
+          {pending
+            ? t("doctorPortal.chamberForm.saving")
+            : initial
+            ? t("doctorPortal.chamberForm.updateChamber")
+            : t("doctorPortal.chamberForm.addChamber")}
         </button>
         {onCancel && (
           <button
@@ -205,7 +211,7 @@ export default function ChamberForm({
             onClick={onCancel}
             className="rounded-lg border border-brand-gray bg-white px-5 py-2 text-sm font-medium text-brand-slate transition hover:bg-brand-cream"
           >
-            Cancel
+            {t("common.form.cancel")}
           </button>
         )}
       </div>

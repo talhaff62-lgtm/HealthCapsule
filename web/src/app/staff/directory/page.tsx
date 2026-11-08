@@ -5,6 +5,7 @@ import { StaffShell } from "@/components/panel/staff-shell";
 import { useMe } from "@/components/panel/use-me";
 import { api } from "@/lib/client-fetch";
 import { Card, Eyebrow, TextField, Button } from "@/components/panel/ui";
+import { useLanguage } from "@/components/language-provider";
 
 type DirectoryFacility = {
   id: string;
@@ -25,6 +26,7 @@ type DirectoryDoctor = {
 
 export default function StaffDirectoryPage() {
   const { me, loading: meLoading } = useMe();
+  const { t } = useLanguage();
   const [tab, setTab] = useState<"facilities" | "doctors">("facilities");
   const [query, setQuery] = useState("");
   const [facilities, setFacilities] = useState<DirectoryFacility[]>([]);
@@ -78,7 +80,7 @@ export default function StaffDirectoryPage() {
   if (meLoading) {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-brand-muted">Loading...</div>
+        <div className="text-brand-muted">{t("common.ui.loading")}</div>
       </div>
     );
   }
@@ -86,7 +88,7 @@ export default function StaffDirectoryPage() {
   if (!me || me.role !== "STAFF") {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">Not authorized</div>
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
       </div>
     );
   }

@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, FormEvent } from "react";
 import { X, Check, AlertTriangle } from "lucide-react";
 import { api } from "@/lib/client-fetch";
 import { slugify } from "@/lib/slug";
+import { useLanguage } from "@/components/language-provider";
 import {
   Card,
   TextField,
@@ -107,12 +108,14 @@ export function DoctorForm({
   onSubmit,
   submitting,
   error,
-  submitLabel = "Submit for review",
+  submitLabel,
   showListingSection = false,
   initialListingTier = "FREE",
   initialFeaturedUntil = "",
   onListingChange,
 }: DoctorFormProps) {
+  const { t } = useLanguage();
+  const effectiveSubmitLabel = submitLabel ?? t("common.form.submitForReview");
   const [name, setName] = useState(() => initialValues?.name ?? "");
   const [dupMatches, setDupMatches] = useState<
     Array<{
@@ -301,7 +304,7 @@ export function DoctorForm({
     setUploadError("");
     if (!file.type.startsWith("image/")) {
       e.target.value = "";
-      setUploadError("Please select an image file");
+      setUploadError(t("common.form.pleaseSelectImageFile"));
       return;
     }
     setPhotoPreview(URL.createObjectURL(file));
@@ -317,14 +320,14 @@ export function DoctorForm({
         error?: string;
       } | null;
       if (!res.ok || !data?.success || !data?.image?.url) {
-        throw new Error(data?.error ?? `Upload failed (${res.status})`);
+        throw new Error(data?.error ?? t("common.form.uploadFailedWithStatus", { status: res.status }));
       }
       setPhotoUrl(data.image.url);
     } catch (err) {
       e.target.value = "";
       setPhotoUrl("");
       setPhotoPreview("");
-      setUploadError(err instanceof Error ? err.message : "Upload failed");
+      setUploadError(err instanceof Error ? err.message : t("common.form.uploadFailed"));
     } finally {
       setUploading(false);
     }
@@ -335,7 +338,7 @@ export function DoctorForm({
     setLocalError("");
 
     if (!finalSpecialization) {
-      setLocalError("Please select or enter a specialization");
+      setLocalError(t("common.form.selectOrEnterSpecialization"));
       return;
     }
 
@@ -367,21 +370,36 @@ export function DoctorForm({
     try {
       await onSubmit(payload);
     } catch (err) {
-      setLocalError(err instanceof Error ? err.message : "Submit failed");
+      setLocalError(err instanceof Error ? err.message : t("common.form.submitFailed"));
     }
   };
 
-  const displayError = error || localError;
+const displayError = error || localError;
 
-  return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+      // Build specialization label map for display
+      const specializationLabelMap = useMemo(() => {
+        const map: Record<string, string> = {};
+        for (const s of SPECIALIZATIONS) {
+          const key = s.toLowerCase().replace(/ /g, "").replace(".", "");
+          map[s] = t(`form.doctor.options.specializations.${key}`);
+        }
+        // Map common variations
+        map["ENT Specialist"] = t("form.doctor.options.specializations.entSpecialist");
+        map["Medicine Specialist"] = t("form.doctor.options.specializations.medicineSpecialist");
+        map["Orthopedic Surgeon"] = t("form.doctor.options.specializations.orthopedicSurgeon");
+        map["General Surgeon"] = t("form.doctor.options.specializations.generalSurgeon");
+        return map;
+      }, [t]);
+
+      return (
+        <form onSubmit={handleSubmit} className="space-y-6">
       {/* Section: Listing (Optional) */}
       {showListingSection && (
         <div className="space-y-4">
-          <SectionTitle className="mb-3">Listing</SectionTitle>
+          <SectionTitle className="mb-3">{t("form.doctor.sections.listing")}</SectionTitle>
           <div>
             <label className="block mb-1.5 text-sm font-semibold text-brand-slate">
-              Listing Tier
+              {t("form.doctor.labels.listingTier")}
             </label>
             <div className="grid grid-cols-4 gap-2">
               {["FREE", "VERIFIED", "FEATURED", "PREMIUM"].map((tier) => (
@@ -396,14 +414,14 @@ export function DoctorForm({
                       : "border-brand-gray bg-white text-brand-slate hover:bg-brand-mist"
                   }`}
                 >
-                  {tier}
+                  {t(`form.doctor.options.listingTier.${tier.toLowerCase()}`)}
                 </button>
               ))}
             </div>
           </div>
           <TextField
             id="featuredUntil"
-            label="Featured Until (optional)"
+            label={t("form.doctor.labels.featuredUntil")}
             type="date"
             value={featuredUntil}
             onChange={(e) => handleFeaturedUntilChange(e.target.value)}
@@ -413,11 +431,11 @@ export function DoctorForm({
 
       {/* Section: Basic Info */}
       <div className="space-y-4">
-        <SectionTitle className="mb-3">Basic Info</SectionTitle>
+        <SectionTitle className="mb-3">{t("form.doctor.sections.basicInfo")}</SectionTitle>
 
         <TextField
           id="name"
-          label="Doctor Name"
+          label={t("form.doctor.labels.doctorName")}
           required
           type="text"
           value={name}
@@ -427,7 +445,7 @@ export function DoctorForm({
           <div className="rounded-xl border border-status-warning/50 bg-status-warning-light/60 px-4 py-3 space-y-2">
             <div className="flex items-center gap-2 text-status-warning font-semibold text-sm">
               <AlertTriangle className="h-4 w-4 shrink-0" />
-              <span>Already in the system?</span>
+              <span>{t("common.form.alreadyInSystem")}</span>
             </div>
             <ul className="space-y-1 text-sm text-brand-slate">
               {dupMatches.slice(0, 3).map((match) => {
@@ -452,12 +470,12 @@ export function DoctorForm({
 
         <div className="relative">
           <label className="block mb-1.5 text-sm font-semibold text-brand-slate">
-            Specialization <span className="text-status-emergency">*</span>
+            {t("form.doctor.labels.specialization")} <span className="text-status-emergency">*</span>
           </label>
           {selectedSpec || isOther ? (
             <div className="flex items-center gap-2">
               <span className="inline-flex h-11 items-center gap-2 rounded-full border border-brand-sky bg-brand-sky-bg px-4 text-sm font-semibold text-brand-sky-deep">
-                {isOther ? `Other: ${customSpec || "..."}` : selectedSpec}
+                {isOther ? `${t("common.form.other")}: ${customSpec || "..."}` : (specializationLabelMap[selectedSpec] || selectedSpec)}
                 <button
                   type="button"
                   onClick={() => {
@@ -482,7 +500,7 @@ export function DoctorForm({
                   setSpecOpen(true);
                 }}
                 onFocus={() => setSpecOpen(true)}
-                placeholder="Search specialization..."
+                placeholder={t("form.doctor.placeholders.searchSpecialization")}
                 className="h-12 w-full rounded-xl border border-brand-gray bg-white px-4 text-base text-brand-slate placeholder:text-brand-navy-muted/70 transition-colors focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/25"
               />
               {specOpen && (
@@ -497,7 +515,7 @@ export function DoctorForm({
                       }}
                       className="w-full px-4 py-3 text-left text-sm text-brand-slate hover:bg-brand-sky-bg-soft transition-colors"
                     >
-                      {s}
+                      {specializationLabelMap[s] || s}
                     </button>
                   ))}
                   <button
@@ -508,7 +526,7 @@ export function DoctorForm({
                     }}
                     className="w-full border-t border-brand-gray px-4 py-3 text-left text-sm hover:bg-brand-sky-bg-soft transition-colors"
                   >
-                    <Eyebrow>OTHER…</Eyebrow>
+                    <Eyebrow>{t("common.form.other")}</Eyebrow>
                   </button>
                 </div>
               )}
@@ -520,7 +538,7 @@ export function DoctorForm({
                 type="text"
                 value={customSpec}
                 onChange={(e) => setCustomSpec(e.target.value)}
-                placeholder="Specify specialization"
+                placeholder={t("form.doctor.placeholders.specifySpecialization")}
                 required
               />
             </div>
@@ -529,67 +547,67 @@ export function DoctorForm({
 
         <TextField
           id="degrees"
-          label="Degrees"
+          label={t("form.doctor.labels.degrees")}
           required
           type="text"
           value={degrees}
           onChange={(e) => setDegrees(e.target.value)}
-          placeholder="MBBS, FCPS"
+          placeholder={t("form.doctor.placeholders.degreesExample")}
         />
       </div>
 
       {/* Section: Professional Details */}
       <div className="space-y-4">
-        <SectionTitle className="mt-6 mb-3">Professional Details</SectionTitle>
+        <SectionTitle className="mt-6 mb-3">{t("form.doctor.sections.professionalDetails")}</SectionTitle>
 
         <TextField
           id="expertise"
-          label="Expertise / Sub-specialty (optional)"
+          label={t("form.doctor.labels.expertise")}
           type="text"
           value={expertise}
           onChange={(e) => setExpertise(e.target.value)}
-          placeholder="e.g. Interventional Cardiology"
+          placeholder={t("form.doctor.placeholders.expertiseExample")}
         />
 
         <TextField
           id="currentPosition"
-          label="Current Position (optional)"
+          label={t("form.doctor.labels.currentPosition")}
           type="text"
           value={currentPosition}
           onChange={(e) => setCurrentPosition(e.target.value)}
-          placeholder="e.g. Associate Professor, DMC"
+          placeholder={t("form.doctor.placeholders.positionExample")}
         />
 
         <TextField
           id="medicalCollege"
-          label="Medical College (optional)"
+          label={t("form.doctor.labels.medicalCollege")}
           type="text"
           value={medicalCollege}
           onChange={(e) => setMedicalCollege(e.target.value)}
-          placeholder="e.g. Dhaka Medical College"
+          placeholder={t("form.doctor.placeholders.collegeExample")}
         />
 
         <TextField
           id="pgInstitution"
-          label="PG Institution (optional)"
+          label={t("form.doctor.labels.pgInstitution")}
           type="text"
           value={pgInstitution}
           onChange={(e) => setPgInstitution(e.target.value)}
-          placeholder="e.g. BSMMU"
+          placeholder={t("form.doctor.placeholders.pgExample")}
         />
 
         <TextField
           id="bmdcRegNo"
-          label="BMDC Reg. No. (optional)"
+          label={t("form.doctor.labels.bmdcRegNo")}
           type="text"
           value={bmdcRegNo}
           onChange={(e) => setBmdcRegNo(e.target.value)}
-          placeholder="e.g. A-12345"
+          placeholder={t("form.doctor.placeholders.bmdcExample")}
         />
 
         <TextField
           id="yearsExperience"
-          label="Years of Experience (optional)"
+          label={t("form.doctor.labels.yearsExperience")}
           type="number"
           value={yearsExperience}
           onChange={(e) => setYearsExperience(e.target.value)}
@@ -597,7 +615,7 @@ export function DoctorForm({
 
         <div>
           <label className="block mb-1.5 text-sm font-semibold text-brand-slate">
-            Gender (optional)
+            {t("form.doctor.labels.gender")}
           </label>
           <div className="grid grid-cols-3 gap-2">
             {["Male", "Female", "Other"].map((g) => (
@@ -612,7 +630,7 @@ export function DoctorForm({
                     : "border-brand-gray bg-white text-brand-slate hover:bg-brand-mist"
                 }`}
               >
-                {g}
+                {t(`form.doctor.options.gender.${g.toLowerCase()}`)}
               </button>
             ))}
           </div>
@@ -620,30 +638,30 @@ export function DoctorForm({
 
         <TextField
           id="languages"
-          label="Languages (optional)"
+          label={t("form.doctor.labels.languages")}
           type="text"
           value={languages}
           onChange={(e) => setLanguages(e.target.value)}
-          placeholder="e.g. Bangla, English, Hindi — comma separated"
+          placeholder={t("form.doctor.placeholders.languagesExample")}
         />
       </div>
 
       {/* Section: Practice Info */}
       <div className="space-y-4">
-        <SectionTitle className="mt-6 mb-3">Practice Info</SectionTitle>
+        <SectionTitle className="mt-6 mb-3">{t("form.doctor.sections.practiceInfo")}</SectionTitle>
 
         <TextField
           id="consultationFee"
-          label="Consultation Fee (optional)"
+          label={t("form.doctor.labels.consultationFee")}
           type="number"
           value={consultationFee}
           onChange={(e) => setConsultationFee(e.target.value)}
-          placeholder="BDT amount"
+          placeholder={t("form.doctor.placeholders.consultationFeeExample")}
         />
 
         <div>
           <label className="block mb-1.5 text-sm font-semibold text-brand-slate">
-            Online Consultation (optional)
+            {t("form.doctor.labels.onlineConsultation")}
           </label>
           <button
             type="button"
@@ -656,13 +674,13 @@ export function DoctorForm({
             }`}
           >
             {hasOnlineConsultation && <Check className="h-4 w-4 shrink-0" />}
-            Provides Online Consultation
+            {t("form.doctor.labels.providesOnlineConsultation")}
           </button>
         </div>
 
         <div className="relative">
           <label className="block mb-1.5 text-sm font-semibold text-brand-slate">
-            Linked Facility (optional)
+            {t("form.doctor.labels.linkedFacility")}
           </label>
           {selectedFacility ? (
             <Card className="p-3.5 flex items-center justify-between">
@@ -690,13 +708,13 @@ export function DoctorForm({
                   setFacilityOpen(true);
                 }}
                 onFocus={() => setFacilityOpen(true)}
-                placeholder="Search hospital or diagnostic center..."
+                placeholder={t("form.doctor.placeholders.searchFacility")}
                 className="h-12 w-full rounded-xl border border-brand-gray bg-white px-4 text-base text-brand-slate placeholder:text-brand-navy-muted/70 transition-colors focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/25"
               />
               {facilityOpen && (
                 <div className="absolute z-20 mt-2 max-h-48 w-full overflow-y-auto rounded-xl border border-brand-gray bg-white shadow-lg">
                   {filteredFacilities.length === 0 ? (
-                    <div className="px-4 py-3 text-sm text-brand-muted">No facilities found</div>
+                    <div className="px-4 py-3 text-sm text-brand-muted">{t("common.form.noFacilitiesFound")}</div>
                   ) : (
                     filteredFacilities.map((f) => (
                       <button
@@ -722,11 +740,11 @@ export function DoctorForm({
 
       {/* Section: Contact */}
       <div className="space-y-4">
-        <SectionTitle className="mt-6 mb-3">Contact</SectionTitle>
+        <SectionTitle className="mt-6 mb-3">{t("form.doctor.sections.contact")}</SectionTitle>
 
         <TextField
           id="phone"
-          label="Phone (optional)"
+          label={t("form.doctor.labels.phone")}
           type="text"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
@@ -734,7 +752,7 @@ export function DoctorForm({
 
         <TextField
           id="email"
-          label="Email (optional)"
+          label={t("form.doctor.labels.email")}
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -743,34 +761,34 @@ export function DoctorForm({
 
       {/* Section: Bio & Achievements */}
       <div className="space-y-4">
-        <SectionTitle className="mt-6 mb-3">Bio & Achievements</SectionTitle>
+        <SectionTitle className="mt-6 mb-3">{t("form.doctor.sections.bioAchievements")}</SectionTitle>
 
         <TextAreaField
           id="bio"
-          label="Bio (optional)"
+          label={t("form.doctor.labels.bio")}
           rows={4}
           value={bio}
           onChange={(e) => setBio(e.target.value)}
-          placeholder="Brief biography..."
+          placeholder={t("form.doctor.placeholders.bioExample")}
         />
 
         <TextField
           id="achievements"
-          label="Achievements (optional)"
+          label={t("admin.entries.detailAchievementsLabel")}
           type="text"
           value={achievements}
           onChange={(e) => setAchievements(e.target.value)}
-          placeholder="e.g. Gold Medalist"
+          placeholder={t("form.doctor.placeholders.achievementsExample")}
         />
       </div>
 
       {/* Section: Photo */}
       <div className="space-y-4">
-        <SectionTitle className="mt-6 mb-3">Photo</SectionTitle>
+        <SectionTitle className="mt-6 mb-3">{t("form.doctor.sections.photo")}</SectionTitle>
 
         <div>
           <label className="block mb-1.5 text-sm font-semibold text-brand-slate">
-            Doctor Photo (optional)
+            {t("form.doctor.labels.doctorPhoto")}
           </label>
           <input
             type="file"
@@ -779,12 +797,12 @@ export function DoctorForm({
             className="block w-full text-sm text-brand-slate file:mr-4 file:rounded-full file:border-0 file:bg-brand-sky-bg file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-brand-sky-deep hover:file:bg-brand-sky/20"
           />
           {uploading && (
-            <p className="mt-2 text-sm text-brand-muted">Uploading...</p>
+            <p className="mt-2 text-sm text-brand-muted">{t("common.form.uploading")}</p>
           )}
           {photoPreview && (
             <img
               src={photoPreview}
-              alt="Doctor photo preview"
+              alt={t("form.doctor.labels.doctorPhoto") + " preview"}
               className="mt-2 h-24 w-24 rounded-xl object-cover"
             />
           )}
@@ -810,7 +828,7 @@ export function DoctorForm({
           fullWidth
           loading={submitting}
         >
-          {submitLabel}
+          {effectiveSubmitLabel}
         </Button>
       </div>
     </form>

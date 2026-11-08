@@ -10,17 +10,19 @@ import {
   FacilityForm,
   FacilityFormPayload,
 } from "@/components/panel/facility-form";
+import { useLanguage } from "@/components/language-provider";
 
 export default function AdminNewFacilityPage() {
   const { me, loading } = useMe();
   const router = useRouter();
+  const { t } = useLanguage();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
   if (loading) {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-brand-muted">Loading...</div>
+        <div className="text-brand-muted">{t("common.ui.loading")}</div>
       </div>
     );
   }
@@ -28,7 +30,7 @@ export default function AdminNewFacilityPage() {
   if (!me || me.role !== "ADMIN") {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">Not authorized</div>
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
       </div>
     );
   }
@@ -50,14 +52,14 @@ export default function AdminNewFacilityPage() {
   };
 
   return (
-    <AdminShell title="Add facility" userName={me.name}>
-      <Eyebrow className="mb-4 block">NEW FACILITY</Eyebrow>
+    <AdminShell title={t("admin.facilities.newTitle")} userName={me.name}>
+      <Eyebrow className="mb-4 block">{t("admin.facilities.newEyebrow")}</Eyebrow>
       <FacilityForm
         mode="create"
         onSubmit={handleSubmit}
         submitting={submitting}
         error={error}
-        submitLabel="Create facility"
+        submitLabel={t("common.form.submitForReview")}
       />
     </AdminShell>
   );

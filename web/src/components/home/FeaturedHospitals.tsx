@@ -1,4 +1,5 @@
-import React from "react";
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Phone, Globe, Star } from "lucide-react";
@@ -50,6 +51,8 @@ async function getFeaturedFacilities() {
 }
 
 export default async function FeaturedHospitals() {
+  const locale = await getServerLocale();
+  const t = getT(locale);
   const displayFacilities = await getFeaturedFacilities();
 
   return (
@@ -57,13 +60,13 @@ export default async function FeaturedHospitals() {
       <div className="mx-auto max-w-7xl px-6 py-10 sm:px-8 sm:py-14">
         <ScrollReveal className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
           <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
-            Verified Network
+            {t("home.featuredHospitals.badge")}
           </span>
           <h2 className="mt-2 font-serif text-3xl font-medium text-ink sm:text-4xl">
-            Featured Hospitals &amp; Diagnostics
+            {t("home.featuredHospitals.title")}
           </h2>
           <p className="mt-3 text-ink-muted">
-            Explore trusted medical facilities in Chattogram mapped by departments, ICU capacity, and direct emergency contacts.
+            {t("home.featuredHospitals.desc")}
           </p>
         </ScrollReveal>
 
@@ -81,7 +84,7 @@ export default async function FeaturedHospitals() {
                   {imageSrc ? (
                     <Image
                       src={imageSrc}
-                      alt={`${facility.name} building`}
+                      alt={t("home.featuredHospitals.imageAltBuilding", { name: facility.name })}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
@@ -106,7 +109,7 @@ export default async function FeaturedHospitals() {
                     facility.listingTier === "PREMIUM") && (
                     <span className="absolute right-3 top-3 z-10 inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 font-mono text-[0.6rem] font-bold uppercase tracking-wider text-brand-sky shadow-sm backdrop-blur-sm">
                       <Star className="h-3 w-3 fill-brand-sky text-brand-sky" />
-                      Featured
+                      {t("home.featuredHospitals.badgeFeatured")}
                     </span>
                   )}
                 </div>
@@ -134,19 +137,19 @@ export default async function FeaturedHospitals() {
                   <div className="mt-5 flex flex-wrap gap-y-2 gap-x-4 border-t border-brand-gray pt-4 text-xs font-mono text-brand-muted">
                     {facility.beds && (
                       <div>
-                        <span className="uppercase text-[0.65rem] block tracking-wider text-brand-muted">Beds</span>
+                        <span className="uppercase text-[0.65rem] block tracking-wider text-brand-muted">{t("home.featuredHospitals.labelBeds")}</span>
                         <span className="text-brand-navy font-semibold">{facility.beds}</span>
                       </div>
                     )}
                     {facility.establishedYear && (
                       <div>
-                        <span className="uppercase text-[0.65rem] block tracking-wider text-brand-muted">Est.</span>
+                        <span className="uppercase text-[0.65rem] block tracking-wider text-brand-muted">{t("home.featuredHospitals.labelEst")}</span>
                         <span className="text-brand-navy font-semibold">{facility.establishedYear}</span>
                       </div>
                     )}
                     {facility.rating != null && (
                       <div>
-                        <span className="uppercase text-[0.65rem] block tracking-wider text-brand-muted">Rating</span>
+                        <span className="uppercase text-[0.65rem] block tracking-wider text-brand-muted">{t("home.featuredHospitals.labelRating")}</span>
                         <span className="inline-flex items-center gap-1 text-brand-navy font-semibold">
                           <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
                           {facility.rating.toFixed(1)}
@@ -156,17 +159,17 @@ export default async function FeaturedHospitals() {
                     <div className="flex-1 flex justify-end gap-1.5 self-end">
                       {facility.hasIcu && (
                         <span className="px-2 py-0.5 rounded bg-brand-navy-light text-white font-semibold text-[0.65rem]">
-                          ICU
+                          {t("home.featuredHospitals.badgeIcu")}
                         </span>
                       )}
                       {facility.hasEmergency && (
                         <span className="px-2 py-0.5 rounded bg-status-emergency-light text-status-emergency font-semibold text-[0.65rem]">
-                          EMERGENCY
+                          {t("home.featuredHospitals.badgeEmergency")}
                         </span>
                       )}
                       {facility.hasAmbulance && (
                         <span className="px-2 py-0.5 rounded bg-brand-sky-bg text-brand-sky-deep font-semibold text-[0.65rem]">
-                          AMBULANCE
+                          {t("home.featuredHospitals.badgeAmbulance")}
                         </span>
                       )}
                     </div>
@@ -183,7 +186,7 @@ export default async function FeaturedHospitals() {
                         {facility.phone}
                       </a>
                     ) : (
-                      <span className="text-brand-muted italic">Call info unavailable</span>
+                      <span className="text-brand-muted italic">{t("home.featuredHospitals.callUnavailable")}</span>
                     )}
 
                     <div className="flex items-center gap-3">
@@ -191,7 +194,7 @@ export default async function FeaturedHospitals() {
                         href={`/healthcares/${facility.slug}`}
                         className="inline-flex items-center font-semibold text-brand-navy hover:text-brand-sky transition"
                       >
-                        View details
+                        {t("home.featuredHospitals.buttonViewDetails")}
                       </Link>
 
                       {facility.website ? (
@@ -202,7 +205,7 @@ export default async function FeaturedHospitals() {
                           className="inline-flex items-center gap-1 text-brand-sky hover:text-brand-sky-dark font-semibold hover:underline"
                         >
                           <Globe className="h-3.5 w-3.5" />
-                          Website ↗
+                          {t("home.featuredHospitals.buttonWebsite")}
                         </a>
                       ) : null}
                     </div>

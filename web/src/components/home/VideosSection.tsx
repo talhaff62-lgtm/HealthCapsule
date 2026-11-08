@@ -1,4 +1,5 @@
-import React from "react";
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
 import Link from "next/link";
 import { Video } from "lucide-react";
 import { prisma } from "@/lib/prisma";
@@ -28,6 +29,8 @@ async function getFeaturedVideos() {
 }
 
 export default async function VideosSection() {
+  const locale = await getServerLocale();
+  const t = getT(locale);
   const videos = await getFeaturedVideos();
 
   if (videos.length === 0) return null;
@@ -38,13 +41,13 @@ export default async function VideosSection() {
         <ScrollReveal className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
           <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
             <Video className="h-3.5 w-3.5" />
-            Health Videos
+            {t("home.videos.badge")}
           </span>
           <h2 className="mt-2 font-serif text-3xl font-medium text-ink sm:text-4xl">
-            Watch &amp; Learn
+            {t("home.videos.title")}
           </h2>
           <p className="mt-3 text-ink-muted">
-            Short, practical videos from verified doctors — health tips, treatment explainers, and clinic walkthroughs.
+            {t("home.videos.desc")}
           </p>
         </ScrollReveal>
 
@@ -61,7 +64,7 @@ export default async function VideosSection() {
             href="/videos"
             className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-6 py-3 text-sm font-medium text-ink transition hover:border-brand-sky hover:text-brand-sky-dark"
           >
-            View All Videos
+            {t("home.videos.viewAll")}
           </Link>
         </div>
       </div>

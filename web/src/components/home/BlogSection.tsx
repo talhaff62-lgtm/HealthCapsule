@@ -1,4 +1,5 @@
-import React from "react";
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
 import Link from "next/link";
 import { BookOpen } from "lucide-react";
 import { prisma } from "@/lib/prisma";
@@ -36,6 +37,8 @@ async function getFeaturedPosts() {
 }
 
 export default async function BlogSection() {
+  const locale = await getServerLocale();
+  const t = getT(locale);
   const posts = await getFeaturedPosts();
 
   if (posts.length === 0) return null;
@@ -46,13 +49,13 @@ export default async function BlogSection() {
         <ScrollReveal className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
           <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-brand-sky-deep">
             <BookOpen className="h-3.5 w-3.5" />
-            Health Blog
+            {t("home.blog.badge")}
           </span>
           <h2 className="mt-2 font-serif text-3xl font-medium text-ink sm:text-4xl">
-            From the Blog
+            {t("home.blog.title")}
           </h2>
           <p className="mt-3 text-ink-muted">
-            Practical articles and health guides written by verified doctors and the Capsule team.
+            {t("home.blog.desc")}
           </p>
         </ScrollReveal>
 
@@ -69,7 +72,7 @@ export default async function BlogSection() {
             href="/blog"
             className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-6 py-3 text-sm font-medium text-ink transition hover:border-brand-sky hover:text-brand-sky-dark"
           >
-            View All Articles
+            {t("home.blog.viewAll")}
           </Link>
         </div>
       </div>

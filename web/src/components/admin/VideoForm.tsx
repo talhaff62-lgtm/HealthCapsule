@@ -3,6 +3,7 @@
 import { useEffect, useState, FormEvent } from "react";
 import { Check } from "lucide-react";
 import { api } from "@/lib/client-fetch";
+import { useLanguage } from "@/components/language-provider";
 import {
   Button,
   SectionTitle,
@@ -52,6 +53,7 @@ export function VideoForm({
   error,
   submitLabel = "Save video",
 }: VideoFormProps) {
+  const { t } = useLanguage();
   const [title, setTitle] = useState(() => initialValues?.title ?? "");
   const [description, setDescription] = useState(
     () => initialValues?.description ?? ""
@@ -128,11 +130,11 @@ export function VideoForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
-        <SectionTitle className="mb-3">Video</SectionTitle>
+        <SectionTitle className="mb-3">{t("admin.videos.videoSection")}</SectionTitle>
 
         <TextField
           id="title"
-          label="Title"
+          label={t("admin.videos.titleLabel")}
           required
           type="text"
           value={title}
@@ -141,7 +143,7 @@ export function VideoForm({
 
         <TextAreaField
           id="description"
-          label="Description (optional)"
+          label={`${t("admin.videos.descriptionLabel")} ${t("common.form.optional")}`}
           rows={5}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -149,7 +151,7 @@ export function VideoForm({
 
         <TextField
           id="youtubeUrl"
-          label="YouTube URL"
+          label={t("admin.videos.youtubeUrlLabel")}
           required
           type="url"
           value={youtubeUrl}
@@ -159,11 +161,11 @@ export function VideoForm({
       </div>
 
       <div className="space-y-4">
-        <SectionTitle className="mt-6 mb-3">Display</SectionTitle>
+        <SectionTitle className="mt-6 mb-3">{t("admin.videos.displaySection")}</SectionTitle>
 
         <TextField
           id="thumbnailUrl"
-          label="Thumbnail URL (optional)"
+          label={`${t("admin.videos.thumbnailUrlLabel")} ${t("common.form.optional")}`}
           type="text"
           value={thumbnailUrl}
           onChange={(e) => setThumbnailUrl(e.target.value)}
@@ -171,7 +173,7 @@ export function VideoForm({
 
         <TextField
           id="duration"
-          label="Duration (optional)"
+          label={`${t("admin.videos.durationLabel")} ${t("common.form.optional")}`}
           type="text"
           value={duration}
           onChange={(e) => setDuration(e.target.value)}
@@ -180,7 +182,7 @@ export function VideoForm({
 
         <div>
           <span className="mb-1.5 block text-sm font-semibold text-brand-slate">
-            Featured
+            {t("admin.videos.featuredLabel")}
           </span>
           <button
             type="button"
@@ -193,13 +195,13 @@ export function VideoForm({
             }`}
           >
             {isFeatured && <Check className="h-4 w-4 shrink-0" />}
-            Feature this video
+            {t("admin.videos.featureThisVideo")}
           </button>
         </div>
 
         <TextField
           id="displayOrder"
-          label="Display Order"
+          label={t("admin.videos.displayOrderLabel")}
           type="number"
           value={displayOrder}
           onChange={(e) => setDisplayOrder(e.target.value)}
@@ -207,14 +209,14 @@ export function VideoForm({
       </div>
 
       <div className="space-y-4">
-        <SectionTitle className="mt-6 mb-3">Attribution</SectionTitle>
+        <SectionTitle className="mt-6 mb-3">{t("admin.videos.attributionSection")}</SectionTitle>
 
         <div>
           <label
             htmlFor="doctor"
             className="mb-1.5 block text-sm font-semibold text-brand-slate"
           >
-            Attributed Doctor (optional)
+            {t("admin.videos.attributedDoctorLabel")} {t("common.form.optional")}
           </label>
           <select
             id="doctor"
@@ -222,7 +224,7 @@ export function VideoForm({
             onChange={(e) => setDoctorId(e.target.value)}
             className="h-11 w-full rounded-xl border border-brand-gray bg-white px-3 text-sm focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/25"
           >
-            <option value="">No doctor (custom author)</option>
+            <option value="">{t("admin.videos.noDoctorOption")}</option>
             {doctors.map((d) => (
               <option key={d.id} value={d.id}>
                 {d.name}
@@ -234,11 +236,11 @@ export function VideoForm({
         {!doctorId && (
           <TextField
             id="authorName"
-            label="Author Name (optional)"
+            label={`${t("admin.videos.authorNameLabel")} ${t("common.form.optional")}`}
             type="text"
             value={authorName}
             onChange={(e) => setAuthorName(e.target.value)}
-            placeholder="Shown when no doctor is attributed"
+            placeholder={t("admin.videos.authorNamePlaceholder")}
           />
         )}
       </div>

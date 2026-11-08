@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Select from "@/components/ui/Select";
+import { useLanguage } from "@/components/language-provider";
 
 type Option = {
   slug: string;
@@ -23,11 +24,12 @@ type TabId = "doctor" | "hospital";
 
 export default function HeroSearchCard({ specialties, areas }: HeroSearchCardProps) {
   const router = useRouter();
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<TabId>("doctor");
 
   const tabs: { id: TabId; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-    { id: "doctor", label: "Doctor", icon: Stethoscope },
-    { id: "hospital", label: "Hospital", icon: Building2 },
+    { id: "doctor", label: t("home.heroSearchCard.tabDoctor"), icon: Stethoscope },
+    { id: "hospital", label: t("home.heroSearchCard.tabHospital"), icon: Building2 },
   ];
 
   const handleSearchDoctor = (e: React.FormEvent<HTMLFormElement>) => {
@@ -56,14 +58,14 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
           <span
             className="absolute right-[-26px] top-[10px] inline-block rotate-45 bg-brand-sky px-7 py-0.5 font-mono text-[0.55rem] font-semibold uppercase tracking-[0.1em] text-white shadow"
           >
-            Verified
+            {t("home.heroSearchCard.ribbon")}
           </span>
         </div>
 
         <div className="hero-card-head px-5 pt-4 sm:px-7">
           <span className="inline-flex items-center gap-2.5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-brand-sky-deep">
             <span className="h-px w-4 bg-brand-sky-deep/50" aria-hidden="true" />
-            Find care now
+            {t("home.heroSearchCard.title")}
           </span>
 
           {/* Segmented pill tabs */}
@@ -95,13 +97,13 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
             <form onSubmit={handleSearchDoctor} className="space-y-3">
               <div>
                 <label htmlFor="q" className={fieldLabel}>
-                  Name or keyword
+                  {t("home.heroSearchCard.labelName")}
                 </label>
                 <input
                   id="q"
                   name="q"
                   type="search"
-                  placeholder="e.g. Dr. Rahman, Cardiology"
+                  placeholder={t("home.heroSearchCard.placeholderName")}
                   className={fieldInput}
                 />
               </div>
@@ -110,23 +112,23 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
                 <Select
                   id="specialty"
                   name="specialty"
-                  label="Specialty"
+                  label={t("home.heroSearchCard.labelSpecialty")}
                   options={specialties.map((s) => ({ value: s.slug, label: s.name }))}
-                  placeholder="All specialties"
+                  placeholder={t("home.heroSearchCard.placeholderSpecialty")}
                   portal
                 />
                 <Select
                   id="area"
                   name="area"
-                  label="Area"
+                  label={t("home.heroSearchCard.labelArea")}
                   options={areas.map((a) => ({ value: a.slug, label: a.name }))}
-                  placeholder="All areas"
+                  placeholder={t("home.heroSearchCard.placeholderArea")}
                   portal
                 />
               </div>
 
               <p className="hero-card-note font-mono text-[0.7rem] leading-relaxed text-brand-muted">
-                Verified doctors currently listed across Chattogram — cross-checked, not scraped.
+                {t("home.heroSearchCard.note")}
               </p>
 
               <button
@@ -134,7 +136,7 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
                 className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-sky to-teal py-3 text-sm font-semibold text-white shadow-card transition hover:brightness-105"
               >
                 <Search className="h-4 w-4" />
-                Search Doctors
+                {t("home.heroSearchCard.buttonSearchDoctors")}
               </button>
             </form>
           )}
@@ -144,18 +146,18 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
             <div className="space-y-3">
               <div>
                 <label htmlFor="hosp-name" className={fieldLabel}>
-                  Hospital or department
+                  {t("home.heroSearchCard.labelHospital")}
                 </label>
                 <input
                   id="hosp-name"
                   type="text"
-                  placeholder="e.g. Evercare, Imperial, General Hospital"
+                  placeholder={t("home.heroSearchCard.placeholderHospital")}
                   className={fieldInput}
                 />
               </div>
 
               <p className="font-mono text-[0.7rem] leading-relaxed text-brand-muted">
-                Listings include departments, facilities, and direct ambulance contacts.
+                {t("home.heroSearchCard.noteHospital")}
               </p>
 
               <button
@@ -165,7 +167,7 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
                 className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-sky to-teal py-3 text-sm font-semibold text-white shadow-card transition hover:brightness-105"
               >
                 <Search className="h-4 w-4" />
-                Explore Hospital List
+                {t("home.heroSearchCard.buttonExploreHospitals")}
               </button>
             </div>
           )}

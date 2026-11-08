@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useLanguage } from "@/components/language-provider";
 
 type DeleteChamberButtonProps = {
   doctorId: string;
@@ -18,6 +19,8 @@ export default function DeleteChamberButton({
   void doctorId;
   void chamberId;
 
+  const { t } = useLanguage();
+
   return (
     <form
       action={action}
@@ -27,16 +30,14 @@ export default function DeleteChamberButton({
         type="submit"
         onClick={(e) => {
           if (
-            !window.confirm(
-              "Delete this chamber and its schedules? This cannot be undone."
-            )
+            !window.confirm(t("doctorPortal.deleteChamber.confirmMessage"))
           ) {
             e.preventDefault();
           }
         }}
         className="rounded-lg border border-status-emergency/30 bg-white px-3 py-1.5 text-sm font-medium text-status-emergency transition hover:bg-status-emergency hover:text-white"
       >
-        Delete chamber
+        {t("doctorPortal.deleteChamber.buttonLabel")}
       </button>
     </form>
   );

@@ -4,6 +4,8 @@ import { hash } from "bcryptjs";
 import { FacilityType, UserRole, VerificationStatus, ListingTier } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { generateUniqueSlug } from "@/lib/slug";
+import { getServerLocale } from "@/lib/i18n-server";
+import { getT } from "@/lib/i18n";
 
 export type RegisterResult = { ok: true } | { ok: false; error: string };
 
@@ -28,16 +30,16 @@ function normalizeEmail(raw: string): string {
   return raw.trim().toLowerCase();
 }
 
-function validateCommon(email: string, password: string, name: string): string | null {
+function validateCommon(email: string, password: string, name: string, t: (key: string) => string): string | null {
   const cleanEmail = normalizeEmail(email);
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
-    return "Enter a valid email address.";
+    return t("register.errors.invalidEmail");
   }
   if (password.length < 6) {
-    return "Password must be at least 6 characters.";
+    return t("register.errors.passwordMinLength");
   }
   if (!name.trim()) {
-    return "Name is required.";
+    return t("register.errors.nameRequired");
   }
   return null;
 }
@@ -52,26 +54,29 @@ function isUniqueConstraintError(err: unknown): boolean {
 
 export async function registerDoctor(input: RegisterDoctorInput): Promise<RegisterResult> {
   try {
-    const commonError = validateCommon(input.email, input.password, input.name);
+    const locale = await getServerLocale();
+    const t = getT(locale);
+
+    const commonError = validateCommon(input.email, input.password, input.name, t);
     if (commonError) {
       return { ok: false, error: commonError };
     }
 
     const bmdcRegNo = input.bmdcRegNo.trim();
     if (!bmdcRegNo) {
-      return { ok: false, error: "BMDC registration number is required." };
+      return { ok: false, error: t("register.errors.bmdcRequired") };
     }
 
     const specialtyId = input.specialtyId.trim();
     if (!specialtyId) {
-      return { ok: false, error: "Primary specialty is required." };
+      return { ok: false, error: t("register.errors.specialtyRequired") };
     }
 
     const specialty = await prisma.specialty.findUnique({
       where: { id: specialtyId, deletedAt: null },
     });
     if (!specialty) {
-      return { ok: false, error: "Selected specialty is invalid." };
+      return { ok: false, error: t("register.errors.specialtyInvalid") };
     }
 
     const passwordHash = await hash(input.password, 10);
@@ -114,44 +119,50 @@ export async function registerDoctor(input: RegisterDoctorInput): Promise<Regist
 
     return { ok: true };
   } catch (err) {
+    const locale = await getServerLocale();
+    const t = getT(locale);
+    
     if (isUniqueConstraintError(err)) {
       const target = (err as { meta?: { target?: string[] } }).meta?.target;
       if (target?.includes("email")) {
-        return { ok: false, error: "This email is already registered." };
+        return { ok: false, error: t("register.errors.emailTaken") };
       }
       if (target?.includes("bmdcRegNo")) {
-        return { ok: false, error: "This BMDC registration number is already registered." };
+        return { ok: false, error: t("register.errors.bmdcTaken") };
       }
-      return { ok: false, error: "A unique field conflict occurred. Please check your details." };
+      return { ok: false, error: t("register.errors.uniqueConflict") };
     }
 
-    const message = err instanceof Error ? err.message : "Registration failed. Please try again.";
+    const message = err instanceof Error ? err.message : t("register.errors.registrationFailed");
     return { ok: false, error: message };
   }
 }
 
 export async function registerFacility(input: RegisterFacilityInput): Promise<RegisterResult> {
   try {
-    const commonError = validateCommon(input.email, input.password, input.name);
+    const locale = await getServerLocale();
+    const t = getT(locale);
+    
+    const commonError = validateCommon(input.email, input.password, input.name, t);
     if (commonError) {
       return { ok: false, error: commonError };
     }
 
     const areaId = input.areaId.trim();
     if (!areaId) {
-      return { ok: false, error: "Area is required." };
+      return { ok: false, error: t("form.facility.messages.areaRequired") };
     }
 
     const address = input.address.trim();
     if (!address) {
-      return { ok: false, error: "Address is required." };
+      return { ok: false, error: t("register.errors.addressRequired") };
     }
 
     const area = await prisma.area.findUnique({
       where: { id: areaId, deletedAt: null },
     });
     if (!area) {
-      return { ok: false, error: "Selected area is invalid." };
+      return { ok: false, error: t("register.errors.invalidArea") };
     }
 
     const passwordHash = await hash(input.password, 10);
@@ -191,15 +202,17 @@ export async function registerFacility(input: RegisterFacilityInput): Promise<Re
 
     return { ok: true };
   } catch (err) {
+    const locale = await getServerLocale();
+    const t = getT(locale);
     if (isUniqueConstraintError(err)) {
       const target = (err as { meta?: { target?: string[] } }).meta?.target;
       if (target?.includes("email")) {
-        return { ok: false, error: "This email is already registered." };
+        return { ok: false, error: t("register.errors.emailTaken") };
       }
-      return { ok: false, error: "A unique field conflict occurred. Please check your details." };
+      return { ok: false, error: t("register.errors.uniqueConflict") };
     }
 
-    const message = err instanceof Error ? err.message : "Registration failed. Please try again.";
+    const message = err instanceof Error ? err.message : t("register.errors.registrationFailed");
     return { ok: false, error: message };
   }
 }

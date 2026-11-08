@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Search, X, CheckCircle2, Star } from "lucide-react";
 import { AdminShell } from "@/components/panel/admin-shell";
 import { useMe } from "@/components/panel/use-me";
+import { useLanguage } from "@/components/language-provider";
 import { StatusBadge } from "@/components/status-badge";
 import { api } from "@/lib/client-fetch";
 import {
@@ -65,6 +66,7 @@ type Entry =
 export default function AdminAllEntriesPage() {
   const { me, loading: meLoading } = useMe();
   const router = useRouter();
+  const { t } = useLanguage();
 
   const [users, setUsers] = useState<UserItem[]>([]);
   const [entries, setEntries] = useState<Entry[]>([]);
@@ -139,7 +141,7 @@ export default function AdminAllEntriesPage() {
       } catch (err) {
         if (alive) {
           setError(
-            err instanceof Error ? err.message : "Failed to load entries"
+            err instanceof Error ? err.message : t("admin.entries.errorFailedToLoadEntries")
           );
           setLoading(false);
         }
@@ -153,7 +155,7 @@ export default function AdminAllEntriesPage() {
   if (meLoading) {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-brand-muted">Loading...</div>
+        <div className="text-brand-muted">{t("common.ui.loading")}</div>
       </div>
     );
   }
@@ -161,12 +163,17 @@ export default function AdminAllEntriesPage() {
   if (!me || me.role !== "ADMIN") {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">Not authorized</div>
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
       </div>
     );
   }
 
   const userMap = new Map(users.map((u) => [u.id, u.name]));
+
+  const getCollectorName = (entry: Entry) =>
+    entry.collectedBy?.name ||
+    userMap.get(entry.collectedById || "") ||
+    t("common.ui.unknown");
 
   const filteredEntries = entries.filter((item) => {
     if (searchQuery.trim()) {
@@ -212,9 +219,9 @@ export default function AdminAllEntriesPage() {
 
       setEntries((prev) => prev.map((e) => (e.id === entry.id ? updatedEntry : e)));
       setSelectedEntry(updatedEntry);
-      showToast("Verified");
+      showToast(t("admin.entries.toastVerified"));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Verification failed");
+      setError(err instanceof Error ? err.message : t("admin.entries.errorVerificationFailed"));
     } finally {
       setActionLoading(false);
     }
@@ -232,9 +239,9 @@ export default function AdminAllEntriesPage() {
 
       setEntries((prev) => prev.map((e) => (e.id === entry.id ? updatedEntry : e)));
       setSelectedEntry(updatedEntry);
-      showToast("Hidden from site");
+      showToast(t("admin.entries.toastHiddenFromSite"));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unverification failed");
+      setError(err instanceof Error ? err.message : t("admin.entries.errorUnverificationFailed"));
     } finally {
       setActionLoading(false);
     }
@@ -243,7 +250,7 @@ export default function AdminAllEntriesPage() {
   const handleRejectConfirm = async () => {
     if (!rejectingEntry) return;
     if (!rejectReason.trim()) {
-      setRejectError("Reason is required");
+      setRejectError(t("admin.entries.reasonRequiredError"));
       return;
     }
 
@@ -266,9 +273,9 @@ export default function AdminAllEntriesPage() {
       }
       setRejectingEntry(null);
       setRejectReason("");
-      showToast("Rejected");
+      showToast(t("admin.entries.toastRejected"));
     } catch (err) {
-      setRejectError(err instanceof Error ? err.message : "Reject failed");
+      setRejectError(err instanceof Error ? err.message : t("admin.entries.errorRejectFailed"));
     } finally {
       setActionLoading(false);
     }
@@ -307,9 +314,9 @@ export default function AdminAllEntriesPage() {
         prev.map((e) => (e.id === entry.id ? updatedEntry : e))
       );
       setSelectedEntry(updatedEntry);
-      showToast(isFeatured ? "Removed from featured" : "Marked as featured");
+      showToast(isFeatured ? t("admin.entries.toastRemovedFromFeatured") : t("admin.entries.toastMarkedAsFeatured"));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Featured update failed");
+      setError(err instanceof Error ? err.message : t("admin.entries.errorFeaturedUpdateFailed"));
     } finally {
       setFeaturingId(null);
     }
@@ -317,20 +324,20 @@ export default function AdminAllEntriesPage() {
 
   return (
     <AdminShell>
-      <Eyebrow className="mb-1 block">ALL ENTRIES</Eyebrow>
+      <Eyebrow className="mb-1 block">{t("admin.entries.eyebrow")}</Eyebrow>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <h1 className="font-serif text-3xl font-semibold text-brand-navy">
-          Everything in the system
+          {t("admin.entries.everythingInTheSystem")}
         </h1>
         <div className="flex items-center gap-3">
           <Link href="/admin/facilities/new">
             <Button variant="primary" size="sm">
-              Add facility
+              {t("admin.entries.addFacility")}
             </Button>
           </Link>
           <Link href="/admin/doctors/new">
             <Button variant="primary" size="sm">
-              Add doctor
+              {t("admin.entries.addDoctor")}
             </Button>
           </Link>
         </div>
@@ -344,7 +351,7 @@ export default function AdminAllEntriesPage() {
               htmlFor="search-input"
               className="mb-1 block text-xs font-semibold text-brand-muted"
             >
-              Search by name
+              {t("admin.entries.searchByName")}
             </label>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
@@ -353,7 +360,7 @@ export default function AdminAllEntriesPage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search..."
+                placeholder={t("admin.entries.searchPlaceholder")}
                 className="h-11 w-full rounded-xl border border-brand-gray bg-white pl-10 pr-4 text-sm text-brand-slate placeholder:text-brand-navy-muted/70 focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/25"
               />
             </div>
@@ -364,7 +371,7 @@ export default function AdminAllEntriesPage() {
               htmlFor="type-select"
               className="mb-1 block text-xs font-semibold text-brand-muted"
             >
-              Type
+              {t("admin.entries.typeLabel")}
             </label>
             <select
               id="type-select"
@@ -372,24 +379,24 @@ export default function AdminAllEntriesPage() {
               onChange={(e) => setTypeFilter(e.target.value)}
               className="h-11 rounded-xl border border-brand-gray bg-white px-3 text-sm focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/25"
             >
-              <option value="">All types</option>
-              <option value="HOSPITAL">Hospital</option>
-              <option value="DIAGNOSTIC_CENTER">Diagnostic Center</option>
-              <option value="DOCTOR">Doctor</option>
+              <option value="">{t("admin.entries.typeAllTypes")}</option>
+              <option value="HOSPITAL">{t("admin.entries.typeHospital")}</option>
+              <option value="DIAGNOSTIC_CENTER">{t("admin.entries.typeDiagnosticCenter")}</option>
+              <option value="DOCTOR">{t("admin.entries.typeDoctor")}</option>
             </select>
           </div>
         </div>
 
         <div>
           <span className="mb-1.5 block text-xs font-semibold text-brand-muted">
-            Status
+            {t("admin.entries.statusLabel")}
           </span>
           <div className="flex flex-wrap gap-2">
             {[
-              { label: "All", value: "" },
-              { label: "Pending", value: "PENDING" },
-              { label: "Verified", value: "VERIFIED" },
-              { label: "Rejected", value: "REJECTED" },
+              { label: t("admin.entries.statusAll"), value: "" },
+              { label: t("admin.entries.statusPending"), value: "PENDING" },
+              { label: t("admin.entries.statusVerified"), value: "VERIFIED" },
+              { label: t("admin.entries.statusRejected"), value: "REJECTED" },
             ].map((st) => {
               const active = statusFilter === st.value;
               return (
@@ -414,7 +421,7 @@ export default function AdminAllEntriesPage() {
                     : "border border-brand-gray bg-white text-brand-muted hover:border-brand-sky"
                 }`}
               >
-                Featured
+                {t("admin.entries.featuredLabel")}
               </button>
             </div>
           </div>
@@ -430,13 +437,13 @@ export default function AdminAllEntriesPage() {
         <Card className="p-6">
           <p className="text-sm text-status-emergency mb-3">{error}</p>
           <Button onClick={handleRetry} variant="outline" size="sm">
-            Retry
+            {t("common.ui.retry")}
           </Button>
         </Card>
       ) : filteredEntries.length === 0 ? (
         <Card className="p-8 text-center">
           <p className="text-sm text-brand-muted">
-            No entries match your search/filter parameters.
+            {t("admin.entries.noEntriesMatch")}
           </p>
         </Card>
       ) : (
@@ -444,19 +451,16 @@ export default function AdminAllEntriesPage() {
           <table className="w-full min-w-[640px] text-sm">
             <thead className="bg-brand-mist font-mono text-[11px] font-semibold uppercase tracking-wider text-brand-muted">
               <tr>
-                <th className="px-4 py-3 text-left">Name</th>
-                <th className="px-4 py-3 text-left">Type</th>
-                <th className="px-4 py-3 text-left">Status</th>
-                <th className="px-4 py-3 text-left">Submitted By</th>
-                <th className="px-4 py-3 text-left">Date</th>
+                <th className="px-4 py-3 text-left">{t("admin.entries.tableHeaderName")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.entries.tableHeaderType")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.entries.tableHeaderStatus")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.entries.tableHeaderSubmittedBy")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.entries.tableHeaderDate")}</th>
               </tr>
             </thead>
             <tbody>
               {filteredEntries.map((entry) => {
-                const collectorName =
-                  entry.collectedBy?.name ||
-                  userMap.get(entry.collectedById || "") ||
-                  "Unknown";
+                const collectorName = getCollectorName(entry);
                 return (
                   <tr
                     key={entry.id}
@@ -474,10 +478,10 @@ export default function AdminAllEntriesPage() {
                     </td>
                     <td className="px-4 py-3.5 text-brand-slate">
                       {entry.kind === "DOCTOR"
-                        ? "Doctor"
+                        ? t("admin.dashboard.kindDoctor")
                         : entry.type === "DIAGNOSTIC_CENTER"
-                        ? "Diagnostic Center"
-                        : "Hospital"}
+                        ? t("admin.dashboard.kindDiagnosticCenter")
+                        : t("admin.dashboard.kindHospital")}
                     </td>
                     <td className="px-4 py-3.5">
                       <StatusBadge status={entry.verificationStatus} />
@@ -506,7 +510,7 @@ export default function AdminAllEntriesPage() {
           <div className="fixed inset-y-0 right-0 z-40 flex w-full max-w-[480px] flex-col overflow-y-auto bg-white p-6 shadow-2xl">
             <div className="sticky top-0 z-10 flex items-center justify-between border-b border-brand-gray/70 bg-white pb-4">
               <div>
-                <Eyebrow className="block mb-1">ENTRY DETAILS</Eyebrow>
+                <Eyebrow className="block mb-1">{t("admin.entries.entryDetailsEyebrow")}</Eyebrow>
                 <h2 className="font-serif text-xl font-semibold text-brand-navy">
                   {selectedEntry.name}
                 </h2>
@@ -518,7 +522,7 @@ export default function AdminAllEntriesPage() {
                   size="sm"
                   className="h-9 w-9 p-0"
                   onClick={() => setSelectedEntry(null)}
-                  aria-label="Close panel"
+                  aria-label={t("admin.entries.closePanelAria")}
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -528,14 +532,14 @@ export default function AdminAllEntriesPage() {
             <div className="my-6 space-y-4 text-sm flex-1">
               <div>
                 <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                  Type
+                  {t("admin.entries.detailTypeLabel")}
                 </span>
                 <span className="text-sm text-brand-slate font-medium">
                   {selectedEntry.kind === "DOCTOR"
-                    ? "Doctor"
+                    ? t("admin.dashboard.kindDoctor")
                     : selectedEntry.type === "DIAGNOSTIC_CENTER"
-                    ? "Diagnostic Center"
-                    : "Hospital"}
+                    ? t("admin.dashboard.kindDiagnosticCenter")
+                    : t("admin.dashboard.kindHospital")}
                 </span>
               </div>
 
@@ -543,14 +547,14 @@ export default function AdminAllEntriesPage() {
                 <>
                   <div>
                     <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                      Address
+                      {t("admin.entries.detailAddressLabel")}
                     </span>
                     <span className="text-sm text-brand-slate">{selectedEntry.address}</span>
                   </div>
                   {selectedEntry.area && (
                     <div>
                       <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                        Area
+                        {t("admin.entries.detailAreaLabel")}
                       </span>
                       <span className="text-sm text-brand-slate">{selectedEntry.area.name}</span>
                     </div>
@@ -558,7 +562,7 @@ export default function AdminAllEntriesPage() {
                   {selectedEntry.amenities && selectedEntry.amenities.length > 0 && (
                     <div>
                       <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                        Amenities
+                        {t("admin.entries.detailAmenitiesLabel")}
                       </span>
                       <div className="flex flex-wrap gap-1.5 mt-1">
                         {selectedEntry.amenities.map(({ amenity }) => (
@@ -575,7 +579,7 @@ export default function AdminAllEntriesPage() {
                   {selectedEntry.discountInfo && (
                     <div>
                       <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                        Discount / Offer
+                        {t("admin.entries.detailDiscountOfferLabel")}
                       </span>
                       <span className="text-sm text-brand-slate">
                         {selectedEntry.discountInfo}
@@ -587,17 +591,17 @@ export default function AdminAllEntriesPage() {
                 <>
                   <div>
                     <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                      Specialties
+                      {t("admin.entries.detailSpecialtiesLabel")}
                     </span>
                     <span className="text-sm text-brand-slate">
                       {selectedEntry.specialties
                         .map((s) => s.specialty.name)
-                        .join(", ") || "N/A"}
+                        .join(", ") || t("admin.entries.naFallback")}
                     </span>
                   </div>
                   <div>
                     <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                      Degrees
+                      {t("admin.entries.detailDegreesLabel")}
                     </span>
                     <span className="text-sm text-brand-slate">
                       {selectedEntry.degrees.join(", ")}
@@ -606,7 +610,7 @@ export default function AdminAllEntriesPage() {
                   {selectedEntry.currentPosition && (
                     <div>
                       <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                        Current Position
+                        {t("admin.entries.detailCurrentPositionLabel")}
                       </span>
                       <span className="text-sm text-brand-slate">
                         {selectedEntry.currentPosition}
@@ -616,7 +620,7 @@ export default function AdminAllEntriesPage() {
                   {selectedEntry.achievements && (
                     <div>
                       <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                        Achievements
+                        {t("admin.entries.detailAchievementsLabel")}
                       </span>
                       <span className="text-sm text-brand-slate">
                         {selectedEntry.achievements}
@@ -626,7 +630,7 @@ export default function AdminAllEntriesPage() {
                   {selectedEntry.chambers && selectedEntry.chambers[0]?.facility && (
                     <div>
                       <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                        Linked Facility
+                        {t("admin.entries.detailLinkedFacilityLabel")}
                       </span>
                       <span className="text-sm text-brand-slate">
                         {selectedEntry.chambers[0].facility.name}
@@ -638,18 +642,16 @@ export default function AdminAllEntriesPage() {
 
               <div>
                 <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                  Submitted By
+                  {t("admin.entries.detailSubmittedByLabel")}
                 </span>
                 <span className="text-sm text-brand-slate">
-                  {selectedEntry.collectedBy?.name ||
-                    userMap.get(selectedEntry.collectedById || "") ||
-                    "Unknown"}
+                  {getCollectorName(selectedEntry)}
                 </span>
               </div>
 
               <div>
                 <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                  Submitted Date
+                  {t("admin.entries.detailSubmittedDateLabel")}
                 </span>
                 <span className="text-sm text-brand-slate tabular-nums">
                   {new Date(selectedEntry.collectedAt).toLocaleString()}
@@ -659,7 +661,7 @@ export default function AdminAllEntriesPage() {
               {selectedEntry.reviewedAt && (
                 <div>
                   <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted block mb-1">
-                    Reviewed Date
+                    {t("admin.entries.detailReviewedDateLabel")}
                   </span>
                   <span className="text-sm text-brand-slate tabular-nums">
                     {new Date(selectedEntry.reviewedAt).toLocaleString()}
@@ -671,7 +673,7 @@ export default function AdminAllEntriesPage() {
                 selectedEntry.rejectReason && (
                   <div>
                     <span className="text-xs font-semibold uppercase tracking-wide text-status-emergency block mb-1">
-                      Rejection Reason
+                      {t("admin.entries.detailRejectionReasonLabel")}
                     </span>
                     <span className="text-sm text-status-emergency font-medium">
                       {selectedEntry.rejectReason}
@@ -690,7 +692,7 @@ export default function AdminAllEntriesPage() {
                     onClick={() => handleVerify(selectedEntry)}
                     loading={actionLoading}
                   >
-                    Verify
+                    {t("admin.entries.verifyButton")}
                   </Button>
                   <Button
                     variant="outlineDanger"
@@ -702,7 +704,7 @@ export default function AdminAllEntriesPage() {
                     }}
                     disabled={actionLoading}
                   >
-                    Reject
+                    {t("admin.entries.rejectButton")}
                   </Button>
                 </div>
               )}
@@ -715,7 +717,7 @@ export default function AdminAllEntriesPage() {
                     onClick={() => handleUnverify(selectedEntry)}
                     loading={actionLoading}
                   >
-                    Unverify
+                    {t("admin.entries.unverifyButton")}
                   </Button>
                   <Button
                     variant="outlineDanger"
@@ -727,7 +729,7 @@ export default function AdminAllEntriesPage() {
                     }}
                     disabled={actionLoading}
                   >
-                    Reject
+                    {t("admin.entries.rejectButton")}
                   </Button>
                 </div>
               )}
@@ -740,7 +742,7 @@ export default function AdminAllEntriesPage() {
                   onClick={() => handleVerify(selectedEntry)}
                   loading={actionLoading}
                 >
-                  Verify — show on site
+                  {t("admin.entries.verifyShowOnSiteButton")}
                 </Button>
               )}
 
@@ -756,7 +758,7 @@ export default function AdminAllEntriesPage() {
                   )
                 }
               >
-                Edit entry
+                {t("admin.entries.editEntryButton")}
               </Button>
 
               <Button
@@ -771,8 +773,8 @@ export default function AdminAllEntriesPage() {
                   <Star className="h-4 w-4" />
                   {selectedEntry.listingTier === "FEATURED" ||
                   selectedEntry.listingTier === "PREMIUM"
-                    ? "Unfeature"
-                    : "Mark featured"}
+                    ? t("admin.entries.unfeatureButton")
+                    : t("admin.entries.markFeaturedButton")}
                 </span>
               </Button>
 
@@ -782,7 +784,7 @@ export default function AdminAllEntriesPage() {
                 fullWidth
                 onClick={() => setSelectedEntry(null)}
               >
-                Close
+                {t("common.ui.close")}
               </Button>
             </div>
           </div>
@@ -794,15 +796,15 @@ export default function AdminAllEntriesPage() {
         <div className="fixed inset-0 z-50 grid place-items-center p-4 bg-brand-navy/40 backdrop-blur-[2px]">
           <Card className="w-full max-w-md p-6">
             <h3 className="font-serif text-xl font-semibold text-brand-navy">
-              Reject entry
+              {t("admin.entries.rejectModalTitle")}
             </h3>
             <p className="mt-1 text-sm text-brand-muted">
-              The staff member will see this reason.
+              {t("admin.entries.rejectModalDescription")}
             </p>
             <div className="mt-4">
               <TextAreaField
                 id="reject-reason"
-                label="Reason"
+                label={t("admin.entries.rejectReasonLabel")}
                 required
                 value={rejectReason}
                 onChange={(e) => setRejectReason(e.target.value)}
@@ -817,7 +819,7 @@ export default function AdminAllEntriesPage() {
                 onClick={() => setRejectingEntry(null)}
                 disabled={actionLoading}
               >
-                Cancel
+                {t("common.ui.cancel")}
               </Button>
               <Button
                 variant="danger"
@@ -826,7 +828,7 @@ export default function AdminAllEntriesPage() {
                 loading={actionLoading}
                 disabled={!rejectReason.trim()}
               >
-                Reject
+                {t("admin.entries.rejectButton")}
               </Button>
             </div>
           </Card>

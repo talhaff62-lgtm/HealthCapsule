@@ -4,6 +4,7 @@ import { useState, useEffect, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { AdminShell } from "@/components/panel/admin-shell";
 import { useMe } from "@/components/panel/use-me";
+import { useLanguage } from "@/components/language-provider";
 import { api } from "@/lib/client-fetch";
 import {
   Card,
@@ -23,6 +24,7 @@ type UserItem = {
 };
 
 export default function AdminStaffPage() {
+  const { t } = useLanguage();
   const { me, loading: meLoading } = useMe();
   const router = useRouter();
 
@@ -61,7 +63,7 @@ export default function AdminStaffPage() {
         }
       } catch (err) {
         if (alive) {
-          setError(err instanceof Error ? err.message : "Failed to load users");
+          setError(err instanceof Error ? err.message : t("admin.staff.errorLoadUsersFailed"));
           setLoading(false);
         }
       }
@@ -72,7 +74,7 @@ export default function AdminStaffPage() {
   if (meLoading) {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-brand-muted">Loading...</div>
+        <div className="text-brand-muted">{t("common.ui.loading")}</div>
       </div>
     );
   }
@@ -80,7 +82,7 @@ export default function AdminStaffPage() {
   if (!me || me.role !== "ADMIN") {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">Not authorized</div>
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
       </div>
     );
   }
@@ -91,7 +93,7 @@ export default function AdminStaffPage() {
     setCreateSuccess(false);
 
     if (password.length < 8) {
-      setCreateError("Password must be at least 8 characters");
+      setCreateError(t("admin.staff.errorPasswordMin8"));
       return;
     }
 
@@ -109,9 +111,9 @@ export default function AdminStaffPage() {
       setRole("STAFF");
       setReloadKey((prev) => prev + 1);
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Failed to create user";
+      const msg = err instanceof Error ? err.message : t("admin.staff.errorCreateFailed");
       if (msg.includes("409") || msg.includes("already exists")) {
-        setCreateError("This email is already in use.");
+        setCreateError(t("admin.staff.errorEmailExists"));
       } else {
         setCreateError(msg);
       }
@@ -127,7 +129,7 @@ export default function AdminStaffPage() {
       setUsers((prev) => prev.filter((row) => row.id !== u.id));
       setDeletingId(null);
     } catch (err) {
-      setDeleteError(err instanceof Error ? err.message : "Failed to delete account");
+      setDeleteError(err instanceof Error ? err.message : t("common.ui.deleteFailed"));
     }
   };
 
@@ -139,20 +141,20 @@ export default function AdminStaffPage() {
 
   return (
     <AdminShell>
-      <Eyebrow className="mb-1 block">STAFF</Eyebrow>
+      <Eyebrow className="mb-1 block">{t("admin.staff.eyebrow")}</Eyebrow>
       <h1 className="font-serif text-3xl font-semibold text-brand-navy mb-6">
-        People collecting data
+        {t("admin.staff.headingPeopleCollectingData")}
       </h1>
 
       {/* Create staff account card */}
       <Card className="p-6 mb-8">
         <h2 className="font-serif text-xl font-semibold text-brand-navy mb-4">
-          Create staff account
+          {t("admin.staff.cardTitleCreateAccount")}
         </h2>
 
         {createSuccess && (
           <div className="rounded-xl border border-status-verified bg-status-verified-light p-3 text-sm font-medium text-status-verified mb-4">
-            Account created successfully.
+            {t("admin.staff.successAccountCreated")}
           </div>
         )}
 
@@ -160,7 +162,7 @@ export default function AdminStaffPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             <TextField
               id="user-name"
-              label="Name"
+              label={t("admin.staff.labelName")}
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -169,7 +171,7 @@ export default function AdminStaffPage() {
 
             <TextField
               id="user-email"
-              label="Email"
+              label={t("admin.staff.labelEmail")}
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -180,18 +182,18 @@ export default function AdminStaffPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             <TextField
               id="user-password"
-              label="Password"
+              label={t("admin.staff.labelPassword")}
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={8}
-              hint="Minimum 8 characters"
+              hint={t("admin.staff.hintPasswordMin8")}
             />
 
             <label htmlFor="user-role" className="block">
               <span className="mb-1.5 block text-sm font-semibold text-brand-slate">
-                Role
+                {t("admin.staff.labelRole")}
               </span>
               <select
                 id="user-role"
@@ -199,8 +201,8 @@ export default function AdminStaffPage() {
                 onChange={(e) => setRole(e.target.value as "STAFF" | "ADMIN")}
                 className="h-12 w-full rounded-xl border border-brand-gray bg-white px-4 text-base text-brand-slate transition-colors focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/25"
               >
-                <option value="STAFF">Staff</option>
-                <option value="ADMIN">Admin</option>
+                <option value="STAFF">{t("admin.staff.optionRoleStaff")}</option>
+                <option value="ADMIN">{t("admin.staff.optionRoleAdmin")}</option>
               </select>
             </label>
           </div>
@@ -218,7 +220,7 @@ export default function AdminStaffPage() {
               size="md"
               loading={createSubmitting}
             >
-              Create account
+              {t("admin.staff.buttonCreateAccount")}
             </Button>
           </div>
         </form>
@@ -228,7 +230,7 @@ export default function AdminStaffPage() {
       <div className="overflow-x-auto rounded-2xl border border-brand-gray bg-white">
         <div className="p-4 border-b border-brand-gray/70">
           <h2 className="font-serif text-lg font-semibold text-brand-navy">
-            All users
+            {t("admin.staff.tableSectionAllUsers")}
           </h2>
         </div>
 
@@ -249,24 +251,24 @@ export default function AdminStaffPage() {
           <div className="p-6 text-center">
             <p className="text-sm text-status-emergency mb-3">{error}</p>
             <Button onClick={handleRetry} variant="outline" size="sm">
-              Retry
+              {t("common.ui.retry")}
             </Button>
           </div>
         ) : users.length === 0 ? (
           <div className="p-6 text-center text-sm text-brand-muted">
-            No users found.
+            {t("admin.staff.emptyNoUsers")}
           </div>
         ) : (
           <table className="w-full min-w-[640px] text-sm">
             <thead className="bg-brand-mist font-mono text-[11px] font-semibold uppercase tracking-wider text-brand-muted">
               <tr>
-                <th className="px-4 py-3 text-left">Name</th>
-                <th className="px-4 py-3 text-left">Email</th>
-                <th className="px-4 py-3 text-left">Role</th>
-                <th className="px-4 py-3 text-left">Submissions</th>
-                <th className="px-4 py-3 text-left">Approved</th>
-                <th className="px-4 py-3 text-left">Joined</th>
-                <th className="px-4 py-3 text-left">Actions</th>
+                <th className="px-4 py-3 text-left">{t("admin.staff.tableHeaderName")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.staff.tableHeaderEmail")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.staff.tableHeaderRole")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.staff.tableHeaderSubmissions")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.staff.tableHeaderApproved")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.staff.tableHeaderJoined")}</th>
+                <th className="px-4 py-3 text-left">{t("admin.staff.tableHeaderActions")}</th>
               </tr>
             </thead>
             <tbody>
@@ -277,11 +279,11 @@ export default function AdminStaffPage() {
                   <td className="px-4 py-3.5">
                     {u.role === "ADMIN" ? (
                       <span className="inline-flex items-center rounded-full bg-brand-navy-light px-2.5 py-0.5 text-xs font-semibold text-white">
-                        ADMIN
+                        {t("admin.staff.badgeAdmin")}
                       </span>
                     ) : (
                       <span className="inline-flex items-center rounded-full bg-brand-sky-bg px-2.5 py-0.5 text-xs font-semibold text-brand-sky-deep">
-                        STAFF
+                        {t("admin.staff.badgeStaff")}
                       </span>
                     )}
                   </td>
@@ -296,7 +298,7 @@ export default function AdminStaffPage() {
                   </td>
                   <td className="px-4 py-3.5">
                     {u.id === me.id ? (
-                      <span className="text-xs text-brand-muted">You</span>
+                      <span className="text-xs text-brand-muted">{t("admin.staff.labelYou")}</span>
                     ) : deletingId === u.id ? (
                       <span className="inline-flex gap-2">
                         <Button
@@ -304,7 +306,7 @@ export default function AdminStaffPage() {
                           size="sm"
                           onClick={() => handleDeleteUser(u)}
                         >
-                          Confirm
+                          {t("common.ui.confirm")}
                         </Button>
                         <Button
                           variant="outline"
@@ -314,7 +316,7 @@ export default function AdminStaffPage() {
                             setDeleteError("");
                           }}
                         >
-                          Cancel
+                          {t("common.ui.cancel")}
                         </Button>
                       </span>
                     ) : (
@@ -326,7 +328,7 @@ export default function AdminStaffPage() {
                           setDeleteError("");
                         }}
                       >
-                        Delete
+                        {t("admin.staff.buttonDelete")}
                       </Button>
                     )}
                   </td>

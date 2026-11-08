@@ -10,10 +10,12 @@ import {
   BlogPostFormPayload,
 } from "@/components/admin/BlogPostForm";
 import { Eyebrow } from "@/components/panel/ui";
+import { useLanguage } from "@/components/language-provider";
 
 export default function AdminNewBlogPostPage() {
   const { me, loading } = useMe();
   const router = useRouter();
+  const { t } = useLanguage();
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -21,7 +23,7 @@ export default function AdminNewBlogPostPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-brand-muted">Loading...</div>
+        <div className="text-brand-muted">{t("common.ui.loading")}</div>
       </div>
     );
   }
@@ -29,7 +31,7 @@ export default function AdminNewBlogPostPage() {
   if (!me || me.role !== "ADMIN") {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">Not authorized</div>
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
       </div>
     );
   }
@@ -51,14 +53,14 @@ export default function AdminNewBlogPostPage() {
   };
 
   return (
-    <AdminShell title="Add blog post" userName={me.name}>
-      <Eyebrow className="mb-4 block">NEW BLOG POST</Eyebrow>
+    <AdminShell title={t("admin.blog.newTitle")} userName={me.name}>
+      <Eyebrow className="mb-4 block">{t("admin.blog.newEyebrow")}</Eyebrow>
       <BlogPostForm
         mode="create"
         onSubmit={handleSubmit}
         submitting={submitting}
         error={error}
-        submitLabel="Create post"
+        submitLabel={t("common.form.submitForReview")}
       />
     </AdminShell>
   );

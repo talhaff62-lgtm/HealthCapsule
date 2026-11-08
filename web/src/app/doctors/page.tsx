@@ -5,6 +5,8 @@ import DoctorFilters from "@/components/doctors/DoctorFilters";
 import DoctorCard from "@/components/doctors/DoctorCard";
 import Pagination from "@/components/ui/Pagination";
 import { ShieldCheck } from "lucide-react";
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
 
 export const metadata = {
   title: "Find Doctors — Capsule",
@@ -27,6 +29,9 @@ export default async function DoctorsPage({
 }: {
   searchParams: SearchParams;
 }) {
+  const locale = await getServerLocale();
+  const t = getT(locale);
+
   const params = await searchParams;
   const pageParam = parseInt(params.page ?? "1", 10) || 1;
 
@@ -79,13 +84,13 @@ export default async function DoctorsPage({
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <span className="inline-flex items-center gap-1 text-[0.65rem] font-mono font-semibold uppercase tracking-wider text-brand-sky-bright">
             <ShieldCheck className="h-3.5 w-3.5" />
-            Registry Listings
+            {t("doctors.listing.registryListings")}
           </span>
           <h1 className="mt-2 font-serif text-3xl font-semibold text-white sm:text-4xl">
-            Find Verified Doctors
+            {t("doctors.listing.findVerifiedDoctors")}
           </h1>
           <p className="mt-2 text-sm text-white/80 max-w-xl">
-            Search our active registry of BMDC-verified doctors practicing in Chattogram sadar.
+            {t("doctors.listing.searchActiveRegistry")}
           </p>
         </div>
       </div>
@@ -98,13 +103,13 @@ export default async function DoctorsPage({
         <div className="mt-8">
           {total > 0 && (
             <p className="mb-4 text-sm text-brand-muted">
-              Showing <span className="font-semibold text-brand-navy">{doctors.length}</span> of {total} verified doctors
+              {t("doctors.listing.showingRange", { count: doctors.length, total })}
             </p>
           )}
 
           {doctors.length === 0 ? (
             <div className="rounded-2xl border border-brand-gray bg-white p-12 text-center text-brand-muted">
-              No verified doctors found. Try adjusting your filters.
+              {t("doctors.listing.noDoctorsFound")}
             </div>
           ) : (
             <>

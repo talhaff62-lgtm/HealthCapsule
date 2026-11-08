@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
 
 type PaginationProps = {
   currentPage: number;
@@ -58,12 +60,15 @@ function getPageNumbers(currentPage: number, totalPages: number): (number | "...
   return pages;
 }
 
-export default function Pagination({
+export default async function Pagination({
   currentPage,
   totalPages,
   basePath,
   queryParams = {},
 }: PaginationProps) {
+  const locale = await getServerLocale();
+  const t = getT(locale);
+
   if (totalPages <= 1) return null;
 
   const pageNumbers = getPageNumbers(currentPage, totalPages);
@@ -80,7 +85,7 @@ export default function Pagination({
           href={buildHref(basePath, queryParams, currentPage - 1)}
           className={`${baseLinkClasses} ${inactiveClasses}`}
         >
-          Previous
+          {t("common.pagination.previous")}
         </Link>
       )}
 
@@ -116,7 +121,7 @@ export default function Pagination({
           href={buildHref(basePath, queryParams, currentPage + 1)}
           className={`${baseLinkClasses} ${inactiveClasses}`}
         >
-          Next
+          {t("common.pagination.next")}
         </Link>
       )}
     </nav>

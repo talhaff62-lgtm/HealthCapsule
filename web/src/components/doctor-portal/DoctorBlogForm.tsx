@@ -3,10 +3,12 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { submitBlogPost, SubmitBlogPostResult } from "@/app/portal/doctor/blog/actions";
+import { useLanguage } from "@/components/language-provider";
 import { Button, TextAreaField, TextField } from "@/components/panel/ui";
 
 export default function DoctorBlogForm() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [title, setTitle] = useState("");
   const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
@@ -33,7 +35,7 @@ export default function DoctorBlogForm() {
     if (result.ok) {
       setStatus({
         type: "success",
-        message: "Submitted for review — the Capsule team will publish it after checking.",
+        message: t("doctorPortal.blogForm.submittedForReview"),
       });
       setTitle("");
       setExcerpt("");
@@ -61,7 +63,7 @@ export default function DoctorBlogForm() {
 
       <TextField
         id="doctor-blog-title"
-        label="Title"
+        label={t("doctorBlog.titleLabel")}
         required
         type="text"
         value={title}
@@ -70,16 +72,16 @@ export default function DoctorBlogForm() {
 
       <TextField
         id="doctor-blog-excerpt"
-        label="Excerpt (optional)"
+        label={`${t("doctorBlog.excerptLabel")} ${t("common.form.optional")}`}
         type="text"
         value={excerpt}
         onChange={(e) => setExcerpt(e.target.value)}
-        placeholder="Short summary shown in listings"
+        placeholder={t("doctorBlog.excerptPlaceholder")}
       />
 
       <TextAreaField
         id="doctor-blog-content"
-        label="Content"
+        label={t("doctorBlog.contentLabel")}
         required
         rows={8}
         value={content}
@@ -88,15 +90,15 @@ export default function DoctorBlogForm() {
 
       <TextField
         id="doctor-blog-tags"
-        label="Tags (optional)"
+        label={`${t("doctorBlog.tagsLabel")} ${t("common.form.optional")}`}
         type="text"
         value={tags}
         onChange={(e) => setTags(e.target.value)}
-        placeholder="e.g. nutrition, heart-health — comma separated"
+        placeholder={t("form.facility.placeholders.insurancePanelsExample")}
       />
 
       <Button type="submit" variant="primary" loading={pending}>
-        Submit for review
+        {t("doctorBlog.submitForReview")}
       </Button>
     </form>
   );

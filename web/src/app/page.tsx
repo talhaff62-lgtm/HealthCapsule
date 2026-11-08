@@ -1,3 +1,5 @@
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
 import { prisma } from "@/lib/prisma";
 import { ShieldCheck, Clock, MapPin, ChevronDown } from "lucide-react";
 import Image from "next/image";
@@ -37,12 +39,14 @@ async function getFilterOptions() {
 }
 
 export default async function Home() {
+  const locale = await getServerLocale();
+  const t = getT(locale);
   const { specialties, areas } = await getFilterOptions();
 
   return (
     <div className="flex flex-col">
       {/* Hero — edge-to-edge full width, 100vh */}
-      <section aria-label="Intro" className="relative isolate -mt-[76px] w-full overflow-hidden bg-brand-navy sm:-mt-20">
+      <section aria-label={t("home.hero.ariaLabel")} className="relative isolate -mt-[76px] w-full overflow-hidden bg-brand-navy sm:-mt-20">
         {/* Media layer — crossfade slides */}
         <div aria-hidden="true" className="absolute inset-0">
           <Image
@@ -91,19 +95,24 @@ export default async function Home() {
               <ScrollReveal delay={0}>
                 <span className="inline-flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.2em] text-sky-200/90">
                   <span className="h-px w-5 bg-sky-200/60" aria-hidden="true" />
-                  Bangladesh · Verified doctors, hospitals & records
+                  {t("home.hero.tagline")}
                 </span>
               </ScrollReveal>
 
               <ScrollReveal delay={0.05}>
                 <h1 className="hero-h1 mt-4 font-serif text-4xl font-semibold leading-[1.07] tracking-tight text-white sm:text-5xl lg:text-6xl">
-                  Find a <span className="text-gradient">verified doctor</span>.<br />Book today. <span className="italic font-medium">Keep every record after.</span>
+                  {t("home.hero.headlineStart")}
+                  <span className="text-gradient">{t("home.hero.headlineHighlight")}</span>
+                  {t("home.hero.headlineAfterHighlight")}
+                  <br />
+                  {t("home.hero.headlineMiddle")}
+                  <span className="italic font-medium">{t("home.hero.headlineEnd")}</span>
                 </h1>
               </ScrollReveal>
 
               <ScrollReveal delay={0.1}>
                 <p className="hero-sub mt-4 max-w-lg text-base leading-relaxed text-white/85">
-                  Search verified doctors, book in two taps, store every prescription, and reach an ambulance before panic sets in — one platform, instead of a dozen phone numbers and Facebook pages.
+                  {t("home.hero.subheadline")}
                 </p>
               </ScrollReveal>
 
@@ -112,15 +121,15 @@ export default async function Home() {
                 <div className="hero-chips mt-6 flex flex-wrap gap-3">
                   <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-medium text-white shadow-card backdrop-blur">
                     <ShieldCheck className="h-4 w-4 text-sky-300" />
-                    Verified-only network
+                    {t("home.hero.trustChip1")}
                   </span>
                   <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-medium text-white shadow-card backdrop-blur">
                     <Clock className="h-4 w-4 text-sky-300" />
-                    Real-time availability
+                    {t("home.hero.trustChip2")}
                   </span>
                   <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-medium text-white shadow-card backdrop-blur">
                     <MapPin className="h-4 w-4 text-sky-300" />
-                    Free for patients
+                    {t("home.hero.trustChip3")}
                   </span>
                 </div>
               </ScrollReveal>

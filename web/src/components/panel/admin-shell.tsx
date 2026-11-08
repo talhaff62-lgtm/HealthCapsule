@@ -1,8 +1,7 @@
 "use client";
 
-"use client";
-
 import { PanelShell } from "./panel-shell";
+import { useLanguage } from "@/components/language-provider";
 
 export function AdminShell({
   title,
@@ -13,17 +12,19 @@ export function AdminShell({
   userName?: string;
   children: React.ReactNode;
 }) {
+  const { t } = useLanguage();
+
   return (
     <PanelShell
-      panelLabel="ADMIN PANEL"
+      panelLabel={t("shell.admin.panelLabel")}
       homeHref="/admin"
       navLinks={[
-        { href: "/admin", label: "Dashboard" },
-        { href: "/admin/review", label: "Review queue" },
-        { href: "/admin/entries", label: "All entries" },
-        { href: "/admin/blog", label: "Blog" },
-        { href: "/admin/videos", label: "Videos" },
-        { href: "/admin/staff", label: "Staff" },
+        { href: "/admin", labelKey: "shell.admin.nav.dashboard" },
+        { href: "/admin/review", labelKey: "shell.admin.nav.reviewQueue" },
+        { href: "/admin/entries", labelKey: "shell.admin.nav.allEntries" },
+        { href: "/admin/blog", labelKey: "shell.admin.nav.blog" },
+        { href: "/admin/videos", labelKey: "shell.admin.nav.videos" },
+        { href: "/admin/staff", labelKey: "shell.admin.nav.staff" },
       ]}
       title={title}
       userName={userName}

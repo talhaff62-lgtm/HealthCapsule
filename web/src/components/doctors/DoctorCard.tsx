@@ -1,12 +1,17 @@
 import Link from "next/link";
 import { Clock, MapPin, Briefcase, Star, Video, CalendarDays } from "lucide-react";
 import { DoctorListItem, isFeaturedDoctor, isNewDoctor, formatScheduleSummary } from "@/lib/doctors";
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
 
 type DoctorCardProps = {
   doctor: DoctorListItem;
 };
 
-export default function DoctorCard({ doctor }: DoctorCardProps) {
+export default async function DoctorCard({ doctor }: DoctorCardProps) {
+  const locale = await getServerLocale();
+  const t = getT(locale);
+
   const featured = isFeaturedDoctor(doctor.listingTier);
   const isNew = isNewDoctor(doctor.registrationYear);
   const primarySpecialty = doctor.specialties[0]?.specialty.name;
@@ -52,17 +57,17 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
             {featured && (
               <span className="inline-flex items-center gap-0.5 rounded-full bg-brand-sky-bg px-2 py-0.5 text-[0.6rem] font-bold text-brand-sky-deep">
                 <Star className="h-2.5 w-2.5 fill-current" />
-                Featured
+                {t("card.doctor.featured")}
               </span>
             )}
             {isNew && (
               <span className="rounded-full bg-brand-navy-light px-2 py-0.5 text-[0.6rem] font-medium text-white">
-                New
+                {t("card.doctor.new")}
               </span>
             )}
             {doctor.hasOnlineConsultation && (
               <span className="inline-flex items-center gap-0.5 rounded-full bg-green-50 px-2 py-0.5 text-[0.6rem] font-bold text-green-700">
-                <Video className="h-2.5 w-2.5" /> Online
+                <Video className="h-2.5 w-2.5" /> {t("card.doctor.online")}
               </span>
             )}
             {doctor.rating != null ? (
@@ -95,7 +100,7 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
           {doctor.yearsExperience ? (
             <span className="inline-flex items-center gap-1">
               <Briefcase className="h-3.5 w-3.5 text-brand-muted" />
-              {doctor.yearsExperience} yrs exp.
+              {t("card.doctor.yearsExperience", { years: doctor.yearsExperience })}
             </span>
           ) : null}
           {areas.length > 0 ? (
@@ -115,11 +120,11 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
         <div className="flex items-center justify-between gap-3 pt-1 border-t border-dashed border-brand-gray/60">
           <span className="inline-flex items-center gap-1 font-mono text-[0.65rem] uppercase tracking-wider text-brand-navy font-semibold">
             <Clock className="h-3.5 w-3.5 text-brand-sky" />
-            View schedule
+            {t("card.doctor.viewSchedule")}
           </span>
           {doctor.consultationFee ? (
             <span className="text-sm font-semibold text-brand-navy flex items-baseline gap-0.5">
-              <span className="text-[0.65rem] font-normal text-brand-muted">From</span>
+              <span className="text-[0.65rem] font-normal text-brand-muted">{t("card.doctor.from")}</span>
               ৳{doctor.consultationFee}
             </span>
           ) : null}

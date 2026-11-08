@@ -3,6 +3,7 @@
 import { useEffect, useState, FormEvent } from "react";
 import { Check } from "lucide-react";
 import { api } from "@/lib/client-fetch";
+import { useLanguage } from "@/components/language-provider";
 import {
   Button,
   SectionTitle,
@@ -54,6 +55,7 @@ export function BlogPostForm({
   error,
   submitLabel = "Save post",
 }: BlogPostFormProps) {
+  const { t } = useLanguage();
   const [title, setTitle] = useState(() => initialValues?.title ?? "");
   const [excerpt, setExcerpt] = useState(() => initialValues?.excerpt ?? "");
   const [content, setContent] = useState(() => initialValues?.content ?? "");
@@ -101,7 +103,7 @@ export function BlogPostForm({
     setUploadError("");
     if (!file.type.startsWith("image/")) {
       e.target.value = "";
-      setUploadError("Please select an image file");
+      setUploadError(t("common.form.pleaseSelectImageFile"));
       return;
     }
     setCoverPreview(URL.createObjectURL(file));
@@ -124,7 +126,7 @@ export function BlogPostForm({
       e.target.value = "";
       setCoverImageUrl("");
       setCoverPreview("");
-      setUploadError(err instanceof Error ? err.message : "Upload failed");
+      setUploadError(err instanceof Error ? err.message : t("common.form.uploadFailed"));
     } finally {
       setUploading(false);
     }
@@ -161,11 +163,11 @@ export function BlogPostForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
-        <SectionTitle className="mb-3">Post</SectionTitle>
+        <SectionTitle className="mb-3">{t("admin.blog.postSection")}</SectionTitle>
 
         <TextField
           id="title"
-          label="Title"
+          label={t("admin.blog.titleLabel")}
           required
           type="text"
           value={title}
@@ -174,16 +176,16 @@ export function BlogPostForm({
 
         <TextField
           id="excerpt"
-          label="Excerpt (optional)"
+          label={`${t("admin.blog.excerptLabel")} ${t("common.form.optional")}`}
           type="text"
           value={excerpt}
           onChange={(e) => setExcerpt(e.target.value)}
-          placeholder="Short summary shown in listings"
+          placeholder={t("admin.blog.excerptPlaceholder")}
         />
 
         <TextAreaField
           id="content"
-          label="Content"
+          label={t("admin.blog.contentLabel")}
           required
           rows={12}
           value={content}
@@ -192,23 +194,23 @@ export function BlogPostForm({
 
         <TextField
           id="tags"
-          label="Tags (optional)"
+          label={`${t("admin.blog.tagsLabel")} ${t("common.form.optional")}`}
           type="text"
           value={tags}
           onChange={(e) => setTags(e.target.value)}
-          placeholder="e.g. nutrition, heart-health — comma separated"
+          placeholder={t("admin.blog.tagsPlaceholder")}
         />
       </div>
 
       <div className="space-y-4">
-        <SectionTitle className="mt-6 mb-3">Publication</SectionTitle>
+        <SectionTitle className="mt-6 mb-3">{t("admin.blog.publicationSection")}</SectionTitle>
 
         <div>
           <label
             htmlFor="status"
             className="mb-1.5 block text-sm font-semibold text-brand-slate"
           >
-            Status
+            {t("admin.blog.statusLabel")}
           </label>
           <select
             id="status"
@@ -226,7 +228,7 @@ export function BlogPostForm({
 
         <div>
           <span className="mb-1.5 block text-sm font-semibold text-brand-slate">
-            Featured
+            {t("admin.blog.featuredLabel")}
           </span>
           <button
             type="button"
@@ -239,13 +241,13 @@ export function BlogPostForm({
             }`}
           >
             {isFeatured && <Check className="h-4 w-4 shrink-0" />}
-            Feature this post
+            {t("admin.blog.featureThisPost")}
           </button>
         </div>
 
         <div>
           <label className="block mb-1.5 text-sm font-semibold text-brand-slate">
-            Cover Image (optional)
+            {t("admin.blog.coverImageLabel")} {t("common.form.optional")}
           </label>
           <input
             type="file"
@@ -253,11 +255,11 @@ export function BlogPostForm({
             onChange={handleCoverChange}
             className="block w-full text-sm text-brand-slate file:mr-4 file:rounded-full file:border-0 file:bg-brand-sky-bg file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-brand-sky-deep hover:file:bg-brand-sky/20"
           />
-          {uploading && <p className="mt-2 text-sm text-brand-muted">Uploading...</p>}
+          {uploading && <p className="mt-2 text-sm text-brand-muted">{t("form.facility.messages.uploadingCover")}</p>}
           {coverPreview && (
             <img
               src={coverPreview}
-              alt="Cover image preview"
+              alt={t("admin.blog.coverImagePreviewAlt")}
               className="mt-2 h-24 w-40 rounded-xl object-cover"
             />
           )}
@@ -270,14 +272,14 @@ export function BlogPostForm({
       </div>
 
       <div className="space-y-4">
-        <SectionTitle className="mt-6 mb-3">Attribution</SectionTitle>
+        <SectionTitle className="mt-6 mb-3">{t("admin.blog.attributionSection")}</SectionTitle>
 
         <div>
           <label
             htmlFor="doctor"
             className="mb-1.5 block text-sm font-semibold text-brand-slate"
           >
-            Attributed Doctor (optional)
+            {t("admin.blog.attributedDoctorLabel")} {t("common.form.optional")}
           </label>
           <select
             id="doctor"
@@ -285,7 +287,7 @@ export function BlogPostForm({
             onChange={(e) => setDoctorId(e.target.value)}
             className="h-11 w-full rounded-xl border border-brand-gray bg-white px-3 text-sm focus:border-brand-sky focus:outline-none focus:ring-2 focus:ring-brand-sky/25"
           >
-            <option value="">No doctor (custom author)</option>
+            <option value="">{t("admin.blog.noDoctorOption")}</option>
             {doctors.map((d) => (
               <option key={d.id} value={d.id}>
                 {d.name}
@@ -297,11 +299,11 @@ export function BlogPostForm({
         {!doctorId && (
           <TextField
             id="authorName"
-            label="Author Name (optional)"
+            label={`${t("admin.blog.authorNameLabel")} ${t("common.form.optional")}`}
             type="text"
             value={authorName}
             onChange={(e) => setAuthorName(e.target.value)}
-            placeholder="Shown when no doctor is attributed"
+            placeholder={t("admin.blog.authorNamePlaceholder")}
           />
         )}
       </div>

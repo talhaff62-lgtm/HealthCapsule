@@ -3,6 +3,8 @@ import { BlogPostStatus } from "@prisma/client";
 import { Newspaper } from "lucide-react";
 import BlogCard from "@/components/blog/BlogCard";
 import Pagination from "@/components/ui/Pagination";
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
 
 export const metadata = {
   title: "Blog — Capsule",
@@ -19,6 +21,9 @@ export default async function BlogPage({
 }: {
   searchParams: SearchParams;
 }) {
+  const locale = await getServerLocale();
+  const t = getT(locale);
+
   const params = await searchParams;
   const page = parseInt(params.page ?? "1", 10) || 1;
 
@@ -50,13 +55,13 @@ export default async function BlogPage({
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <span className="inline-flex items-center gap-1 text-[0.65rem] font-mono font-semibold uppercase tracking-wider text-brand-sky-bright">
             <Newspaper className="h-3.5 w-3.5" />
-            Health Blog
+            {t("blog.listing.healthBlog")}
           </span>
           <h1 className="mt-2 font-serif text-3xl font-semibold text-white sm:text-4xl">
-            Articles & Health Guides
+            {t("blog.listing.articlesHealthGuides")}
           </h1>
           <p className="mt-2 text-sm text-white/80 max-w-xl">
-            Practical health tips and trustworthy guidance written by verified doctors and the Capsule team.
+            {t("blog.listing.practicalHealthTips")}
           </p>
         </div>
       </div>
@@ -64,13 +69,13 @@ export default async function BlogPage({
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {total > 0 && (
           <p className="mb-4 text-sm text-brand-muted">
-            Showing <span className="font-semibold text-brand-navy">{posts.length}</span> of {total} articles
+            {t("blog.listing.showingRange", { count: posts.length, total })}
           </p>
         )}
 
         {posts.length === 0 ? (
           <div className="rounded-2xl border border-brand-gray bg-white p-12 text-center text-brand-muted">
-            No articles published yet. Check back soon.
+            {t("blog.listing.noArticlesFound")}
           </div>
         ) : (
           <>

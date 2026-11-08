@@ -1,3 +1,5 @@
+import { getT } from "@/lib/i18n";
+import { getServerLocale } from "@/lib/i18n-server";
 import { prisma } from "@/lib/prisma";
 import {
   AnimatedCounter,
@@ -21,33 +23,35 @@ async function getCounts() {
 }
 
 export default async function StatsBar() {
+  const locale = await getServerLocale();
+  const t = getT(locale);
   const counts = await getCounts();
 
   const stats = [
     {
       value: `${counts.doctors}+`,
-      label: "Verified Doctors",
-      sub: "Cross-checked, not scraped blind",
+      label: t("home.statsBar.stat1Label"),
+      sub: t("home.statsBar.stat1Sub"),
     },
     {
       value: `${counts.facilities}+`,
-      label: "Hospitals Listed",
-      sub: "With ICU & emergency info",
+      label: t("home.statsBar.stat2Label"),
+      sub: t("home.statsBar.stat2Sub"),
     },
     {
       value: `${counts.specialties}`,
-      label: "Specialties",
-      sub: "From cardiology to psychiatry",
+      label: t("home.statsBar.stat3Label"),
+      sub: t("home.statsBar.stat3Sub"),
     },
     {
       value: `${counts.areas}+`,
-      label: "Areas Covered",
-      sub: "Across Chattogram city",
+      label: t("home.statsBar.stat4Label"),
+      sub: t("home.statsBar.stat4Sub"),
     },
   ];
 
   return (
-    <SectionCanvas tone="navy" className="overflow-hidden rounded-[1.75rem]" aria-label="Statistics">
+    <SectionCanvas tone="navy" className="overflow-hidden rounded-[1.75rem]" aria-label={t("home.statsBar.ariaLabel")}>
       {/* Soft glow */}
       <div
         aria-hidden="true"

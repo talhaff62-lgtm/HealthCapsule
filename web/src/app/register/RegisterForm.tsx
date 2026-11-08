@@ -6,6 +6,7 @@ import { signIn } from "next-auth/react";
 import { Award, Building2, Lock, Mail, MapPin, Stethoscope, User } from "lucide-react";
 import { FacilityType } from "@prisma/client";
 import { registerDoctor, registerFacility, RegisterResult } from "./actions";
+import { useLanguage } from "@/components/language-provider";
 
 type SpecialtyOption = { id: string; name: string };
 type AreaOption = { id: string; name: string; slug: string };
@@ -17,13 +18,14 @@ type RegisterFormProps = {
 };
 
 const FACILITY_TYPES: { value: FacilityType; label: string }[] = [
-  { value: "HOSPITAL", label: "Hospital" },
-  { value: "DIAGNOSTIC_CENTER", label: "Diagnostic Center" },
-  { value: "CLINIC", label: "Clinic" },
+  { value: "HOSPITAL", label: "form.facility.options.facilityType.hospital" },
+  { value: "DIAGNOSTIC_CENTER", label: "form.facility.options.facilityType.diagnosticCenter" },
+  { value: "CLINIC", label: "form.facility.options.facilityType.clinic" },
 ];
 
 export default function RegisterForm({ defaultType, specialties, areas }: RegisterFormProps) {
   const router = useRouter();
+  const { t } = useLanguage();
   const [type, setType] = useState<"doctor" | "facility">(defaultType);
 
   const [email, setEmail] = useState("");
@@ -103,7 +105,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
     if (signInResult?.error) {
       setStatus({
         type: "success",
-        message: "Registration successful. Please sign in with your email and password.",
+        message: t("register.successMessage"),
       });
       return;
     }
@@ -117,8 +119,8 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
   return (
     <div className="overflow-hidden rounded-2xl border border-brand-gray bg-white shadow-lg">
       <div className="bg-brand-navy px-8 py-8 text-center">
-        <h1 className="font-serif text-2xl font-semibold text-white">Join Capsule</h1>
-        <p className="mt-2 text-sm text-white/70">Create your account to get listed.</p>
+        <h1 className="font-serif text-2xl font-semibold text-white">{t("register.joinCapsule")}</h1>
+        <p className="mt-2 text-sm text-white/70">{t("register.createAccountToGetListed")}</p>
       </div>
 
       <div className="p-8">
@@ -132,7 +134,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                 : "text-brand-muted hover:text-brand-slate"
             }`}
           >
-            Doctor
+            {t("register.tabDoctor")}
           </button>
           <button
             type="button"
@@ -143,7 +145,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                 : "text-brand-muted hover:text-brand-slate"
             }`}
           >
-            Healthcare Center
+            {t("register.tabHealthcareCenter")}
           </button>
         </div>
 
@@ -166,7 +168,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
               htmlFor="name"
               className="text-xs font-medium uppercase tracking-wider text-brand-muted"
             >
-              {isDoctor ? "Full name" : "Facility name"}
+              {isDoctor ? t("register.fullNameLabel") : t("register.facilityNameLabel")}
             </label>
             <div className="relative mt-1">
               <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
@@ -176,7 +178,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder={isDoctor ? "Dr. Abdullah Al Mamun" : "Chittagong Medical Center"}
+                placeholder={isDoctor ? t("register.fullNamePlaceholder") : t("register.facilityNamePlaceholder")}
                 className="block w-full rounded-lg border border-brand-gray bg-white py-2.5 pl-10 pr-4 text-sm text-brand-slate outline-none transition focus:border-brand-sky focus:ring-2 focus:ring-brand-sky/20"
               />
             </div>
@@ -190,7 +192,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                   htmlFor="bmdcRegNo"
                   className="text-xs font-medium uppercase tracking-wider text-brand-muted"
                 >
-                  BMDC registration number
+                  {t("form.doctor.labels.bmdcRegNo")}
                 </label>
                 <div className="relative mt-1">
                   <Award className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
@@ -200,7 +202,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                     required
                     value={bmdcRegNo}
                     onChange={(e) => setBmdcRegNo(e.target.value)}
-                    placeholder="A-12345"
+                    placeholder={t("form.doctor.placeholders.bmdcExample")}
                     className="block w-full rounded-lg border border-brand-gray bg-white py-2.5 pl-10 pr-4 text-sm text-brand-slate outline-none transition focus:border-brand-sky focus:ring-2 focus:ring-brand-sky/20"
                   />
                 </div>
@@ -211,7 +213,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                   htmlFor="specialty"
                   className="text-xs font-medium uppercase tracking-wider text-brand-muted"
                 >
-                  Primary specialty
+                  {t("register.primarySpecialtyLabel")}
                 </label>
                 <div className="relative mt-1">
                   <Stethoscope className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
@@ -223,7 +225,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                     className="block w-full rounded-lg border border-brand-gray bg-white py-2.5 pl-10 pr-4 text-sm text-brand-slate outline-none transition focus:border-brand-sky focus:ring-2 focus:ring-brand-sky/20"
                   >
                     <option value="" disabled>
-                      Select a specialty
+                      {t("register.selectSpecialtyPlaceholder")}
                     </option>
                     {specialties.map((s) => (
                       <option key={s.id} value={s.id}>
@@ -244,7 +246,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                   htmlFor="facilityType"
                   className="text-xs font-medium uppercase tracking-wider text-brand-muted"
                 >
-                  Facility type
+                  {t("form.facility.labels.facilityType")}
                 </label>
                 <div className="relative mt-1">
                   <Building2 className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
@@ -255,9 +257,9 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                     onChange={(e) => setFacilityType(e.target.value as FacilityType)}
                     className="block w-full rounded-lg border border-brand-gray bg-white py-2.5 pl-10 pr-4 text-sm text-brand-slate outline-none transition focus:border-brand-sky focus:ring-2 focus:ring-brand-sky/20"
                   >
-                    {FACILITY_TYPES.map((t) => (
-                      <option key={t.value} value={t.value}>
-                        {t.label}
+                    {FACILITY_TYPES.map((ft) => (
+                      <option key={ft.value} value={ft.value}>
+                        {t(ft.label)}
                       </option>
                     ))}
                   </select>
@@ -269,7 +271,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                   htmlFor="area"
                   className="text-xs font-medium uppercase tracking-wider text-brand-muted"
                 >
-                  Area
+                  {t("form.facility.labels.area")}
                 </label>
                 <div className="relative mt-1">
                   <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
@@ -281,7 +283,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                     className="block w-full rounded-lg border border-brand-gray bg-white py-2.5 pl-10 pr-4 text-sm text-brand-slate outline-none transition focus:border-brand-sky focus:ring-2 focus:ring-brand-sky/20"
                   >
                     <option value="" disabled>
-                      Select an area
+                      {t("register.selectAreaPlaceholder")}
                     </option>
                     {areas.map((a) => (
                       <option key={a.id} value={a.id}>
@@ -297,7 +299,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                   htmlFor="address"
                   className="text-xs font-medium uppercase tracking-wider text-brand-muted"
                 >
-                  Address
+                  {t("form.facility.labels.address")}
                 </label>
                 <textarea
                   id="address"
@@ -305,7 +307,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                   rows={3}
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  placeholder="House / road / landmark"
+                  placeholder={t("register.addressPlaceholder")}
                   className="block w-full rounded-lg border border-brand-gray bg-white px-4 py-2.5 text-sm text-brand-slate outline-none transition focus:border-brand-sky focus:ring-2 focus:ring-brand-sky/20"
                 />
               </div>
@@ -318,7 +320,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
               htmlFor="email"
               className="text-xs font-medium uppercase tracking-wider text-brand-muted"
             >
-              Email
+              {t("login.emailLabel")}
             </label>
             <div className="relative mt-1">
               <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
@@ -328,11 +330,11 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
+                placeholder={t("login.emailPlaceholder")}
                 className="block w-full rounded-lg border border-brand-gray bg-white py-2.5 pl-10 pr-4 text-sm text-brand-slate outline-none transition focus:border-brand-sky focus:ring-2 focus:ring-brand-sky/20"
               />
             </div>
-            <p className="mt-1 text-xs text-brand-muted">This will be your login email.</p>
+            <p className="mt-1 text-xs text-brand-muted">{t("register.loginEmailHint")}</p>
           </div>
 
           {/* Password */}
@@ -341,7 +343,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
               htmlFor="password"
               className="text-xs font-medium uppercase tracking-wider text-brand-muted"
             >
-              Password
+              {t("login.passwordLabel")}
             </label>
             <div className="relative mt-1">
               <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
@@ -356,7 +358,7 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
                 className="block w-full rounded-lg border border-brand-gray bg-white py-2.5 pl-10 pr-4 text-sm text-brand-slate outline-none transition focus:border-brand-sky focus:ring-2 focus:ring-brand-sky/20"
               />
             </div>
-            <p className="mt-1 text-xs text-brand-muted">At least 6 characters.</p>
+            <p className="mt-1 text-xs text-brand-muted">{t("register.passwordHint")}</p>
           </div>
 
           <button
@@ -364,13 +366,17 @@ export default function RegisterForm({ defaultType, specialties, areas }: Regist
             disabled={pending}
             className="w-full rounded-lg bg-brand-navy py-2.5 font-semibold text-white transition hover:bg-brand-navy-light disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {pending ? "Creating account..." : `Register as ${isDoctor ? "Doctor" : "Healthcare Center"}`}
+            {pending
+              ? t("register.creatingAccount")
+              : isDoctor
+              ? t("register.registerAsDoctor")
+              : t("register.registerAsHealthcareCenter")}
           </button>
 
           <p className="text-center text-sm text-brand-muted">
-            Already have an account?{" "}
+            {t("register.alreadyHaveAccount")}{" "}
             <a href="/login" className="font-semibold text-brand-sky hover:text-brand-sky-dark">
-              Sign in
+              {t("login.signIn")}
             </a>
           </p>
         </form>
