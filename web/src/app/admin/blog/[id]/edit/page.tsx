@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { AdminShell } from "@/components/panel/admin-shell";
 import { useMe } from "@/components/panel/use-me";
+import { useLanguage } from "@/components/language-provider";
 import { api } from "@/lib/client-fetch";
 import {
   BlogPostForm,
@@ -28,6 +29,7 @@ type BlogPostResponse = {
 export default function AdminEditBlogPostPage() {
   const { me, loading: meLoading } = useMe();
   const router = useRouter();
+  const { t } = useLanguage();
   const params = useParams();
   const id = params?.id as string;
 
@@ -73,7 +75,7 @@ export default function AdminEditBlogPostPage() {
   if (meLoading || (fetchLoading && me)) {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-brand-muted">Loading...</div>
+        <div className="text-brand-muted">{t("common.ui.loading")}</div>
       </div>
     );
   }
@@ -81,14 +83,14 @@ export default function AdminEditBlogPostPage() {
   if (!me || me.role !== "ADMIN") {
     return (
       <div className="min-h-screen bg-brand-cloud flex items-center justify-center">
-        <div className="text-status-emergency">Not authorized</div>
+        <div className="text-status-emergency">{t("common.ui.notAuthorized")}</div>
       </div>
     );
   }
 
   if (fetchError || !initialValues) {
     return (
-      <AdminShell title="Edit blog post" userName={me.name}>
+      <AdminShell title={t("admin.blog.editTitle")} userName={me.name}>
         <div className="text-center py-12">
           <div className="text-status-emergency text-lg font-medium mb-2">
             {fetchError || "Post not found"}
@@ -115,15 +117,15 @@ export default function AdminEditBlogPostPage() {
   };
 
   return (
-    <AdminShell title="Edit blog post" userName={me.name}>
-      <Eyebrow className="mb-4 block">EDIT BLOG POST</Eyebrow>
+    <AdminShell title={t("admin.blog.editTitle")} userName={me.name}>
+      <Eyebrow className="mb-4 block">{t("admin.blog.editEyebrow")}</Eyebrow>
       <BlogPostForm
         mode="edit"
         initialValues={initialValues}
         onSubmit={handleSubmit}
         submitting={submitting}
         error={error}
-        submitLabel="Save changes"
+        submitLabel={t("common.form.saveChanges")}
       />
     </AdminShell>
   );
