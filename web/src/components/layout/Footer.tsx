@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import FooterPortals from "./FooterPortals";
 import { Logo } from "./Logo";
+import { useLanguage } from "@/components/language-provider";
 
 export default function Footer() {
+  const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -16,18 +20,17 @@ export default function Footer() {
           <div>
             <Logo size="md" />
             <p className="mt-4 text-sm leading-relaxed text-white/70">
-              Verified doctors, live schedules, and trusted care across
-              Chattogram. One platform for every step of care.
+              {t("footer.tagline")}
             </p>
             <p className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1 font-mono text-[0.6rem] uppercase tracking-wider text-white/70">
-              🇧🇩 Made in Chattogram
+              🇧🇩 {t("footer.madeInChattogram")}
             </p>
           </div>
 
           {/* Directory column */}
           <div>
             <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-white/70">
-              Directory
+              {t("footer.directory")}
             </h4>
             <ul className="mt-4 space-y-2.5 text-sm text-white/70">
               <li>
@@ -35,7 +38,7 @@ export default function Footer() {
                   href="/doctors"
                   className="transition hover:text-brand-sky-bright"
                 >
-                  Find Doctors
+                  {t("footer.findDoctors")}
                 </Link>
               </li>
               <li>
@@ -43,7 +46,7 @@ export default function Footer() {
                   href="/healthcares"
                   className="transition hover:text-brand-sky-bright"
                 >
-                  Healthcare Providers
+                  {t("footer.healthcareProviders")}
                 </Link>
               </li>
               <li>
@@ -51,7 +54,7 @@ export default function Footer() {
                   href="/doctors?specialty=cardiology"
                   className="transition hover:text-brand-sky-bright"
                 >
-                  Cardiologists
+                  {t("footer.cardiologists")}
                 </Link>
               </li>
               <li>
@@ -59,7 +62,7 @@ export default function Footer() {
                   href="/doctors?specialty=neurology"
                   className="transition hover:text-brand-sky-bright"
                 >
-                  Neurologists
+                  {t("footer.neurologists")}
                 </Link>
               </li>
               <li>
@@ -67,7 +70,7 @@ export default function Footer() {
                   href="/doctors?specialty=gynecology"
                   className="transition hover:text-brand-sky-bright"
                 >
-                  Gynecologists
+                  {t("footer.gynecologists")}
                 </Link>
               </li>
             </ul>
@@ -79,12 +82,12 @@ export default function Footer() {
           {/* Legal column */}
           <div>
             <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-white/70">
-              Legal
+              {t("footer.legal")}
             </h4>
             <ul className="mt-4 space-y-2.5 text-sm text-white/70">
-              <li>Privacy Policy</li>
-              <li>Terms of Service</li>
-              <li>Data Protection</li>
+              <li>{t("footer.privacyPolicy")}</li>
+              <li>{t("footer.termsOfService")}</li>
+              <li>{t("footer.dataProtection")}</li>
             </ul>
           </div>
         </div>
@@ -92,7 +95,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6">
           <p className="text-xs text-white/50">
-            © {currentYear} Capsule. All rights reserved.
+            {t("footer.copyright", { year: currentYear })}
           </p>
           <a
             href="https://talhadev-portfolio.vercel.app/"
@@ -100,14 +103,14 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="text-xs text-white/50 transition-colors hover:text-brand-sky"
           >
-            Developed by Talha
+            {t("footer.developedBy")}
           </a>
           <div className="flex gap-3">
             <span className="rounded-full border border-white/10 px-3 py-1 font-mono text-[0.55rem] uppercase tracking-wider text-white/70">
-              HIPAA-Ready
+              {t("footer.hipaaReady")}
             </span>
             <span className="rounded-full border border-white/10 px-3 py-1 font-mono text-[0.55rem] uppercase tracking-wider text-white/70">
-              SSL Encrypted
+              {t("footer.sslEncrypted")}
             </span>
           </div>
         </div>

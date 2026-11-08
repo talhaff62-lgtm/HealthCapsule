@@ -5,7 +5,8 @@ import Navbar from "@/components/layout/Navbar";
 import FooterGate from "@/components/layout/FooterGate";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import { ScrollProgressBar } from "@/components/ui/motion";
-import GoogleTranslate from "@/components/GoogleTranslate";
+import { LanguageProvider } from "@/components/language-provider";
+import { getServerLocale } from "@/lib/i18n-server";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -29,23 +30,26 @@ export const metadata: Metadata = {
     "Search verified doctors by specialty, area, and name. Book appointments and manage your practice with Capsule.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getServerLocale();
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={`${inter.variable} ${fraunces.variable} ${ibmPlexMono.variable}`}
     >
       <body className="min-h-screen">
         <ScrollProgressBar />
         <SessionProvider>
-          <GoogleTranslate />
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <FooterGate />
+          <LanguageProvider initialLocale={locale}>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <FooterGate />
+          </LanguageProvider>
         </SessionProvider>
       </body>
     </html>

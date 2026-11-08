@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useLanguage } from "@/components/language-provider";
 
 type LogoSize = "xs" | "sm" | "md" | "lg";
 
@@ -50,20 +53,21 @@ export function Logo({
   showTagline = true,
   className,
 }: LogoProps) {
+  const { t } = useLanguage();
   const s = SIZE_CLASSES[size];
 
   const mark = (
     <span className={`inline-flex items-center ${s.gap}`}>
       <Image
         src="/images/logo.png"
-        alt=""
+        alt={t("common.logoAlt")}
         width={52}
         height={52}
         className={`${s.icon} shrink-0 object-contain`}
       />
       <span className={`flex flex-col items-center leading-none ${s.gap}`}>
         <span className={`font-sans font-bold tracking-tight ${s.wordmark}`}>
-          <span className="text-brand-sky">Capsule</span>
+          <span className="text-brand-sky">{t("common.brandName")}</span>
         </span>
         {showTagline && (
           <span className="w-full flex items-center gap-1.5">
@@ -74,7 +78,7 @@ export function Logo({
             <span
               className={`font-sans font-medium uppercase whitespace-nowrap text-brand-sky ${s.tagline}`}
             >
-              Your Health, Our Priority
+              {t("common.tagline")}
             </span>
             <span
               aria-hidden="true"
@@ -99,7 +103,7 @@ export function Logo({
       href={href}
       className={`${className ?? ""} notranslate`}
       translate="no"
-      aria-label="Capsule — home"
+      aria-label={t("common.ariaHome")}
     >
       {mark}
     </Link>
