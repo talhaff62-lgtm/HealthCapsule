@@ -51,6 +51,9 @@ type RealFacility = {
   hasOnlineReport: boolean;
   hasParkingAvailable: boolean;
   accreditation: string | null;
+  dghsLicenceNo?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
   insurancePanels: string[];
   diagnosticTests: string[];
   imagingServices: string[];
@@ -64,11 +67,12 @@ type RealDoctor = {
   name: string;
   slug: string;
   bio: string | null;
+  bmdcRegNo?: string | null;
   degrees: string[];
   currentPosition: string | null;
   expertise: string | null;
   specialties: string[];
-  chambers: { facilitySlug: string | null; address: string | null }[];
+  chambers: { facilitySlug: string | null; address: string | null; visitingInfo?: string | null }[];
 };
 
 const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9\u0980-\u09FF]+/g, "");
@@ -326,6 +330,9 @@ async function seedFacilities(
       hasOnlineReport: data.hasOnlineReport,
       hasParkingAvailable: data.hasParkingAvailable,
       accreditation: data.accreditation,
+      dghsLicenceNo: data.dghsLicenceNo ?? null,
+      latitude: data.latitude ?? null,
+      longitude: data.longitude ?? null,
       insurancePanels: data.insurancePanels,
       diagnosticTests: data.diagnosticTests,
       imagingServices: data.imagingServices,
@@ -462,6 +469,7 @@ async function seedDoctors(
       verificationStatus: VerificationStatus.VERIFIED,
       listingTier: ListingTier.FREE,
       isActive: true,
+      ...(data.bmdcRegNo ? { bmdcRegNo: data.bmdcRegNo } : {}),
     };
 
     const chamberData = data.chambers.map((c) => {
@@ -470,6 +478,7 @@ async function seedDoctors(
         address: c.address,
         facilityId: facility?.id ?? null,
         areaId: facility?.areaId ?? null,
+        ...(c.visitingInfo ? { visitingInfo: c.visitingInfo } : {}),
       };
     });
 
