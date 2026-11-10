@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { AuthStatus } from "@/components/auth/AuthStatus";
 import { Logo } from "@/components/layout/Logo";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import DistrictSwitcher from "@/components/DistrictSwitcher";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
@@ -106,6 +107,7 @@ export default function Navbar() {
               );
             })}
             <AuthStatus />
+            <DistrictSwitcher dark={isTransparent} />
             <LanguageSwitcher dark={isTransparent} />
           </div>
 
@@ -155,6 +157,9 @@ export default function Navbar() {
                 <div className="mt-6 flex flex-col gap-3">
                   <div className="pt-2">
                     <AuthStatus />
+                  </div>
+                  <div className="pt-2">
+                    <DistrictSwitcher />
                   </div>
                   <div className="pt-2">
                     <LanguageSwitcher />

@@ -816,5 +816,12 @@
   "login.signIn": "Sign in",
   "login.signingIn": "Signing in...",
   "login.subtitle": "Enter your email and password.",
-  "login.title": "Sign in to Capsule"
+  "login.title": "Sign in to Capsule",
+  "district.choose": "District",
+  "district.in": "You are browsing",
+  "district.doctors": "Doctors",
+  "district.healthcares": "Hospitals & Diagnostics",
+  "district.comingSoonTitle": "Coming to this district soon",
+  "district.comingSoonBody": "Verified doctors and hospitals for this district are on the way. Meanwhile, explore doctors across Bangladesh.",
+  "district.browseAll": "Browse all doctors"
 }

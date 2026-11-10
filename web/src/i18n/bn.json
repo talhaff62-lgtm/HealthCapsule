@@ -800,5 +800,12 @@
   "login.signIn": "সাইন ইন",
   "login.signingIn": "সাইন ইন হচ্ছে...",
   "login.subtitle": "আপনার ইমেইল এবং পাসওয়ার্ড দিন।",
-  "login.title": "Capsule-এ সাইন ইন করুন"
+  "login.title": "Capsule-এ সাইন ইন করুন",
+  "district.choose": "জেলা",
+  "district.in": "আপনি দেখছেন",
+  "district.doctors": "ডাক্তার",
+  "district.healthcares": "হাসপাতাল ও ডায়াগনস্টিক",
+  "district.comingSoonTitle": "শীঘ্রই এই জেলায় আসছে",
+  "district.comingSoonBody": "এই জেলার ভেরিফায়েড ডাক্তার ও হাসপাতাল শীঘ্রই যোগ হচ্ছে। এর মধ্যে সারা বাংলাদেশের ডাক্তার দেখুন।",
+  "district.browseAll": "সব ডাক্তার দেখুন"
 }
