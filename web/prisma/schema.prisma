@@ -74,6 +74,7 @@ model District {
 
   name       String
   bnName     String?
+  slug       String?    @unique
   pcode      String?    @unique
   areaSqkm   Float?
   latitude   Float?
@@ -447,6 +448,7 @@ model Chamber {
 
   address         String?
   consultationFee Decimal? @db.Decimal(10, 2)
+  visitingInfo    String?
 
   latitude        Float?
   longitude       Float?
