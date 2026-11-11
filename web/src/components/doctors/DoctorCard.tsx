@@ -6,9 +6,10 @@ import { getServerLocale } from "@/lib/i18n-server";
 
 type DoctorCardProps = {
   doctor: DoctorListItem;
+  district?: string;
 };
 
-export default async function DoctorCard({ doctor }: DoctorCardProps) {
+export default async function DoctorCard({ doctor, district }: DoctorCardProps) {
   const locale = await getServerLocale();
   const t = getT(locale);
 
@@ -21,10 +22,11 @@ export default async function DoctorCard({ doctor }: DoctorCardProps) {
   const scheduleSummary = formatScheduleSummary(
     doctor.chambers.flatMap((c) => c.schedules)
   );
+  const detailHref = district ? `/${district}/doctors/${doctor.slug}` : `/doctors/${doctor.slug}`;
 
   return (
     <Link
-      href={`/doctors/${doctor.slug}`}
+      href={detailHref}
       className={`premium-card group flex flex-col gap-4 rounded-3xl bg-white p-5 shadow-card transition-all duration-300 ${
         featured
           ? "border-brand-sky/70"

@@ -14,22 +14,31 @@ import { useLanguage } from "@/components/language-provider";
 
 type NavLink = { href: string; labelKey: string };
 
-const publicLinks: NavLink[] = [
-  { href: "/", labelKey: "nav.home" },
-  { href: "/healthcares", labelKey: "nav.healthcares" },
-  { href: "/doctors", labelKey: "nav.doctors" },
-  { href: "/blog", labelKey: "nav.blog" },
-  { href: "/videos", labelKey: "nav.videos" },
-];
-
 const portalLinksByRole: Record<string, NavLink> = {
   ADMIN: { href: "/admin", labelKey: "nav.adminPanel" },
   DOCTOR: { href: "/portal/doctor", labelKey: "nav.doctorPanel" },
   FACILITY_ADMIN: { href: "/portal/facility", labelKey: "nav.facilityPanel" },
 };
 
-function isActive(href: string, pathname: string): boolean {
-  if (href === "/") return pathname === "/";
+function getActiveDistrict(pathname: string): string {
+  const match = pathname.match(/^\/([a-z0-9-]+)(\/|$)/);
+  const first = match ? match[1] : "";
+  if (first === "chattogram" || first === "noakhali") {
+    return first;
+  }
+  if (typeof document !== "undefined") {
+    const m = document.cookie.match(/(?:^|;\s*)capsule_district=([^;]+)/);
+    if (m && (decodeURIComponent(m[1]) === "chattogram" || decodeURIComponent(m[1]) === "noakhali")) {
+      return decodeURIComponent(m[1]);
+    }
+  }
+  return "chattogram";
+}
+
+function isActive(href: string, pathname: string, homeHref: string): boolean {
+  if (href === homeHref) {
+    return pathname === homeHref || pathname === `${homeHref}/` || pathname === "/";
+  }
   return pathname === href || pathname.startsWith(href + "/");
 }
 
@@ -64,13 +73,24 @@ export default function Navbar() {
 
   if (pathname?.startsWith("/staff") || pathname?.startsWith("/admin") || pathname === "/login" || pathname === "/register") return null;
 
+  const currentDistrict = getActiveDistrict(pathname || "/");
+  const homeHref = `/${currentDistrict}`;
+
+  const publicLinks: NavLink[] = [
+    { href: homeHref, labelKey: "nav.home" },
+    { href: `/${currentDistrict}/healthcares`, labelKey: "nav.healthcares" },
+    { href: `/${currentDistrict}/doctors`, labelKey: "nav.doctors" },
+    { href: "/blog", labelKey: "nav.blog" },
+    { href: "/videos", labelKey: "nav.videos" },
+  ];
+
   const role = session?.user?.role;
   const portalLink = role ? portalLinksByRole[role] : undefined;
   const navLinks: NavLink[] = portalLink
     ? [...publicLinks, portalLink]
     : publicLinks;
 
-  const isHome = pathname === "/";
+  const isHome = pathname === "/" || pathname === homeHref || pathname === `${homeHref}/`;
   const isTransparent = isHome && !scrolled;
 
   return (
@@ -87,7 +107,7 @@ export default function Navbar() {
 
           <div className="hidden items-center gap-7 text-sm font-medium md:flex">
             {navLinks.map((link) => {
-              const active = isActive(link.href, pathname);
+              const active = isActive(link.href, pathname, homeHref);
               return (
                 <Link
                   key={link.href}
@@ -138,7 +158,7 @@ export default function Navbar() {
             <div className="fixed inset-x-3 top-[76px] z-[80] rounded-3xl border border-ink/8 bg-white/95 p-4 shadow-soft backdrop-blur-xl sm:inset-x-4 sm:top-[80px] md:hidden">
               <div className="flex flex-col gap-1 text-base font-medium">
                 {navLinks.map((link) => {
-                  const active = isActive(link.href, pathname);
+                  const active = isActive(link.href, pathname, homeHref);
                   return (
                     <Link
                       key={link.href}

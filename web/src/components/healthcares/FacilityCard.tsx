@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { MapPin, Phone, Building2, Microscope, Star, Activity, Siren, Ambulance } from "lucide-react";
 import type { FacilityListItem } from "@/lib/facilities";
 import FacilityTypeBadge from "@/components/ui/FacilityTypeBadge";
@@ -12,8 +13,19 @@ type FacilityCardProps = {
   facility: FacilityListItem;
 };
 
+function districtFromPathname(pathname: string): string | null {
+  const match = pathname.match(/^\/([a-z0-9-]+)(\/|$)/);
+  const first = match ? match[1] : "";
+  return first === "chattogram" || first === "noakhali" ? first : null;
+}
+
 export default function FacilityCard({ facility }: FacilityCardProps) {
   const { t } = useLanguage();
+  const pathname = usePathname() ?? "";
+  const district = districtFromPathname(pathname);
+  const detailHref = district
+    ? `/${district}/healthcares/${facility.slug}`
+    : `/healthcares/${facility.slug}`;
 
   return (
     <StaggerItem className="premium-card group relative flex flex-col overflow-hidden rounded-3xl border border-brand-gray bg-white shadow-card">
@@ -145,7 +157,7 @@ export default function FacilityCard({ facility }: FacilityCardProps) {
         </div>
       </div>
       <Link
-        href={`/healthcares/${facility.slug}`}
+        href={detailHref}
         aria-label={t("card.facility.viewDetails", { name: facility.name })}
         className="absolute inset-0 z-10 rounded-[inherit]"
       />

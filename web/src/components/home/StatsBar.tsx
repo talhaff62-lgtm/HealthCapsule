@@ -8,24 +8,55 @@ import {
 } from "@/components/ui/motion";
 import { SectionCanvas } from "@/components/home/SectionCanvas";
 
-async function getCounts() {
+type StatsBarProps = {
+  districtId?: string;
+};
+
+async function getCounts(districtId?: string) {
+  const doctorWhere = {
+    verificationStatus: "VERIFIED" as const,
+    deletedAt: null,
+    isActive: true,
+    ...(districtId
+      ? {
+          chambers: {
+            some: {
+              isActive: true,
+              deletedAt: null,
+              OR: [
+                { area: { thana: { districtId } } },
+                { facility: { area: { thana: { districtId } } } },
+              ],
+            },
+          },
+        }
+      : {}),
+  };
+
+  const facilityWhere = {
+    deletedAt: null,
+    isActive: true,
+    ...(districtId ? { area: { thana: { districtId } } } : {}),
+  };
+
+  const areaWhere = {
+    deletedAt: null,
+    ...(districtId ? { thana: { districtId } } : {}),
+  };
+
   const [doctors, facilities, specialties, areas] = await Promise.all([
-    prisma.doctor.count({
-      where: { verificationStatus: "VERIFIED", deletedAt: null, isActive: true },
-    }),
-    prisma.facility.count({
-      where: { deletedAt: null, isActive: true },
-    }),
+    prisma.doctor.count({ where: doctorWhere }),
+    prisma.facility.count({ where: facilityWhere }),
     prisma.specialty.count({ where: { deletedAt: null } }),
-    prisma.area.count({ where: { deletedAt: null } }),
+    prisma.area.count({ where: areaWhere }),
   ]);
   return { doctors, facilities, specialties, areas };
 }
 
-export default async function StatsBar() {
+export default async function StatsBar({ districtId }: StatsBarProps = {}) {
   const locale = await getServerLocale();
   const t = getT(locale);
-  const counts = await getCounts();
+  const counts = await getCounts(districtId);
 
   const stats = [
     {

@@ -9,14 +9,21 @@ import { SectionCanvas } from "@/components/home/SectionCanvas";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion";
 import { VerificationStatus } from "@prisma/client";
 
-async function getFeaturedFacilities() {
+type FeaturedHospitalsProps = {
+  districtId?: string;
+  district?: string;
+};
+
+async function getFeaturedFacilities(districtId?: string) {
   try {
+    const areaCondition = districtId ? { thana: { districtId } } : undefined;
     const featured = await prisma.facility.findMany({
       where: {
         verificationStatus: VerificationStatus.VERIFIED,
         deletedAt: null,
         isActive: true,
         listingTier: { in: ["FEATURED", "PREMIUM"] },
+        ...(areaCondition ? { area: areaCondition } : {}),
       },
       include: {
         area: {
@@ -34,6 +41,7 @@ async function getFeaturedFacilities() {
         deletedAt: null,
         isActive: true,
         id: { notIn: pickedIds },
+        ...(areaCondition ? { area: areaCondition } : {}),
       },
       include: {
         area: {
@@ -50,10 +58,10 @@ async function getFeaturedFacilities() {
   }
 }
 
-export default async function FeaturedHospitals() {
+export default async function FeaturedHospitals({ districtId, district }: FeaturedHospitalsProps = {}) {
   const locale = await getServerLocale();
   const t = getT(locale);
-  const displayFacilities = await getFeaturedFacilities();
+  const displayFacilities = await getFeaturedFacilities(districtId);
 
   return (
     <SectionCanvas tone="white" id="hospitals">
@@ -191,7 +199,7 @@ export default async function FeaturedHospitals() {
 
                     <div className="flex items-center gap-3">
                       <Link
-                        href={`/healthcares/${facility.slug}`}
+                        href={district ? `/${district}/healthcares/${facility.slug}` : `/healthcares/${facility.slug}`}
                         className="inline-flex items-center font-semibold text-brand-navy hover:text-brand-sky transition"
                       >
                         {t("home.featuredHospitals.buttonViewDetails")}

@@ -18,11 +18,12 @@ type Option = {
 type HeroSearchCardProps = {
   specialties: Option[];
   areas: Option[];
+  district?: string;
 };
 
 type TabId = "doctor" | "hospital";
 
-export default function HeroSearchCard({ specialties, areas }: HeroSearchCardProps) {
+export default function HeroSearchCard({ specialties, areas, district }: HeroSearchCardProps) {
   const router = useRouter();
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<TabId>("doctor");
@@ -44,7 +45,8 @@ export default function HeroSearchCard({ specialties, areas }: HeroSearchCardPro
     if (specialty) params.set("specialty", specialty);
     if (area) params.set("area", area);
 
-    router.push(`/doctors?${params.toString()}`);
+    const base = district ? `/${district}` : "/chattogram";
+    router.push(`${base}/doctors?${params.toString()}`);
   };
 
   const fieldLabel = "mb-1 block font-mono text-[0.68rem] uppercase tracking-[0.06em] text-brand-muted";

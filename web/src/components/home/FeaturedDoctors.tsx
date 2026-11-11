@@ -47,14 +47,33 @@ const sharedInclude = {
   },
 } as const;
 
-async function getExperiencedDoctors(): Promise<DoctorListItem[]> {
+type FeaturedDoctorsProps = {
+  district?: string;
+};
+
+async function getExperiencedDoctors(district?: string): Promise<DoctorListItem[]> {
   try {
+    const where: Prisma.DoctorWhereInput = {
+      verificationStatus: VerificationStatus.VERIFIED,
+      deletedAt: null,
+      isActive: true,
+      ...(district
+        ? {
+            chambers: {
+              some: {
+                isActive: true,
+                deletedAt: null,
+                OR: [
+                  { area: { thana: { district: { slug: district } } } },
+                  { facility: { area: { thana: { district: { slug: district } } } } },
+                ],
+              },
+            },
+          }
+        : {}),
+    };
     const doctors = await prisma.doctor.findMany({
-      where: {
-        verificationStatus: VerificationStatus.VERIFIED,
-        deletedAt: null,
-        isActive: true,
-      },
+      where,
       include: sharedInclude,
       orderBy: [
         { listingTier: "desc" },
@@ -70,16 +89,31 @@ async function getExperiencedDoctors(): Promise<DoctorListItem[]> {
   }
 }
 
-async function getNewlyListedDoctors(excludeIds: string[]): Promise<DoctorListItem[]> {
+async function getNewlyListedDoctors(excludeIds: string[], district?: string): Promise<DoctorListItem[]> {
   try {
+    const where: Prisma.DoctorWhereInput = {
+      verificationStatus: VerificationStatus.VERIFIED,
+      deletedAt: null,
+      isActive: true,
+      degrees: { has: "MBBS" },
+      id: { notIn: excludeIds },
+      ...(district
+        ? {
+            chambers: {
+              some: {
+                isActive: true,
+                deletedAt: null,
+                OR: [
+                  { area: { thana: { district: { slug: district } } } },
+                  { facility: { area: { thana: { district: { slug: district } } } } },
+                ],
+              },
+            },
+          }
+        : {}),
+    };
     const doctors = await prisma.doctor.findMany({
-      where: {
-        verificationStatus: VerificationStatus.VERIFIED,
-        deletedAt: null,
-        isActive: true,
-        degrees: { has: "MBBS" },
-        id: { notIn: excludeIds },
-      },
+      where,
       include: sharedInclude,
       orderBy: [{ createdAt: "desc" }, { name: "asc" }],
       take: 6,
@@ -91,11 +125,11 @@ async function getNewlyListedDoctors(excludeIds: string[]): Promise<DoctorListIt
   }
 }
 
-export default async function FeaturedDoctors() {
+export default async function FeaturedDoctors({ district }: FeaturedDoctorsProps = {}) {
   const locale = await getServerLocale();
   const t = getT(locale);
-  const experienced = await getExperiencedDoctors();
-  const emerging = await getNewlyListedDoctors(experienced.map((d) => d.id));
+  const experienced = await getExperiencedDoctors(district);
+  const emerging = await getNewlyListedDoctors(experienced.map((d) => d.id), district);
 
   if (experienced.length === 0 && emerging.length === 0) return null;
 
@@ -121,7 +155,7 @@ export default async function FeaturedDoctors() {
             <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {experienced.map((doctor) => (
                 <StaggerItem key={doctor.id}>
-                  <DoctorCard doctor={doctor} />
+                  <DoctorCard doctor={doctor} district={district} />
                 </StaggerItem>
               ))}
             </StaggerContainer>
@@ -147,7 +181,7 @@ export default async function FeaturedDoctors() {
             <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {emerging.map((doctor) => (
                 <StaggerItem key={doctor.id}>
-                  <DoctorCard doctor={doctor} />
+                  <DoctorCard doctor={doctor} district={district} />
                 </StaggerItem>
               ))}
             </StaggerContainer>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FormEvent } from "react";
 import { Search, X } from "lucide-react";
 import Select from "@/components/ui/Select";
@@ -40,6 +40,7 @@ const DAY_OPTIONS = [
 
 export default function DoctorFilters({ specialties, areas }: DoctorFiltersProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -63,11 +64,11 @@ export default function DoctorFilters({ specialties, areas }: DoctorFiltersProps
     if (day) params.set("day", day);
     if (online === "1") params.set("online", "1");
 
-    router.push(`/doctors?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`);
   }
 
   function handleClear() {
-    router.push("/doctors");
+    router.push(pathname);
   }
 
   return (

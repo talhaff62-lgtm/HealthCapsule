@@ -54,12 +54,17 @@ export default function DistrictSwitcher({ dark = false }: { dark?: boolean }) {
   }, [open]);
 
   const choose = useCallback(
-    (slug: string) => {
+    (newSlug: string) => {
       setOpen(false);
-      document.cookie = `${DISTRICT_COOKIE}=${encodeURIComponent(slug)}; path=/; max-age=31536000; samesite=lax`;
-      router.push(`/${slug}`);
+      document.cookie = `${DISTRICT_COOKIE}=${encodeURIComponent(newSlug)}; path=/; max-age=31536000; samesite=lax`;
+      if (current) {
+        const subPath = pathname.replace(new RegExp(`^/${current.slug}`), "");
+        router.push(`/${newSlug}${subPath}`);
+      } else {
+        router.push(`/${newSlug}`);
+      }
     },
-    [router]
+    [current, pathname, router]
   );
 
   const label = current
