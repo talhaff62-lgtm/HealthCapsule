@@ -57,14 +57,9 @@ export default function DistrictSwitcher({ dark = false }: { dark?: boolean }) {
     (slug: string) => {
       setOpen(false);
       document.cookie = `${DISTRICT_COOKIE}=${encodeURIComponent(slug)}; path=/; max-age=31536000; samesite=lax`;
-      if (current) {
-        // inside a district context: move to the chosen district's page
-        router.push(`/${slug}`);
-      } else {
-        router.refresh();
-      }
+      router.push(`/${slug}`);
     },
-    [current, router]
+    [router]
   );
 
   const label = current
