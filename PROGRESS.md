@@ -1,15 +1,15 @@
 # PROGRESS.md — HealthCapsule
 
-Living status doc. The working agent updates this after every accepted task (see ~/.zcode/AGENTS.md §0b). Last updated: 2026-11-10.
+Living status doc. The working agent updates this after every accepted task (see ~/.zcode/AGENTS.md §0b). Last updated: 2026-11-11.
 
 ## What this project is
 HealthCapsule ("Capsule") — healthcare directory for Bangladesh: verified doctors, hospitals, diagnostic centers for patients (web), staff/admin panels for data collection, Expo app for staff. Monorepo: web/ (Next.js + Prisma/Neon + Supabase + Vercel), mobile/ (Expo).
 
 ## Current branch & commit state
-- Branch: feat/i18n-dictionaries → MERGED TO MAIN + PUSHED 2026-11-10 (Talha-approved; ff to main; prod build PASS before push). District routing + Noakhali seed now on origin/main.
-- Working tree after push: 5 real files committed; ~99 CRLF churn files restored to HEAD (not committed); untracked scratch (debug/scrape scripts, pnpm-lock.yaml) left out deliberately — line-ending normalization (.gitattributes) and scratch disposition still awaiting Talha's call.
+- Branch: main. District-SCOPED base routing SHIPPED (2026-11-11): base URL is now /[district]/ (like /en/), full homepage + doctors + healthcares + detail pages all under the district prefix; `/` redirects via capsule_district cookie > geo header (x-vercel-ip-city / cf-ipcity) > default chattogram; legacy /doctors, /healthcares, /doctors/[slug], /healthcares/[slug] are 307-redirect stubs. Blog/videos/login/admin/staff/portal stay global. Next 16 proxy convention: src/proxy.ts (NOT middleware.ts — Next 16.2.10 errors if both exist).
 
 ## Shipped (dated log, newest first)
+- 2026-11-11 — District-SCOPED base routing (Talha-approved plan): `/` 307-redirects to `/{cookie > geo city > chattogram}`; full homepage migrated to /[district]/page.tsx (hero tagline + chip + search areas + StatsBar counts + FeaturedDoctors/Hospitals all district-filtered); /[district]/doctors + /[district]/healthcares + both [slug] detail pages; searchDoctors/searchFacilities gained district param; legacy national pages became redirect stubs; Navbar links + DistrictSwitcher (sub-path carry /chattogram/doctors → /noakhali/doctors) + DoctorCard/FacilityCard/FeaturedHospitals/HeroSearchCard/DoctorFilters all district-aware; geo.ts maps city names (maijdee/chowmuhani → noakhali; chittagong → chattogram). Playwright QA: redirects, counts (1480/27, 331/29), card hrefs, switcher carry, hero search all PASS. tsc/eslint/prod-build PASS.
 - 2026-11-11 — DistrictSwitcher UI fix: direct navigation to `/${slug}` on any district selection + `District.bnName` backfilled for 13 districts (Chattogram: চট্টগ্রাম, Noakhali: নোয়াখালী).
 - 2026-11-10 — District routing + Noakhali data COMMITTED + PUSHED TO MAIN (4 commits): District.slug + Chamber.visitingInfo schema fields (db pushed); /[district] hub page (invalid slug → 404, empty → coming-soon + noindex); /api/v1/districts (only districts with live content); DistrictSwitcher pill in navbar (desktop + mobile, data-only dropdown, sets capsule_district cookie); Noakhali seeded to live DB (29 facilities / 331 doctors / 411 chambers, Chattogram untouched); en/bn.json 7 district.* keys each (809 parity). tsc/eslint/prod-build PASS.
 - 2026-11-08 — Bangla made the DEFAULT locale + i18n feature COMMITTED on feat/i18n-dictionaries (5 commits, unpushed): DEFAULT_LOCALE="bn" in web/src/lib/i18n.ts; no-cookie first visit renders bn (verified via SSR html lang + hero text on /, /doctors, /healthcares, /login, /register); cookie'd users keep their choice; tsc/eslint clean.
