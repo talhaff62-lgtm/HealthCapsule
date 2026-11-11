@@ -8,6 +8,7 @@ export type SearchFacilitiesParams = {
   q?: string;
   page?: number;
   pageSize?: number;
+  district?: string;
 };
 
 export type FacilityListItem = {
@@ -50,6 +51,15 @@ export async function searchFacilities(
 
   if (params.area) {
     where.area = { slug: params.area };
+  }
+
+  if (params.district) {
+    where.area = {
+      ...(where.area as object || {}),
+      thana: {
+        district: { slug: params.district },
+      },
+    };
   }
 
   if (params.q) {

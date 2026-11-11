@@ -11,6 +11,7 @@ export type SearchDoctorsParams = {
   maxFee?: number;
   day?: number;
   online?: boolean;
+  district?: string;
 };
 
 export type DoctorListItem = {
@@ -70,6 +71,20 @@ export async function searchDoctors(
       };
     }
     where.chambers = { some: chambersSome };
+  }
+
+  if (params.district) {
+    const districtCondition = {
+      OR: [
+        { area: { thana: { district: { slug: params.district } } } },
+        { facility: { area: { thana: { district: { slug: params.district } } } } },
+      ],
+    };
+    if (!where.chambers) {
+      where.chambers = { some: { isActive: true, deletedAt: null, ...districtCondition } };
+    } else if (where.chambers.some) {
+      where.chambers.some = { ...where.chambers.some, ...districtCondition };
+    }
   }
 
   if (params.minRating !== undefined) {

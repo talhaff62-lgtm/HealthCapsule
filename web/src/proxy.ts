@@ -1,10 +1,11 @@
 import { withAuth } from "next-auth/middleware";
 import { NextRequest, NextResponse } from "next/server";
+import { detectDistrictFromHeaders } from "@/lib/geo";
 
 /**
  * Next.js 16 renamed the `middleware` file convention to `proxy`.
- * This file replaces `src/middleware.ts` and exports a named `proxy`
- * function that guards the role-based portals and staff/admin pages.
+ * This file guards the role-based portals and staff/admin pages, and
+ * redirects legacy national routes to their district-scoped equivalents.
  */
 
 export async function proxy(req: NextRequest) {
@@ -23,6 +24,27 @@ export async function proxy(req: NextRequest) {
       });
     }
     return NextResponse.next();
+  }
+
+  // District-scoped routing: "/" and legacy "/doctors" / "/healthcares"
+  // redirect to the detected district's equivalent page.
+  if (
+    pathname === "/" ||
+    pathname === "/doctors" ||
+    pathname.startsWith("/doctors/") ||
+    pathname === "/healthcares" ||
+    pathname.startsWith("/healthcares/")
+  ) {
+    const district = detectDistrictFromHeaders(
+      req.headers,
+      req.cookies.get("capsule_district")?.value
+    );
+    const sub = pathname
+      .replace(/^\/healthcares/, "/healthcares")
+      .replace(/^\/doctors/, "/doctors");
+    const url = new URL(sub === "/" ? `/${district}` : `/${district}${sub}`, req.url);
+    url.search = req.nextUrl.search;
+    return NextResponse.redirect(url, 307);
   }
 
   if (pathname.startsWith("/staff") || pathname.startsWith("/admin")) {
@@ -100,5 +122,13 @@ const portalGuard = withAuth(
 );
 
 export const config = {
-  matcher: ["/api/:path*", "/portal/:path*", "/staff/:path*", "/admin/:path*"],
+  matcher: [
+    "/",
+    "/doctors/:path*",
+    "/healthcares/:path*",
+    "/api/:path*",
+    "/portal/:path*",
+    "/staff/:path*",
+    "/admin/:path*",
+  ],
 };
