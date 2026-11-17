@@ -81,6 +81,9 @@ export default async function FeaturedHospitals({ districtId, district }: Featur
         <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {displayFacilities.map((facility) => {
             const imageSrc = facility.coverImageUrl;
+            const detailHref = district
+              ? `/${district}/healthcares/${facility.slug}`
+              : `/healthcares/${facility.slug}`;
 
             return (
               <StaggerItem
@@ -188,7 +191,7 @@ export default async function FeaturedHospitals({ districtId, district }: Featur
                     {facility.phone ? (
                       <a
                         href={`tel:${facility.phone}`}
-                        className="inline-flex items-center gap-1.5 font-semibold text-brand-navy hover:text-brand-sky transition"
+                        className="relative z-20 inline-flex items-center gap-1.5 font-semibold text-brand-navy hover:text-brand-sky transition"
                       >
                         <Phone className="h-3.5 w-3.5 text-brand-sky" />
                         {facility.phone}
@@ -198,19 +201,12 @@ export default async function FeaturedHospitals({ districtId, district }: Featur
                     )}
 
                     <div className="flex items-center gap-3">
-                      <Link
-                        href={district ? `/${district}/healthcares/${facility.slug}` : `/healthcares/${facility.slug}`}
-                        className="inline-flex items-center font-semibold text-brand-navy hover:text-brand-sky transition"
-                      >
-                        {t("home.featuredHospitals.buttonViewDetails")}
-                      </Link>
-
                       {facility.website ? (
                         <a
                           href={facility.website}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-brand-sky hover:text-brand-sky-dark font-semibold hover:underline"
+                          className="relative z-20 inline-flex items-center gap-1 text-brand-sky hover:text-brand-sky-dark font-semibold hover:underline"
                         >
                           <Globe className="h-3.5 w-3.5" />
                           {t("home.featuredHospitals.buttonWebsite")}
@@ -219,6 +215,11 @@ export default async function FeaturedHospitals({ districtId, district }: Featur
                     </div>
                   </div>
                 </div>
+                <Link
+                  href={detailHref}
+                  aria-label={t("card.facility.viewDetails", { name: facility.name })}
+                  className="absolute inset-0 z-10 rounded-[inherit]"
+                />
               </StaggerItem>
             );
           })}

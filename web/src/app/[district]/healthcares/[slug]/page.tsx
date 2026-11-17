@@ -1,9 +1,7 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
 import {
-  ArrowLeft,
   Mail,
   MapPin,
   Phone,
@@ -30,6 +28,7 @@ import { prisma } from "@/lib/prisma";
 import { VerificationStatus } from "@prisma/client";
 import { getFacilityTypeLabel } from "@/lib/facility-helpers";
 import TierBadge from "@/components/ui/TierBadge";
+import BackButton from "@/components/ui/BackButton";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/motion";
 import { getT } from "@/lib/i18n";
 import { getServerLocale } from "@/lib/i18n-server";
@@ -181,13 +180,7 @@ export default async function DistrictFacilityProfilePage({ params }: FacilityPr
   return (
     <section className="min-h-screen bg-brand-cream pb-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-8">
-        <Link
-          href={`/${district}/healthcares`}
-          className="mb-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-sky hover:text-brand-sky-dark transition"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          {t("facilities.detail.backToList")}
-        </Link>
+        <BackButton fallbackHref={`/${district}/healthcares`} />
 
         {/* Hero */}
         <ScrollReveal>

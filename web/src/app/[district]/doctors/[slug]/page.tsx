@@ -138,7 +138,7 @@ export default async function DistrictDoctorProfilePage({
   return (
     <section className="min-h-screen bg-brand-cream py-10">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 space-y-6">
-        <BackButton />
+        <BackButton fallbackHref={`/${district}/doctors`} />
 
         {/* 1. Hero Card */}
         <div className="overflow-hidden rounded-3xl bg-white border border-brand-gray shadow-sm">
